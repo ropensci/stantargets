@@ -16,7 +16,6 @@ README.html
 paper.html
 .Rproj.user
 example
-example.stan
 inst/example
 csv_files
 stantargets_example
