@@ -1,0 +1,7 @@
+*.html
+*.R
+example
+example.stan
+_targets
+_targets.R
+*.stan

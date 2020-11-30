@@ -1,0 +1,57 @@
+destination: docs/
+navbar:
+  title: stantargets
+  type: default
+  left:
+  - icon: fa-home fa-lg
+    href: index.html
+  - text: Functions
+    href: reference/index.html
+  - text: Vignettes
+    href: articles/index.html
+  - text: targets
+    href: https://wlandau.github.io/targets
+  - text: cmdstanr
+    href: https://mc-stan.org/cmdstanr/index.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/wlandau/stantargets
+reference:
+- title: Help
+  contents:
+  - '`stantargets-package`'
+- title: Examples
+  contents:
+  - '`tar_stan_example_data`'
+  - '`tar_stan_example_file`'
+- title: General targets
+  contents:
+  - '`tar_stan_compile`'
+  - '`tar_stan_summary`'
+- title: MCMC
+  contents:
+  - '`tar_stan_mcmc`'
+  - '`tar_stan_mcmc_gq`'
+  - '`tar_stan_mcmc_rep_diagnostics`'
+  - '`tar_stan_mcmc_rep_draws`'
+  - '`tar_stan_mcmc_rep_summary`'
+
+- title: Variational Bayes
+  contents:
+  - '`tar_stan_vb`'
+  - '`tar_stan_vb_rep_draws`'
+  - '`tar_stan_vb_rep_summary`'
+- title: Optimization
+  contents:
+  - '`tar_stan_mle`'
+  - '`tar_stan_mle_rep_draws`'
+  - '`tar_stan_mle_rep_summary`'
+articles:
+  - title: MCMC
+    desc: >
+      MCMC for Bayesian models.
+    contents:
+      - mcmc
+      - mcmc_rep

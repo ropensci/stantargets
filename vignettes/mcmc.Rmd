@@ -1,0 +1,168 @@
+---
+title: "MCMC pipelines"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MCMC pipelines}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_knit$set(root.dir = fs::dir_create(tempfile()))
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+if (identical(Sys.getenv("NOT_CRAN", unset = "false"), "false")) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+library(cmdstanr)
+library(dplyr)
+library(targets)
+library(stantargets)
+```
+
+The `stantargets` package makes it easy to run a single Stan model and keep track of the results. [`cmdstanr`](https://github.com/stan-dev/cmdstanr) fits the models, and [`targets`](https://github.com/wlandau/targets) manages the workflow and helps avoid unnecessary computation.
+
+First, write a Stan model file. Below, we borrow the built-in model from `stantargets`.
+
+```{r}
+lines <- c(
+  "data {",
+  "  int <lower = 1> n;",
+  "  vector[n] x;",
+  "  vector[n] y;",
+  "  real true_beta;",
+  "}",
+  "parameters {",
+  "  real beta;",
+  "}",
+  "model {",
+  "  y ~ normal(x * beta, 1);",
+  "  beta ~ normal(0, 1);",
+  "}"
+)
+writeLines(lines, "stantargets_example.stan")
+writeLines(readLines("stantargets_example.stan"))
+```
+
+
+Next, create a `_targets.R` file to define the [`targets`](https://github.com/wlandau/targets) pipeline.
+
+```{r}
+library(targets)
+tar_script({
+  library(stantargets)
+  options(crayon.enabled = FALSE)
+  tar_option_set(memory = "transient", garbage_collection = TRUE)
+  tar_pipeline(
+    tar_stan_mcmc(
+      example,
+      "stantargets_example.stan",
+      tar_stan_example_data(),
+      refresh = 0,
+      init = 1,
+      show_messages = FALSE
+    )
+  )
+})
+```
+
+`tar_stan_mcmc(example, ...)` defines several targets:
+
+* `example_file`: Reproducibly track changes to the Stan model file.
+* `example_data`: Run the code you supplied to `data` and return a dataset compatible with Stan.
+* `example_mcmc`: Run the MCMC and return an object of class `CmdStanMCMC`.
+* `example_draws`: Return a friendly `tibble` of the posterior draws from `example`. Uses the `$draws()` method. Suppress with `draws = FALSE` in `tar_stan_mcmc()`.
+* `example_summaries`: Return a friendly `tibble` of the posterior summaries from `example`. Uses the `$summary()` method. Suppress with `summary = FALSE` in `tar_stan_mcmc()`.
+* `example_diagnostics`: Return a friendly `tibble` of the sampler diagnostics from `example`. Uses the `$sampler_diagnostics()` method. Suppress with `diagnostics = FALSE` in `tar_stan_mcmc()`.
+
+```{r}
+tar_manifest()
+```
+
+[`targets`](https://github.com/wlandau/targets) produces a graph to show the dependency relationships among the targets. Below, the MCMC depends on the model file and the data, and the draws, summary, and diagnostics depend on the MCMC.
+
+```{r, output = FALSE, message = FALSE}
+tar_visnetwork(targets_only = TRUE)
+```
+
+Run the computation with `tar_make()`.
+
+```{r, output = FALSE}
+tar_make()
+```
+
+The output lives in a special folder called `_targets/` and you can retrieve it with functions `tar_load()` and `tar_read()` (from [`targets`](https://github.com/wlandau/targets)).
+
+```{r}
+tar_read(example_summary)
+```
+
+At this point, all our results are up to date because their dependencies did not change.
+
+```{r}
+tar_make()
+```
+
+But if we change the underlying code or data, some of the targets will no longer be valid, and they will rerun during the next `tar_make()`. Below, we change the Stan model file, so the MCMC reruns while the data is skipped. This behavior saves time and enhances reproducibility.
+
+```{r}
+write(" ", file = "stantargets_example.stan", append = TRUE)
+```
+
+```{r}
+tar_outdated()
+```
+
+```{r}
+tar_visnetwork(targets_only = TRUE)
+```
+
+```{r, output = FALSE}
+tar_make()
+```
+
+At this point, we can add more targets and custom functions for additional post-processing.
+
+```{r}
+library(targets)
+tar_script({
+  library(stantargets)
+  options(crayon.enabled = FALSE)
+  tar_option_set(memory = "transient", garbage_collection = TRUE)
+  tar_pipeline(
+    tar_stan_mcmc(
+      example,
+      "stantargets_example.stan",
+      tar_stan_example_data(),
+      refresh = 0,
+      init = 1,
+      show_messages = FALSE
+    ),
+    tar_stan_summary(
+      custom_summary,
+      fit = example_mcmc,
+      summaries = list(~posterior::quantile2(.x, probs = c(0.25, 0.75)))
+    )
+  )
+})
+```
+
+In the graph, our new `custom_summary` target should be connected to the upstream `example` target, and only `custom_summary` should be out of date.
+
+```{r}
+tar_visnetwork(targets_only = TRUE)
+```
+
+In the next `tar_make()`, we skip the expensive MCMC and just run the custom summary.
+
+```{r, output = FALSE, warning = FALSE}
+tar_make()
+```
+
+```{r}
+tar_read(custom_summary)
+```
+
+For more on [`targets`](https://github.com/wlandau/targets), please visit the reference website <https://wlandau.github.io/targets/> or the user manual <https://wlandau.github.io/targets-manual/>. The manual walks though advanced features of `targets` such as [high-performance computing](https://wlandau.github.io/targets-manual/hpc.html) and [cloud storage support](https://wlandau.github.io/targets-manual/cloud.html).
