@@ -27,29 +27,26 @@ It is sometimes desirable to simulate a single Bayesian model repeatedly across 
 1. Validate the implementation of a Bayesian model ([Cook, Gelman, and Rubin (2006)](http://www.stat.columbia.edu/~gelman/research/published/Cook_Software_Validation.pdf)).
 2. Simulate a randomized controlled experiment to explore frequentist properties such as power and Type I error.
 
-This vignette focuses on (1). The goal is to simulate multiple datasets from our model, analyze each dataset, and assess how often the estimated credible intervals for `beta` capture the true value of `beta` from the simulation. To make this easier, we will keep track of the true `beta` in a [transformed parameters](https://mc-stan.org/docs/2_18/reference-manual/program-block-transformed-parameters.html) block. The model file looks like this.
+This vignette focuses on (1). The goal is to simulate multiple datasets from our model, analyze each dataset, and assess how often the estimated credible intervals for `beta` capture the true value of `beta` from the simulation. To make this easier, we will keep track of the true `beta` in a [transformed parameters](https://mc-stan.org/docs/2_18/reference-manual/program-block-transformed-parameters.html) block. We use the following model.
 
 ```{r}
-lines <- c(
-  "data {",
-  "  int <lower = 1> n;",
-  "  vector[n] x;",
-  "  vector[n] y;",
-  "  real true_beta;",
-  "}",
-  "parameters {",
-  "  real beta;",
-  "}",
-  "transformed parameters {",
-  "  real true_beta_value = true_beta;",
-  "}",
-  "model {",
-  "  y ~ normal(x * beta, 1);",
-  "  beta ~ normal(0, 1);",
-  "}"
-)
+lines <- "data {
+  int <lower = 1> n;
+  vector[n] x;
+  vector[n] y;
+  real true_beta;
+}
+parameters {
+  real beta;
+}
+transformed parameters {
+  real true_beta_value = true_beta;
+}
+model {
+  y ~ normal(x * beta, 1);
+  beta ~ normal(0, 1);
+}"
 writeLines(lines, "model.stan")
-writeLines(readLines("model.stan"))
 ```
 
 Next, we define a pipeline to simulate multiple datasets and fit each dataset with the model. Below, we commit to 10 replications: 2 batches with 5 iterations per batch. (In practical situations, the total number of replications should be hundreds of times more.) We also supply custom variable names and summary functions to return the 50% and 95% credible intervals for `beta`.

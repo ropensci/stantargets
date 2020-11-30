@@ -24,26 +24,23 @@ library(stantargets)
 
 The `stantargets` package makes it easy to run a single Stan model and keep track of the results. [`cmdstanr`](https://github.com/stan-dev/cmdstanr) fits the models, and [`targets`](https://github.com/wlandau/targets) manages the workflow and helps avoid unnecessary computation.
 
-First, write a Stan model file. Below, we borrow the built-in model from `stantargets`.
+First, write a Stan model file.
 
 ```{r}
-lines <- c(
-  "data {",
-  "  int <lower = 1> n;",
-  "  vector[n] x;",
-  "  vector[n] y;",
-  "  real true_beta;",
-  "}",
-  "parameters {",
-  "  real beta;",
-  "}",
-  "model {",
-  "  y ~ normal(x * beta, 1);",
-  "  beta ~ normal(0, 1);",
-  "}"
-)
+lines <- "data {
+  int <lower = 1> n;
+  vector[n] x;
+  vector[n] y;
+  real true_beta;
+}
+parameters {
+  real beta;
+}
+model {
+  y ~ normal(x * beta, 1);
+  beta ~ normal(0, 1);
+}"
 writeLines(lines, "stantargets_example.stan")
-writeLines(readLines("stantargets_example.stan"))
 ```
 
 
