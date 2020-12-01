@@ -5,13 +5,14 @@
 \alias{stantargets-package}
 \title{targets: Targets Archetypes for Stan}
 \description{
-The \code{targets} package is a pipeline toolkit that brings together
-function-oriented programming and Make-like declarative workflows for
-Statistics and data science in R. The \code{stantargets} package provides
-convenient user-side functions to create Bayesian data analysis
-workflows with \code{targets} and Stan. These functions reduce
-cognitive overhead and micromanagement so the user can focus
-more on model development than software development.
-\code{stantargets} invokes Stan through the \code{cmdstanr} package:
-\url{https://mc-stan.org/cmdstanr}.
+The \code{stantargets} R package is an extension to
+\code{targets} and \code{cmdstanr} for Bayesian data analysis.
+\code{stantargets} makes it super easy to set up useful scalable
+Stan pipelines that automatically parallelize the computation
+and skip expensive steps when the results are already up to date.
+Minimal custom code is required, and there is no need to manually
+configure branching, so usage is much easier than \code{targets} alone.
+\code{stantargets} can access all of \code{cmdstanr}'s major algorithms
+(MCMC, variational Bayes, and optimization) and it supports
+both single-fit workflows and multi-rep simulation studies.
 }
