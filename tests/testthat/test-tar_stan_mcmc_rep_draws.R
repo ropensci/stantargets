@@ -4,7 +4,6 @@ tar_test("tar_stan_mcmc_rep_draws(compile = \"original\")", {
   tar_stan_example_file(path = "a.stan")
   tar_stan_example_file(path = "b.stan")
   targets::tar_script({
-    library(stantargets)
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     tar_pipeline(
       tar_stan_mcmc_rep_draws(
@@ -93,7 +92,6 @@ tar_test("tar_stan_mcmc_rep_draws(compile = \"original\")", {
   expect_equal(sort(out), sort(exp))
   # Change the data code.
   targets::tar_script({
-    library(stantargets)
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     tar_pipeline(
       tar_stan_mcmc_rep_draws(
@@ -125,7 +123,6 @@ tar_test("tar_stan_mcmc_rep_draws(compile = \"copy\") custom variables", {
   tar_stan_example_file("a.stan")
   tar_stan_example_file("b.stan")
   targets::tar_script({
-    library(stantargets)
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     tar_pipeline(
       tar_stan_mcmc_rep_draws(
@@ -211,7 +208,6 @@ tar_test("tar_stan_mcmc_rep_draws(compile = \"copy\") custom variables", {
   expect_equal(sort(out), sort(exp))
   # Change the data code.
   targets::tar_script({
-    library(stantargets)
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     tar_pipeline(
       tar_stan_mcmc_rep_draws(

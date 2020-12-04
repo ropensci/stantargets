@@ -92,7 +92,6 @@ tar_test("tar_stan_mcmc_rep_summary(compile = \"original\")", {
   expect_equal(sort(out), sort(exp))
   # Change the data code.
   targets::tar_script({
-    library(stantargets)
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     tar_pipeline(
       tar_stan_mcmc_rep_summary(
@@ -212,7 +211,6 @@ tar_test("tar_stan_mcmc_rep_summary(compile = \"copy\") custom summaries", {
   expect_equal(sort(out), sort(exp))
   # Change the data code.
   targets::tar_script({
-    library(stantargets)
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     tar_pipeline(
       tar_stan_mcmc_rep_summary(
