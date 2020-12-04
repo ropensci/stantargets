@@ -23,4 +23,10 @@
 #' @importFrom tarchetypes tar_combine tar_map
 NULL
 
-utils::globalVariables("._stantargets_name_50e43091")
+utils::globalVariables(
+  c(
+    "._stantargets_file_50e43091",
+    "._stantargets_name_50e43091",
+    "._stantargets_name_chr_50e43091"
+  )
+)

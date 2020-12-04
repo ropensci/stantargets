@@ -14,7 +14,7 @@
 #'     Omitted if `compile = "original"`.
 #'   * `x_data`: dynamic branching target with simulated datasets.
 #'   * `x_y`: dynamic branching target with tidy data frames of MCMC draws.
-#'   * `x`: combine all the model-specific summary targets into
+#'   * `x`: combine all the model-specific draws targets into
 #'     a single data frame with columns to distinguish among the models.
 #'     Suppressed if `combine` is `FALSE`.
 #' @inheritParams tar_stan_mcmc

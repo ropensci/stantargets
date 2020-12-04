@@ -253,7 +253,7 @@ returns a list of \code{targets::tar_target()} objects:
 Omitted if \code{compile = "original"}.
 \item \code{x_data}: dynamic branching target with simulated datasets.
 \item \code{x_y}: dynamic branching target with tidy data frames of MCMC draws.
-\item \code{x}: combine all the model-specific summary targets into
+\item \code{x}: combine all the model-specific draws targets into
 a single data frame with columns to distinguish among the models.
 Suppressed if \code{combine} is \code{FALSE}.
 }
