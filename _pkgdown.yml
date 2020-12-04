@@ -38,7 +38,9 @@ reference:
   - '`tar_stan_mcmc_rep_summary`'
 - title: Generated quantities
   contents:
-  - '`tar_stan_mcmc_gq`'
+  - '`tar_stan_gq`'
+  - '`tar_stan_gq_rep_draws`'
+  - '`tar_stan_gq_rep_summary`'
 - title: Variational Bayes
   contents:
   - '`tar_stan_vb`'
