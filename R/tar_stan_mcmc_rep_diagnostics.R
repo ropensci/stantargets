@@ -22,14 +22,7 @@
 #'  If you supply multiple models, you will get more (model-specific) targets.
 #'  All the models share the same dataset.
 #' @inheritParams tar_stan_mcmc
-#' @param data Code to generate one simulated dataset for one rep of the model.
-#' @param batches Number of batches. Each batch is a branch target
-#'   that generates a dataset and runs the model `reps` times.
-#' @param reps Number of model runs per batch.
-#' @param combine Logical, whether to create a target to
-#'   combine all the model results
-#'   into a single data frame downstream. Convenient, but
-#'   duplicates data.
+#' @inheritParams tar_stan_mcmc_rep_summary
 #' @param inc_warmup `inc_warmup` argument to
 #'   `$sampler_diagnostics()` on the `CmdStanMCMC` object.
 #' @examples
@@ -37,10 +30,9 @@
 #' # tar_stan_example_file() # Writes stantargets_example.stan
 #' # Then in _targets.R, write the pipeline:
 #' targets::tar_pipeline(
-#'   tar_stan_compile(compiled_model, "stantargets_example.stan"),
 #'   tar_stan_mcmc_rep_diagnostics(
 #'     your_model,
-#'     file = compiled_model,
+#'     stan_files = "stantargets_example.stan",
 #'     data = tar_stan_example_data(),
 #'     batches = 2,
 #'     reps = 2
@@ -305,7 +297,7 @@ tar_stan_mcmc_rep_diagnostics <- function(
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A data frame of posterior summaries.
-#' @inheritParams tar_stan_mcmc_run
+#' @inheritParams tar_stan_mcmc_rep_summary_run
 tar_stan_mcmc_rep_diagnostics_run <- function(
   stan_file,
   stan_name,

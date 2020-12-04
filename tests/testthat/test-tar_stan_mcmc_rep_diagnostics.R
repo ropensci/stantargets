@@ -77,6 +77,10 @@ tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"original\")", {
   expect_equal(length(table(out2$.rep)), 4L)
   expect_equal(nrow(out1), 1600L)
   expect_equal(nrow(out2), 1600L)
+  expect_equal(unique(out1$.file), "a.stan")
+  expect_equal(unique(out2$.file), "b.stan")
+  expect_equal(unique(out1$.name), "x")
+  expect_equal(unique(out2$.name), "y")
   # Everything should be up to date.
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   # Change the model.
@@ -116,7 +120,6 @@ tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
   tar_stan_example_file("a.stan")
   tar_stan_example_file("b.stan")
   targets::tar_script({
-    library(stantargets)
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     tar_pipeline(
       tar_stan_mcmc_rep_diagnostics(
