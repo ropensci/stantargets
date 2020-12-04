@@ -217,7 +217,7 @@ targets::tar_pipeline(
     data = tar_stan_example_data()
   ),
   tar_stan_gq_rep_draws(
-    your_model,
+    generated_quantities,
     stan_files = "stantargets_example.stan",
     data = tar_stan_example_data(),
     fitted_params = your_model_mcmc_x,
