@@ -172,7 +172,8 @@ tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom variables", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        variables = "y_rep[2]"
+        variables = "y_rep[2]",
+        summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
       )
     )
   })
@@ -230,9 +231,8 @@ tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom variables", {
   out <- targets::tar_read(model)
   expect_equal(dplyr::bind_rows(out1, out2), out)
   expect_true(tibble::is_tibble(out))
-  expect_false("y_rep[1]" %in% colnames(out))
-  expect_true("y_rep[2]" %in% colnames(out))
-  expect_equal(nrow(out), 32000L)
+  expect_true("25%" %in% colnames(out))
+  expect_equal(nrow(out), 8L)
   expect_equal(length(unique(table(out$.rep))), 1L)
   expect_equal(length(table(out$.rep)), 8L)
   expect_equal(unique(out1$.file), "a.stan")
@@ -275,7 +275,8 @@ tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom variables", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        variables = "y_rep[2]"
+        variables = "y_rep[2]",
+        summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
       )
     )
   })
