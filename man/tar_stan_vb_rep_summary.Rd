@@ -52,13 +52,7 @@ tar_stan_vb_rep_summary(
 }
 \arguments{
 \item{name}{Symbol, base name for the collection of targets.
-The name itself will be applied to the fit object itself,
-and there will be suffixes for various supporting targets.}
-
-\item{file}{Code to generate the \code{stan_file}
-argument of \verb{$compile()}. Could just be a literal path to a
-Stan model file or the name of an upstream target
-defined by \code{\link[=tar_stan_compile]{tar_stan_compile()}}.}
+Serves as a prefix for target names.}
 
 \item{data}{Code to generate one simulated dataset for one rep of the model.}
 

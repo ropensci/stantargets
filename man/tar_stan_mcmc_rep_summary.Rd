@@ -63,7 +63,7 @@ tar_stan_mcmc_rep_summary(
 }
 \arguments{
 \item{name}{Symbol, base name for the collection of targets.
-Suffixes of the final targets depend on \code{stan_names}}
+Serves as a prefix for target names.}
 
 \item{data}{Code to generate one simulated dataset for one rep of the model.}
 
