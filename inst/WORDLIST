@@ -42,8 +42,11 @@ chmod
 Clarkberg
 clustermq
 cmdstan
-CmdStanFit
 cmdstanr
+CmdStanFit
+CmdStanGQ
+CmdStanMCMC
+CmdStanVB
 codecov
 codeless
 coef
