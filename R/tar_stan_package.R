@@ -22,3 +22,5 @@
 #'   tar_pipeline tar_read tar_script tar_target tar_target_raw
 #' @importFrom tarchetypes tar_combine tar_map
 NULL
+
+utils::globalVariables("._stantargets_name_50e43091")

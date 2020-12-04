@@ -15,6 +15,7 @@
 #'   * `x_data`: dynamic branching target with simulated datasets.
 #'   * `x`: dynamic branching target with tidy data frames of MCMC draws.
 #' @inheritParams tar_stan_mcmc
+#' @param file Soon to be changed to `stan_files`.
 #' @param data Code to generate one simulated dataset for one rep of the model.
 #' @param batches Number of batches. Each batch is a branch target
 #'   that generates a dataset and runs the model `reps` times.

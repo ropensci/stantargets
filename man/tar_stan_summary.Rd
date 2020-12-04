@@ -130,7 +130,7 @@ targets::tar_pipeline(
   # Run a model and produce default summaries.
   tar_stan_mcmc(
     your_model,
-    file = stantargets_example.stan,
+    stan_files = "stantargets_example.stan",
     data = tar_stan_example_data()
   ),
   # Produce a more specialized summary

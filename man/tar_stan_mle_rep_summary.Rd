@@ -48,10 +48,7 @@ tar_stan_mle_rep_summary(
 The name itself will be applied to the fit object itself,
 and there will be suffixes for various supporting targets.}
 
-\item{file}{Code to generate the \code{stan_file}
-argument of \verb{$compile()}. Could just be a literal path to a
-Stan model file or the name of an upstream target
-defined by \code{\link[=tar_stan_compile]{tar_stan_compile()}}.}
+\item{file}{Soon to be changed to \code{stan_files}.}
 
 \item{data}{Code to generate one simulated dataset for one rep of the model.}
 

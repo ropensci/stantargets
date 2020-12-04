@@ -64,6 +64,8 @@ tar_stan_mcmc_rep_draws(
 \item{name}{Symbol, base name for the collection of targets.
 Suffixes of the final targets depend on \code{stan_names}}
 
+\item{file}{Soon to be changed to \code{stan_files}.}
+
 \item{data}{Code to generate one simulated dataset for one rep of the model.}
 
 \item{batches}{Number of batches. Each batch is a branch target

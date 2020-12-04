@@ -14,6 +14,7 @@
 #'   * `x_data`: dynamic branching target with simulated datasets.
 #'   * `x`: dynamic branching target with long-form data frames of MLEs.
 #' @inheritParams tar_stan_mle
+#' @param file Soon to be changed to `stan_files`.
 #' @param data Code to generate one simulated dataset for one rep of the model.
 #' @param batches Number of batches. Each batch is a branch target
 #'   that generates a dataset and runs the model `reps` times.
