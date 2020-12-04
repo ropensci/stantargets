@@ -31,7 +31,7 @@
 #' targets::tar_pipeline(
 #'   tar_stan_vb(
 #'     your_model,
-#'     file = "stantargets_example.stan",
+#'     stan_files = "stantargets_example.stan",
 #'     data = tar_stan_example_data(),
 #'     variables = "beta",
 #'     summaries = list(~quantile(.x, probs = c(0.25, 0.75)))

@@ -32,7 +32,7 @@
 #' targets::tar_pipeline(
 #'   tar_stan_mle(
 #'     your_model,
-#'     file = "stantargets_example.stan",
+#'     stan_files = "stantargets_example.stan",
 #'     data = tar_stan_example_data()
 #'   )
 #' )
