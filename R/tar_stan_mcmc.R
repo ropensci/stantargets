@@ -111,7 +111,8 @@ tar_stan_mcmc <- function(
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
-  cue = targets::tar_option_get("cue")
+  cue = targets::tar_option_get("cue"),
+  ...
 ) {
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
@@ -167,8 +168,7 @@ tar_stan_mcmc <- function(
   )
   args_mcmc <- list(
     call_ns("stantargets", "tar_stan_mcmc_run"),
-    file = sym_file,
-    lines = trn(identical(compile, "original"), "", sym_lines),
+    stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
     data = sym_data,
     compile = compile,
     quiet = quiet,
@@ -322,8 +322,8 @@ tar_stan_mcmc <- function(
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A `CmdStanFit` object.
-#' @param file Character, Stan model file.
-#' @param lines Character, lines of Stan model code.
+#' @param stan_file Character, Stan model file or the lines of the file,
+#'   depending on `compile`.
 #' @param data List of data to pass to the Stan model.
 #' @param compile Character of length 1. If `"original"`, then
 #'   `cmdstan` will compile the source file right before running
@@ -367,8 +367,7 @@ tar_stan_mcmc <- function(
 #' @param variables `variables` argument to `$draws()` and `$summary()`
 #'   on the `CmdStanMCMC` object.
 tar_stan_mcmc_run <- function(
-  file,
-  lines,
+  stan_file,
   data,
   compile,
   quiet,
@@ -407,9 +406,11 @@ tar_stan_mcmc_run <- function(
   variables,
   inc_warmup
 ) {
+  file <- stan_file
   if (identical(compile, "copy")) {
-    file <- tempfile(fileext = ".stan")
-    writeLines(lines, file)
+    tmp <- tempfile(fileext = ".stan")
+    writeLines(stan_file, tmp)
+    file <- tmp
   }
   model <- cmdstanr::cmdstan_model(
     stan_file = file,
