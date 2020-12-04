@@ -46,6 +46,7 @@ Suggests:
   knitr (>= 1.28),
   rmarkdown (>= 2.1),
   testthat (>= 3.0.0),
+  tibble (>= 3.0.4),
   tidyr (>= 1.1.2),
   visNetwork (>= 2.0.9),
   withr (>= 2.1.2)
