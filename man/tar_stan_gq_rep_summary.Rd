@@ -11,7 +11,7 @@ tar_stan_gq_rep_summary(
   fitted_params,
   batches = 1L,
   reps = 1L,
-  combine = FALSE,
+  combine = TRUE,
   compile = c("original", "copy"),
   quiet = TRUE,
   dir = NULL,

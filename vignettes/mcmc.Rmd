@@ -220,7 +220,7 @@ model {
   beta ~ normal(0, 1);
 }
 generated quantities {
-  real y_rep[n] = normal_rng(x * beta, 1); # posterior predictive draws
+  real y_rep[n] = normal_rng(x * beta, 1); // posterior predictive draws
 }"
 writeLines(lines, "gen.stan")
 ```
@@ -248,8 +248,7 @@ tar_script({
       data = tar_stan_example_data(), # multiple simulated datasets
       batches = 2, # 2 dynamic branches
       reps = 5, # 5 replications per branch
-      quiet = TRUE,
-      refresh = 0
+      quiet = TRUE
     )
   )
 })
@@ -258,7 +257,7 @@ tar_script({
 Since we have defined many objects in the pipeline, it is extra important to check the graph to be sure everything is connected.
 
 ```{r}
-tar_visnetwork()
+tar_visnetwork(targets_only = TRUE)
 ```
 
 Then, we run the computation. The original MCMC is already up to date, so we only run the targets relevant to the generated quantities.
