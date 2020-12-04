@@ -5,8 +5,8 @@
 \title{Run a Stan model and return only the summaries.}
 \usage{
 tar_stan_mcmc_rep_draws_run(
-  file,
-  lines,
+  stan_file,
+  stan_name,
   data,
   compile,
   quiet,
@@ -47,6 +47,11 @@ tar_stan_mcmc_rep_draws_run(
 )
 }
 \arguments{
+\item{stan_file}{Character, Stan model file or the lines of the file,
+depending on \code{compile}.}
+
+\item{stan_name}{Friendly suffix of the Stan model target.}
+
 \item{data}{List of data to pass to the Stan model.}
 
 \item{compile}{Character of length 1. If \code{"original"}, then
