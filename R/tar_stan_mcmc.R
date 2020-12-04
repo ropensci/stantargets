@@ -1,4 +1,4 @@
-#' @title One MCMC with multiple outputs.
+#' @title One MCMC per model with multiple outputs.
 #' @export
 #' @description Targets to run a Stan model once with MCMC
 #'   and save multiple outputs.

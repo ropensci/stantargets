@@ -1,4 +1,4 @@
-#' @title One variational Bayes run with multiple outputs.
+#' @title One variational Bayes run per model with multiple outputs.
 #' @export
 #' @description Targets to run a Stan model once with
 #'   variational Bayes and save multiple outputs.

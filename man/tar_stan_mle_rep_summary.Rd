@@ -45,8 +45,7 @@ tar_stan_mle_rep_summary(
 }
 \arguments{
 \item{name}{Symbol, base name for the collection of targets.
-The name itself will be applied to the fit object itself,
-and there will be suffixes for various supporting targets.}
+Serves as a prefix for target names.}
 
 \item{file}{Soon to be changed to \code{stan_files}.}
 

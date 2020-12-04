@@ -28,10 +28,6 @@ tar_stan_mle_rep_draws_run(
 )
 }
 \arguments{
-\item{file}{Character, Stan model file.}
-
-\item{lines}{Character, lines of Stan model code.}
-
 \item{data}{List of data to pass to the Stan model.}
 
 \item{compile}{Character of length 1. If \code{"original"}, then
