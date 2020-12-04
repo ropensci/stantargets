@@ -10,7 +10,7 @@ assert_package <- function(package, msg = NULL) {
   }
 }
 
-assert_nzchar <- function (x, msg = NULL) {
+assert_nzchar <- function(x, msg = NULL) {
   if (any(!nzchar(x))) {
     throw_validate(msg %||% "x has empty character strings")
   }
