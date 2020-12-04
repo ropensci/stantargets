@@ -83,6 +83,8 @@ tar_stan_gq <- function(
 ) {
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
+  assert_chr(stan_files)
+  assert_unique(stan_files)
   name <- deparse_language(substitute(name))
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
