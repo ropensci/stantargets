@@ -127,6 +127,7 @@ tar_make()
 At this point, we can add more targets and custom functions for additional post-processing.
 
 ```{r}
+# _targets.R
 library(targets)
 tar_script({
   library(stantargets)
@@ -165,5 +166,44 @@ tar_make()
 ```{r}
 tar_read(custom_summary)
 ```
+
+## Multiple models
+
+`tar_stan_mcmc()` and related functions allow you to supply multiple models to `stan_files`. If you do, each model will run on the same dataset. In the graph below, notice how the `*_x` targets and `*_y` targets are both connected to `example_data` upstream.
+
+```{r}
+tmp <- file.copy("x.stan", "y.stan")
+```
+
+```{r}
+# _targets.R
+library(targets)
+tar_script({
+  library(stantargets)
+  options(crayon.enabled = FALSE)
+  tar_option_set(memory = "transient", garbage_collection = TRUE)
+  tar_pipeline(
+    tar_stan_mcmc(
+      example,
+      c("x.stan", "y.stan"),
+      tar_stan_example_data(),
+      refresh = 0,
+      init = 1,
+      show_messages = FALSE
+    ),
+    tar_stan_summary(
+      custom_summary,
+      fit = example_mcmc_x,
+      summaries = list(~posterior::quantile2(.x, probs = c(0.25, 0.75)))
+    )
+  )
+})
+```
+
+```{r}
+tar_visnetwork(targets_only = TRUE)
+```
+
+## More information
 
 For more on [`targets`](https://github.com/wlandau/targets), please visit the reference website <https://wlandau.github.io/targets/> or the user manual <https://wlandau.github.io/targets-manual/>. The manual walks though advanced features of `targets` such as [high-performance computing](https://wlandau.github.io/targets-manual/hpc.html) and [cloud storage support](https://wlandau.github.io/targets-manual/cloud.html).
