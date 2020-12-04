@@ -3,7 +3,6 @@ tar_test("tar_stan_gq(compile = \"original\")", {
   tar_stan_example_file("file1.stan")
   tar_stan_example_file("file2.stan")
   targets::tar_script({
-    library(stantargets)
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     tar_pipeline(
       tar_stan_mcmc(
