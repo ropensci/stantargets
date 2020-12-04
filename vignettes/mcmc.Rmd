@@ -202,6 +202,77 @@ In the graph below, notice how the `*_x` targets and `*_y` targets are both conn
 tar_visnetwork(targets_only = TRUE)
 ```
 
+## Generated quantities
+
+It is possible to use the `CmdStanMCMC` object from one run to simulate generated quantities downstream. For example, the `tar_stan_gq_rep_summaries()` function takes a single `CmdStanMCMC` object, produces multiple replications of generated quantities from multiple models, and aggregates the summaries from each. The following pipeline uses this technique to repeatedly draw from the posterior predictive distribution.
+
+```{r}
+lines <- "data {
+  int <lower = 1> n;
+  vector[n] x;
+  vector[n] y;
+}
+parameters {
+  real beta;
+}
+model {
+  y ~ normal(x * beta, 1);
+  beta ~ normal(0, 1);
+}
+generated quantities {
+  real y_rep[n] = normal_rng(x * beta, 1); # posterior predictive draws
+}"
+writeLines(lines, "gen.stan")
+```
+
+```{r}
+# _targets.R
+library(targets)
+tar_script({
+  library(stantargets)
+  options(crayon.enabled = FALSE)
+  tar_option_set(memory = "transient", garbage_collection = TRUE)
+  tar_pipeline(
+    tar_stan_mcmc(
+      example,
+      "x.stan",
+      tar_stan_example_data(),
+      refresh = 0,
+      init = 1,
+      show_messages = FALSE
+    ),
+    tar_stan_gq_rep_summary(
+      postpred,
+      stan_files = "gen.stan",
+      fitted_params = example_mcmc_x, # one CmdStanFit object
+      data = tar_stan_example_data(), # multiple simulated datasets
+      batches = 2, # 2 dynamic branches
+      reps = 5, # 5 replications per branch
+      quiet = TRUE,
+      refresh = 0
+    )
+  )
+})
+```
+
+Since we have defined many objects in the pipeline, it is extra important to check the graph to be sure everything is connected.
+
+```{r}
+tar_visnetwork()
+```
+
+Then, we run the computation. The original MCMC is already up to date, so we only run the targets relevant to the generated quantities.
+
+```{r}
+tar_make()
+```
+
+Finally, we read the summaries of posterior predictive samples.
+
+```{r}
+tar_read(postpred)
+```
+
 ## More information
 
 For more on [`targets`](https://github.com/wlandau/targets), please visit the reference website <https://wlandau.github.io/targets/> or the user manual <https://wlandau.github.io/targets-manual/>. The manual walks though advanced features of `targets` such as [high-performance computing](https://wlandau.github.io/targets-manual/hpc.html) and [cloud storage support](https://wlandau.github.io/targets-manual/cloud.html).
