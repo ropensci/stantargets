@@ -11,6 +11,7 @@ tar_stan_mcmc_rep_diagnostics(
   batches = 1L,
   reps = 1L,
   compile = c("original", "copy"),
+  combine = TRUE,
   quiet = TRUE,
   dir = NULL,
   include_paths = NULL,
@@ -80,6 +81,11 @@ that generates a dataset and runs the model \code{reps} times.}
 \item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
 method.}
+
+\item{combine}{Logical, whether to create a target to
+combine all the model results
+into a single data frame downstream. Convenient, but
+duplicates data.}
 
 \item{quiet}{\code{quiet} argument to \verb{$compile()}.}
 
@@ -247,6 +253,7 @@ Omitted if \code{compile = "original"}.
 sampler diagnostics.
 \item \code{x}: combine all the model-specific diagnostic targets into
 a single data frame with columns to distinguish among the models.
+Suppressed if \code{combine} is \code{FALSE}.
 If you supply multiple models, you will get more (model-specific) targets.
 All the models share the same dataset.
 }

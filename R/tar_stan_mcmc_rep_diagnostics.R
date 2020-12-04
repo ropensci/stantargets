@@ -18,6 +18,7 @@
 #'     sampler diagnostics.
 #'   * `x`: combine all the model-specific diagnostic targets into
 #'     a single data frame with columns to distinguish among the models.
+#'     Suppressed if `combine` is `FALSE`.
 #'  If you supply multiple models, you will get more (model-specific) targets.
 #'  All the models share the same dataset.
 #' @inheritParams tar_stan_mcmc
@@ -25,6 +26,10 @@
 #' @param batches Number of batches. Each batch is a branch target
 #'   that generates a dataset and runs the model `reps` times.
 #' @param reps Number of model runs per batch.
+#' @param combine Logical, whether to create a target to
+#'   combine all the model results
+#'   into a single data frame downstream. Convenient, but
+#'   duplicates data.
 #' @param inc_warmup `inc_warmup` argument to
 #'   `$sampler_diagnostics()` on the `CmdStanMCMC` object.
 #' @examples
@@ -48,6 +53,7 @@ tar_stan_mcmc_rep_diagnostics <- function(
   batches = 1L,
   reps = 1L,
   compile = c("original", "copy"),
+  combine = TRUE,
   quiet = TRUE,
   dir = NULL,
   include_paths = NULL,
@@ -273,22 +279,24 @@ tar_stan_mcmc_rep_diagnostics <- function(
   out[[name_data]] <- target_data
   out[[name_batch]] <- target_batch
   names_mcmc <- paste0(name, "_", name_stan)
-  out[[name]] <- tarchetypes::tar_combine_raw(
-    name = name,
-    out[names_mcmc],
-    packages = character(0),
-    format = "fst_tbl",
-    iteration = "vector",
-    error = error,
-    memory = memory,
-    garbage_collection = garbage_collection,
-    deployment = "main",
-    priority = priority,
-    resources = resources,
-    storage = "main",
-    retrieval = "main",
-    cue = cue
-  )
+  if (combine) {
+    out[[name]] <- tarchetypes::tar_combine_raw(
+      name = name,
+      out[names_mcmc],
+      packages = character(0),
+      format = "fst_tbl",
+      iteration = "vector",
+      error = error,
+      memory = memory,
+      garbage_collection = garbage_collection,
+      deployment = "main",
+      priority = priority,
+      resources = resources,
+      storage = "main",
+      retrieval = "main",
+      cue = cue
+    )
+  }
   out
 }
 
