@@ -115,26 +115,22 @@ tar_stan_mcmc <- function(
 ) {
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
-  assert_chr(stan_names)
-  assert_unique(stan_names)
-  names_stan <- produce_stan_names(stan_files)
+  assert_chr(stan_files)
+  assert_unique(stan_files)
   name <- deparse_language(substitute(name))
-  names_files <- paste0(name, "_file")
+  name_stan <- produce_stan_names(stan_files)
+  name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")
   name_data <- paste0(name, "_data")
   name_mcmc <- paste0(name, "_mcmc")
   name_draws <- paste0(name, "_draws")
   name_summary <- paste0(name, "_summary")
   name_diagnostics <- paste0(name, "_diagnostics")
+  sym_stan <- rlang::syms(name_stan)
   sym_file <- rlang::sym(name_file)
   sym_lines <- rlang::sym(name_lines)
   sym_data <- rlang::sym(name_data)
   sym_mcmc <- rlang::sym(name_mcmc)
-  command_file <- tidy_eval(
-    substitute(file),
-    envir = envir,
-    tidy_eval = tidy_eval
-  )
   command_lines <- call_function(
     "readLines",
     args = list(con = rlang::sym(name_file))
@@ -214,7 +210,7 @@ tar_stan_mcmc <- function(
   command_mcmc <- as.expression(as.call(args_mcmc))
   target_file <- targets::tar_target_raw(
     name = name_file,
-    command = command_file,
+    command = quote(._stantargets_file_50e43091),
     packages = character(0),
     format = "file",
     error = error,
@@ -299,15 +295,26 @@ tar_stan_mcmc <- function(
     priority = priority,
     cue = cue
   )
-  list(
+  out <- list(
     target_file,
     trn(identical(compile, "original"), NULL, target_lines),
-    target_data,
     target_mcmc,
     trn(identical(draws, TRUE), target_draws, NULL),
     trn(identical(summary, TRUE), target_summary, NULL),
     trn(identical(diagnostics, TRUE), target_diagnostics, NULL)
   )
+  out <- list_nonempty(out)
+  out <- tarchetypes::tar_map(
+    values = list(
+      ._stantargets_file_50e43091 = stan_files,
+      ._stantargets_name_50e43091 = sym_stan
+    ),
+    names = ._stantargets_name_50e43091,
+    unlist = TRUE,
+    out
+  )
+  out[[name_data]] <- target_data
+  out
 }
 
 #' @title Compile and run a Stan model and return the `CmdStanFit` object.

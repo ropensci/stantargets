@@ -23,8 +23,7 @@ tar_stan_summary(
 }
 \arguments{
 \item{name}{Symbol, base name for the collection of targets.
-The name itself will be applied to the fit object itself,
-and there will be suffixes for various supporting targets.}
+Suffixes of the final targets depend on \code{stan_names}}
 
 \item{fit}{Symbol, name of a \code{CmdStanFit} object or an upstream target
 that returns a \code{CmdStanFit} object.}
