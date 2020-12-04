@@ -7,6 +7,7 @@
 tar_stan_vb_rep_summary_run(
   stan_file,
   stan_name,
+  stan_path,
   data,
   compile,
   quiet,
@@ -41,6 +42,8 @@ tar_stan_vb_rep_summary_run(
 depending on \code{compile}.}
 
 \item{stan_name}{Friendly suffix of the Stan model target.}
+
+\item{stan_path}{Original path to the input Stan file.}
 
 \item{data}{List of data to pass to the Stan model.}
 

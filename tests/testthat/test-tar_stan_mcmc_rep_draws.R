@@ -199,6 +199,10 @@ tar_test("tar_stan_mcmc_rep_draws(compile = \"copy\") custom variables", {
   expect_equal(nrow(out), 320L)
   expect_equal(length(unique(table(out$.rep))), 1L)
   expect_equal(length(table(out$.rep)), 8L)
+  expect_equal(unique(out1$.file), "a.stan")
+  expect_equal(unique(out2$.file), "b.stan")
+  expect_equal(unique(out1$.name), "a")
+  expect_equal(unique(out2$.name), "b")
   # Everything should be up to date.
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   # Change the model.

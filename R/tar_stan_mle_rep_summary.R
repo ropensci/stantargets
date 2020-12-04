@@ -103,6 +103,7 @@ tar_stan_mle_rep_summary <- function(
     call_ns("stantargets", "tar_stan_mle_rep_summary_run"),
     stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
     stan_name = quote(._stantargets_name_chr_50e43091),
+    stan_path = quote(._stantargets_file_50e43091),
     data = sym_data,
     compile = compile,
     quiet = quiet,
@@ -261,6 +262,7 @@ tar_stan_mle_rep_summary <- function(
 tar_stan_mle_rep_summary_run <- function(
   stan_file,
   stan_name,
+  stan_path,
   data,
   compile,
   quiet,
@@ -322,7 +324,7 @@ tar_stan_mle_rep_summary_run <- function(
       summary_args = summary_args
     )
   )
-  out$.file <- file
+  out$.file <- stan_path
   out$.name <- stan_name
   out
 }

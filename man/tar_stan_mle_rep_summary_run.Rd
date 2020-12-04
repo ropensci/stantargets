@@ -7,6 +7,7 @@
 tar_stan_mle_rep_summary_run(
   stan_file,
   stan_name,
+  stan_path,
   data,
   compile,
   quiet,
