@@ -27,6 +27,7 @@ tar_test("tar_stan_mcmc(compile = \"original\")", {
   # graph
   out <- targets::tar_network(callr_function = NULL, targets_only = TRUE)$edges
   out <- dplyr::arrange(out, from, to)
+  rownames(out) <- NULL
   exp <- tibble::tribble(
     ~from, ~to,
     "model_data", "model_mcmc_x",
@@ -41,6 +42,7 @@ tar_test("tar_stan_mcmc(compile = \"original\")", {
     "model_mcmc_y", "model_summary_y"
   )
   exp <- dplyr::arrange(exp, from, to)
+  rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
   capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
@@ -158,6 +160,7 @@ tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
   # graph
   out <- targets::tar_network(callr_function = NULL, targets_only = TRUE)$edges
   out <- dplyr::arrange(out, from, to)
+  rownames(out) <- NULL
   exp <- tibble::tribble(
     ~from, ~to,
     "model_data", "model_mcmc_a",
@@ -174,6 +177,7 @@ tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
     "model_mcmc_b", "model_summary_b"
   )
   exp <- dplyr::arrange(exp, from, to)
+  rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
   capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))

@@ -60,7 +60,8 @@ tar_stan_mcmc(
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
-  cue = targets::tar_option_get("cue")
+  cue = targets::tar_option_get("cue"),
+  ...
 )
 }
 \arguments{
@@ -254,6 +255,9 @@ If \code{"worker"}, the worker loads the targets dependencies.}
 
 \item{cue}{An optional object from \code{tar_cue()} to customize the
 rules that decide whether the target is up to date.}
+
+\item{...}{Optionally, additional arguments to pass to the
+\code{\link[cmdstanr:model-method-compile]{$compile()}} method if \code{compile=TRUE}.}
 }
 \value{
 \code{tar_stan_mcmc(name = x, ...)} returns a list

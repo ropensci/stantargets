@@ -40,7 +40,7 @@ model {
   y ~ normal(x * beta, 1);
   beta ~ normal(0, 1);
 }"
-writeLines(lines, "stantargets_example.stan")
+writeLines(lines, "x.stan")
 ```
 
 
@@ -55,7 +55,7 @@ tar_script({
   tar_pipeline(
     tar_stan_mcmc(
       example,
-      "stantargets_example.stan",
+      "x.stan",
       tar_stan_example_data(),
       refresh = 0,
       init = 1,
@@ -67,12 +67,16 @@ tar_script({
 
 `tar_stan_mcmc(example, ...)` defines several targets:
 
-* `example_file`: Reproducibly track changes to the Stan model file.
+* `example_file_x`: Reproducibly track changes to the Stan model file.
 * `example_data`: Run the code you supplied to `data` and return a dataset compatible with Stan.
-* `example_mcmc`: Run the MCMC and return an object of class `CmdStanMCMC`.
-* `example_draws`: Return a friendly `tibble` of the posterior draws from `example`. Uses the `$draws()` method. Suppress with `draws = FALSE` in `tar_stan_mcmc()`.
-* `example_summaries`: Return a friendly `tibble` of the posterior summaries from `example`. Uses the `$summary()` method. Suppress with `summary = FALSE` in `tar_stan_mcmc()`.
-* `example_diagnostics`: Return a friendly `tibble` of the sampler diagnostics from `example`. Uses the `$sampler_diagnostics()` method. Suppress with `diagnostics = FALSE` in `tar_stan_mcmc()`.
+* `example_mcmc_x`: Run the MCMC and return an object of class `CmdStanMCMC`.
+* `example_draws_X`: Return a friendly `tibble` of the posterior draws from `example`. Uses the `$draws()` method. Suppress with `draws = FALSE` in `tar_stan_mcmc()`.
+* `example_summaries_x`: Return a friendly `tibble` of the posterior summaries from `example`. Uses the `$summary()` method. Suppress with `summary = FALSE` in `tar_stan_mcmc()`.
+* `example_diagnostics_x`: Return a friendly `tibble` of the sampler diagnostics from `example`. Uses the `$sampler_diagnostics()` method. Suppress with `diagnostics = FALSE` in `tar_stan_mcmc()`.
+
+The suffix `_x` comes from the base name of the model file, in this case `x.stan`. If you supply multiple model files to the `stan_files` argument, all the models share the same dataset, and the suffixes distinguish among the various targets.
+
+Run `tar_manifest()` to see a tidy data frame of commands and settings for the targets.
 
 ```{r}
 tar_manifest()
@@ -93,7 +97,7 @@ tar_make()
 The output lives in a special folder called `_targets/` and you can retrieve it with functions `tar_load()` and `tar_read()` (from [`targets`](https://github.com/wlandau/targets)).
 
 ```{r}
-tar_read(example_summary)
+tar_read(example_summary_x)
 ```
 
 At this point, all our results are up to date because their dependencies did not change.
@@ -105,7 +109,7 @@ tar_make()
 But if we change the underlying code or data, some of the targets will no longer be valid, and they will rerun during the next `tar_make()`. Below, we change the Stan model file, so the MCMC reruns while the data is skipped. This behavior saves time and enhances reproducibility.
 
 ```{r}
-write(" ", file = "stantargets_example.stan", append = TRUE)
+write(" ", file = "x.stan", append = TRUE)
 ```
 
 ```{r}
@@ -131,7 +135,7 @@ tar_script({
   tar_pipeline(
     tar_stan_mcmc(
       example,
-      "stantargets_example.stan",
+      "x.stan",
       tar_stan_example_data(),
       refresh = 0,
       init = 1,
@@ -139,7 +143,7 @@ tar_script({
     ),
     tar_stan_summary(
       custom_summary,
-      fit = example_mcmc,
+      fit = example_mcmc_x,
       summaries = list(~posterior::quantile2(.x, probs = c(0.25, 0.75)))
     )
   )

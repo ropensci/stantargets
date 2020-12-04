@@ -304,11 +304,12 @@ tar_stan_mcmc <- function(
     trn(identical(diagnostics, TRUE), target_diagnostics, NULL)
   )
   out <- list_nonempty(out)
+  values <- list(
+    ._stantargets_file_50e43091 = stan_files,
+    ._stantargets_name_50e43091 = sym_stan
+  )
   out <- tarchetypes::tar_map(
-    values = list(
-      ._stantargets_file_50e43091 = stan_files,
-      ._stantargets_name_50e43091 = sym_stan
-    ),
+    values = values,
     names = ._stantargets_name_50e43091,
     unlist = TRUE,
     out

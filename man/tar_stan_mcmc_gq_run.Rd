@@ -5,10 +5,9 @@
 \title{Compile and run a Stan model and return the \code{CmdStanFit} object.}
 \usage{
 tar_stan_mcmc_gq_run(
-  fitted_params,
-  file,
-  lines,
+  stan_file,
   data,
+  fitted_params,
   compile,
   quiet,
   dir,
@@ -25,14 +24,12 @@ tar_stan_mcmc_gq_run(
 )
 }
 \arguments{
-\item{fitted_params}{An existing \code{CmdStanMCMC} with all draws loaded
-into memory.}
-
-\item{file}{Character, Stan model file.}
-
-\item{lines}{Character, lines of Stan model code.}
+\item{stan_file}{Character, Stan model file.}
 
 \item{data}{List of data to pass to the Stan model.}
+
+\item{fitted_params}{An existing \code{CmdStanMCMC} with all draws loaded
+into memory.}
 
 \item{compile}{Character of length 1. If \code{"original"}, then
 \code{cmdstan} will compile the source file right before running
