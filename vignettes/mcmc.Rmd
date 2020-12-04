@@ -169,11 +169,7 @@ tar_read(custom_summary)
 
 ## Multiple models
 
-`tar_stan_mcmc()` and related functions allow you to supply multiple models to `stan_files`. If you do, each model will run on the same dataset. In the graph below, notice how the `*_x` targets and `*_y` targets are both connected to `example_data` upstream.
-
-```{r}
-tmp <- file.copy("x.stan", "y.stan")
-```
+`tar_stan_mcmc()` and related functions allow you to supply multiple models to `stan_files`. If you do, each model will run on the same dataset. Below, we add another `y.stan` model to the `stan_files` argument of `tar_stan_mcmc()`.
 
 ```{r}
 # _targets.R
@@ -185,7 +181,7 @@ tar_script({
   tar_pipeline(
     tar_stan_mcmc(
       example,
-      c("x.stan", "y.stan"),
+      c("x.stan", "y.stan"), # another model
       tar_stan_example_data(),
       refresh = 0,
       init = 1,
@@ -199,6 +195,8 @@ tar_script({
   )
 })
 ```
+
+In the graph below, notice how the `*_x` targets and `*_y` targets are both connected to `example_data` upstream.
 
 ```{r}
 tar_visnetwork(targets_only = TRUE)
