@@ -57,6 +57,16 @@ computed in a previous target: for example, the
 \verb{*_mcmc_*} target from \code{\link[=tar_stan_mcmc]{tar_stan_mcmc()}}. Must be a subclass
 that \verb{$generate_quantities()} can accept as \code{fitted_params}.}
 
+\item{batches}{Number of batches. Each batch is a branch target
+that generates a dataset and runs the model \code{reps} times.}
+
+\item{reps}{Number of replications per batch.}
+
+\item{combine}{Logical, whether to create a target to
+combine all the model results
+into a single data frame downstream. Convenient, but
+duplicates data.}
+
 \item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
 method.}
