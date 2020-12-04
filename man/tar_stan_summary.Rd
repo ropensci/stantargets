@@ -23,8 +23,7 @@ tar_stan_summary(
 }
 \arguments{
 \item{name}{Symbol, base name for the collection of targets.
-The name itself will be applied to the fit object itself,
-and there will be suffixes for various supporting targets.}
+Serves as a prefix for target names.}
 
 \item{fit}{Symbol, name of a \code{CmdStanFit} object or an upstream target
 that returns a \code{CmdStanFit} object.}
@@ -131,7 +130,7 @@ targets::tar_pipeline(
   # Run a model and produce default summaries.
   tar_stan_mcmc(
     your_model,
-    file = stantargets_example.stan,
+    stan_files = "stantargets_example.stan",
     data = tar_stan_example_data()
   ),
   # Produce a more specialized summary

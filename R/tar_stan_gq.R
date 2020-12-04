@@ -1,4 +1,4 @@
-#' @title Generated quantities on an existing MCMC object
+#' @title Generated quantities on an existing CmdStanFit object
 #' @export
 #' @description Targets to run the generated quantities of
 #'   a Stan model and optionally save draws and summaries separately.
@@ -7,38 +7,28 @@
 #'   of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
-#' @return `tar_stan_mcmc_gq(name = x, ...)` returns a list
+#' @return `tar_stan_gq(name = x, stan_files = "y.stan", ...)` returns a list
 #'   of `targets::tar_target()` objects:
-#'   * `x_file`: reproducibly track the Stan model file.
-#'   * `x_lines`: contents of the Stan model file.
+#'   * `x_file_y`: reproducibly track the Stan model file.
+#'   * `x_lines_y`: contents of the Stan model file.
 #'     Omitted if `compile = "original"`.
 #'   * `x_data`: data for the generated quantities.
-#'   * `x_gq`: `CmdStanGQ` object with all the generated quantities results.
-#'   * `x_draws`: tidy data frame of MCMC draws. Omitted if `draws = FALSE`.
-#'   * `x_summary`: tidy data frame of MCMC summaries.
+#'   * `x_gq_y`: `CmdStanGQ` object with all the generated quantities results.
+#'   * `x_draws_y`: tidy data frame of draws. Omitted if `draws = FALSE`.
+#'   * `x_summary_y`: tidy data frame of summaries.
 #'     Omitted if `summary = FALSE`.
+#'  If you supply multiple models, you will get more (model-specific) targets.
+#'  All the models share the same dataset.
 #' @inheritParams cmdstanr::cmdstan_model
 #' @inheritParams tar_stan_compile_run
-#' @inheritParams tar_stan_mcmc_gq_run
+#' @inheritParams tar_stan_gq_run
 #' @inheritParams tar_stan_summary
+#' @inheritParams tar_stan_mcmc
 #' @inheritParams targets::tar_target
-#' @param name Symbol, base name for the collection of targets.
-#'   The name itself will be applied to the fit object itself,
-#'   and there will be suffixes for various supporting targets.
-#' @param fitted_params Symbol, name of a `CmdStanMCMC` object
+#' @param fitted_params Symbol, name of a `CmdStanFit` object
 #'   computed in a previous target: for example, the
-#'   `*_mcmc` target from [tar_stan_mcmc()].
-#' @param data Code to generate the `data`
-#'   argument of `$generate_quantities()`.
-#' @param file Code to generate the `stan_file`
-#'   argument of `$compile()`. Could just be a literal path to a
-#'   Stan model file or the name of an upstream target
-#'   defined by [tar_stan_compile()].
-#' @param draws Logical, whether to create a target for posterior draws.
-#'   Saves `posterior::as_draws_df(fit$draws())` to a compressed `tibble`.
-#'   Convenient, but duplicates storage.
-#' @param summary Logical, whether to create a target for
-#'   `fit$summary()`.
+#'   `*_mcmc_*` target from [tar_stan_mcmc()]. Must be a subclass
+#'   that `$generate_quantities()` can accept as `fitted_params`.
 #' @examples
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan
@@ -46,21 +36,21 @@
 #' targets::tar_pipeline(
 #'   tar_stan_mcmc(
 #'     your_model,
-#'     file = "stantargets_example.stan",
+#'     stan_files = "stantargets_example.stan",
 #'     data = tar_stan_example_data()
 #'   ),
-#'   tar_stan_mcmc_gq(
+#'   tar_stan_gq(
 #'     custom_gq,
+#'     stan_files = "stantargets_example.stan", # Can be a different model.
 #'     fitted_params = your_model_mcmc,
-#'     file = "stantargets_example.stan", # Can be a different model.
 #'     data = your_model_data # Can be a different dataset.
 #'   )
 #' )
-tar_stan_mcmc_gq <- function(
+tar_stan_gq <- function(
   name,
-  fitted_params,
-  file,
+  stan_files,
   data = list(),
+  fitted_params,
   compile = c("original", "copy"),
   quiet = TRUE,
   dir = NULL,
@@ -93,22 +83,21 @@ tar_stan_mcmc_gq <- function(
 ) {
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
+  assert_chr(stan_files)
+  assert_unique(stan_files)
   name <- deparse_language(substitute(name))
+  name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")
   name_data <- paste0(name, "_data")
   name_gq <- paste0(name, "_gq")
   name_draws <- paste0(name, "_draws")
   name_summary <- paste0(name, "_summary")
+  sym_stan <- rlang::syms(name_stan)
   sym_file <- rlang::sym(name_file)
   sym_lines <- rlang::sym(name_lines)
   sym_data <- rlang::sym(name_data)
   sym_gq <- rlang::sym(name_gq)
-  command_file <- tidy_eval(
-    substitute(file),
-    envir = envir,
-    tidy_eval = tidy_eval
-  )
   command_lines <- call_function(
     "readLines",
     args = list(con = rlang::sym(name_file))
@@ -137,11 +126,10 @@ tar_stan_mcmc_gq <- function(
   args_summary$.args <- substitute(summary_args)
   command_summary <- as.expression(as.call(args_summary))
   args_gq <- list(
-    call_ns("stantargets", "tar_stan_mcmc_gq_run"),
-    fitted_params = substitute(fitted_params),
-    file = sym_file,
-    lines = trn(identical(compile, "original"), "", sym_lines),
+    call_ns("stantargets", "tar_stan_gq_run"),
+    stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
     data = sym_data,
+    fitted_params = substitute(fitted_params),
     compile = compile,
     quiet = quiet,
     dir = dir,
@@ -159,7 +147,7 @@ tar_stan_mcmc_gq <- function(
   command_gq <- as.expression(as.call(args_gq))
   target_file <- targets::tar_target_raw(
     name = name_file,
-    command = command_file,
+    command = quote(._stantargets_file_50e43091),
     packages = character(0),
     format = "file",
     error = error,
@@ -232,14 +220,26 @@ tar_stan_mcmc_gq <- function(
     priority = priority,
     cue = cue
   )
-  list(
+  out <- list(
     target_file,
     trn(identical(compile, "original"), NULL, target_lines),
-    target_data,
     target_gq,
     trn(identical(draws, TRUE), target_draws, NULL),
     trn(identical(summary, TRUE), target_summary, NULL)
   )
+  out <- list_nonempty(out)
+  values <- list(
+    ._stantargets_file_50e43091 = stan_files,
+    ._stantargets_name_50e43091 = sym_stan
+  )
+  out <- tarchetypes::tar_map(
+    values = values,
+    names = ._stantargets_name_50e43091,
+    unlist = TRUE,
+    out
+  )
+  out[[name_data]] <- target_data
+  out
 }
 
 #' @title Compile and run a Stan model and return the `CmdStanFit` object.
@@ -247,11 +247,10 @@ tar_stan_mcmc_gq <- function(
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A `CmdStanFit` object.
+#' @param stan_file Character, Stan model file.
+#' @param data List of data to pass to the Stan model.
 #' @param fitted_params An existing `CmdStanMCMC` with all draws loaded
 #'   into memory.
-#' @param file Character, Stan model file.
-#' @param lines Character, lines of Stan model code.
-#' @param data List of data to pass to the Stan model.
 #' @param compile Character of length 1. If `"original"`, then
 #'   `cmdstan` will compile the source file right before running
 #'   it (or skip compilation if the binary is up to date). This
@@ -273,11 +272,10 @@ tar_stan_mcmc_gq <- function(
 #'   `$generate_quantities()`.
 #' @param variables `variables` argument to `$draws()` and `$summary()`
 #'   on the `CmdStanGQ` object.
-tar_stan_mcmc_gq_run <- function(
-  fitted_params,
-  file,
-  lines,
+tar_stan_gq_run <- function(
+  stan_file,
   data,
+  fitted_params,
   compile,
   quiet,
   dir,
@@ -292,9 +290,11 @@ tar_stan_mcmc_gq_run <- function(
   threads_per_chain,
   variables
 ) {
+  file <- stan_file
   if (identical(compile, "copy")) {
-    file <- tempfile(fileext = ".stan")
-    writeLines(lines, file)
+    tmp <- tempfile(fileext = ".stan")
+    writeLines(stan_file, tmp)
+    file <- tmp
   }
   model <- cmdstanr::cmdstan_model(
     stan_file = file,

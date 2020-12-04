@@ -20,4 +20,13 @@
 #' @importFrom stats rnorm
 #' @importFrom targets tar_cue tar_dir tar_load tar_option_get tar_path
 #'   tar_pipeline tar_read tar_script tar_target tar_target_raw
+#' @importFrom tarchetypes tar_combine tar_map
 NULL
+
+utils::globalVariables(
+  c(
+    "._stantargets_file_50e43091",
+    "._stantargets_name_50e43091",
+    "._stantargets_name_chr_50e43091"
+  )
+)

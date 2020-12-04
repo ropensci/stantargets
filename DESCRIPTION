@@ -37,7 +37,9 @@ Imports:
   rlang (>= 0.4.8),
   stats,
   targets (>= 0.0.0.9003),
-  tibble (>= 3.0.4)
+  tarchetypes (>= 0.0.0.9000),
+  tibble (>= 3.0.4),
+  tools
 Suggests:
   dplyr (>= 1.0.2),
   fs (>= 1.5.0),
@@ -50,7 +52,8 @@ Suggests:
 Remotes:
   stan-dev/cmdstanr,
   stan-dev/posterior,
-  wlandau/targets
+  wlandau/targets,
+  wlandau/tarchetypes
 SystemRequirements: CmdStan >= 2.25.0
 Encoding: UTF-8
 Language: en-US

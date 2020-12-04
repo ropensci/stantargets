@@ -33,11 +33,12 @@ reference:
 - title: MCMC
   contents:
   - '`tar_stan_mcmc`'
-  - '`tar_stan_mcmc_gq`'
   - '`tar_stan_mcmc_rep_diagnostics`'
   - '`tar_stan_mcmc_rep_draws`'
   - '`tar_stan_mcmc_rep_summary`'
-
+- title: Generated quantities
+  contents:
+  - '`tar_stan_mcmc_gq`'
 - title: Variational Bayes
   contents:
   - '`tar_stan_vb`'

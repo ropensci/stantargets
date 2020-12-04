@@ -1,4 +1,4 @@
-#' @title One variational Bayes run with multiple outputs.
+#' @title One variational Bayes run per model with multiple outputs.
 #' @export
 #' @description Targets to run a Stan model once with
 #'   variational Bayes and save multiple outputs.
@@ -6,34 +6,24 @@
 #'  `$variational()`, and `$summary()` methods of the `CmdStanModel` class.
 #'   If you previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
-#' @return `tar_stan_vb(name = x, ...)` returns a list
+#' @return `tar_stan_vb(name = x, stan_files = "y.stan", ...)` returns a list
 #'   of `targets::tar_target()` objects:
-#'   * `x_file`: reproducibly track the Stan model file.
-#'   * `x_lines`: contents of the Stan model file.
+#'   * `x_file_y`: reproducibly track the Stan model file.
+#'   * `x_lines_y`: contents of the Stan model file.
 #'     Omitted if `compile = "original"`.
 #'   * `x_data`: data for the variational Bayes computation.
-#'   * `x_vb`: `CmdStanVB` object with all the VB results.
-#'   * `x_draws`: tidy data frame of VB draws. Omitted if `draws = FALSE`.
-#'   * `x_summary`: tidy data frame of VB summaries.
+#'   * `x_vb_y`: `CmdStanVB` object with all the VB results.
+#'   * `x_draws_y`: tidy data frame of VB draws. Omitted if `draws = FALSE`.
+#'   * `x_summary_y`: tidy data frame of VB summaries.
 #'     Omitted if `summary = FALSE`.
+#'  If you supply multiple models, you will get more (model-specific) targets.
+#'  All the models share the same dataset.
 #' @inheritParams cmdstanr::cmdstan_model
 #' @inheritParams tar_stan_compile_run
 #' @inheritParams tar_stan_vb_run
 #' @inheritParams tar_stan_summary
+#' @inheritParams tar_stan_mcmc
 #' @inheritParams targets::tar_target
-#' @param name Symbol, base name for the collection of targets.
-#'   The name itself will be applied to the fit object itself,
-#'   and there will be suffixes for various supporting targets.
-#' @param data Code to generate the `data` argument of `$variational()`.
-#' @param file Code to generate the `stan_file`
-#'   argument of `$compile()`. Could just be a literal path to a
-#'   Stan model file or the name of an upstream target
-#'   defined by [tar_stan_compile()].
-#' @param draws Logical, whether to create a target for posterior draws.
-#'   Saves `posterior::as_draws_df(fit$draws())` to a compressed `tibble`.
-#'   Convenient, but duplicates storage.
-#' @param summary Logical, whether to create a target for
-#'   `fit$summary()`.
 #' @examples
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan
@@ -41,7 +31,7 @@
 #' targets::tar_pipeline(
 #'   tar_stan_vb(
 #'     your_model,
-#'     file = "stantargets_example.stan",
+#'     stan_files = "stantargets_example.stan",
 #'     data = tar_stan_example_data(),
 #'     variables = "beta",
 #'     summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
@@ -49,7 +39,7 @@
 #' )
 tar_stan_vb <- function(
   name,
-  file,
+  stan_files,
   data = list(),
   compile = c("original", "copy"),
   quiet = TRUE,
@@ -95,21 +85,18 @@ tar_stan_vb <- function(
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
   name <- deparse_language(substitute(name))
+  name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")
   name_data <- paste0(name, "_data")
   name_vb <- paste0(name, "_vb")
   name_draws <- paste0(name, "_draws")
   name_summary <- paste0(name, "_summary")
+  sym_stan <- rlang::syms(name_stan)
   sym_file <- rlang::sym(name_file)
   sym_lines <- rlang::sym(name_lines)
   sym_data <- rlang::sym(name_data)
   sym_vb <- rlang::sym(name_vb)
-  command_file <- tidy_eval(
-    substitute(file),
-    envir = envir,
-    tidy_eval = tidy_eval
-  )
   command_lines <- call_function(
     "readLines",
     args = list(con = rlang::sym(name_file))
@@ -139,8 +126,7 @@ tar_stan_vb <- function(
   command_summary <- as.expression(as.call(args_summary))
   args_vb <- list(
     call_ns("stantargets", "tar_stan_vb_run"),
-    file = sym_file,
-    lines = trn(identical(compile, "original"), "", sym_lines),
+    stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
     data = sym_data,
     compile = compile,
     quiet = quiet,
@@ -170,7 +156,7 @@ tar_stan_vb <- function(
   command_vb <- as.expression(as.call(args_vb))
   target_file <- targets::tar_target_raw(
     name = name_file,
-    command = command_file,
+    command = quote(._stantargets_file_50e43091),
     packages = character(0),
     format = "file",
     error = error,
@@ -243,14 +229,26 @@ tar_stan_vb <- function(
     priority = priority,
     cue = cue
   )
-  list(
+  out <- list(
     target_file,
     trn(identical(compile, "original"), NULL, target_lines),
-    target_data,
     target_vb,
     trn(identical(draws, TRUE), target_draws, NULL),
     trn(identical(summary, TRUE), target_summary, NULL)
   )
+  out <- list_nonempty(out)
+  values <- list(
+    ._stantargets_file_50e43091 = stan_files,
+    ._stantargets_name_50e43091 = sym_stan
+  )
+  out <- tarchetypes::tar_map(
+    values = values,
+    names = ._stantargets_name_50e43091,
+    unlist = TRUE,
+    out
+  )
+  out[[name_data]] <- target_data
+  out
 }
 
 #' @title Compile and run a Stan model and return a `CmdStanVB` object.
@@ -258,21 +256,7 @@ tar_stan_vb <- function(
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A `CmdStanFit` object.
-#' @param file Character, Stan model file.
-#' @param lines Character, lines of Stan model code.
-#' @param data List of data to pass to the Stan model.
-#' @param compile Character of length 1. If `"original"`, then
-#'   `cmdstan` will compile the source file right before running
-#'   it (or skip compilation if the binary is up to date). This
-#'   assumes the worker has access to the file. If the worker
-#'   is running on a remote computer that does not have access
-#'   to the model file, set to `"copy"` instead. `compile = "copy"`
-#'   means the pipeline will read the lines of the original Stan model file
-#'   and send them to the worker. The worker writes the lines
-#'   to a local copy and compiles the model from there, so it
-#'   no longer needs access to the original Stan model file on your
-#'   local machine. However, as a result, the Stan model re-compiles
-#'   every time the main target reruns.
+#' @inheritParams tar_stan_mcmc_run
 #' @param seed `seed` argument to `$variational()`.
 #' @param refresh `refresh` argument to `$variational()`.
 #' @param init `init` argument to `$variational()`.
@@ -293,8 +277,7 @@ tar_stan_vb <- function(
 #' @param variables `variables` argument to `$draws()` and `$summary()`
 #'   on the `CmdStanVB` object.
 tar_stan_vb_run <- function(
-  file,
-  lines,
+  stan_file,
   data,
   compile,
   quiet,
@@ -321,9 +304,11 @@ tar_stan_vb_run <- function(
   sig_figs,
   variables
 ) {
+  file <- stan_file
   if (identical(compile, "copy")) {
-    file <- tempfile(fileext = ".stan")
-    writeLines(lines, file)
+    tmp <- tempfile(fileext = ".stan")
+    writeLines(stan_file, tmp)
+    file <- tmp
   }
   model <- cmdstanr::cmdstan_model(
     stan_file = file,

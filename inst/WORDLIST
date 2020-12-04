@@ -43,6 +43,10 @@ Clarkberg
 clustermq
 cmdstan
 cmdstanr
+CmdStanFit
+CmdStanGQ
+CmdStanMCMC
+CmdStanVB
 codecov
 codeless
 coef

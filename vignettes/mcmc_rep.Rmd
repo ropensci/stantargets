@@ -176,3 +176,57 @@ tar_make()
 ```{r}
 tar_read(coverage)
 ```
+
+## Multiple models
+
+`tar_stan_rep_mcmc_summary()` and similar functions allow you to supply multiple Stan models. If you do, each model will share the the same collection of datasets. Below, we add a new `model2.stan` file to the `stan_files` argument of `tar_stan_rep_mcmc_summary()`.
+
+
+```{r, output = FALSE}
+library(targets)
+tar_script({
+  library(stantargets)
+  options(crayon.enabled = FALSE)
+  tar_option_set(
+    packages = c("dplyr", "tidyr"),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+
+  assess_coverage <- function(results) {
+    beta_ci <- results %>%
+      filter(variable == "beta") %>%
+      select(q2.5, q97.5, .rep)
+    beta_truth <- results %>%
+      filter(variable == "true_beta_value") %>%
+      rename(truth = q50) %>%
+      select(truth, .rep)
+    left_join(beta_ci, beta_truth, by = ".rep") %>%
+      summarize(coverage = mean(q2.5 < truth & truth < q97.5))
+  }
+
+  tar_pipeline(
+    tar_stan_mcmc_rep_summary(
+      model,
+      c("model.stan", "model2.stan"), # another model
+      tar_stan_example_data(),
+      refresh = 0,
+      init = 1,
+      batches = 5,
+      reps = 2,
+      show_messages = FALSE,
+      variables = c("beta", "true_beta_value"),
+      summaries = list(
+        ~posterior::quantile2(.x, probs = c(0.025, 0.5, 0.975))
+      )
+    ),
+    tar_target(coverage, assess_coverage(model))
+  )
+})
+```
+
+In the graph below, notice how targets `model_model1` and `model_model2` are both connected to `model_data` upstream. Downstream, `model` is equivalent to `dplyr::bind_rows(model_model1, model_model2)`, and it will have special columns `.name` and `.file` to distinguish among all the models.
+
+```{r}
+tar_visnetwork(targets_only = TRUE)
+```

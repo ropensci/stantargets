@@ -1,4 +1,4 @@
-#' @title Multiple MCMCs with summaries.
+#' @title Multiple MCMCs per model with summaries.
 #' @export
 #' @description Targets to run MCMC multiple times and
 #'   save only the summary output from each run.
@@ -6,27 +6,34 @@
 #'   and `$sample()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
-#' @return `tar_stan_mcmc_rep_summary(name = x, ...)` returns a list
-#'   of `targets::tar_target()` objects:
-#'   * `x_file`: reproducibly track the Stan model file.
-#'   * `x_lines`: contents of the Stan model file.
+#' @return `tar_stan_mcmc_rep_summary(name = x, stan_files = "y.stan")`
+#'   returns a list of `targets::tar_target()` objects:
+#'   * `x_file_y`: reproducibly track the Stan model file.
+#'   * `x_lines_y`: contents of the Stan model file.
 #'     Omitted if `compile = "original"`.
 #'   * `x_data`: dynamic branching target with simulated datasets.
-#'   * `x`: dynamic branching target with tidy data frames of MCMC summaries.
+#'   * `x_y`: dynamic branching target with tidy data frames of MCMC summaries.
+#'   * `x`: combine all the model-specific summary targets into
+#'     a single data frame with columns to distinguish among the models.
+#'     Suppressed if `combine` is `FALSE`.
 #' @inheritParams tar_stan_mcmc
-#' @param data Code to generate one simulated dataset for one rep of the model.
+#' @param data Code to generate one replication of a simulated dataset.
+#'   All models iterate over the same replicated datasets.
 #' @param batches Number of batches. Each batch is a branch target
 #'   that generates a dataset and runs the model `reps` times.
-#' @param reps Number of model runs per batch.
+#' @param reps Number of replications per batch.
+#' @param combine Logical, whether to create a target to
+#'   combine all the model results
+#'   into a single data frame downstream. Convenient, but
+#'   duplicates data.
 #' @examples
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan
 #' # Then in _targets.R, write the pipeline:
 #' targets::tar_pipeline(
-#'   tar_stan_compile(compiled_model, "stantargets_example.stan"),
 #'   tar_stan_mcmc_rep_summary(
 #'     your_model,
-#'     file = compiled_model,
+#'     stan_files = "stantargets_example.stan",
 #'     data = tar_stan_example_data(),
 #'     batches = 2,
 #'     reps = 2
@@ -34,10 +41,11 @@
 #' )
 tar_stan_mcmc_rep_summary <- function(
   name,
-  file,
+  stan_files,
   data = list(),
   batches = 1L,
   reps = 1L,
+  combine = TRUE,
   compile = c("original", "copy"),
   quiet = TRUE,
   dir = NULL,
@@ -90,20 +98,19 @@ tar_stan_mcmc_rep_summary <- function(
 ) {
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
+  assert_chr(stan_files)
+  assert_unique(stan_files)
   name <- deparse_language(substitute(name))
+  name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")
   name_batch <- paste0(name, "_batch")
   name_data <- paste0(name, "_data")
+  sym_stan <- rlang::syms(name_stan)
   sym_file <- rlang::sym(name_file)
   sym_lines <- rlang::sym(name_lines)
   sym_batch <- rlang::sym(name_batch)
   sym_data <- rlang::sym(name_data)
-  command_file <- tidy_eval(
-    substitute(file),
-    envir = envir,
-    tidy_eval = tidy_eval
-  )
   command_lines <- call_function(
     "readLines",
     args = list(con = rlang::sym(name_file))
@@ -120,8 +127,8 @@ tar_stan_mcmc_rep_summary <- function(
   )
   args <- list(
     call_ns("stantargets", "tar_stan_mcmc_rep_summary_run"),
-    file = sym_file,
-    lines = trn(identical(compile, "original"), "", sym_lines),
+    stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
+    stan_name = quote(._stantargets_name_chr_50e43091),
     data = sym_data,
     compile = compile,
     quiet = quiet,
@@ -166,7 +173,7 @@ tar_stan_mcmc_rep_summary <- function(
   pattern <- substitute(map(x), env = list(x = sym_data))
   target_file <- targets::tar_target_raw(
     name = name_file,
-    command = command_file,
+    command = quote(._stantargets_file_50e43091),
     packages = character(0),
     format = "file",
     error = error,
@@ -174,6 +181,25 @@ tar_stan_mcmc_rep_summary <- function(
     garbage_collection = garbage_collection,
     deployment = "main",
     priority = priority,
+    cue = cue
+  )
+  target_compile <- tar_stan_compile_raw(
+    name = name_file,
+    stan_file = quote(._stantargets_file_50e43091),
+    quiet = quiet,
+    dir = dir,
+    include_paths = include_paths,
+    cpp_options = cpp_options,
+    stanc_options = stanc_options,
+    force_recompile = force_recompile,
+    error = error,
+    memory = memory,
+    garbage_collection = garbage_collection,
+    deployment = deployment,
+    priority = priority,
+    resources = resources,
+    storage = storage,
+    retrieval = retrieval,
     cue = cue
   )
   target_lines <- targets::tar_target_raw(
@@ -213,7 +239,7 @@ tar_stan_mcmc_rep_summary <- function(
     priority = priority,
     cue = cue
   )
-  target <- targets::tar_target_raw(
+  target_mcmc <- targets::tar_target_raw(
     name = name,
     command = command,
     pattern = pattern,
@@ -229,13 +255,45 @@ tar_stan_mcmc_rep_summary <- function(
     retrieval = retrieval,
     cue = cue
   )
-  list(
-    target_file,
+  out <- list(
+    trn(identical(compile, "original"), target_compile, target_file),
     trn(identical(compile, "original"), NULL, target_lines),
-    target_batch,
-    target_data,
-    target
+    target_mcmc
   )
+  out <- list_nonempty(out)
+  values <- list(
+    ._stantargets_file_50e43091 = stan_files,
+    ._stantargets_name_50e43091 = sym_stan,
+    ._stantargets_name_chr_50e43091 = name_stan
+  )
+  out <- tarchetypes::tar_map(
+    values = values,
+    names = ._stantargets_name_50e43091,
+    unlist = TRUE,
+    out
+  )
+  out[[name_data]] <- target_data
+  out[[name_batch]] <- target_batch
+  names_mcmc <- paste0(name, "_", name_stan)
+  if (combine) {
+    out[[name]] <- tarchetypes::tar_combine_raw(
+      name = name,
+      out[names_mcmc],
+      packages = character(0),
+      format = "fst_tbl",
+      iteration = "vector",
+      error = error,
+      memory = memory,
+      garbage_collection = garbage_collection,
+      deployment = "main",
+      priority = priority,
+      resources = resources,
+      storage = "main",
+      retrieval = "main",
+      cue = cue
+    )
+  }
+  out
 }
 
 #' @title Run a Stan model and return only the summaries.
@@ -244,9 +302,10 @@ tar_stan_mcmc_rep_summary <- function(
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A data frame of posterior summaries.
 #' @inheritParams tar_stan_mcmc_run
+#' @param stan_name Friendly suffix of the Stan model target.
 tar_stan_mcmc_rep_summary_run <- function(
-  file,
-  lines,
+  stan_file,
+  stan_name,
   data,
   compile,
   quiet,
@@ -286,13 +345,14 @@ tar_stan_mcmc_rep_summary_run <- function(
   summaries,
   summary_args
 ) {
-  stan_file <- file
+  file <- stan_file
   if (identical(compile, "copy")) {
-    stan_file <- tempfile(fileext = ".stan")
-    writeLines(lines, stan_file)
+    tmp <- tempfile(fileext = ".stan")
+    writeLines(stan_file, tmp)
+    file <- tmp
   }
   model <- cmdstanr::cmdstan_model(
-    stan_file = stan_file,
+    stan_file = file,
     compile = TRUE,
     quiet = quiet,
     dir = dir,
@@ -344,6 +404,7 @@ tar_stan_mcmc_rep_summary_run <- function(
     )
   )
   out$.file <- file
+  out$.name <- stan_name
   out
 }
 
