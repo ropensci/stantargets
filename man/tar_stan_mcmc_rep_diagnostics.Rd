@@ -10,8 +10,8 @@ tar_stan_mcmc_rep_diagnostics(
   data = list(),
   batches = 1L,
   reps = 1L,
+  combine = FALSE,
   compile = c("original", "copy"),
-  combine = TRUE,
   quiet = TRUE,
   dir = NULL,
   include_paths = NULL,
@@ -78,14 +78,14 @@ that generates a dataset and runs the model \code{reps} times.}
 
 \item{reps}{Number of replications per batch.}
 
-\item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
-compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
-method.}
-
 \item{combine}{Logical, whether to create a target to
 combine all the model results
 into a single data frame downstream. Convenient, but
 duplicates data.}
+
+\item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
+compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
+method.}
 
 \item{quiet}{\code{quiet} argument to \verb{$compile()}.}
 

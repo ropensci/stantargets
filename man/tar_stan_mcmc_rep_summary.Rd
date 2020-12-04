@@ -10,8 +10,8 @@ tar_stan_mcmc_rep_summary(
   data = list(),
   batches = 1L,
   reps = 1L,
-  compile = c("original", "copy"),
   combine = TRUE,
+  compile = c("original", "copy"),
   quiet = TRUE,
   dir = NULL,
   include_paths = NULL,
@@ -81,14 +81,14 @@ that generates a dataset and runs the model \code{reps} times.}
 
 \item{reps}{Number of replications per batch.}
 
-\item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
-compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
-method.}
-
 \item{combine}{Logical, whether to create a target to
 combine all the model results
 into a single data frame downstream. Convenient, but
 duplicates data.}
+
+\item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
+compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
+method.}
 
 \item{quiet}{\code{quiet} argument to \verb{$compile()}.}
 
@@ -252,7 +252,7 @@ If \code{"worker"}, the worker loads the targets dependencies.}
 rules that decide whether the target is up to date.}
 }
 \value{
-\code{tar_stan_mcmc_rep_summary(name = x, , stan_files = "y.stan")}
+\code{tar_stan_mcmc_rep_summary(name = x, stan_files = "y.stan")}
 returns a list of \code{targets::tar_target()} objects:
 \itemize{
 \item \code{x_file_y}: reproducibly track the Stan model file.

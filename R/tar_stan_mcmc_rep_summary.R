@@ -6,7 +6,7 @@
 #'   and `$sample()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
-#' @return `tar_stan_mcmc_rep_summary(name = x, , stan_files = "y.stan")`
+#' @return `tar_stan_mcmc_rep_summary(name = x, stan_files = "y.stan")`
 #'   returns a list of `targets::tar_target()` objects:
 #'   * `x_file_y`: reproducibly track the Stan model file.
 #'   * `x_lines_y`: contents of the Stan model file.
@@ -45,8 +45,8 @@ tar_stan_mcmc_rep_summary <- function(
   data = list(),
   batches = 1L,
   reps = 1L,
-  compile = c("original", "copy"),
   combine = TRUE,
+  compile = c("original", "copy"),
   quiet = TRUE,
   dir = NULL,
   include_paths = NULL,
