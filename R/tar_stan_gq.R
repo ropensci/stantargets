@@ -1,4 +1,4 @@
-#' @title Generated quantities on an existing MCMC object
+#' @title Generated quantities on an existing CmdStanFit object
 #' @export
 #' @description Targets to run the generated quantities of
 #'   a Stan model and optionally save draws and summaries separately.
@@ -7,19 +7,19 @@
 #'   of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
-#' @return `tar_stan_mcmc_gq(name = x, ...)` returns a list
+#' @return `tar_stan_gq(name = x, ...)` returns a list
 #'   of `targets::tar_target()` objects:
 #'   * `x_file`: reproducibly track the Stan model file.
 #'   * `x_lines`: contents of the Stan model file.
 #'     Omitted if `compile = "original"`.
 #'   * `x_data`: data for the generated quantities.
 #'   * `x_gq`: `CmdStanGQ` object with all the generated quantities results.
-#'   * `x_draws`: tidy data frame of MCMC draws. Omitted if `draws = FALSE`.
-#'   * `x_summary`: tidy data frame of MCMC summaries.
+#'   * `x_draws`: tidy data frame of draws. Omitted if `draws = FALSE`.
+#'   * `x_summary`: tidy data frame of summaries.
 #'     Omitted if `summary = FALSE`.
 #' @inheritParams cmdstanr::cmdstan_model
 #' @inheritParams tar_stan_compile_run
-#' @inheritParams tar_stan_mcmc_gq_run
+#' @inheritParams tar_stan_gq_run
 #' @inheritParams tar_stan_summary
 #' @inheritParams targets::tar_target
 #' @param name Symbol, base name for the collection of targets.
@@ -34,9 +34,10 @@
 #'   the suffixed will come from `names(stan_files)`.
 #' @param data Code to generate the `data`
 #'   argument of `$generate_quantities()`.
-#' @param fitted_params Symbol, name of a `CmdStanMCMC` object
+#' @param fitted_params Symbol, name of a `CmdStanFit` object
 #'   computed in a previous target: for example, the
-#'   `*_mcmc` target from [tar_stan_mcmc()].
+#'   `*_mcmc_*` target from [tar_stan_mcmc()]. Must be a subclass
+#'   that `$generate_quantities()` can accept as `fitted_params`.
 #' @param draws Logical, whether to create a target for posterior draws.
 #'   Saves `posterior::as_draws_df(fit$draws())` to a compressed `tibble`.
 #'   Convenient, but duplicates storage.
@@ -52,14 +53,14 @@
 #'     stan_files = "stantargets_example.stan",
 #'     data = tar_stan_example_data()
 #'   ),
-#'   tar_stan_mcmc_gq(
+#'   tar_stan_gq(
 #'     custom_gq,
 #'     stan_files = "stantargets_example.stan", # Can be a different model.
 #'     fitted_params = your_model_mcmc,
 #'     data = your_model_data # Can be a different dataset.
 #'   )
 #' )
-tar_stan_mcmc_gq <- function(
+tar_stan_gq <- function(
   name,
   stan_files,
   data = list(),
@@ -137,7 +138,7 @@ tar_stan_mcmc_gq <- function(
   args_summary$.args <- substitute(summary_args)
   command_summary <- as.expression(as.call(args_summary))
   args_gq <- list(
-    call_ns("stantargets", "tar_stan_mcmc_gq_run"),
+    call_ns("stantargets", "tar_stan_gq_run"),
     stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
     data = sym_data,
     fitted_params = substitute(fitted_params),
@@ -283,7 +284,7 @@ tar_stan_mcmc_gq <- function(
 #'   `$generate_quantities()`.
 #' @param variables `variables` argument to `$draws()` and `$summary()`
 #'   on the `CmdStanGQ` object.
-tar_stan_mcmc_gq_run <- function(
+tar_stan_gq_run <- function(
   stan_file,
   data,
   fitted_params,

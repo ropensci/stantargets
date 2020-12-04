@@ -1,4 +1,4 @@
-tar_test("tar_stan_mcmc(compile = \"original\")", {
+tar_test("tar_stan_gq(compile = \"original\")", {
   skip_on_cran()
   tar_stan_example_file("file1.stan")
   tar_stan_example_file("file2.stan")
@@ -21,7 +21,7 @@ tar_test("tar_stan_mcmc(compile = \"original\")", {
         summary = FALSE,
         diagnostics = FALSE
       ),
-      tar_stan_mcmc_gq(
+      tar_stan_gq(
         gq,
         fitted_params = model_mcmc_file1,
         compile = "original",
@@ -118,7 +118,7 @@ tar_test("tar_stan_mcmc(compile = \"original\")", {
         diagnostics = FALSE,
         summary = FALSE
       ),
-      tar_stan_mcmc_gq(
+      tar_stan_gq(
         gq,
         fitted_params = model_mcmc,
         compile = "original",
@@ -141,7 +141,7 @@ tar_test("tar_stan_mcmc(compile = \"original\")", {
   expect_equal(sort(out), sort(exp))
 })
 
-tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
+tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
   skip_on_cran()
   tar_stan_example_file("a.stan")
   tar_stan_example_file("b.stan")
@@ -163,7 +163,7 @@ tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
         summary = FALSE,
         diagnostics = FALSE
       ),
-      tar_stan_mcmc_gq(
+      tar_stan_gq(
         gq,
         fitted_params = model_mcmc_a,
         stan_files = c("a.stan", "b.stan"),
@@ -280,7 +280,7 @@ tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
         summary = FALSE,
         diagnostics = FALSE
       ),
-      tar_stan_mcmc_gq(
+      tar_stan_gq(
         gq,
         fitted_params = model_mcmc_a,
         stan_files = c("a.stan", "b.stan"),
