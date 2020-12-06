@@ -33,7 +33,6 @@ jobs:
       - name: Install packages
         run: |
           install.packages("remotes")
-          remotes::install_github("r-lib/processx")
           remotes::install_deps(dependencies = TRUE, type = ifelse(tolower(Sys.info()["sysname"]) == "linux", "source", "binary"))
           remotes::install_cran("covr")
         shell: Rscript {0}

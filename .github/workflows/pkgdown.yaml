@@ -38,7 +38,6 @@ jobs:
           install.packages("remotes")
           remotes::install_deps(dependencies = TRUE, type = ifelse(tolower(Sys.info()["sysname"]) == "linux", "source", "binary"))
           remotes::install_dev("pkgdown")
-          remotes::install_github("r-lib/processx")
         shell: Rscript {0}
 
       - name: Install cmdstan
