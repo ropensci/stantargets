@@ -58,7 +58,7 @@ tar_stan_mle <- function(
   tol_obj = NULL,
   tol_rel_obj = NULL,
   tol_grad = NULL,
-  tol_rel_grad = NULL, 
+  tol_rel_grad = NULL,
   tol_param = NULL,
   history_size = NULL,
   sig_figs = NULL,
@@ -147,7 +147,7 @@ tar_stan_mle <- function(
     tol_obj = tol_obj,
     tol_rel_obj = tol_rel_obj,
     tol_grad = tol_grad,
-    tol_rel_grad = tol_rel_grad, 
+    tol_rel_grad = tol_rel_grad,
     tol_param = tol_param,
     history_size = history_size,
     variables = variables
@@ -336,7 +336,7 @@ tar_stan_mle_run <- function(
     tol_grad = tol_grad,
     tol_rel_grad = tol_rel_grad,
     tol_param = tol_param,
-    history_size = history_size,
+    history_size = history_size
   )
   # Load all the data and return the whole unserialized fit object:
   # https://github.com/stan-dev/cmdstanr/blob/d27994f804c493ff3047a2a98d693fa90b83af98/R/fit.R#L16-L18 # nolint

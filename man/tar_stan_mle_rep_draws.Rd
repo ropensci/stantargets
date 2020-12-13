@@ -27,6 +27,12 @@ tar_stan_mle_rep_draws(
   init_alpha = NULL,
   iter = NULL,
   sig_figs = NULL,
+  tol_obj = NULL,
+  tol_rel_obj = NULL,
+  tol_grad = NULL,
+  tol_rel_grad = NULL,
+  tol_param = NULL,
+  history_size = NULL,
   variables = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
@@ -99,6 +105,18 @@ argument to \verb{$optimize()}.}
 \item{iter}{\code{iter} argument to \verb{$optimize()}.}
 
 \item{sig_figs}{\code{sig_figs} argument to \verb{$optimize()}.}
+
+\item{tol_obj}{\code{tol_obj} argument to \verb{$optimize()}.}
+
+\item{tol_rel_obj}{\code{tol_rel_obj} argument to \verb{$optimize()}.}
+
+\item{tol_grad}{\code{tol_grad} argument to \verb{$optimize()}.}
+
+\item{tol_rel_grad}{\code{tol_rel_grad} argument to \verb{$optimize()}.}
+
+\item{tol_param}{\code{tol_param} argument to \verb{$optimize()}.}
+
+\item{history_size}{\code{history_size} argument to \verb{$optimize()}.}
 
 \item{variables}{\code{variables} argument to \verb{$draws()} on the \code{CmdStanMLE}
 object.}

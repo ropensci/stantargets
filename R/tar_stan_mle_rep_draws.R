@@ -56,6 +56,12 @@ tar_stan_mle_rep_draws <- function(
   init_alpha = NULL,
   iter = NULL,
   sig_figs = NULL,
+  tol_obj = NULL,
+  tol_rel_obj = NULL,
+  tol_grad = NULL,
+  tol_rel_grad = NULL,
+  tol_param = NULL,
+  history_size = NULL,
   variables = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
@@ -119,6 +125,12 @@ tar_stan_mle_rep_draws <- function(
     init_alpha = init_alpha,
     iter = iter,
     sig_figs = sig_figs,
+    tol_obj = tol_obj,
+    tol_rel_obj = tol_rel_obj,
+    tol_grad = tol_grad,
+    tol_rel_grad = tol_rel_grad,
+    tol_param = tol_param,
+    history_size = history_size,
     variables = variables
   )
   command <- as.expression(as.call(args))
@@ -277,6 +289,12 @@ tar_stan_mle_rep_draws_run <- function(
   init_alpha,
   iter,
   sig_figs,
+  tol_obj,
+  tol_rel_obj,
+  tol_grad,
+  tol_rel_grad,
+  tol_param,
+  history_size,
   variables
 ) {
   file <- stan_file
@@ -314,6 +332,12 @@ tar_stan_mle_rep_draws_run <- function(
       init_alpha = init_alpha,
       iter = iter,
       sig_figs = sig_figs,
+      tol_obj = tol_obj,
+      tol_rel_obj = tol_rel_obj,
+      tol_grad = tol_grad,
+      tol_rel_grad = tol_rel_grad,
+      tol_param = tol_param,
+      history_size = history_size,
       variables = variables
     )
   )
@@ -334,6 +358,12 @@ tar_stan_mle_rep_draws_run_rep <- function(
   init_alpha,
   iter,
   sig_figs,
+  tol_obj,
+  tol_rel_obj,
+  tol_grad,
+  tol_rel_grad,
+  tol_param,
+  history_size,
   variables
 ) {
   fit <- model$optimize(
@@ -346,7 +376,13 @@ tar_stan_mle_rep_draws_run_rep <- function(
     algorithm = algorithm,
     init_alpha = init_alpha,
     iter = iter,
-    sig_figs = sig_figs
+    sig_figs = sig_figs,
+    tol_obj = tol_obj,
+    tol_rel_obj = tol_rel_obj,
+    tol_grad = tol_grad,
+    tol_rel_grad = tol_rel_grad,
+    tol_param = tol_param,
+    history_size = history_size
   )
   out <- fit$draws(variables = variables)
   out <- tibble::as_tibble(posterior::as_draws_df(out))
