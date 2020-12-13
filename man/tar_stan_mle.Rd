@@ -23,6 +23,12 @@ tar_stan_mle(
   algorithm = NULL,
   init_alpha = NULL,
   iter = NULL,
+  tol_obj = NULL,
+  tol_rel_obj = NULL,
+  tol_grad = NULL,
+  tol_rel_grad = NULL,
+  tol_param = NULL,
+  history_size = NULL,
   sig_figs = NULL,
   variables = NULL,
   summaries = list(),
@@ -88,6 +94,18 @@ argument to \verb{$optimize()}.}
 \item{init_alpha}{\code{init_alpha} argument to \verb{$optimize()}.}
 
 \item{iter}{\code{iter} argument to \verb{$optimize()}.}
+
+\item{tol_obj}{\code{tol_obj} argument to \verb{$optimize()}.}
+
+\item{tol_rel_obj}{\code{tol_rel_obj} argument to \verb{$optimize()}.}
+
+\item{tol_grad}{\code{tol_grad} argument to \verb{$optimize()}.}
+
+\item{tol_rel_grad}{\code{tol_rel_grad} argument to \verb{$optimize()}.}
+
+\item{tol_param}{\code{tol_param} argument to \verb{$optimize()}.}
+
+\item{history_size}{\code{history_size} argument to \verb{$optimize()}.}
 
 \item{sig_figs}{\code{sig_figs} argument to \verb{$optimize()}.}
 

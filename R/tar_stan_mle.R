@@ -55,6 +55,12 @@ tar_stan_mle <- function(
   algorithm = NULL,
   init_alpha = NULL,
   iter = NULL,
+  tol_obj = NULL,
+  tol_rel_obj = NULL,
+  tol_grad = NULL,
+  tol_rel_grad = NULL, 
+  tol_param = NULL,
+  history_size = NULL,
   sig_figs = NULL,
   variables = NULL,
   summaries = list(),
@@ -138,6 +144,12 @@ tar_stan_mle <- function(
     init_alpha = init_alpha,
     iter = iter,
     sig_figs = sig_figs,
+    tol_obj = tol_obj,
+    tol_rel_obj = tol_rel_obj,
+    tol_grad = tol_grad,
+    tol_rel_grad = tol_rel_grad, 
+    tol_param = tol_param,
+    history_size = history_size,
     variables = variables
   )
   command_mle <- as.expression(as.call(args_mle))
@@ -254,6 +266,12 @@ tar_stan_mle <- function(
 #' @param init_alpha `init_alpha` argument to `$optimize()`.
 #' @param iter `iter` argument to `$optimize()`.
 #' @param sig_figs `sig_figs` argument to `$optimize()`.
+#' @param tol_obj `tol_obj` argument to `$optimize()`.
+#' @param tol_rel_obj `tol_rel_obj` argument to `$optimize()`.
+#' @param tol_grad `tol_grad` argument to `$optimize()`.
+#' @param tol_rel_grad `tol_rel_grad` argument to `$optimize()`.
+#' @param tol_param `tol_param` argument to `$optimize()`.
+#' @param history_size `history_size` argument to `$optimize()`.
 #' @param variables `variables` argument to `$draws()` and `$summary()`
 #'   on the `CmdStanMLE` object.
 tar_stan_mle_run <- function(
@@ -275,6 +293,12 @@ tar_stan_mle_run <- function(
   init_alpha,
   iter,
   sig_figs,
+  tol_obj,
+  tol_rel_obj,
+  tol_grad,
+  tol_rel_grad,
+  tol_param,
+  history_size,
   variables
 ) {
   file <- stan_file
@@ -306,7 +330,13 @@ tar_stan_mle_run <- function(
     algorithm = algorithm,
     init_alpha = init_alpha,
     iter = iter,
-    sig_figs = sig_figs
+    sig_figs = sig_figs,
+    tol_obj = tol_obj,
+    tol_rel_obj = tol_rel_obj,
+    tol_grad = tol_grad,
+    tol_rel_grad = tol_rel_grad,
+    tol_param = tol_param,
+    history_size = history_size,
   )
   # Load all the data and return the whole unserialized fit object:
   # https://github.com/stan-dev/cmdstanr/blob/d27994f804c493ff3047a2a98d693fa90b83af98/R/fit.R#L16-L18 # nolint
