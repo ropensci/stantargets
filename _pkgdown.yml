@@ -54,7 +54,7 @@ reference:
 articles:
   - title: MCMC
     desc: >
-      MCMC for Bayesian models.
+      MCMC for Bayesian models
     contents:
       - mcmc
       - mcmc_rep
