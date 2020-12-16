@@ -34,7 +34,6 @@ lines <- "data {
   int <lower = 1> n;
   vector[n] x;
   vector[n] y;
-  real true_beta;
 }
 parameters {
   real beta;
