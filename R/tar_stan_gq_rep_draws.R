@@ -18,8 +18,7 @@
 #'     Suppressed if `combine` is `FALSE`.
 #' @inheritParams tar_stan_gq
 #' @inheritParams tar_stan_gq_rep_summary
-#' @param variables `variables` argument to `$draws()` on the `CmdStanMCMC`
-#'   object.
+#' @inheritParams cmdstanr::`fit-method-draws`
 #' @examples
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan

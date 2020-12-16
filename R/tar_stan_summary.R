@@ -7,10 +7,9 @@
 #' @return A `targets::tar_target()` object to summarize a `CmdStanFit` object.
 #' @inheritParams tar_stan_mcmc
 #' @inheritParams targets::tar_target
+#' @inheritParams cmdstanr::`fit-method-summary`
 #' @param fit Symbol, name of a `CmdStanFit` object or an upstream target
 #'   that returns a `CmdStanFit` object.
-#' @param variables `variables` argument to `$summary()`
-#'   on the `CmdStanFit` object.
 #' @param summaries Optional list of summary functions passed to `...` in
 #'   `posterior::summarize_draws()` through `$summary()`
 #'   on the `CmdStanFit` object.
