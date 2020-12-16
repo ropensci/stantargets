@@ -31,6 +31,7 @@ tar_stan_mle_rep_summary_run(
   tol_rel_grad,
   tol_param,
   history_size,
+  copy_data,
   variables,
   summaries,
   summary_args

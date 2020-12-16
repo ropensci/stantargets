@@ -60,6 +60,7 @@ tar_stan_mle_rep_draws <- function(
   tol_rel_grad = NULL,
   tol_param = NULL,
   history_size = NULL,
+  copy_data = character(0),
   variables = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
@@ -129,6 +130,7 @@ tar_stan_mle_rep_draws <- function(
     tol_rel_grad = tol_rel_grad,
     tol_param = tol_param,
     history_size = history_size,
+    copy_data = copy_data,
     variables = variables
   )
   command <- as.expression(as.call(args))
@@ -293,6 +295,7 @@ tar_stan_mle_rep_draws_run <- function(
   tol_rel_grad,
   tol_param,
   history_size,
+  copy_data,
   variables
 ) {
   file <- stan_file
@@ -336,6 +339,7 @@ tar_stan_mle_rep_draws_run <- function(
       tol_rel_grad = tol_rel_grad,
       tol_param = tol_param,
       history_size = history_size,
+      copy_data = copy_data,
       variables = variables
     )
   )
@@ -362,6 +366,7 @@ tar_stan_mle_rep_draws_run_rep <- function(
   tol_rel_grad,
   tol_param,
   history_size,
+  copy_data,
   variables
 ) {
   fit <- model$optimize(
@@ -385,5 +390,6 @@ tar_stan_mle_rep_draws_run_rep <- function(
   out <- fit$draws(variables = variables)
   out <- tibble::as_tibble(posterior::as_draws_df(out))
   out$.rep <- basename(tempfile(pattern = "rep_"))
+  out <- copy_data_scalars(out, data, copy_data)
   out
 }

@@ -80,6 +80,7 @@ tar_stan_mcmc_rep_summary <- function(
   sig_figs = NULL,
   validate_csv = TRUE,
   show_messages = TRUE,
+  copy_data = character(0),
   variables = NULL,
   summaries = list(),
   summary_args = list(),
@@ -98,8 +99,9 @@ tar_stan_mcmc_rep_summary <- function(
 ) {
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
-  assert_chr(stan_files)
-  assert_unique(stan_files)
+  assert_chr(stan_files, "stan_files must be a character vector")
+  assert_unique(stan_files, "stan_files must be unique")
+  assert_chr(copy_data, "copy_data must be a character vector")
   name <- deparse_language(substitute(name))
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
@@ -165,6 +167,7 @@ tar_stan_mcmc_rep_summary <- function(
     sig_figs = sig_figs,
     validate_csv = validate_csv,
     show_messages = show_messages,
+    copy_data = copy_data,
     variables = variables,
     summaries = substitute(summaries),
     summary_args = substitute(summary_args)
@@ -305,6 +308,11 @@ tar_stan_mcmc_rep_summary <- function(
 #' @inheritParams tar_stan_mcmc_run
 #' @param stan_name Friendly suffix of the Stan model target.
 #' @param stan_path Original path to the input Stan file.
+#' @param copy_data Character vector of names of scalars in `data`.
+#'   These values will be inserted as columns in the output data frame
+#'   for each rep. Useful for simulation studies where you want to
+#'   check the results against some "true value" in the data. See the
+#'   `mcmc_rep` vignette for an example.
 tar_stan_mcmc_rep_summary_run <- function(
   stan_file,
   stan_name,
@@ -344,6 +352,7 @@ tar_stan_mcmc_rep_summary_run <- function(
   sig_figs,
   validate_csv,
   show_messages,
+  copy_data,
   variables,
   summaries,
   summary_args
@@ -401,6 +410,7 @@ tar_stan_mcmc_rep_summary_run <- function(
       sig_figs = sig_figs,
       validate_csv = validate_csv,
       show_messages = show_messages,
+      copy_data = copy_data,
       variables = variables,
       summaries = summaries,
       summary_args = summary_args
@@ -442,6 +452,7 @@ tar_stan_mcmc_rep_summary_run_rep <- function(
   validate_csv,
   show_messages,
   variables,
+  copy_data,
   summaries,
   summary_args
 ) {
@@ -484,5 +495,17 @@ tar_stan_mcmc_rep_summary_run_rep <- function(
   command <- as.expression(as.call(args))
   out <- tibble::as_tibble(eval(command))
   out$.rep <- basename(tempfile(pattern = "rep_"))
+  out <- copy_data_scalars(out, data, copy_data)
   out
+}
+
+copy_data_scalars <- function(x, data, copy_data) {
+  for (var in copy_data) {
+    msg <- paste(var, "in copy_data must have length 1 in data.")
+    assert_scalar(data[[var]], msg)
+    msg <- paste(var, "in copy_data must not already be in output.")
+    assert_not_in(var, colnames(x), msg)
+    x[[var]] <- data[[var]]
+  }
+  x
 }

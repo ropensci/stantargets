@@ -34,6 +34,7 @@ tar_stan_vb_rep_summary(
   eval_elbo = NULL,
   output_samples = NULL,
   sig_figs = NULL,
+  copy_data = character(0),
   variables = NULL,
   summaries = list(),
   summary_args = list(),

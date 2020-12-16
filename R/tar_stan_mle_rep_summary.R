@@ -60,6 +60,7 @@ tar_stan_mle_rep_summary <- function(
   tol_param = NULL,
   history_size = NULL,
   sig_figs = NULL,
+  copy_data = character(0),
   variables = NULL,
   summaries = list(),
   summary_args = list(),
@@ -133,6 +134,7 @@ tar_stan_mle_rep_summary <- function(
     tol_rel_grad = tol_rel_grad,
     tol_param = tol_param,
     history_size = history_size,
+    copy_data = copy_data,
     variables = variables,
     summaries = substitute(summaries),
     summary_args = substitute(summary_args)
@@ -298,6 +300,7 @@ tar_stan_mle_rep_summary_run <- function(
   tol_rel_grad,
   tol_param,
   history_size,
+  copy_data,
   variables,
   summaries,
   summary_args
@@ -343,6 +346,7 @@ tar_stan_mle_rep_summary_run <- function(
       tol_rel_grad = tol_rel_grad,
       tol_param = tol_param,
       history_size = history_size,
+      copy_data = copy_data,
       variables = variables,
       summaries = summaries,
       summary_args = summary_args
@@ -371,6 +375,7 @@ tar_stan_mle_rep_summary_run_rep <- function(
   tol_rel_grad,
   tol_param,
   history_size,
+  copy_data,
   variables,
   summaries,
   summary_args
@@ -402,5 +407,6 @@ tar_stan_mle_rep_summary_run_rep <- function(
   command <- as.expression(as.call(args))
   out <- tibble::as_tibble(eval(command))
   out$.rep <- basename(tempfile(pattern = "rep_"))
+  out <- copy_data_scalars(out, data, copy_data)
   out
 }

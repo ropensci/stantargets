@@ -87,6 +87,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
   expect_equal(dplyr::bind_rows(out1, out2), out)
   expect_true(tibble::is_tibble(out1))
   expect_true(tibble::is_tibble(out2))
+  expect_false("n" %in% colnames(out))
+  expect_false("true_beta" %in% colnames(out))
   expect_true("y_rep[1]" %in% colnames(out1))
   expect_true("y_rep[1]" %in% colnames(out2))
   expect_true("y_rep[2]" %in% colnames(out1))
@@ -174,7 +176,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        variables = "y_rep[2]"
+        variables = "y_rep[2]",
+        copy_data = c("n", "true_beta")
       )
     )
   })
@@ -234,6 +237,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
   expect_true(tibble::is_tibble(out))
   expect_false("y_rep[1]" %in% colnames(out))
   expect_true("y_rep[2]" %in% colnames(out))
+  expect_true(all(is.finite(out$n)))
+  expect_true(all(is.finite(out$true_beta)))
   expect_equal(nrow(out), 32000L)
   expect_equal(length(unique(table(out$.rep))), 1L)
   expect_equal(length(table(out$.rep)), 8L)
@@ -277,7 +282,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        variables = "y_rep[2]"
+        variables = "y_rep[2]",
+        copy_data = c("n", "true_beta")
       )
     )
   })

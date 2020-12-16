@@ -62,6 +62,7 @@ tar_stan_vb_rep_draws <- function(
   eval_elbo = NULL,
   output_samples = NULL,
   sig_figs = NULL,
+  copy_data = character(0),
   variables = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
@@ -134,6 +135,7 @@ tar_stan_vb_rep_draws <- function(
     eval_elbo = eval_elbo,
     output_samples = output_samples,
     sig_figs = sig_figs,
+    copy_data = copy_data,
     variables = variables
   )
   command <- as.expression(as.call(args))
@@ -299,6 +301,7 @@ tar_stan_vb_rep_draws_run <- function(
   eval_elbo,
   output_samples,
   sig_figs,
+  copy_data,
   variables
 ) {
   file <- stan_file
@@ -343,6 +346,7 @@ tar_stan_vb_rep_draws_run <- function(
       eval_elbo = eval_elbo,
       output_samples = output_samples,
       sig_figs = sig_figs,
+      copy_data = copy_data,
       variables = variables
     )
   )
@@ -370,6 +374,7 @@ tar_stan_vb_rep_draws_run_rep <- function(
   eval_elbo,
   output_samples,
   sig_figs,
+  copy_data,
   variables
 ) {
   fit <- model$variational(
@@ -394,5 +399,6 @@ tar_stan_vb_rep_draws_run_rep <- function(
   out <- fit$draws(variables = variables)
   out <- tibble::as_tibble(posterior::as_draws_df(out))
   out$.rep <- basename(tempfile(pattern = "rep_"))
+  out <- copy_data_scalars(out, data, copy_data)
   out
 }

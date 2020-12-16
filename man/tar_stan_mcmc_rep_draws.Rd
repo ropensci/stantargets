@@ -45,8 +45,9 @@ tar_stan_mcmc_rep_draws(
   sig_figs = NULL,
   validate_csv = TRUE,
   show_messages = TRUE,
-  variables = NULL,
   inc_warmup = FALSE,
+  variables = NULL,
+  copy_data = character(0),
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -284,12 +285,12 @@ unless you are very sure that the model is correct up to numerical error.
 If the messages are silenced then the \verb{$output()} method of the resulting
 fit object can be used to display all the silenced messages.}
 
+\item{inc_warmup}{(logical) For MCMC only, should warmup draws be included?
+Defaults to \code{FALSE}.}
+
 \item{variables}{(character vector) The variables (parameters and generated
 quantities) to read in. If \code{NULL} (the default) then the draws of all
 variables are included.}
-
-\item{inc_warmup}{(logical) For MCMC only, should warmup draws be included?
-Defaults to \code{FALSE}.}
 
 \item{tidy_eval}{Logical, whether to enable tidy evaluation
 when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use the

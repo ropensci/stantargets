@@ -45,6 +45,7 @@ tar_stan_mcmc_rep_summary(
   sig_figs = NULL,
   validate_csv = TRUE,
   show_messages = TRUE,
+  copy_data = character(0),
   variables = NULL,
   summaries = list(),
   summary_args = list(),

@@ -22,7 +22,8 @@ tar_stan_gq_rep_draws_run(
   sig_figs,
   parallel_chains,
   threads_per_chain,
-  variables
+  variables,
+  copy_data
 )
 }
 \arguments{

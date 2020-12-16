@@ -25,6 +25,7 @@ tar_stan_gq_rep_draws(
   parallel_chains = getOption("mc.cores", 1),
   threads_per_chain = NULL,
   variables = NULL,
+  copy_data = character(0),
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),

@@ -34,6 +34,7 @@ tar_stan_vb_rep_draws(
   eval_elbo = NULL,
   output_samples = NULL,
   sig_figs = NULL,
+  copy_data = character(0),
   variables = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),

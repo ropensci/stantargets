@@ -22,6 +22,7 @@ tar_stan_gq_rep_summary_run(
   sig_figs,
   parallel_chains,
   threads_per_chain,
+  copy_data,
   variables,
   summaries,
   summary_args

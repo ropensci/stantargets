@@ -46,6 +46,7 @@ tar_stan_mcmc_rep_diagnostics(
   validate_csv = TRUE,
   show_messages = TRUE,
   inc_warmup = FALSE,
+  copy_data = character(0),
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),

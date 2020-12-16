@@ -73,8 +73,9 @@ tar_stan_mcmc_rep_draws <- function(
   sig_figs = NULL,
   validate_csv = TRUE,
   show_messages = TRUE,
-  variables = NULL,
   inc_warmup = FALSE,
+  variables = NULL,
+  copy_data = character(0),
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -90,8 +91,9 @@ tar_stan_mcmc_rep_draws <- function(
 ) {
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
-  assert_chr(stan_files)
-  assert_unique(stan_files)
+  assert_chr(stan_files, "stan_files must be a character vector")
+  assert_unique(stan_files, "stan_files must be unique")
+  assert_chr(copy_data, "copy_data must be a character vector")
   name <- deparse_language(substitute(name))
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
@@ -157,8 +159,9 @@ tar_stan_mcmc_rep_draws <- function(
     sig_figs = sig_figs,
     validate_csv = validate_csv,
     show_messages = show_messages,
-    variables = variables,
-    inc_warmup = inc_warmup
+    inc_warmup = inc_warmup,
+    copy_data = copy_data,
+    variables = variables
   )
   command <- as.expression(as.call(args))
   pattern_data <- substitute(map(x), env = list(x = sym_batch))
@@ -334,8 +337,9 @@ tar_stan_mcmc_rep_draws_run <- function(
   sig_figs,
   validate_csv,
   show_messages,
-  variables,
-  inc_warmup
+  inc_warmup,
+  copy_data,
+  variables
 ) {
   file <- stan_file
   if (identical(compile, "copy")) {
@@ -390,8 +394,9 @@ tar_stan_mcmc_rep_draws_run <- function(
       sig_figs = sig_figs,
       validate_csv = validate_csv,
       show_messages = show_messages,
-      variables = variables,
-      inc_warmup = inc_warmup
+      inc_warmup = inc_warmup,
+      copy_data = copy_data,
+      variables = variables
     )
   )
   out$.file <- stan_path
@@ -429,8 +434,9 @@ tar_stan_mcmc_rep_draws_run_rep <- function(
   sig_figs,
   validate_csv,
   show_messages,
-  variables,
-  inc_warmup
+  inc_warmup,
+  copy_data,
+  variables
 ) {
   fit <- model$sample(
     data = data,
@@ -465,5 +471,6 @@ tar_stan_mcmc_rep_draws_run_rep <- function(
   out <- fit$draws(variables = variables, inc_warmup = inc_warmup)
   out <- tibble::as_tibble(posterior::as_draws_df(out))
   out$.rep <- basename(tempfile(pattern = "rep_"))
+  out <- copy_data_scalars(out, data, copy_data)
   out
 }

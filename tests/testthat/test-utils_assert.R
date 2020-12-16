@@ -3,6 +3,11 @@ targets::tar_test("assert_chr()", {
   expect_error(assert_chr(123), class = "condition_validate")
 })
 
+targets::tar_test("assert_not_in()", {
+  expect_silent(assert_not_in("1", letters))
+  expect_error(assert_not_in("a", letters), class = "condition_validate")
+})
+
 targets::tar_test("assert_nzchar()", {
   expect_silent(assert_nzchar(letters))
   expect_error(assert_nzchar(c("x", "")), class = "condition_validate")

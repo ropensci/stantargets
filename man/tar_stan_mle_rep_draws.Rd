@@ -33,6 +33,7 @@ tar_stan_mle_rep_draws(
   tol_rel_grad = NULL,
   tol_param = NULL,
   history_size = NULL,
+  copy_data = character(0),
   variables = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),

@@ -61,6 +61,7 @@ tar_stan_vb_rep_summary <- function(
   eval_elbo = NULL,
   output_samples = NULL,
   sig_figs = NULL,
+  copy_data = character(0),
   variables = NULL,
   summaries = list(),
   summary_args = list(),
@@ -135,6 +136,7 @@ tar_stan_vb_rep_summary <- function(
     eval_elbo = eval_elbo,
     output_samples = output_samples,
     sig_figs = sig_figs,
+    copy_data = copy_data,
     variables = variables,
     summaries = substitute(summaries),
     summary_args = substitute(summary_args)
@@ -302,6 +304,7 @@ tar_stan_vb_rep_summary_run <- function(
   eval_elbo,
   output_samples,
   sig_figs,
+  copy_data,
   variables,
   summaries,
   summary_args
@@ -348,6 +351,7 @@ tar_stan_vb_rep_summary_run <- function(
       eval_elbo = eval_elbo,
       output_samples = output_samples,
       sig_figs = sig_figs,
+      copy_data = copy_data,
       variables = variables,
       summaries = summaries,
       summary_args = summary_args
@@ -377,6 +381,7 @@ tar_stan_vb_rep_summary_run_rep <- function(
   eval_elbo,
   output_samples,
   sig_figs,
+  copy_data,
   variables,
   summaries,
   summary_args
@@ -409,5 +414,6 @@ tar_stan_vb_rep_summary_run_rep <- function(
   command <- as.expression(as.call(args))
   out <- tibble::as_tibble(eval(command))
   out$.rep <- basename(tempfile(pattern = "rep_"))
+  out <- copy_data_scalars(out, data, copy_data)
   out
 }

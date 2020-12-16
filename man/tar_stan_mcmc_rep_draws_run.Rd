@@ -43,8 +43,9 @@ tar_stan_mcmc_rep_draws_run(
   sig_figs,
   validate_csv,
   show_messages,
-  variables,
-  inc_warmup
+  inc_warmup,
+  copy_data,
+  variables
 )
 }
 \arguments{
@@ -249,6 +250,12 @@ Disable if you wish silence these messages, but this is not recommended
 unless you are very sure that the model is correct up to numerical error.
 If the messages are silenced then the \verb{$output()} method of the resulting
 fit object can be used to display all the silenced messages.}
+
+\item{copy_data}{Character vector of names of scalars in \code{data}.
+These values will be inserted as columns in the output data frame
+for each rep. Useful for simulation studies where you want to
+check the results against some "true value" in the data. See the
+\code{mcmc_rep} vignette for an example.}
 }
 \value{
 A data frame of posterior summaries.

@@ -24,6 +24,7 @@ tar_stan_gq_rep_summary(
   sig_figs = NULL,
   parallel_chains = getOption("mc.cores", 1),
   threads_per_chain = NULL,
+  copy_data = character(0),
   variables = NULL,
   summaries = list(),
   summary_args = list(),

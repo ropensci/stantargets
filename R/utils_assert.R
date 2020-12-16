@@ -4,15 +4,21 @@ assert_chr <- function(x, msg = NULL) {
   }
 }
 
-assert_package <- function(package, msg = NULL) {
-  if (!requireNamespace(package, quietly = TRUE)) {
-    throw_validate(msg %||% paste("package ", package, " not installed"))
+assert_not_in <- function(x, choices, msg = NULL) {
+  if (any(x %in% choices)) {
+    throw_validate(msg %||% paste(deparse(x), "is in", deparse(choices)))
   }
 }
 
 assert_nzchar <- function(x, msg = NULL) {
   if (any(!nzchar(x))) {
     throw_validate(msg %||% "x has empty character strings")
+  }
+}
+
+assert_package <- function(package, msg = NULL) {
+  if (!requireNamespace(package, quietly = TRUE)) {
+    throw_validate(msg %||% paste("package ", package, " not installed"))
   }
 }
 

@@ -57,6 +57,7 @@ tar_stan_gq_rep_summary <- function(
   sig_figs = NULL,
   parallel_chains = getOption("mc.cores", 1),
   threads_per_chain = NULL,
+  copy_data = character(0),
   variables = NULL,
   summaries = list(),
   summary_args = list(),
@@ -121,6 +122,7 @@ tar_stan_gq_rep_summary <- function(
     sig_figs = sig_figs,
     parallel_chains = parallel_chains,
     threads_per_chain = threads_per_chain,
+    copy_data = copy_data,
     variables = variables,
     summaries = substitute(summaries),
     summary_args = substitute(summary_args)
@@ -278,6 +280,7 @@ tar_stan_gq_rep_summary_run <- function(
   sig_figs,
   parallel_chains,
   threads_per_chain,
+  copy_data,
   variables,
   summaries,
   summary_args
@@ -314,6 +317,7 @@ tar_stan_gq_rep_summary_run <- function(
       sig_figs = sig_figs,
       parallel_chains = parallel_chains,
       threads_per_chain = threads_per_chain,
+      copy_data = copy_data,
       variables = variables,
       summaries = summaries,
       summary_args = summary_args
@@ -333,6 +337,7 @@ tar_stan_gq_rep_summary_run_rep <- function(
   sig_figs,
   parallel_chains,
   threads_per_chain,
+  copy_data,
   variables,
   summaries,
   summary_args
@@ -355,5 +360,6 @@ tar_stan_gq_rep_summary_run_rep <- function(
   command <- as.expression(as.call(args))
   out <- tibble::as_tibble(eval(command))
   out$.rep <- basename(tempfile(pattern = "rep_"))
+  out <- copy_data_scalars(out, data, copy_data)
   out
 }

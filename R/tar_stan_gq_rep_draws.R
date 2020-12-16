@@ -59,6 +59,7 @@ tar_stan_gq_rep_draws <- function(
   parallel_chains = getOption("mc.cores", 1),
   threads_per_chain = NULL,
   variables = NULL,
+  copy_data = character(0),
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -120,7 +121,8 @@ tar_stan_gq_rep_draws <- function(
     sig_figs = sig_figs,
     parallel_chains = parallel_chains,
     threads_per_chain = threads_per_chain,
-    variables = variables
+    variables = variables,
+    copy_data = copy_data
   )
   command <- as.expression(as.call(args))
   pattern_data <- substitute(map(x), env = list(x = sym_batch))
@@ -275,7 +277,8 @@ tar_stan_gq_rep_draws_run <- function(
   sig_figs,
   parallel_chains,
   threads_per_chain,
-  variables
+  variables,
+  copy_data
 ) {
   file <- stan_file
   if (identical(compile, "copy")) {
@@ -309,6 +312,7 @@ tar_stan_gq_rep_draws_run <- function(
       sig_figs = sig_figs,
       parallel_chains = parallel_chains,
       threads_per_chain = threads_per_chain,
+      copy_data = copy_data,
       variables = variables
     )
   )
@@ -326,7 +330,8 @@ tar_stan_gq_rep_draws_run_rep <- function(
   sig_figs,
   parallel_chains,
   threads_per_chain,
-  variables
+  variables,
+  copy_data
 ) {
   fit <- model$generate_quantities(
     fitted_params = fitted_params,
@@ -340,5 +345,6 @@ tar_stan_gq_rep_draws_run_rep <- function(
   out <- fit$draws(variables = variables)
   out <- tibble::as_tibble(posterior::as_draws_df(out))
   out$.rep <- basename(tempfile(pattern = "rep_"))
+  out <- copy_data_scalars(out, data, copy_data)
   out
 }

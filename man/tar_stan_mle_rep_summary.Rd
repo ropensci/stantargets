@@ -33,6 +33,7 @@ tar_stan_mle_rep_summary(
   tol_param = NULL,
   history_size = NULL,
   sig_figs = NULL,
+  copy_data = character(0),
   variables = NULL,
   summaries = list(),
   summary_args = list(),
