@@ -107,7 +107,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"original\")", {
   expect_equal(sort(out), sort(exp))
 })
 
-targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom variables", {
+targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
   tar_stan_example_file("a.stan")
