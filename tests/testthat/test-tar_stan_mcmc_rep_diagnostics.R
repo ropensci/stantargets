@@ -67,6 +67,8 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"original\")", {
   expect_true(is.numeric(out$true_beta))
   out1 <- targets::tar_read(model_x)
   out2 <- targets::tar_read(model_y)
+  expect_false("n" %in% colnames(out1))
+  expect_false("true_beta" %in% colnames(out1))
   expect_true(tibble::is_tibble(out1))
   expect_true(tibble::is_tibble(out2))
   expect_true("accept_stat__" %in% colnames(out1))
@@ -137,7 +139,8 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
         batches = 2,
         reps = 2,
         save_warmup = TRUE,
-        inc_warmup = TRUE
+        inc_warmup = TRUE,
+        copy_data = c("n", "true_beta")
       )
     )
   })
@@ -191,6 +194,8 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
   out1 <- targets::tar_read(model_a)
   out2 <- targets::tar_read(model_b)
   out <- targets::tar_read(model)
+  expect_true(all(is.finite(out$n)))
+  expect_true(all(is.finite(out$true_beta)))
   expect_equal(dplyr::bind_rows(out1, out2), out)
   expect_true(tibble::is_tibble(out1))
   expect_true(tibble::is_tibble(out2))
@@ -232,7 +237,8 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
         batches = 2,
         reps = 2,
         save_warmup = TRUE,
-        inc_warmup = TRUE
+        inc_warmup = TRUE,
+        copy_data = c("n", "true_beta")
       )
     )
   })

@@ -65,6 +65,8 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"original\")", {
   out1 <- targets::tar_read(model_x)
   out2 <- targets::tar_read(model_y)
   out <- targets::tar_read(model)
+  expect_false("n" %in% colnames(out))
+  expect_false("true_beta" %in% colnames(out))
   expect_equal(dplyr::bind_rows(out1, out2), out)
   expect_true(tibble::is_tibble(out1))
   expect_true(tibble::is_tibble(out2))
@@ -125,6 +127,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom", {
         batches = 2,
         reps = 2,
         combine = TRUE,
+        copy_data = c("n", "true_beta"),
         variables = "beta"
       )
     )
@@ -177,6 +180,8 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom", {
   out1 <- targets::tar_read(model_a)
   out2 <- targets::tar_read(model_b)
   out <- targets::tar_read(model)
+  expect_true(all(is.finite(out$n)))
+  expect_true(all(is.finite(out$true_beta)))
   expect_equal(dplyr::bind_rows(out1, out2), out)
   expect_true(tibble::is_tibble(out))
   expect_false("lp__" %in% colnames(out))
@@ -205,6 +210,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom", {
         batches = 2,
         reps = 2,
         combine = TRUE,
+        copy_data = c("n", "true_beta"),
         variables = "beta"
       )
     )
