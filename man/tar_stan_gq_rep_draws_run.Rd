@@ -27,6 +27,14 @@ tar_stan_gq_rep_draws_run(
 )
 }
 \arguments{
+\item{stan_file}{The path to a \code{.stan} file containing a Stan program. The
+helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when it is
+more convenient to specify the Stan program as a string.}
+
+\item{stan_name}{Friendly suffix of the Stan model target.}
+
+\item{stan_path}{Original path to the input Stan file.}
+
 \item{data}{Same
 as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 
@@ -80,6 +88,12 @@ as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 
 \item{variables}{(character vector) The variables to include.}
+
+\item{copy_data}{Character vector of names of scalars in \code{data}.
+These values will be inserted as columns in the output data frame
+for each rep. Useful for simulation studies where you want to
+check the results against some "true value" in the data. See the
+\code{mcmc_rep} vignette for an example.}
 }
 \value{
 A data frame of posterior summaries.

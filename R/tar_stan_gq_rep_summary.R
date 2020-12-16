@@ -261,7 +261,7 @@ tar_stan_gq_rep_summary <- function(
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A data frame of posterior summaries.
 #' @inheritParams tar_stan_gq
-#' @inheritParams tar_stan_gq_rep_summary_run
+#' @inheritParams tar_stan_mcmc_rep_summary_run
 tar_stan_gq_rep_summary_run <- function(
   stan_file,
   stan_name,
