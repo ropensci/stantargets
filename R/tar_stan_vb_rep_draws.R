@@ -18,7 +18,8 @@
 #'     a single data frame with columns to distinguish among the models.
 #'     Suppressed if `combine` is `FALSE`.
 #' @inheritParams tar_stan_vb
-#' @inheritParams tar_stan_mcmc_rep_draws
+#' @inheritParams tar_stan_vb_rep_draws_run
+#' @inheritParams tar_stan_mcmc_rep_summary
 #' @examples
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan

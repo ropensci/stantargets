@@ -17,6 +17,7 @@
 #'     a single data frame with columns to distinguish among the models.
 #'     Suppressed if `combine` is `FALSE`.
 #' @inheritParams tar_stan_mcmc
+#' @inheritParams tar_stan_mcmc_rep_summary_run
 #' @param data Code to generate one replication of a simulated dataset.
 #'   All models iterate over the same replicated datasets.
 #' @param batches Number of batches. Each batch is a branch target

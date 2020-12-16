@@ -22,7 +22,7 @@
 #'  If you supply multiple models, you will get more (model-specific) targets.
 #'  All the models share the same dataset.
 #' @inheritParams tar_stan_mcmc
-#' @inheritParams tar_stan_mcmc_rep_summary
+#' @inheritParams tar_stan_mcmc_rep_diagnostics_run
 #' @examples
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan

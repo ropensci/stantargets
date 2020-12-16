@@ -115,6 +115,12 @@ as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 \item{threads_per_chain}{Same
 as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 
+\item{copy_data}{Character vector of names of scalars in \code{data}.
+These values will be inserted as columns in the output data frame
+for each rep. Useful for simulation studies where you want to
+check the results against some "true value" in the data. See the
+\code{mcmc_rep} vignette for an example.}
+
 \item{variables}{(character vector) The variables to include.}
 
 \item{summaries}{Optional list of summary functions passed to \code{...} in
