@@ -74,6 +74,16 @@ the suffixed will come from \code{names(stan_files)}.}
 
 \item{data}{Code to generate the \code{data} for the Stan model.}
 
+\item{batches}{Number of batches. Each batch is a branch target
+that generates a dataset and runs the model \code{reps} times.}
+
+\item{reps}{Number of replications per batch.}
+
+\item{combine}{Logical, whether to create a target to
+combine all the model results
+into a single data frame downstream. Convenient, but
+duplicates data.}
+
 \item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
 method.}
