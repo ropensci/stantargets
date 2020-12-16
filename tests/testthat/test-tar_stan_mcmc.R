@@ -1,4 +1,4 @@
-tar_test("tar_stan_mcmc(compile = \"original\")", {
+targets::tar_test("tar_stan_mcmc(compile = \"original\")", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
   tar_stan_example_file(path = "a.stan")
@@ -127,7 +127,7 @@ tar_test("tar_stan_mcmc(compile = \"original\")", {
   expect_equal(sort(out), sort(exp))
 })
 
-tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
+targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
   tar_stan_example_file(path = "a.stan")

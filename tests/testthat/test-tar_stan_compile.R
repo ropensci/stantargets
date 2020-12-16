@@ -1,4 +1,4 @@
-tar_test("tar_stan_compile()", {
+targets::tar_test("tar_stan_compile()", {
   skip_on_cran()
   tar_stan_example_file()
   targets::tar_script({

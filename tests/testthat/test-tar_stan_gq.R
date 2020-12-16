@@ -1,4 +1,4 @@
-tar_test("tar_stan_gq(compile = \"original\")", {
+targets::tar_test("tar_stan_gq(compile = \"original\")", {
   skip_on_cran()
   tar_stan_example_file("file1.stan")
   tar_stan_example_file("file2.stan")
@@ -140,7 +140,7 @@ tar_test("tar_stan_gq(compile = \"original\")", {
   expect_equal(sort(out), sort(exp))
 })
 
-tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
+targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
   skip_on_cran()
   tar_stan_example_file("a.stan")
   tar_stan_example_file("b.stan")

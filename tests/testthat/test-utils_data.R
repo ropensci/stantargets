@@ -1,4 +1,4 @@
-tar_test("list_nonempty()", {
+targets::tar_test("list_nonempty()", {
   expect_equal(
     list_nonempty(list(a = 1, b = NULL, c = 2)),
     list(a = 1, c = 2)

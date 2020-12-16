@@ -1,4 +1,4 @@
-tar_test("tar_stan_summary() with defaults", {
+targets::tar_test("tar_stan_summary() with defaults", {
   skip_on_cran()
   tar_stan_example_file("x.stan")
   tar_script({
@@ -23,7 +23,7 @@ tar_test("tar_stan_summary() with defaults", {
   expect_true("lp__" %in% out$variable)
 })
 
-tar_test("tar_stan_summary() with custom settings", {
+targets::tar_test("tar_stan_summary() with custom settings", {
   skip_on_cran()
   tar_stan_example_file("x.stan")
   tar_script({

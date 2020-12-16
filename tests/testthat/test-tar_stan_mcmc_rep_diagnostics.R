@@ -1,4 +1,4 @@
-tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"original\")", {
+targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"original\")", {
   skip_on_cran()
   tar_stan_example_file(path = "a.stan")
   tar_stan_example_file(path = "b.stan")
@@ -114,7 +114,7 @@ tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"original\")", {
   expect_equal(sort(out), sort(exp))
 })
 
-tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
+targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
   tar_stan_example_file("a.stan")

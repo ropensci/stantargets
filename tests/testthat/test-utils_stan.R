@@ -1,4 +1,4 @@
-tar_test("produce_stan_names()", {
+targets::tar_test("produce_stan_names()", {
   expect_equal(
     produce_stan_names(c(j = "x/a.stan", k = "x/b.stan")),
     c("j", "k")
