@@ -178,8 +178,7 @@ default is 4.}
 to run in parallel. If \code{parallel_chains} is not specified then the default
 is to look for the option \code{"mc.cores"}, which can be set for an entire \R
 session by \code{options(mc.cores=value)}. If the \code{"mc.cores"} option has not
-been set then the default is \code{1}. This argument is available for
-the \verb{$sample()} method but not for the \verb{$sample_mpi()} method.}
+been set then the default is \code{1}.}
 
 \item{chain_ids}{(vector) A vector of chain IDs. Must contain \code{chains} unique
 positive integers. If not set, the default chain IDs are used (integers
@@ -192,9 +191,7 @@ using the Stan functions \code{reduce_sum()} or \code{map_rect()}). This is in
 contrast with \code{parallel_chains}, which specifies the number of chains to
 run in parallel. The actual number of CPU cores used use is
 \code{parallel_chains*threads_per_chain}. For an example of using threading see
-the Stan case study \href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.
-This argument is available for the \verb{$sample()} method but not for the
-\verb{$sample_mpi()} method.}
+the Stan case study \href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
 
 \item{iter_warmup}{(positive integer) The number of warmup iterations to run
 per chain. Note: in the CmdStan User's Guide this is referred to as
@@ -293,9 +290,8 @@ for each rep. Useful for simulation studies where you want to
 check the results against some "true value" in the data. See the
 \code{mcmc_rep} vignette for an example.}
 
-\item{variables}{(character vector) The variables (parameters and generated
-quantities) to read in. If \code{NULL} (the default) then the draws of all
-variables are included.}
+\item{variables}{(character vector) The variables to read in. If \code{NULL} (the
+default) then all variables are included.}
 
 \item{summaries}{Optional list of summary functions passed to \code{...} in
 \code{posterior::summarize_draws()} through \verb{$summary()}
