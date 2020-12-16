@@ -18,10 +18,6 @@
 #'     Suppressed if `combine` is `FALSE`.
 #' @inheritParams tar_stan_vb
 #' @inheritParams tar_stan_mcmc_rep_summary
-#' @param data Code to generate one simulated dataset for one rep of the model.
-#' @param batches Number of batches. Each batch is a branch target
-#'   that generates a dataset and runs the model `reps` times.
-#' @param reps Number of model runs per batch.
 #' @examples
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan
