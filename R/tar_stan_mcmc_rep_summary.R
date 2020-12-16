@@ -494,8 +494,8 @@ tar_stan_mcmc_rep_summary_run_rep <- function(
   args$.args <- summary_args
   command <- as.expression(as.call(args))
   out <- tibble::as_tibble(eval(command))
-  out$.rep <- basename(tempfile(pattern = "rep_"))
   out <- copy_data_scalars(out, data, copy_data)
+  out$.rep <- basename(tempfile(pattern = "rep_"))
   out
 }
 

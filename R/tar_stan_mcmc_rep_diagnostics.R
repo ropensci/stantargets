@@ -469,7 +469,7 @@ tar_stan_mcmc_rep_diagnostics_run_rep <- function(
   )
   out <- fit$sampler_diagnostics(inc_warmup = inc_warmup)
   out <- tibble::as_tibble(posterior::as_draws_df(out))
-  out$.rep <- basename(tempfile(pattern = "rep_"))
   out <- copy_data_scalars(out, data, copy_data)
+  out$.rep <- basename(tempfile(pattern = "rep_"))
   out
 }
