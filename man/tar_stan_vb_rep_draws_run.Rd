@@ -36,14 +36,23 @@ tar_stan_vb_rep_draws_run(
 )
 }
 \arguments{
-\item{stan_file}{Character, Stan model file or the lines of the file,
-depending on \code{compile}.}
+\item{stan_file}{The path to a \code{.stan} file containing a Stan program. The
+helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when it is
+more convenient to specify the Stan program as a string.}
 
 \item{stan_name}{Friendly suffix of the Stan model target.}
 
 \item{stan_path}{Original path to the input Stan file.}
 
-\item{data}{List of data to pass to the Stan model.}
+\item{data}{(multiple options) The data to use for the variables specified in
+the \code{data} block of the Stan program. One of the following:
+\itemize{
+\item A named list of \R objects (like for RStan). Internally this list is then
+written to JSON for CmdStan using \code{\link[cmdstanr:write_stan_json]{write_stan_json()}}.
+\item A path to a data file compatible with CmdStan (JSON or \R dump). See the
+appendices in the CmdStan manual for details on using these formats.
+\item \code{NULL} or an empty list if the Stan program has no \code{data} block.
+}}
 
 \item{compile}{Character of length 1. If \code{"original"}, then
 \code{cmdstan} will compile the source file right before running
@@ -58,41 +67,98 @@ no longer needs access to the original Stan model file on your
 local machine. However, as a result, the Stan model re-compiles
 every time the main target reruns.}
 
-\item{seed}{\code{seed} argument to \verb{$variational()}.}
+\item{seed}{(positive integer) A seed for the (P)RNG to pass to CmdStan.}
 
-\item{refresh}{\code{refresh} argument to \verb{$variational()}.}
+\item{refresh}{(non-negative integer) The number of iterations between
+printed screen updates. If \code{refresh = 0}, only error messages will be
+printed.}
 
-\item{init}{\code{init} argument to \verb{$variational()}.}
+\item{init}{(multiple options) The initialization method to use for the
+variables declared in the \code{parameters} block of the Stan program:
+\itemize{
+\item A real number \code{x>0}. This initializes \emph{all} parameters randomly between
+\verb{[-x,x]} (on the \emph{unconstrained} parameter space);
+\item The number \code{0}. This initializes \emph{all} parameters to \code{0};
+\item A character vector of paths (one per chain) to JSON or Rdump files
+containing initial values for all or some parameters. See
+\code{\link[cmdstanr:write_stan_json]{write_stan_json()}} to write \R objects to JSON files compatible with
+CmdStan.
+\item A list of lists containing initial values for all or some parameters. For
+MCMC the list should contain a sublist for each chain. For optimization and
+variational inference there should be just one sublist. The sublists should
+have named elements corresponding to the parameters for which you are
+specifying initial values. See \strong{Examples}.
+\item A function that returns a single list with names corresponding to the
+parameters for which you are specifying initial values. The function can
+take no arguments or a single argument \code{chain_id}. For MCMC, if the function
+has argument \code{chain_id} it will be supplied with the chain id (from 1 to
+number of chains) when called to generate the initial values. See
+\strong{Examples}.
+}}
 
-\item{save_latent_dynamics}{\code{save_latent_dynamics}
-argument to \verb{$variational()}.}
+\item{save_latent_dynamics}{(logical) Should auxiliary diagnostic information
+about the latent dynamics be written to temporary diagnostic CSV files?
+This argument replaces CmdStan's \code{diagnostic_file} argument and the content
+written to CSV is controlled by the user's CmdStan installation and not
+CmdStanR (for some algorithms no content may be written). The default
+is \code{FALSE}, which is appropriate for almost every use case. To save the
+temporary files created when \code{save_latent_dynamics=TRUE} see the
+\code{\link[cmdstanr:fit-method-save_output_files]{$save_latent_dynamics_files()}}
+method.}
 
-\item{output_dir}{\code{output_dir} argument to \verb{$variational()}.}
+\item{output_dir}{(string) A path to a directory where CmdStan should write
+its output CSV files. For interactive use this can typically be left at
+\code{NULL} (temporary directory) since CmdStanR makes the CmdStan output
+(posterior draws and diagnostics) available in \R via methods of the fitted
+model objects. The behavior of \code{output_dir} is as follows:
+\itemize{
+\item If \code{NULL} (the default), then the CSV files are written to a temporary
+directory and only saved permanently if the user calls one of the \verb{$save_*}
+methods of the fitted model object (e.g.,
+\code{\link[cmdstanr:fit-method-save_output_files]{$save_output_files()}}). These temporary
+files are removed when the fitted model object is
+\link[base:gc]{garbage collected} (manually or automatically).
+\item If a path, then the files are created in \code{output_dir} with names
+corresponding to the defaults used by \verb{$save_output_files()}.
+}}
 
-\item{algorithm}{\code{algorithm} argument to \verb{$variational()}.}
+\item{algorithm}{(string) The algorithm. Either \code{"meanfield"} or
+\code{"fullrank"}.}
 
-\item{iter}{\code{iter} argument to \verb{$variational()}.}
+\item{iter}{(positive integer) The \emph{maximum} number of iterations.}
 
-\item{grad_samples}{\code{grad_samples} argument to \verb{$variational()}.}
+\item{grad_samples}{(positive integer) The number of samples for Monte Carlo
+estimate of gradients.}
 
-\item{elbo_samples}{\code{elbo_samples} argument to \verb{$variational()}.}
+\item{elbo_samples}{(positive integer) The number of samples for Monte Carlo
+estimate of ELBO (objective function).}
 
-\item{eta}{\code{eta} argument to \verb{$variational()}.}
+\item{eta}{(positive real) The step size weighting parameter for adaptive
+step size sequence.}
 
-\item{adapt_engaged}{\code{adapt_engaged} argument to \verb{$variational()}.}
+\item{adapt_engaged}{(logical) Do warmup adaptation? The default is \code{TRUE}.
+If a precomputed inverse metric is specified via the \code{inv_metric} argument
+(or \code{metric_file}) then, if \code{adapt_engaged=TRUE}, Stan will use the
+provided inverse metric just as an initial guess during adaptation. To turn
+off adaptation when using a precomputed inverse metric set
+\code{adapt_engaged=FALSE}.}
 
-\item{adapt_iter}{\code{adapt_iter} argument to \verb{$variational()}.}
+\item{adapt_iter}{(positive integer) The \emph{maximum} number of adaptation
+iterations.}
 
-\item{tol_rel_obj}{\code{tol_rel_obj} argument to \verb{$variational()}.}
+\item{tol_rel_obj}{(positive real) Convergence tolerance on the relative norm
+of the objective.}
 
-\item{eval_elbo}{\code{eval_elbo} argument to \verb{$variational()}.}
+\item{eval_elbo}{(positive integer) Evaluate ELBO every Nth iteration.}
 
-\item{output_samples}{\code{output_samples} argument to \verb{$variational()}.}
+\item{output_samples}{(positive integer) Number of approximate posterior
+samples to draw and save.}
 
-\item{sig_figs}{\code{sig_figs} argument to \verb{$variational()}.}
-
-\item{variables}{\code{variables} argument to \verb{$draws()} and \verb{$summary()}
-on the \code{CmdStanVB} object.}
+\item{sig_figs}{(positive integer) The number of significant figures used
+when storing the output values. By default, CmdStan represent the output
+values with 6 significant figures. The upper limit for \code{sig_figs} is 18.
+Increasing this value will result in larger output CSV files and thus an
+increased usage of disk space.}
 }
 \value{
 A data frame of posterior summaries.

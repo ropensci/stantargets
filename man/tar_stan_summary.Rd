@@ -28,8 +28,7 @@ Serves as a prefix for target names.}
 \item{fit}{Symbol, name of a \code{CmdStanFit} object or an upstream target
 that returns a \code{CmdStanFit} object.}
 
-\item{variables}{\code{variables} argument to \verb{$summary()}
-on the \code{CmdStanFit} object.}
+\item{variables}{(character vector) The variables to include.}
 
 \item{summaries}{Optional list of summary functions passed to \code{...} in
 \code{posterior::summarize_draws()} through \verb{$summary()}

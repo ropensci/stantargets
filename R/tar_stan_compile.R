@@ -129,12 +129,7 @@ tar_stan_compile_command <- function(
 #' @description Not a user-side function. Do not invoke directly.
 #' @return Character of length 1, the value of `stan_file`
 #' @inheritParams cmdstanr::cmdstan_model
-#' @param quiet `quiet` argument to `$compile()`.
-#' @param dir `dir` argument to `$compile()`.
-#' @param include_paths `include_paths` argument to `$compile()`.
-#' @param cpp_options `cpp_options` argument to `$compile()`.
-#' @param stanc_options `stanc_options` argument to `$compile()`.
-#' @param force_recompile `force_recompile` argument to `$compile()`.
+#' @inheritParams cmdstanr::`model-method-compile`
 tar_stan_compile_run <- function(
   stan_file,
   quiet = TRUE,

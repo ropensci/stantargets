@@ -18,8 +18,6 @@
 #'     Suppressed if `combine` is `FALSE`.
 #' @inheritParams tar_stan_mle
 #' @inheritParams tar_stan_mcmc_rep_summary
-#' @param variables `variables` argument to `$draws()` on the `CmdStanMLE`
-#'   object.
 #' @examples
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan

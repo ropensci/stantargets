@@ -23,8 +23,6 @@
 #'  All the models share the same dataset.
 #' @inheritParams tar_stan_mcmc
 #' @inheritParams tar_stan_mcmc_rep_summary
-#' @param inc_warmup `inc_warmup` argument to
-#'   `$sampler_diagnostics()` on the `CmdStanMCMC` object.
 #' @examples
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan

@@ -247,31 +247,9 @@ tar_stan_gq <- function(
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A `CmdStanFit` object.
-#' @param stan_file Character, Stan model file.
-#' @param data List of data to pass to the Stan model.
-#' @param fitted_params An existing `CmdStanMCMC` with all draws loaded
-#'   into memory.
-#' @param compile Character of length 1. If `"original"`, then
-#'   `cmdstan` will compile the source file right before running
-#'   it (or skip compilation if the binary is up to date). This
-#'   assumes the worker has access to the file. If the worker
-#'   is running on a remote computer that does not have access
-#'   to the model file, set to `"copy"` instead. `compile = "copy"`
-#'   means the pipeline will read the lines of the original Stan model file
-#'   and send them to the worker. The worker writes the lines
-#'   to a local copy and compiles the model from there, so it
-#'   no longer needs access to the original Stan model file on your
-#'   local machine. However, as a result, the Stan model re-compiles
-#'   every time the main target reruns.
-#' @param seed `seed` argument to `$generate_quantities()`.
-#' @param output_dir `output_dir` argument to `$generate_quantities()`.
-#' @param sig_figs `sig_figs` argument to `$generate_quantities()`.
-#' @param parallel_chains `parallel_chains` argument to
-#'   `$generate_quantities()`.
-#' @param threads_per_chain `threads_per_chain` argument to
-#'   `$generate_quantities()`.
-#' @param variables `variables` argument to `$draws()` and `$summary()`
-#'   on the `CmdStanGQ` object.
+#' @inheritParams cmdstanr::cmdstan_model
+#' @inheritParams cmdstanr::`model-method-generate-quantities`
+#' @inheritParams tar_stan_mcmc_run
 tar_stan_gq_run <- function(
   stan_file,
   data,

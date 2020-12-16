@@ -257,25 +257,7 @@ tar_stan_vb <- function(
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A `CmdStanFit` object.
 #' @inheritParams tar_stan_mcmc_run
-#' @param seed `seed` argument to `$variational()`.
-#' @param refresh `refresh` argument to `$variational()`.
-#' @param init `init` argument to `$variational()`.
-#' @param save_latent_dynamics `save_latent_dynamics`
-#'   argument to `$variational()`.
-#' @param output_dir `output_dir` argument to `$variational()`.
-#' @param algorithm `algorithm` argument to `$variational()`.
-#' @param iter `iter` argument to `$variational()`.
-#' @param grad_samples `grad_samples` argument to `$variational()`.
-#' @param elbo_samples `elbo_samples` argument to `$variational()`.
-#' @param eta `eta` argument to `$variational()`.
-#' @param adapt_engaged `adapt_engaged` argument to `$variational()`.
-#' @param adapt_iter `adapt_iter` argument to `$variational()`.
-#' @param tol_rel_obj `tol_rel_obj` argument to `$variational()`.
-#' @param eval_elbo `eval_elbo` argument to `$variational()`.
-#' @param output_samples `output_samples` argument to `$variational()`.
-#' @param sig_figs `sig_figs` argument to `$variational()`.
-#' @param variables `variables` argument to `$draws()` and `$summary()`
-#'   on the `CmdStanVB` object.
+#' @inheritParams cmdstanr::`model-method-variational`
 tar_stan_vb_run <- function(
   stan_file,
   data,

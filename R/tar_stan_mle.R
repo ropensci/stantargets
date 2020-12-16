@@ -256,24 +256,7 @@ tar_stan_mle <- function(
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A `CmdStanFit` object.
 #' @inheritParams tar_stan_mcmc_run
-#' @param seed `seed` argument to `$optimize()`.
-#' @param refresh `refresh` argument to `$optimize()`.
-#' @param init `init` argument to `$optimize()`.
-#' @param save_latent_dynamics `save_latent_dynamics`
-#'   argument to `$optimize()`.
-#' @param output_dir `output_dir` argument to `$optimize()`.
-#' @param algorithm `algorithm` argument to `$optimize()`.
-#' @param init_alpha `init_alpha` argument to `$optimize()`.
-#' @param iter `iter` argument to `$optimize()`.
-#' @param sig_figs `sig_figs` argument to `$optimize()`.
-#' @param tol_obj `tol_obj` argument to `$optimize()`.
-#' @param tol_rel_obj `tol_rel_obj` argument to `$optimize()`.
-#' @param tol_grad `tol_grad` argument to `$optimize()`.
-#' @param tol_rel_grad `tol_rel_grad` argument to `$optimize()`.
-#' @param tol_param `tol_param` argument to `$optimize()`.
-#' @param history_size `history_size` argument to `$optimize()`.
-#' @param variables `variables` argument to `$draws()` and `$summary()`
-#'   on the `CmdStanMLE` object.
+#' @inheritParams cmdstanr::`model-method-optimize`
 tar_stan_mle_run <- function(
   stan_file,
   data,

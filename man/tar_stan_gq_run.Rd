@@ -24,40 +24,40 @@ tar_stan_gq_run(
 )
 }
 \arguments{
-\item{stan_file}{Character, Stan model file.}
+\item{stan_file}{The path to a \code{.stan} file containing a Stan program. The
+helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when it is
+more convenient to specify the Stan program as a string.}
 
-\item{data}{List of data to pass to the Stan model.}
+\item{data}{Same
+as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 
-\item{fitted_params}{An existing \code{CmdStanMCMC} with all draws loaded
-into memory.}
+\item{fitted_params}{(multiple options) The parameter draws to use. One of
+the following:
+\itemize{
+\item A \link[cmdstanr]{CmdStanMCMC} or \link[cmdstanr]{CmdStanVB} fitted model object.
+\item A \link[posterior:draws_array]{posterior::draws_array} (for MCMC) or \link[posterior:draws_matrix]{posterior::draws_matrix} (for
+VB) object returned by CmdStanR's \code{\link[cmdstanr:fit-method-draws]{$draws()}} method.
+\item A character vector of paths to CmdStan CSV output files.
+}}
 
-\item{compile}{Character of length 1. If \code{"original"}, then
-\code{cmdstan} will compile the source file right before running
-it (or skip compilation if the binary is up to date). This
-assumes the worker has access to the file. If the worker
-is running on a remote computer that does not have access
-to the model file, set to \code{"copy"} instead. \code{compile = "copy"}
-means the pipeline will read the lines of the original Stan model file
-and send them to the worker. The worker writes the lines
-to a local copy and compiles the model from there, so it
-no longer needs access to the original Stan model file on your
-local machine. However, as a result, the Stan model re-compiles
-every time the main target reruns.}
+\item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
+compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
+method.}
 
-\item{seed}{\code{seed} argument to \verb{$generate_quantities()}.}
+\item{seed}{Same
+as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 
-\item{output_dir}{\code{output_dir} argument to \verb{$generate_quantities()}.}
+\item{output_dir}{Same
+as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 
-\item{sig_figs}{\code{sig_figs} argument to \verb{$generate_quantities()}.}
+\item{sig_figs}{Same
+as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 
-\item{parallel_chains}{\code{parallel_chains} argument to
-\verb{$generate_quantities()}.}
+\item{parallel_chains}{Same
+as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 
-\item{threads_per_chain}{\code{threads_per_chain} argument to
-\verb{$generate_quantities()}.}
-
-\item{variables}{\code{variables} argument to \verb{$draws()} and \verb{$summary()}
-on the \code{CmdStanGQ} object.}
+\item{threads_per_chain}{Same
+as for the \code{\link[cmdstanr:model-method-sample]{$sample()}} method.}
 }
 \value{
 A \code{CmdStanFit} object.

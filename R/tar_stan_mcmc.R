@@ -21,6 +21,7 @@
 #'  If you supply multiple models, you will get more (model-specific) targets.
 #'  All the models share the same dataset.
 #' @inheritParams cmdstanr::cmdstan_model
+#' @inheritParams cmdstanr::`fit-method-draws`
 #' @inheritParams tar_stan_compile_run
 #' @inheritParams tar_stan_mcmc_run
 #' @inheritParams tar_stan_summary
@@ -39,7 +40,6 @@
 #'   Convenient, but duplicates storage.
 #' @param summary Logical, whether to create a target for
 #'   `fit$summary()`.
-#' @param inc_warmup `inc_warmup` argument to `$draws()`.
 #' @param diagnostics Logical, whether to create a target for
 #'   `posterior::as_draws_df(fit$sampler_diagnostics())`.
 #'   Saves `posterior::as_draws_df(fit$draws())` to a compressed `tibble`.
@@ -324,9 +324,8 @@ tar_stan_mcmc <- function(
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A `CmdStanFit` object.
-#' @param stan_file Character, Stan model file or the lines of the file,
-#'   depending on `compile`.
-#' @param data List of data to pass to the Stan model.
+#' @inheritParams cmdstanr::cmdstan_model
+#' @inheritParams cmdstanr::`model-method-sample`
 #' @param compile Character of length 1. If `"original"`, then
 #'   `cmdstan` will compile the source file right before running
 #'   it (or skip compilation if the binary is up to date). This
@@ -339,35 +338,6 @@ tar_stan_mcmc <- function(
 #'   no longer needs access to the original Stan model file on your
 #'   local machine. However, as a result, the Stan model re-compiles
 #'   every time the main target reruns.
-#' @param seed `seed` argument to `$sample()`.
-#' @param refresh `refresh` argument to `$sample()`.
-#' @param init `init` argument to `$sample()`.
-#' @param save_latent_dynamics `save_latent_dynamics` argument to `$sample()`.
-#' @param output_dir `output_dir` argument to `$sample()`.
-#' @param chains `chains` argument to `$sample()`.
-#' @param parallel_chains `parallel_chains` argument to `$sample()`.
-#' @param chain_ids `chain_ids` argument to `$sample()`.
-#' @param threads_per_chain `threads_per_chain` argument to `$sample()`.
-#' @param iter_warmup `iter_warmup` argument to `$sample()`.
-#' @param iter_sampling `iter_sampling` argument to `$sample()`.
-#' @param save_warmup `save_warmup` argument to `$sample()`.
-#' @param thin `thin` argument to `$sample()`.
-#' @param max_treedepth `max_treedepth` argument to `$sample()`.
-#' @param adapt_engaged `adapt_engaged` argument to `$sample()`.
-#' @param adapt_delta `adapt_delta` argument to `$sample()`.
-#' @param step_size `step_size` argument to `$sample()`.
-#' @param metric `metric` argument to `$sample()`.
-#' @param metric_file `metric_file` argument to `$sample()`.
-#' @param inv_metric `inv_metric` argument to `$sample()`.
-#' @param init_buffer `init_buffer` argument to `$sample()`.
-#' @param term_buffer `term_buffer` argument to `$sample()`.
-#' @param window `window` argument to `$sample()`.
-#' @param fixed_param `fixed_param` argument to `$sample()`.
-#' @param sig_figs `sig_figs` argument to `$sample()`.
-#' @param validate_csv `validate_csv` argument to `$sample()`.
-#' @param show_messages `show_messages` argument to `$sample()`.
-#' @param variables `variables` argument to `$draws()` and `$summary()`
-#'   on the `CmdStanMCMC` object.
 tar_stan_mcmc_run <- function(
   stan_file,
   data,
