@@ -23,7 +23,7 @@ targets::tar_test("tar_stan_summary() with defaults", {
   expect_true("lp__" %in% out$variable)
 })
 
-targets::tar_test("tar_stan_summary() with custom settings", {
+targets::tar_test("tar_stan_summary() with custom summaries", {
   skip_on_cran()
   tar_stan_example_file("x.stan")
   tar_script({
@@ -42,7 +42,11 @@ targets::tar_test("tar_stan_summary() with custom settings", {
         summary,
         fit = model_mcmc_x,
         variables = "beta",
-        summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
+        summaries = list(
+          ~quantile(.x, probs = c(0.25, 0.75)),
+          custom = function(x, my_arg) my_arg
+        ),
+        summary_args = list(my_arg = 123L)
       )
     )
   })
@@ -51,5 +55,6 @@ targets::tar_test("tar_stan_summary() with custom settings", {
   expect_true(tibble::is_tibble(out))
   expect_equal(nrow(out), 1L)
   expect_equal(out$variable, "beta")
-  expect_equal(colnames(out), c("variable", "25%", "75%"))
+  expect_equal(colnames(out), c("variable", "25%", "75%", "custom"))
+  expect_true(all(out$custom == 123L))
 })

@@ -39,8 +39,8 @@ tar_stan_summary <- function(
   name,
   fit,
   variables = NULL,
-  summaries = list(),
-  summary_args = list(),
+  summaries = NULL,
+  summary_args = NULL,
   error = targets::tar_option_get("error"),
   memory = targets::tar_option_get("memory"),
   garbage_collection = targets::tar_option_get("garbage_collection"),
@@ -53,17 +53,12 @@ tar_stan_summary <- function(
 ) {
   name <- deparse_language(substitute(name))
   fit <- deparse_language(substitute(fit))
-  sym_fit <- rlang::sym(fit)
-  sym_summary <- rlang::sym("summary")
-  method <- call_function("$", list(sym_fit, sym_summary))
-  summaries <- as.list(substitute(summaries)[-1])
-  args <- list(method)
-  for (index in seq_along(summaries)) {
-    args[[index + 1]] <- summaries[[index]]
-  }
-  args$variables <- variables %||% quote(identity(NULL))
-  args$.args <- substitute(summary_args)
-  command <- as.expression(as.call(args))
+  command <- tar_stan_summary_call(
+    sym_fit = rlang::sym(fit),
+    summaries = substitute(summaries),
+    summary_args = substitute(summary_args),
+    variables = variables
+  )
   targets::tar_target_raw(
     name = name,
     command = command,
@@ -76,4 +71,22 @@ tar_stan_summary <- function(
     priority = priority,
     cue = cue
   )
+}
+
+tar_stan_summary_call <- function(
+  sym_fit,
+  summaries,
+  summary_args,
+  variables
+) {
+  sym_summary <- rlang::sym("summary")
+  if (!is.null(summaries)) {
+    summaries <- as.list(summaries[-1])
+  }
+  method <- call_function("$", list(sym_fit, sym_summary))
+  args <- list(method)
+  args$variables <- variables %||% quote(identity(NULL))
+  args$.args <- summary_args
+  args <- c(args, summaries)
+  as.expression(as.call(args))
 }
