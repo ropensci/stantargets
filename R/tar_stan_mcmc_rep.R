@@ -480,35 +480,14 @@ tar_stan_mcmc_rep_run_rep <- function(
     validate_csv = validate_csv,
     show_messages = show_messages
   )
-  out <- switch(
-    output,
-    summary = tar_stan_summary_rep(fit, summaries, summary_args, variables),
-    draws = fit$draws(variables = variables, inc_warmup = inc_warmup),
-    diagnostics = fit$sampler_diagnostics(inc_warmup = inc_warmup)
-  )
-  out <- tibble::as_tibble(out)
-  out <- copy_data_scalars(out, data, copy_data)
-  out$.rep <- basename(tempfile(pattern = "rep_"))
-  out
-}
-
-tar_stan_summary_rep <- function(fit, summaries, summary_args, variables) {
-  command <- tar_stan_summary_call(
-    sym_fit = rlang::sym("fit"),
+  tar_stan_rep_output(
+    fit = fit,
+    output = output,
     summaries = summaries,
     summary_args = summary_args,
-    variables = variables
+    variables = variables,
+    inc_warmup = inc_warmup,
+    data = data,
+    copy_data = copy_data
   )
-  eval(command)
-}
-
-copy_data_scalars <- function(x, data, copy_data) {
-  for (var in copy_data) {
-    msg <- paste(var, "in copy_data must have length 1 in data.")
-    assert_scalar(data[[var]], msg)
-    msg <- paste(var, "in copy_data must not already be in output.")
-    assert_not_in(var, colnames(x), msg)
-    x[[var]] <- data[[var]]
-  }
-  x
 }

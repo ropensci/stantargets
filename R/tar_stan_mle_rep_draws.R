@@ -390,7 +390,7 @@ tar_stan_mle_rep_draws_run_rep <- function(
   )
   out <- fit$draws(variables = variables)
   out <- tibble::as_tibble(posterior::as_draws_df(out))
-  out <- copy_data_scalars(out, data, copy_data)
+  out <- tar_stan_rep_scalars(out, data, copy_data)
   out$.rep <- basename(tempfile(pattern = "rep_"))
   out
 }
