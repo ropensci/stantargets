@@ -110,20 +110,14 @@ tar_stan_mle <- function(
     tibble::as_tibble(posterior::as_draws_df(
       fit$draws(variables = variables)
     )),
-    env = list(
-      fit = sym_mle,
-      variables = variables
-    )
+    env = list(fit = sym_mle, variables = variables)
   )
-  method_summary <- call_function("$", list(sym_mle, rlang::sym("summary")))
-  args_summary <- list(method_summary)
-  summaries <- as.list(substitute(summaries)[-1])
-  for (index in seq_along(summaries)) {
-    args_summary[[index + 1]] <- summaries[[index]]
-  }
-  args_summary$variables <- variables %||% quote(identity(NULL))
-  args_summary$.args <- substitute(summary_args)
-  command_summary <- as.expression(as.call(args_summary))
+  command_summary <- tar_stan_summary_call(
+    sym_fit = sym_mle,
+    summaries = substitute(summaries),
+    summary_args = substitute(summary_args),
+    variables = variables
+  )
   args_mle <- list(
     call_ns("stantargets", "tar_stan_mle_run"),
     stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
@@ -189,7 +183,7 @@ tar_stan_mle <- function(
     priority = priority,
     cue = cue
   )
-  target_mle <- targets::tar_target_raw(
+  target_output <- targets::tar_target_raw(
     name = name_mle,
     command = command_mle,
     format = "qs",
@@ -228,26 +222,22 @@ tar_stan_mle <- function(
     priority = priority,
     cue = cue
   )
-  out <- list(
-    target_file,
-    trn(identical(compile, "original"), NULL, target_lines),
-    target_mle,
-    trn(identical(draws, TRUE), target_draws, NULL),
-    trn(identical(summary, TRUE), target_summary, NULL)
+  tar_stan_target_list(
+    name_data = name_data,
+    stan_files = stan_files,
+    sym_stan = sym_stan,
+    compile = compile,
+    draws = draws,
+    summary = summary,
+    diagnostics = FALSE,
+    target_file = target_file,
+    target_lines = target_lines,
+    target_data = target_data,
+    target_output = target_output,
+    target_draws = target_draws,
+    target_summary = target_summary,
+    target_diagnostics = NULL
   )
-  out <- list_nonempty(out)
-  values <- list(
-    ._stantargets_file_50e43091 = stan_files,
-    ._stantargets_name_50e43091 = sym_stan
-  )
-  out <- tarchetypes::tar_map(
-    values = values,
-    names = ._stantargets_name_50e43091,
-    unlist = TRUE,
-    out
-  )
-  out[[name_data]] <- target_data
-  out
 }
 
 #' @title Compile and run a Stan model and return a `CmdStanMLE` object.

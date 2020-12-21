@@ -152,15 +152,12 @@ tar_stan_mcmc <- function(
       inc_warmup = inc_warmup
     )
   )
-  method_summary <- call_function("$", list(sym_mcmc, rlang::sym("summary")))
-  args_summary <- list(method_summary)
-  summaries <- as.list(substitute(summaries)[-1])
-  for (index in seq_along(summaries)) {
-    args_summary[[index + 1]] <- summaries[[index]]
-  }
-  args_summary$variables <- variables %||% quote(identity(NULL))
-  args_summary$.args <- substitute(summary_args)
-  command_summary <- as.expression(as.call(args_summary))
+  command_summary <- tar_stan_summary_call(
+    sym_fit = sym_mcmc,
+    summaries = substitute(summaries),
+    summary_args = substitute(summary_args),
+    variables = variables
+  )
   command_diagnostics <- substitute(
     tibble::as_tibble(
       posterior::as_draws_df(.targets_mcmc$sampler_diagnostics())
@@ -245,7 +242,7 @@ tar_stan_mcmc <- function(
     priority = priority,
     cue = cue
   )
-  target_mcmc <- targets::tar_target_raw(
+  target_output <- targets::tar_target_raw(
     name = name_mcmc,
     command = command_mcmc,
     format = "qs",
@@ -296,27 +293,22 @@ tar_stan_mcmc <- function(
     priority = priority,
     cue = cue
   )
-  out <- list(
-    target_file,
-    trn(identical(compile, "original"), NULL, target_lines),
-    target_mcmc,
-    trn(identical(draws, TRUE), target_draws, NULL),
-    trn(identical(summary, TRUE), target_summary, NULL),
-    trn(identical(diagnostics, TRUE), target_diagnostics, NULL)
+  tar_stan_target_list(
+    name_data = name_data,
+    stan_files = stan_files,
+    sym_stan = sym_stan,
+    compile = compile,
+    draws = draws,
+    summary = summary,
+    diagnostics = diagnostics,
+    target_file = target_file,
+    target_lines = target_lines,
+    target_data = target_data,
+    target_output = target_output,
+    target_draws = target_draws,
+    target_summary = target_summary,
+    target_diagnostics = target_diagnostics
   )
-  out <- list_nonempty(out)
-  values <- list(
-    ._stantargets_file_50e43091 = stan_files,
-    ._stantargets_name_50e43091 = sym_stan
-  )
-  out <- tarchetypes::tar_map(
-    values = values,
-    names = ._stantargets_name_50e43091,
-    unlist = TRUE,
-    out
-  )
-  out[[name_data]] <- target_data
-  out
 }
 
 #' @title Compile and run a Stan model and return the `CmdStanFit` object.
