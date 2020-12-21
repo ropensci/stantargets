@@ -29,14 +29,6 @@ tar_stan_gq_rep_summary_run(
 )
 }
 \arguments{
-\item{stan_file}{The path to a \code{.stan} file containing a Stan program. The
-helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when it is
-more convenient to specify the Stan program as a string.}
-
-\item{stan_name}{Friendly suffix of the Stan model target.}
-
-\item{stan_path}{Original path to the input Stan file.}
-
 \item{data}{(multiple options) The data to use for the variables specified in
 the \code{data} block of the Stan program. One of the following:
 \itemize{
@@ -119,12 +111,6 @@ contrast with \code{parallel_chains}, which specifies the number of chains to
 run in parallel. The actual number of CPU cores used use is
 \code{parallel_chains*threads_per_chain}. For an example of using threading see
 the Stan case study \href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
-
-\item{copy_data}{Character vector of names of scalars in \code{data}.
-These values will be inserted as columns in the output data frame
-for each rep. Useful for simulation studies where you want to
-check the results against some "true value" in the data. See the
-\code{mcmc_rep} vignette for an example.}
 
 \item{variables}{(character vector) The variables to include.}
 

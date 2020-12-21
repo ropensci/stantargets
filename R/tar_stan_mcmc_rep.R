@@ -12,7 +12,6 @@
 #'   * `x`: combine all the model-specific summary targets into
 #'     a single data frame with columns to distinguish among the models.
 #'     Suppressed if `combine` is `FALSE`.
-#' @inheritParams tar_stan_mcmc
 #' @inheritParams tar_stan_mcmc_rep_run
 #' @param data Code to generate one replication of a simulated dataset.
 #'   All models iterate over the same replicated datasets.

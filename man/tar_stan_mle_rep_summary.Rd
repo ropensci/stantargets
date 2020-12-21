@@ -72,16 +72,6 @@ appendices in the CmdStan manual for details on using these formats.
 \item \code{NULL} or an empty list if the Stan program has no \code{data} block.
 }}
 
-\item{batches}{Number of batches. Each batch is a branch target
-that generates a dataset and runs the model \code{reps} times.}
-
-\item{reps}{Number of replications per batch.}
-
-\item{combine}{Logical, whether to create a target to
-combine all the model results
-into a single data frame downstream. Convenient, but
-duplicates data.}
-
 \item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
 method.}
@@ -194,12 +184,6 @@ when storing the output values. By default, CmdStan represent the output
 values with 6 significant figures. The upper limit for \code{sig_figs} is 18.
 Increasing this value will result in larger output CSV files and thus an
 increased usage of disk space.}
-
-\item{copy_data}{Character vector of names of scalars in \code{data}.
-These values will be inserted as columns in the output data frame
-for each rep. Useful for simulation studies where you want to
-check the results against some "true value" in the data. See the
-\code{mcmc_rep} vignette for an example.}
 
 \item{variables}{(character vector) The variables to include.}
 

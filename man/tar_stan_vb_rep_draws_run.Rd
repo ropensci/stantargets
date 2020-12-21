@@ -41,10 +41,6 @@ tar_stan_vb_rep_draws_run(
 helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when it is
 more convenient to specify the Stan program as a string.}
 
-\item{stan_name}{Friendly suffix of the Stan model target.}
-
-\item{stan_path}{Original path to the input Stan file.}
-
 \item{data}{(multiple options) The data to use for the variables specified in
 the \code{data} block of the Stan program. One of the following:
 \itemize{
@@ -160,12 +156,6 @@ when storing the output values. By default, CmdStan represent the output
 values with 6 significant figures. The upper limit for \code{sig_figs} is 18.
 Increasing this value will result in larger output CSV files and thus an
 increased usage of disk space.}
-
-\item{copy_data}{Character vector of names of scalars in \code{data}.
-These values will be inserted as columns in the output data frame
-for each rep. Useful for simulation studies where you want to
-check the results against some "true value" in the data. See the
-\code{mcmc_rep} vignette for an example.}
 }
 \value{
 A data frame of posterior summaries.
