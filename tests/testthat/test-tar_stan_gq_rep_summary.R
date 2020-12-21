@@ -176,7 +176,11 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
         combine = TRUE,
         copy_data = c("n", "true_beta"),
         variables = "y_rep[2]",
-        summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
+        summaries = list(
+          ~quantile(.x, probs = c(0.25, 0.75)),
+          custom = function(x, my_arg) my_arg
+        ),
+        summary_args = list(my_arg = 123L)
       )
     )
   })
@@ -237,6 +241,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
   expect_equal(dplyr::bind_rows(out1, out2), out)
   expect_true(tibble::is_tibble(out))
   expect_true("25%" %in% colnames(out))
+  expect_true(all(out$custom == 123L))
   expect_equal(nrow(out), 8L)
   expect_equal(length(unique(table(out$.rep))), 1L)
   expect_equal(length(table(out$.rep)), 8L)
@@ -282,7 +287,11 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
         combine = TRUE,
         copy_data = c("n", "true_beta"),
         variables = "y_rep[2]",
-        summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
+        summaries = list(
+          ~quantile(.x, probs = c(0.25, 0.75)),
+          custom = function(x, my_arg) my_arg
+        ),
+        summary_args = list(my_arg = 123L)
       )
     )
   })

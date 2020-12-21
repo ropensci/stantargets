@@ -406,14 +406,13 @@ tar_stan_vb_rep_summary_run_rep <- function(
     output_samples = output_samples,
     sig_figs = sig_figs
   )
-  args <- list(quote(fit$summary))
-  for (index in seq_along(summaries)) {
-    args[[index + 1]] <- summaries[[index]]
-  }
-  args$variables <- variables %||% quote(identity(NULL))
-  args$.args <- summary_args
-  command <- as.expression(as.call(args))
-  out <- tibble::as_tibble(eval(command))
+  command <- tar_stan_summary_call(
+    sym_fit = rlang::sym("fit"),
+    summaries = summaries,
+    summary_args = summary_args,
+    variables = variables
+  )
+  out <- eval(command)
   out <- copy_data_scalars(out, data, copy_data)
   out$.rep <- basename(tempfile(pattern = "rep_"))
   out

@@ -81,12 +81,13 @@ tar_stan_summary_call <- function(
 ) {
   sym_summary <- rlang::sym("summary")
   if (!is.null(summaries)) {
-    summaries <- as.list(summaries[-1])
+    summaries <- trn(is.list(summaries), summaries, as.list(summaries[-1]))
   }
   method <- call_function("$", list(sym_fit, sym_summary))
   args <- list(method)
   args$variables <- variables %||% quote(identity(NULL))
   args$.args <- summary_args
   args <- c(args, summaries)
-  as.expression(as.call(args))
+  expr <- as.call(list(quote(tibble::tibble), as.call(args)))
+  as.expression(expr)
 }

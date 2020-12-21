@@ -83,8 +83,8 @@ tar_stan_mcmc_rep_summary <- function(
   show_messages = TRUE,
   copy_data = character(0),
   variables = NULL,
-  summaries = list(),
-  summary_args = list(),
+  summaries = NULL,
+  summary_args = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -487,14 +487,13 @@ tar_stan_mcmc_rep_summary_run_rep <- function(
     validate_csv = validate_csv,
     show_messages = show_messages
   )
-  args <- list(quote(fit$summary))
-  for (index in seq_along(summaries)) {
-    args[[index + 1]] <- summaries[[index]]
-  }
-  args$variables <- variables %||% quote(identity(NULL))
-  args$.args <- summary_args
-  command <- as.expression(as.call(args))
-  out <- tibble::as_tibble(eval(command))
+  command <- tar_stan_summary_call(
+    sym_fit = rlang::sym("fit"),
+    summaries = summaries,
+    summary_args = summary_args,
+    variables = variables
+  )
+  out <- eval(command)
   out <- copy_data_scalars(out, data, copy_data)
   out$.rep <- basename(tempfile(pattern = "rep_"))
   out

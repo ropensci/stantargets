@@ -128,7 +128,8 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"copy\") custom", {
         reps = 2,
         copy_data = c("n", "true_beta"),
         variables = "beta",
-        summaries = list(~c(mean = -10000))
+        summaries = list(mean = function(x, my_arg) my_arg),
+        summary_args = list(my_arg = -10000)
       )
     )
   })
@@ -187,8 +188,8 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"copy\") custom", {
   expect_equal(dplyr::bind_rows(out1, out2), out)
   expect_true(tibble::is_tibble(out1))
   expect_true(tibble::is_tibble(out2))
-  expect_true("estimate" %in% colnames(out1))
-  expect_true("estimate" %in% colnames(out2))
+  expect_true(all(out1$estimate == -10000))
+  expect_true(all(out2$estimate == -10000))
   expect_equal(nrow(out1), 4L)
   expect_equal(nrow(out2), 4L)
   expect_equal(length(unique(table(out1$.rep))), 1L)
@@ -217,7 +218,8 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"copy\") custom", {
         reps = 2,
         copy_data = c("n", "true_beta"),
         variables = "beta",
-        summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
+        summaries = list(mean = function(x, my_arg) my_arg),
+        summary_args = list(my_arg = -10000)
       )
     )
   })
