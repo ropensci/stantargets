@@ -17,9 +17,7 @@
 #'   * `x`: combine all the model-specific draws targets into
 #'     a single data frame with columns to distinguish among the models.
 #'     Suppressed if `combine` is `FALSE`.
-#' @inheritParams tar_stan_vb
-#' @inheritParams tar_stan_vb_rep_draws_run
-#' @inheritParams tar_stan_mcmc_rep_summary
+#' @inheritParams tar_stan_vb_rep
 #' @examples
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan
@@ -37,6 +35,7 @@ tar_stan_vb_rep_draws <- function(
   name,
   stan_files,
   data = list(),
+  output = "draws",
   batches = 1L,
   reps = 1L,
   combine = FALSE,
@@ -78,11 +77,10 @@ tar_stan_vb_rep_draws <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
-  tar_stan_mle_rep(
+  tar_stan_vb_rep(
     name = deparse_language(substitute(name)),
-    stan_files,
+    stan_files = stan_files,
     data = substitute(data),
-    ouptut = "summary",
     batches = batches,
     reps = reps,
     combine = combine,
@@ -99,14 +97,15 @@ tar_stan_vb_rep_draws <- function(
     save_latent_dynamics = save_latent_dynamics,
     output_dir = output_dir,
     algorithm = algorithm,
-    init_alpha = init_alpha,
     iter = iter,
-    tol_obj = tol_obj,
+    grad_samples = grad_samples,
+    elbo_samples = elbo_samples,
+    eta = eta,
+    adapt_engaged = adapt_engaged,
+    adapt_iter = adapt_iter,
     tol_rel_obj = tol_rel_obj,
-    tol_grad = tol_grad,
-    tol_rel_grad = tol_rel_grad,
-    tol_param = tol_param,
-    history_size = history_size,
+    eval_elbo = eval_elbo,
+    output_samples = output_samples,
     sig_figs = sig_figs,
     copy_data = copy_data,
     variables = variables,
