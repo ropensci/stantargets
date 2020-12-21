@@ -36,3 +36,66 @@ tar_stan_target_list <- function(
   out[[name_data]] <- target_data
   out
 }
+
+tar_stan_target_list_rep <- function(
+  name,
+  name_batch,
+  name_data,
+  name_stan,
+  sym_stan,
+  stan_files,
+  compile,
+  combine,
+  target_batch,
+  target_compile,
+  target_file,
+  target_lines,
+  target_data,
+  target_output,
+  error,
+  memory,
+  garbage_collection,
+  priority,
+  resources,
+  cue
+) {
+  out <- list(
+    trn(identical(compile, "original"), target_compile, target_file),
+    trn(identical(compile, "original"), NULL, target_lines),
+    target_output
+  )
+  out <- list_nonempty(out)
+  values <- list(
+    ._stantargets_file_50e43091 = stan_files,
+    ._stantargets_name_50e43091 = sym_stan,
+    ._stantargets_name_chr_50e43091 = name_stan
+  )
+  out <- tarchetypes::tar_map(
+    values = values,
+    names = ._stantargets_name_50e43091,
+    unlist = TRUE,
+    out
+  )
+  out[[name_data]] <- target_data
+  out[[name_batch]] <- target_batch
+  names_output <- paste0(name, "_", name_stan)
+  if (combine) {
+    out[[name]] <- tarchetypes::tar_combine_raw(
+      name = name,
+      out[names_output],
+      packages = character(0),
+      format = "fst_tbl",
+      iteration = "vector",
+      error = error,
+      memory = memory,
+      garbage_collection = garbage_collection,
+      deployment = "main",
+      priority = priority,
+      resources = resources,
+      storage = "main",
+      retrieval = "main",
+      cue = cue
+    )
+  }
+  out
+}

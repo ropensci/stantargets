@@ -43,10 +43,6 @@ tar_stan_mle_rep_run(
 helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when it is
 more convenient to specify the Stan program as a string.}
 
-\item{stan_name}{Friendly suffix of the Stan model target.}
-
-\item{stan_path}{Original path to the input Stan file.}
-
 \item{data}{(multiple options) The data to use for the variables specified in
 the \code{data} block of the Stan program. One of the following:
 \itemize{
@@ -57,12 +53,34 @@ appendices in the CmdStan manual for details on using these formats.
 \item \code{NULL} or an empty list if the Stan program has no \code{data} block.
 }}
 
-\item{output}{Type of output to create, either \code{"summaries"},
-\code{"draws"}, or \code{"diagnostics"}.}
-
 \item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
 method.}
+
+\item{quiet}{(logical) Should the verbose output from CmdStan during
+compilation be suppressed? The default is \code{TRUE}, but if you encounter an
+error we recommend trying again with \code{quiet=FALSE} to see more of the
+output.}
+
+\item{dir}{(string) The path to the directory in which to store the CmdStan
+executable (or \code{.hpp} file if using \verb{$save_hpp_file()}). The default is the
+same location as the Stan program.}
+
+\item{include_paths}{(character vector) Paths to directories where Stan
+should look for files specified in \verb{#include} directives in the Stan
+program.}
+
+\item{cpp_options}{(list) Any makefile options to be used when compiling the
+model (\code{STAN_THREADS}, \code{STAN_MPI}, \code{STAN_OPENCL}, etc.). Anything you would
+otherwise write in the \code{make/local} file.}
+
+\item{stanc_options}{(list) Any Stan-to-C++ transpiler options to be used
+when compiling the model. See the \strong{Examples} section below as well as the
+\code{stanc} chapter of the CmdStan Guide for more details on available options:
+https://mc-stan.org/docs/cmdstan-guide/stanc.html.}
+
+\item{force_recompile}{(logical) Should the model be recompiled even if was
+not modified since last compiled. The default is \code{FALSE}.}
 
 \item{seed}{(positive integer) A seed for the (P)RNG to pass to CmdStan.}
 
@@ -147,12 +165,6 @@ increased usage of disk space.}
 
 \item{history_size}{(positive integer) The size of the history used when
 approximating the Hessian. Only available for L-BFGS.}
-
-\item{copy_data}{Character vector of names of scalars in \code{data}.
-These values will be inserted as columns in the output data frame
-for each rep. Useful for simulation studies where you want to
-check the results against some "true value" in the data. See the
-\code{mcmc_rep} vignette for an example.}
 
 \item{variables}{(character vector) The variables to read in. If \code{NULL} (the
 default) then all variables are included.}

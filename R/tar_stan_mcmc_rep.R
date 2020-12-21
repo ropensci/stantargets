@@ -13,6 +13,14 @@
 #'     a single data frame with columns to distinguish among the models.
 #'     Suppressed if `combine` is `FALSE`.
 #' @inheritParams tar_stan_mcmc_rep_run
+#' @inheritParams tar_stan_summary
+#' @inheritParams cmdstanr::cmdstan_model
+#' @inheritParams cmdstanr::`model-method-compile`
+#' @inheritParams cmdstanr::`model-method-sample`
+#' @inheritParams cmdstanr::`fit-method-draws`
+#' @inheritParams targets::tar_target
+#' @param stan_files Character vector of paths to known existing Stan model
+#'   files created before running the pipeline.
 #' @param data Code to generate one replication of a simulated dataset.
 #'   All models iterate over the same replicated datasets.
 #' @param batches Number of batches. Each batch is a branch target
@@ -229,7 +237,7 @@ tar_stan_mcmc_rep <- function(
     priority = priority,
     cue = cue
   )
-  target_mcmc <- targets::tar_target_raw(
+  target_output <- targets::tar_target_raw(
     name = name,
     command = command,
     pattern = pattern,
@@ -245,45 +253,28 @@ tar_stan_mcmc_rep <- function(
     retrieval = retrieval,
     cue = cue
   )
-  out <- list(
-    trn(identical(compile, "original"), target_compile, target_file),
-    trn(identical(compile, "original"), NULL, target_lines),
-    target_mcmc
+  tar_stan_target_list_rep(
+    name = name,
+    name_batch = name_batch,
+    name_data = name_data,
+    name_stan = name_stan,
+    sym_stan = sym_stan,
+    stan_files = stan_files,
+    compile = compile,
+    combine = combine,
+    target_batch = target_batch,
+    target_compile = target_compile,
+    target_file = target_file,
+    target_lines = target_lines,
+    target_data = target_data,
+    target_output = target_output,
+    error = error,
+    memory = memory,
+    garbage_collection = garbage_collection,
+    priority = priority,
+    resources = resources,
+    cue = cue
   )
-  out <- list_nonempty(out)
-  values <- list(
-    ._stantargets_file_50e43091 = stan_files,
-    ._stantargets_name_50e43091 = sym_stan,
-    ._stantargets_name_chr_50e43091 = name_stan
-  )
-  out <- tarchetypes::tar_map(
-    values = values,
-    names = ._stantargets_name_50e43091,
-    unlist = TRUE,
-    out
-  )
-  out[[name_data]] <- target_data
-  out[[name_batch]] <- target_batch
-  names_mcmc <- paste0(name, "_", name_stan)
-  if (combine) {
-    out[[name]] <- tarchetypes::tar_combine_raw(
-      name = name,
-      out[names_mcmc],
-      packages = character(0),
-      format = "fst_tbl",
-      iteration = "vector",
-      error = error,
-      memory = memory,
-      garbage_collection = garbage_collection,
-      deployment = "main",
-      priority = priority,
-      resources = resources,
-      storage = "main",
-      retrieval = "main",
-      cue = cue
-    )
-  }
-  out
 }
 
 #' @title Run a Stan model and return only the summaries.
@@ -292,6 +283,7 @@ tar_stan_mcmc_rep <- function(
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A data frame of posterior summaries.
 #' @inheritParams cmdstanr::cmdstan_model
+#' @inheritParams cmdstanr::`model-method-compile`
 #' @inheritParams cmdstanr::`model-method-sample`
 #' @inheritParams cmdstanr::`fit-method-draws`
 #' @param stan_name Friendly suffix of the Stan model target.

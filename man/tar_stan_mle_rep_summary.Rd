@@ -52,6 +52,12 @@ tar_stan_mle_rep_summary(
 )
 }
 \arguments{
+\item{name}{Symbol, base name for the collection of targets.
+Serves as a prefix for target names.}
+
+\item{stan_files}{Character vector of paths to known existing Stan model
+files created before running the pipeline.}
+
 \item{data}{(multiple options) The data to use for the variables specified in
 the \code{data} block of the Stan program. One of the following:
 \itemize{
@@ -62,9 +68,44 @@ appendices in the CmdStan manual for details on using these formats.
 \item \code{NULL} or an empty list if the Stan program has no \code{data} block.
 }}
 
+\item{batches}{Number of batches. Each batch is a branch target
+that generates a dataset and runs the model \code{reps} times.}
+
+\item{reps}{Number of replications per batch.}
+
+\item{combine}{Logical, whether to create a target to
+combine all the model results
+into a single data frame downstream. Convenient, but
+duplicates data.}
+
 \item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
 method.}
+
+\item{quiet}{(logical) Should the verbose output from CmdStan during
+compilation be suppressed? The default is \code{TRUE}, but if you encounter an
+error we recommend trying again with \code{quiet=FALSE} to see more of the
+output.}
+
+\item{dir}{(string) The path to the directory in which to store the CmdStan
+executable (or \code{.hpp} file if using \verb{$save_hpp_file()}). The default is the
+same location as the Stan program.}
+
+\item{include_paths}{(character vector) Paths to directories where Stan
+should look for files specified in \verb{#include} directives in the Stan
+program.}
+
+\item{cpp_options}{(list) Any makefile options to be used when compiling the
+model (\code{STAN_THREADS}, \code{STAN_MPI}, \code{STAN_OPENCL}, etc.). Anything you would
+otherwise write in the \code{make/local} file.}
+
+\item{stanc_options}{(list) Any Stan-to-C++ transpiler options to be used
+when compiling the model. See the \strong{Examples} section below as well as the
+\code{stanc} chapter of the CmdStan Guide for more details on available options:
+https://mc-stan.org/docs/cmdstan-guide/stanc.html.}
+
+\item{force_recompile}{(logical) Should the model be recompiled even if was
+not modified since last compiled. The default is \code{FALSE}.}
 
 \item{seed}{(positive integer) A seed for the (P)RNG to pass to CmdStan.}
 
@@ -158,6 +199,98 @@ check the results against some "true value" in the data. See the
 
 \item{variables}{(character vector) The variables to read in. If \code{NULL} (the
 default) then all variables are included.}
+
+\item{summaries}{Optional list of summary functions passed to \code{...} in
+\code{posterior::summarize_draws()} through \verb{$summary()}
+on the \code{CmdStanFit} object.}
+
+\item{summary_args}{Optional list of summary function arguments passed to
+\code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
+on the \code{CmdStanFit} object.}
+
+\item{tidy_eval}{Logical, whether to enable tidy evaluation
+when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use the
+"bang-bang" operator \verb{!!} to programmatically insert
+the values of global objects.}
+
+\item{packages}{Character vector of packages to load right before
+the target builds. Use \code{tar_option_set()} to set packages
+globally for all subsequent targets you define.}
+
+\item{library}{Character vector of library paths to try
+when loading \code{packages}.}
+
+\item{error}{Character of length 1, what to do if the target
+runs into an error. If \code{"stop"}, the whole pipeline stops
+and throws an error. If \code{"continue"}, the error is recorded,
+but the pipeline keeps going.}
+
+\item{memory}{Character of length 1, memory strategy.
+If \code{"persistent"}, the target stays in memory
+until the end of the pipeline (unless \code{storage} is \code{"worker"},
+in which case \code{targets} unloads the value from memory
+right after storing it in order to avoid sending
+copious data over a network).
+If \code{"transient"}, the target gets unloaded
+after every new target completes.
+Either way, the target gets automatically loaded into memory
+whenever another target needs the value.
+For cloud-based dynamic files such as \code{format = "aws_file"},
+this memory policy applies to
+temporary local copies of the file in \verb{_targets/scratch/"}:
+\code{"persistent"} means they remain until the end of the pipeline,
+and \code{"transient"} means they get deleted from the file system
+as soon as possible. The former conserves bandwidth,
+and the latter conserves local storage.}
+
+\item{garbage_collection}{Logical, whether to run \code{base::gc()}
+just before the target runs.}
+
+\item{deployment}{Character of length 1, only relevant to
+\code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[targets:tar_make_future]{tar_make_future()}}. If \code{"worker"},
+the target builds on a parallel worker. If \code{"main"},
+the target builds on the host machine / process managing the pipeline.}
+
+\item{priority}{Numeric of length 1 between 0 and 1. Controls which
+targets get deployed first when multiple competing targets are ready
+simultaneously. Targets with priorities closer to 1 get built earlier.
+Only applies to \code{\link[targets:tar_make_future]{tar_make_future()}} and \code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}}
+(not \code{\link[targets:tar_make]{tar_make()}}). \code{\link[targets:tar_make_future]{tar_make_future()}} with no extra settings is
+a drop-in replacement for \code{\link[targets:tar_make]{tar_make()}} in this case.}
+
+\item{resources}{A named list of computing resources. Uses:
+\itemize{
+\item Template file wildcards for \code{future::future()} in \code{\link[targets:tar_make_future]{tar_make_future()}}.
+\item Template file wildcards \code{clustermq::workers()} in \code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}}.
+\item Custom target-level \code{future::plan()}, e.g.
+\code{resources = list(plan = future.callr::callr)}.
+\item Custom \code{curl} handle if \code{format = "url"},
+e.g. \code{resources = list(handle = curl::new_handle())}.
+\item Custom preset for \code{qs::qsave()} if \code{format = "qs"}, e.g.
+\code{resources = list(handle = "archive")}.
+\item Custom compression level for \code{fst::write_fst()} if
+\code{format} is \code{"fst"}, \code{"fst_dt"}, or \code{"fst_tbl"}, e.g.
+\code{resources = list(compress = 100)}.
+\item AWS bucket and prefix for the \code{"aws_"} formats, e.g.
+\code{resources = list(bucket = "your-bucket", prefix = "folder/name")}.
+\code{bucket} is required for AWS formats. See the cloud computing chapter
+of the manual for details.
+}}
+
+\item{storage}{Character of length 1, only relevant to
+\code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[targets:tar_make_future]{tar_make_future()}}.
+If \code{"main"}, the target's return value is sent back to the
+host machine and saved locally. If \code{"worker"}, the worker
+saves the value.}
+
+\item{retrieval}{Character of length 1, only relevant to
+\code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[targets:tar_make_future]{tar_make_future()}}.
+If \code{"main"}, the target's dependencies are loaded on the host machine
+and sent to the worker before the target builds.
+If \code{"worker"}, the worker loads the targets dependencies.}
+
+\item{cue}{An optional object from \code{tar_cue()} to customize the
+rules that decide whether the target is up to date.}
 }
 \value{
 \code{tar_stan_mle_rep_summary(name = x, , stan_files = "y.stan")}
