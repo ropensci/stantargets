@@ -316,12 +316,6 @@ Suppressed if \code{combine} is \code{FALSE}.
 }
 }
 \description{
-Targets to run variational Bayes multiple times and
-save only the summary output from each run.
+Internal function. Users should not invoke directly.
 }
-\details{
-Most of the arguments are passed to the \verb{$compile()}
-and \verb{$sample()} methods of the \code{CmdStanModel} class. If you
-previously compiled the model in an upstream \code{\link[=tar_stan_compile]{tar_stan_compile()}}
-target, then the model should not recompile.
-}
+\keyword{internal}

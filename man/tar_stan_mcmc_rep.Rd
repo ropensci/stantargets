@@ -405,6 +405,6 @@ Suppressed if \code{combine} is \code{FALSE}.
 }
 \description{
 Internal function for replicated MCMC.
-Do not invoke directly.
+Users should not invoke directly.
 }
 \keyword{internal}

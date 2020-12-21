@@ -1,7 +1,7 @@
 #' @title Multiple MCMCs per model with tidy output.
 #' @keywords internal
 #' @description Internal function for replicated MCMC.
-#'   Do not invoke directly.
+#'   Users should not invoke directly.
 #' @return `tar_stan_mcmc_rep(name = x, stan_files = "y.stan")`
 #'   returns a list of `targets::tar_target()` objects:
 #'   * `x_file_y`: reproducibly track the Stan model file.

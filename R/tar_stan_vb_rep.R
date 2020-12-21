@@ -1,11 +1,6 @@
 #' @title Multiple iterations per model of variational Bayes with tidy output.
-#' @export
-#' @description Targets to run variational Bayes multiple times and
-#'   save only the summary output from each run.
-#' @details Most of the arguments are passed to the `$compile()`
-#'   and `$sample()` methods of the `CmdStanModel` class. If you
-#'   previously compiled the model in an upstream [tar_stan_compile()]
-#'   target, then the model should not recompile.
+#' @keywords internal
+#' @description Internal function. Users should not invoke directly.
 #' @return `tar_stan_vb_rep(name = x,  stan_files = "y.stan")`
 #'   returns a list of `targets::tar_target()` objects:
 #'   * `x_file_y`: reproducibly track the Stan model file.

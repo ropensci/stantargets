@@ -1,8 +1,6 @@
 #' @title Multiple optimization runs per model with tidy output
-#' @export
-#' @description Targets to run optimization multiple times and
-#'   save only the summary output from each run.
-#' @details Most of the arguments are passed to the `$compile()`
+#' @keywords internal
+#' @description Internal function. Users should not invoke directly.
 #'   and `$sample()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
