@@ -45,6 +45,7 @@ tar_stan_mcmc_rep_run(
   validate_csv,
   show_messages,
   copy_data,
+  inc_warmup,
   variables,
   summaries,
   summary_args

@@ -48,6 +48,7 @@ tar_stan_mcmc_rep(
   show_messages = TRUE,
   copy_data = character(0),
   variables = NULL,
+  inc_warmup = FALSE,
   summaries = NULL,
   summary_args = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),

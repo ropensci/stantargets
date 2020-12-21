@@ -66,6 +66,7 @@ tar_stan_mcmc_rep <- function(
   show_messages = TRUE,
   copy_data = character(0),
   variables = NULL,
+  inc_warmup = FALSE,
   summaries = NULL,
   summary_args = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
@@ -151,6 +152,7 @@ tar_stan_mcmc_rep <- function(
     sig_figs = sig_figs,
     validate_csv = validate_csv,
     show_messages = show_messages,
+    inc_warmup = inc_warmup,
     copy_data = copy_data,
     variables = variables,
     summaries = summaries,
@@ -340,6 +342,7 @@ tar_stan_mcmc_rep_run <- function(
   validate_csv,
   show_messages,
   copy_data,
+  inc_warmup,
   variables,
   summaries,
   summary_args
@@ -399,6 +402,7 @@ tar_stan_mcmc_rep_run <- function(
       validate_csv = validate_csv,
       show_messages = show_messages,
       copy_data = copy_data,
+      inc_warmup = inc_warmup,
       variables = variables,
       summaries = summaries,
       summary_args = summary_args
@@ -441,6 +445,7 @@ tar_stan_mcmc_rep_run_rep <- function(
   validate_csv,
   show_messages,
   variables,
+  inc_warmup,
   copy_data,
   summaries,
   summary_args

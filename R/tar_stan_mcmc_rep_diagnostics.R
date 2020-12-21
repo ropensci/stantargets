@@ -133,6 +133,7 @@ tar_stan_mcmc_rep_diagnostics <- function(
     sig_figs = sig_figs,
     validate_csv = validate_csv,
     show_messages = show_messages,
+    inc_warmup = inc_warmup,
     copy_data = copy_data,
     tidy_eval = tidy_eval,
     packages = packages,
