@@ -75,18 +75,9 @@ combine all the model results
 into a single data frame downstream. Convenient, but
 duplicates data.}
 
-\item{compile}{Character of length 1. If \code{"original"}, then
-\code{cmdstan} will compile the source file right before running
-it (or skip compilation if the binary is up to date). This
-assumes the worker has access to the file. If the worker
-is running on a remote computer that does not have access
-to the model file, set to \code{"copy"} instead. \code{compile = "copy"}
-means the pipeline will read the lines of the original Stan model file
-and send them to the worker. The worker writes the lines
-to a local copy and compiles the model from there, so it
-no longer needs access to the original Stan model file on your
-local machine. However, as a result, the Stan model re-compiles
-every time the main target reruns.}
+\item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
+compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
+method.}
 
 \item{seed}{(positive integer) A seed for the (P)RNG to pass to CmdStan.}
 
@@ -255,6 +246,9 @@ Disable if you wish silence these messages, but this is not recommended
 unless you are very sure that the model is correct up to numerical error.
 If the messages are silenced then the \verb{$output()} method of the resulting
 fit object can be used to display all the silenced messages.}
+
+\item{inc_warmup}{(logical) Should warmup draws be included? Defaults to
+\code{FALSE}. Ignored except when used with \link[cmdstanr]{CmdStanMCMC} objects.}
 
 \item{copy_data}{Character vector of names of scalars in \code{data}.
 These values will be inserted as columns in the output data frame

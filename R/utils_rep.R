@@ -31,7 +31,11 @@ tar_stan_rep_summary <- function(fit, summaries, summary_args, variables) {
 }
 
 tar_stan_rep_draws <- function(fit, variables, inc_warmup) {
-  out <- fit$draws(variables = variables, inc_warmup = inc_warmup)
+  out <- trn(
+    is.null(inc_warmup),
+    fit$draws(variables = variables),
+    fit$draws(variables = variables, inc_warmup = inc_warmup)
+  )
   tibble::as_tibble(posterior::as_draws_df(out))
 }
 

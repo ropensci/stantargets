@@ -1,32 +1,25 @@
-#' @title Multiple MCMCs per model with tidy output.
+#' @title Multiple runs of generated quantities per model with
+#'   tidy output.
 #' @keywords internal
-#' @description Internal function for replicated MCMC.
-#'   Do not invoke directly.
-#' @return `tar_stan_mcmc_rep(name = x, stan_files = "y.stan")`
+#' @description Not a user-side function. Do not invoke directly.
+#' @return `tar_stan_gq_rep(name = x, stan_files = "y.stan")`
 #'   returns a list of `targets::tar_target()` objects:
 #'   * `x_file_y`: reproducibly track the Stan model file.
 #'   * `x_lines_y`: contents of the Stan model file.
 #'     Omitted if `compile = "original"`.
 #'   * `x_data`: dynamic branching target with simulated datasets.
-#'   * `x_y`: dynamic branching target with tidy data frames of MCMC summaries.
-#'   * `x`: combine all the model-specific summary targets into
+#'   * `x_y`: dynamic branching target with tidy data frames of output.
+#'   * `x`: combine all the model-specific summaries targets into
 #'     a single data frame with columns to distinguish among the models.
 #'     Suppressed if `combine` is `FALSE`.
-#' @inheritParams tar_stan_mcmc_rep_run
-#' @param data Code to generate one replication of a simulated dataset.
-#'   All models iterate over the same replicated datasets.
-#' @param batches Number of batches. Each batch is a branch target
-#'   that generates a dataset and runs the model `reps` times.
-#' @param reps Number of replications per batch.
-#' @param combine Logical, whether to create a target to
-#'   combine all the model results
-#'   into a single data frame downstream. Convenient, but
-#'   duplicates data.
-tar_stan_mcmc_rep <- function(
+#' @inheritParams tar_stan_gq_rep_run
+#' @inheritParams tar_stan_mcmc_rep
+tar_stan_gq_rep <- function(
   name,
   stan_files,
-  data = list(),
-  output = c("summary", "draws", "diagnostics"),
+  data = quote(list()),
+  fitted_params,
+  output = c("summary", "draws"),
   batches = 1L,
   reps = 1L,
   combine = TRUE,
@@ -38,35 +31,12 @@ tar_stan_mcmc_rep <- function(
   stanc_options = list(),
   force_recompile = FALSE,
   seed = NULL,
-  refresh = NULL,
-  init = NULL,
-  save_latent_dynamics = FALSE,
   output_dir = NULL,
-  chains = 4,
-  parallel_chains = getOption("mc.cores", 1),
-  chain_ids = seq_len(chains),
-  threads_per_chain = NULL,
-  iter_warmup = NULL,
-  iter_sampling = NULL,
-  save_warmup = FALSE,
-  thin = NULL,
-  max_treedepth = NULL,
-  adapt_engaged = TRUE,
-  adapt_delta = NULL,
-  step_size = NULL,
-  metric = NULL,
-  metric_file = NULL,
-  inv_metric = NULL,
-  init_buffer = NULL,
-  term_buffer = NULL,
-  window = NULL,
-  fixed_param = FALSE,
   sig_figs = NULL,
-  validate_csv = TRUE,
-  show_messages = TRUE,
+  parallel_chains = getOption("mc.cores", 1),
+  threads_per_chain = NULL,
   copy_data = character(0),
   variables = NULL,
-  inc_warmup = FALSE,
   summaries = NULL,
   summary_args = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
@@ -84,9 +54,8 @@ tar_stan_mcmc_rep <- function(
 ) {
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
-  assert_chr(stan_files, "stan_files must be a character vector")
-  assert_unique(stan_files, "stan_files must be unique")
-  assert_chr(copy_data, "copy_data must be a character vector")
+  assert_chr(stan_files)
+  assert_unique(stan_files)
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")
@@ -112,12 +81,13 @@ tar_stan_mcmc_rep <- function(
     env = list(.targets_reps = reps, .targets_command = command_rep)
   )
   args <- list(
-    call_ns("stantargets", "tar_stan_mcmc_rep_run"),
+    call_ns("stantargets", "tar_stan_gq_rep_run"),
     stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
     stan_name = quote(._stantargets_name_chr_50e43091),
     stan_path = quote(._stantargets_file_50e43091),
     data = sym_data,
     output = match.arg(output),
+    fitted_params = fitted_params,
     compile = compile,
     quiet = quiet,
     dir = dir,
@@ -126,33 +96,10 @@ tar_stan_mcmc_rep <- function(
     stanc_options = stanc_options,
     force_recompile = force_recompile,
     seed = seed,
-    refresh = refresh,
-    init = init,
-    save_latent_dynamics = save_latent_dynamics,
     output_dir = output_dir,
-    chains = chains,
-    parallel_chains = parallel_chains,
-    chain_ids = chain_ids,
-    threads_per_chain = threads_per_chain,
-    iter_warmup = iter_warmup,
-    iter_sampling = iter_sampling,
-    save_warmup = save_warmup,
-    thin = thin,
-    max_treedepth = max_treedepth,
-    adapt_engaged = adapt_engaged,
-    adapt_delta = adapt_delta,
-    step_size = step_size,
-    metric = metric,
-    metric_file = metric_file,
-    inv_metric = inv_metric,
-    init_buffer = init_buffer,
-    term_buffer = term_buffer,
-    window = window,
-    fixed_param = fixed_param,
     sig_figs = sig_figs,
-    validate_csv = validate_csv,
-    show_messages = show_messages,
-    inc_warmup = inc_warmup,
+    parallel_chains = parallel_chains,
+    threads_per_chain = threads_per_chain,
     copy_data = copy_data,
     variables = variables,
     summaries = summaries,
@@ -229,7 +176,7 @@ tar_stan_mcmc_rep <- function(
     priority = priority,
     cue = cue
   )
-  target_mcmc <- targets::tar_target_raw(
+  target_gq <- targets::tar_target_raw(
     name = name,
     command = command,
     pattern = pattern,
@@ -248,7 +195,7 @@ tar_stan_mcmc_rep <- function(
   out <- list(
     trn(identical(compile, "original"), target_compile, target_file),
     trn(identical(compile, "original"), NULL, target_lines),
-    target_mcmc
+    target_gq
   )
   out <- list_nonempty(out)
   values <- list(
@@ -264,11 +211,11 @@ tar_stan_mcmc_rep <- function(
   )
   out[[name_data]] <- target_data
   out[[name_batch]] <- target_batch
-  names_mcmc <- paste0(name, "_", name_stan)
+  names_gq <- paste0(name, "_", name_stan)
   if (combine) {
     out[[name]] <- tarchetypes::tar_combine_raw(
       name = name,
-      out[names_mcmc],
+      out[names_gq],
       packages = character(0),
       format = "fst_tbl",
       iteration = "vector",
@@ -292,23 +239,16 @@ tar_stan_mcmc_rep <- function(
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A data frame of posterior summaries.
 #' @inheritParams cmdstanr::cmdstan_model
-#' @inheritParams cmdstanr::`model-method-sample`
+#' @inheritParams cmdstanr::`model-method-generate-quantities`
 #' @inheritParams cmdstanr::`fit-method-draws`
-#' @param stan_name Friendly suffix of the Stan model target.
-#' @param stan_path Original path to the input Stan file.
-#' @param output Type of output to create, either `"summaries"`,
-#'   `"draws"`, or `"diagnostics"`.
-#' @param copy_data Character vector of names of scalars in `data`.
-#'   These values will be inserted as columns in the output data frame
-#'   for each rep. Useful for simulation studies where you want to
-#'   check the results against some "true value" in the data. See the
-#'   `mcmc_rep` vignette for an example.
-tar_stan_mcmc_rep_run <- function(
+#' @inheritParams tar_stan_mcmc_rep_run
+tar_stan_gq_rep_run <- function(
   stan_file,
   stan_name,
   stan_path,
   data,
   output,
+  fitted_params,
   compile,
   quiet,
   dir,
@@ -317,34 +257,11 @@ tar_stan_mcmc_rep_run <- function(
   stanc_options,
   force_recompile,
   seed,
-  refresh,
-  init,
-  save_latent_dynamics,
   output_dir,
-  chains,
-  parallel_chains,
-  chain_ids,
-  threads_per_chain,
-  iter_warmup,
-  iter_sampling,
-  save_warmup,
-  thin,
-  max_treedepth,
-  adapt_engaged,
-  adapt_delta,
-  step_size,
-  metric,
-  metric_file,
-  inv_metric,
-  init_buffer,
-  term_buffer,
-  window,
-  fixed_param,
   sig_figs,
-  validate_csv,
-  show_messages,
+  parallel_chains,
+  threads_per_chain,
   copy_data,
-  inc_warmup,
   variables,
   summaries,
   summary_args
@@ -372,39 +289,17 @@ tar_stan_mcmc_rep_run <- function(
   out <- purrr::map2_dfr(
     .x = data,
     .y = seeds,
-    ~tar_stan_mcmc_rep_run_rep(
+    ~tar_stan_gq_rep_run_rep(
       data = .x,
       seed = .y,
       output = output,
+      fitted_params = fitted_params,
       model = model,
-      refresh = refresh,
-      init = init,
-      save_latent_dynamics = save_latent_dynamics,
       output_dir = output_dir,
-      chains = chains,
-      parallel_chains = parallel_chains,
-      chain_ids = chain_ids,
-      threads_per_chain = threads_per_chain,
-      iter_warmup = iter_warmup,
-      iter_sampling = iter_sampling,
-      save_warmup = save_warmup,
-      thin = thin,
-      max_treedepth = max_treedepth,
-      adapt_engaged = adapt_engaged,
-      adapt_delta = adapt_delta,
-      step_size = step_size,
-      metric = metric,
-      metric_file = metric_file,
-      inv_metric = inv_metric,
-      init_buffer = init_buffer,
-      term_buffer = term_buffer,
-      window = window,
-      fixed_param = fixed_param,
       sig_figs = sig_figs,
-      validate_csv = validate_csv,
-      show_messages = show_messages,
+      parallel_chains = parallel_chains,
+      threads_per_chain = threads_per_chain,
       copy_data = copy_data,
-      inc_warmup = inc_warmup,
       variables = variables,
       summaries = summaries,
       summary_args = summary_args
@@ -415,72 +310,29 @@ tar_stan_mcmc_rep_run <- function(
   out
 }
 
-tar_stan_mcmc_rep_run_rep <- function(
+tar_stan_gq_rep_run_rep <- function(
   data,
   output,
   seed,
   model,
-  refresh,
-  init,
-  save_latent_dynamics,
+  fitted_params,
   output_dir,
-  chains,
-  parallel_chains,
-  chain_ids,
-  threads_per_chain,
-  iter_warmup,
-  iter_sampling,
-  save_warmup,
-  thin,
-  max_treedepth,
-  adapt_engaged,
-  adapt_delta,
-  step_size,
-  metric,
-  metric_file,
-  inv_metric,
-  init_buffer,
-  term_buffer,
-  window,
-  fixed_param,
   sig_figs,
-  validate_csv,
-  show_messages,
-  variables,
-  inc_warmup,
+  parallel_chains,
+  threads_per_chain,
   copy_data,
+  variables,
   summaries,
   summary_args
 ) {
-  fit <- model$sample(
+  fit <- model$generate_quantities(
+    fitted_params = fitted_params,
     data = data,
     seed = seed,
-    refresh = refresh,
-    init = init,
-    save_latent_dynamics = save_latent_dynamics,
     output_dir = output_dir,
-    chains = chains,
-    parallel_chains = parallel_chains,
-    chain_ids = chain_ids,
-    threads_per_chain = threads_per_chain,
-    iter_warmup = iter_warmup,
-    iter_sampling = iter_sampling,
-    save_warmup = save_warmup,
-    thin = thin,
-    max_treedepth = max_treedepth,
-    adapt_engaged = adapt_engaged,
-    adapt_delta = adapt_delta,
-    step_size = step_size,
-    metric = metric,
-    metric_file = metric_file,
-    inv_metric = inv_metric,
-    init_buffer = init_buffer,
-    term_buffer = term_buffer,
-    window = window,
-    fixed_param = fixed_param,
     sig_figs = sig_figs,
-    validate_csv = validate_csv,
-    show_messages = show_messages
+    parallel_chains = parallel_chains,
+    threads_per_chain = threads_per_chain
   )
   tar_stan_rep_output(
     fit = fit,
@@ -488,7 +340,7 @@ tar_stan_mcmc_rep_run_rep <- function(
     summaries = summaries,
     summary_args = summary_args,
     variables = variables,
-    inc_warmup = inc_warmup,
+    inc_warmup = NULL,
     data = data,
     copy_data = copy_data
   )
