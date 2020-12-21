@@ -47,7 +47,7 @@ writeLines(lines, "model.stan")
 
 Next, we define a pipeline to simulate multiple datasets and fit each dataset with the model. Below, we commit to 10 replications: 2 batches with 5 iterations per batch. (In practical situations, the total number of replications should be hundreds of times more.) We also supply custom variable names and summary functions to return the 95% credible intervals for `beta`. Below, we use the `copy_data` argument to copy the true value of `beta` from the data to the results, which will help us assess the credible intervals.
 
-```{r, output = FALSE}
+```{r, echo = FALSE}
 library(targets)
 tar_script({
   library(stantargets)
@@ -71,6 +71,31 @@ tar_script({
     )
   )
 })
+```
+
+```{r, eval = FALSE}
+# _targets.R
+library(targets)
+library(stantargets)
+options(crayon.enabled = FALSE)
+tar_option_set(memory = "transient", garbage_collection = TRUE)
+tar_pipeline(
+  tar_stan_mcmc_rep_summary(
+    model,
+    "model.stan",
+    tar_stan_example_data(),
+    refresh = 0,
+    init = 1,
+    batches = 5, # Number of branch targets.
+    reps = 2, # Number of model reps per branch target.
+    show_messages = FALSE,
+    copy_data = "true_beta", # Append scalars from data to the output data frame.
+    variables = "beta",
+    summaries = list(
+      ~posterior::quantile2(.x, probs = c(0.025, 0.975))
+    )
+  )
+)
 ```
 
 We now have a pipeline that runs the model 10 times: 5 batches (branch targets) with 2 replications per batch.
@@ -101,7 +126,7 @@ model %>%
 ```
 For maximum reproducibility, we should express the coverage assessment as a custom function and a target in the pipeline.
 
-```{r, output = FALSE}
+```{r, echo = FALSE}
 library(targets)
 tar_script({
   library(stantargets)
@@ -111,7 +136,6 @@ tar_script({
     memory = "transient",
     garbage_collection = TRUE
   )
-
   tar_pipeline(
     tar_stan_mcmc_rep_summary(
       model,
@@ -119,13 +143,13 @@ tar_script({
       tar_stan_example_data(),
       refresh = 0,
       init = 1,
-      batches = 5,
-      reps = 2,
+      batches = 5, # Number of branch targets.
+      reps = 2, # Number of model reps per branch target.
       show_messages = FALSE,
-      copy_data = "true_beta",
+      copy_data = "true_beta", # Append scalars from data to the output data frame.
       variables = "beta",
       summaries = list(
-        ~posterior::quantile2(.x, probs = c(0.025, 0.5, 0.975))
+        ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       )
     ),
     tar_target(
@@ -135,6 +159,34 @@ tar_script({
     )
   )
 })
+```
+
+```{r, eval = FALSE}
+# _targets.R
+library(targets)
+library(stantargets)
+tar_pipeline(
+  tar_stan_mcmc_rep_summary(
+    model,
+    "model.stan",
+    tar_stan_example_data(),
+    refresh = 0,
+    init = 1,
+    batches = 5, # Number of branch targets.
+    reps = 2, # Number of model reps per branch target.
+    show_messages = FALSE,
+    copy_data = "true_beta", # Append scalars from data to the output data frame.
+    variables = "beta",
+    summaries = list(
+      ~posterior::quantile2(.x, probs = c(0.025, 0.975))
+    )
+  ),
+  tar_target(
+    coverage,
+    model %>%
+      summarize(coverage = mean(q2.5 < true_beta & true_beta < q97.5))
+  )
+)
 ```
 
 The new `coverage` target should the only outdated target, and it should be connected to the upstream `model` target.
@@ -158,7 +210,7 @@ tar_read(coverage)
 `tar_stan_rep_mcmc_summary()` and similar functions allow you to supply multiple Stan models. If you do, each model will share the the same collection of datasets. Below, we add a new `model2.stan` file to the `stan_files` argument of `tar_stan_rep_mcmc_summary()`. In the coverage summary below, we group by `.name` to compute a coverage statistic for each model.
 
 
-```{r, output = FALSE}
+```{r, echo = FALSE}
 library(targets)
 tar_script({
   library(stantargets)
@@ -168,7 +220,6 @@ tar_script({
     memory = "transient",
     garbage_collection = TRUE
   )
-
   tar_pipeline(
     tar_stan_mcmc_rep_summary(
       model,
@@ -182,7 +233,7 @@ tar_script({
       copy_data = "true_beta",
       variables = "beta",
       summaries = list(
-        ~posterior::quantile2(.x, probs = c(0.025, 0.5, 0.975))
+        ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       )
     ),
     tar_target(
@@ -193,6 +244,35 @@ tar_script({
     )
   )
 })
+```
+
+```{r, eval = FALSE}
+# _targets.R
+library(targets)
+library(stantargets)
+tar_pipeline(
+  tar_stan_mcmc_rep_summary(
+    model,
+    c("model.stan", "model2.stan"), # another model
+    tar_stan_example_data(),
+    refresh = 0,
+    init = 1,
+    batches = 5,
+    reps = 2,
+    show_messages = FALSE,
+    copy_data = "true_beta",
+    variables = "beta",
+    summaries = list(
+      ~posterior::quantile2(.x, probs = c(0.025, 0.975))
+    )
+  ),
+  tar_target(
+    coverage,
+    model %>%
+      group_by(.name) %>%
+      summarize(coverage = mean(q2.5 < true_beta & true_beta < q97.5))
+  )
+)
 ```
 
 In the graph below, notice how targets `model_model1` and `model_model2` are both connected to `model_data` upstream. Downstream, `model` is equivalent to `dplyr::bind_rows(model_model1, model_model2)`, and it will have special columns `.name` and `.file` to distinguish among all the models.

@@ -46,7 +46,7 @@ writeLines(lines, "x.stan")
 
 Next, create a `_targets.R` file to define the [`targets`](https://github.com/wlandau/targets) pipeline.
 
-```{r}
+```{r, echo = FALSE}
 library(targets)
 tar_script({
   library(stantargets)
@@ -63,6 +63,22 @@ tar_script({
     )
   )
 })
+```
+
+```{r, eval = FALSE}
+# _targets.R
+library(targets)
+library(stantargets)
+tar_pipeline(
+  tar_stan_mcmc(
+    example,
+    "x.stan",
+    tar_stan_example_data(),
+    refresh = 0,
+    init = 1,
+    show_messages = FALSE
+  )
+)
 ```
 
 `tar_stan_mcmc(example, ...)` defines several targets:
@@ -126,8 +142,7 @@ tar_make()
 
 At this point, we can add more targets and custom functions for additional post-processing.
 
-```{r}
-# _targets.R
+```{r, echo = FALSE}
 library(targets)
 tar_script({
   library(stantargets)
@@ -151,6 +166,27 @@ tar_script({
 })
 ```
 
+```{r, eval = FALSE}
+# _targets.R
+library(targets)
+library(stantargets)
+tar_pipeline(
+  tar_stan_mcmc(
+    example,
+    "x.stan",
+    tar_stan_example_data(),
+    refresh = 0,
+    init = 1,
+    show_messages = FALSE
+  ),
+  tar_stan_summary(
+    custom_summary,
+    fit = example_mcmc_x,
+    summaries = list(~posterior::quantile2(.x, probs = c(0.25, 0.75)))
+  )
+)
+```
+
 In the graph, our new `custom_summary` target should be connected to the upstream `example` target, and only `custom_summary` should be out of date.
 
 ```{r}
@@ -171,8 +207,7 @@ tar_read(custom_summary)
 
 `tar_stan_mcmc()` and related functions allow you to supply multiple models to `stan_files`. If you do, each model will run on the same dataset. Below, we add another `y.stan` model to the `stan_files` argument of `tar_stan_mcmc()`.
 
-```{r}
-# _targets.R
+```{r, echo = FALSE}
 library(targets)
 tar_script({
   library(stantargets)
@@ -194,6 +229,27 @@ tar_script({
     )
   )
 })
+```
+
+```{r, eval = FALSE}
+# _targets.R
+library(targets)
+library(stantargets)
+tar_pipeline(
+  tar_stan_mcmc(
+    example,
+    c("x.stan", "y.stan"), # another model
+    tar_stan_example_data(),
+    refresh = 0,
+    init = 1,
+    show_messages = FALSE
+  ),
+  tar_stan_summary(
+    custom_summary,
+    fit = example_mcmc_x,
+    summaries = list(~posterior::quantile2(.x, probs = c(0.25, 0.75)))
+  )
+)
 ```
 
 In the graph below, notice how the `*_x` targets and `*_y` targets are both connected to `example_data` upstream.
@@ -225,8 +281,7 @@ generated quantities {
 writeLines(lines, "gen.stan")
 ```
 
-```{r}
-# _targets.R
+```{r, echo = FALSE}
 library(targets)
 tar_script({
   library(stantargets)
@@ -252,6 +307,31 @@ tar_script({
     )
   )
 })
+```
+
+```{r, eval = FALSE}
+# _targets.R
+library(targets)
+library(stantargets)
+tar_pipeline(
+  tar_stan_mcmc(
+    example,
+    "x.stan",
+    tar_stan_example_data(),
+    refresh = 0,
+    init = 1,
+    show_messages = FALSE
+  ),
+  tar_stan_gq_rep_summary(
+    postpred,
+    stan_files = "gen.stan",
+    fitted_params = example_mcmc_x, # one CmdStanFit object
+    data = tar_stan_example_data(), # multiple simulated datasets
+    batches = 2, # 2 dynamic branches
+    reps = 5, # 5 replications per branch
+    quiet = TRUE
+  )
+)
 ```
 
 Since we have defined many objects in the pipeline, it is extra important to check the graph to be sure everything is connected.
