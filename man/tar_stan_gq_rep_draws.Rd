@@ -265,7 +265,7 @@ target, then the model should not recompile.
 # First, write your Stan model file. Example:
 # tar_stan_example_file() # Writes stantargets_example.stan
 # Then in _targets.R, write the pipeline:
-targets::tar_pipeline(
+list(
   tar_stan_mcmc(
     your_model,
     stan_files = c(x = "stantargets_example.stan"),

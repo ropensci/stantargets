@@ -53,7 +53,7 @@ tar_script({
   library(stantargets)
   options(crayon.enabled = FALSE)
   tar_option_set(memory = "transient", garbage_collection = TRUE)
-  tar_pipeline(
+  list(
     tar_stan_mcmc_rep_summary(
       model,
       "model.stan",
@@ -79,7 +79,7 @@ library(targets)
 library(stantargets)
 options(crayon.enabled = FALSE)
 tar_option_set(memory = "transient", garbage_collection = TRUE)
-tar_pipeline(
+list(
   tar_stan_mcmc_rep_summary(
     model,
     "model.stan",
@@ -136,7 +136,7 @@ tar_script({
     memory = "transient",
     garbage_collection = TRUE
   )
-  tar_pipeline(
+  list(
     tar_stan_mcmc_rep_summary(
       model,
       "model.stan",
@@ -165,7 +165,7 @@ tar_script({
 # _targets.R
 library(targets)
 library(stantargets)
-tar_pipeline(
+list(
   tar_stan_mcmc_rep_summary(
     model,
     "model.stan",
@@ -220,7 +220,7 @@ tar_script({
     memory = "transient",
     garbage_collection = TRUE
   )
-  tar_pipeline(
+  list(
     tar_stan_mcmc_rep_summary(
       model,
       c("model.stan", "model2.stan"), # another model
@@ -250,7 +250,7 @@ tar_script({
 # _targets.R
 library(targets)
 library(stantargets)
-tar_pipeline(
+list(
   tar_stan_mcmc_rep_summary(
     model,
     c("model.stan", "model2.stan"), # another model

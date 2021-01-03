@@ -28,7 +28,7 @@
 #' # First, write your Stan model file. Example:
 #' # tar_stan_example_file() # Writes stantargets_example.stan
 #' # Then in _targets.R, write the pipeline:
-#' targets::tar_pipeline(
+#' list(
 #'   tar_stan_vb(
 #'     your_model,
 #'     stan_files = "stantargets_example.stan",

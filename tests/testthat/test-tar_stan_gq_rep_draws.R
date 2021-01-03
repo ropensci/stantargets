@@ -5,7 +5,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
   tar_stan_example_file(path = "b.stan")
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
-    tar_pipeline(
+    list(
       tar_stan_mcmc(
         fit,
         stan_files = "a.stan",
@@ -109,7 +109,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
   # Change the data code.
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
-    tar_pipeline(
+    list(
       tar_stan_mcmc(
         fit,
         stan_files = "a.stan",
@@ -150,7 +150,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
   tar_stan_example_file("b.stan")
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
-    tar_pipeline(
+    list(
       tar_stan_mcmc(
         fit,
         stan_files = "a.stan",
@@ -256,7 +256,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
   # Change the data code.
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
-    tar_pipeline(
+    list(
       tar_stan_mcmc(
         fit,
         stan_files = "a.stan",

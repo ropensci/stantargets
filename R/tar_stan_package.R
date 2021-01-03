@@ -19,8 +19,7 @@
 #' @importFrom rlang as_function sym
 #' @importFrom stats rnorm
 #' @importFrom targets tar_cue tar_dir tar_load tar_option_get tar_path
-#'   tar_pipeline tar_read tar_script tar_target tar_target_raw
-#'   tar_test
+#'   tar_read tar_script tar_target tar_target_raw tar_test
 #' @importFrom tarchetypes tar_combine tar_map
 NULL
 

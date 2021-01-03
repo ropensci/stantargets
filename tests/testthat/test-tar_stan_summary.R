@@ -3,7 +3,7 @@ targets::tar_test("tar_stan_summary() with defaults", {
   tar_stan_example_file("x.stan")
   tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
-    targets::tar_pipeline(
+    targets::list(
       tar_stan_mcmc(
         model,
         stan_files = "x.stan",
@@ -28,7 +28,7 @@ targets::tar_test("tar_stan_summary() with custom summaries", {
   tar_stan_example_file("x.stan")
   tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
-    targets::tar_pipeline(
+    targets::list(
       tar_stan_mcmc(
         model,
         stan_files = "x.stan",

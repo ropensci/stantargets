@@ -145,7 +145,7 @@ For details, visit \url{https://mc-stan.org/cmdstanr/reference/}.
 # First, write an example Stan model file.
 # tar_stan_example_file() # Writes stantargets_example.stan.
 # Then write a pipeline in _targets.R:
-targets::tar_pipeline(
+list(
   tar_stan_compile(compiled_model, "stantargets_example.stan")
 )
 }
