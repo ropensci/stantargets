@@ -1,6 +1,7 @@
 ---
 title: "Pipelines with several MCMC runs"
 output: rmarkdown::html_vignette
+bibliography: mcmc_rep.bib
 vignette: >
   %\VignetteIndexEntry{Pipelines with several MCMC runs}
   %\VignetteEngine{knitr::rmarkdown}
@@ -22,12 +23,12 @@ library(targets)
 library(stantargets)
 ```
 
-It is sometimes desirable to simulate a single Bayesian model repeatedly across multiple simulated datasets. Examples:
+It is sometimes desirable to run one or more Bayesian models repeatedly across multiple simulated datasets. Examples:
 
-1. Validate the implementation of a Bayesian model ([Cook, Gelman, and Rubin (2006)](http://www.stat.columbia.edu/~gelman/research/published/Cook_Software_Validation.pdf)).
+1. Validate the implementation of a Bayesian model using simulation-based calibration [SBC; @cook2006; @talts2020].
 2. Simulate a randomized controlled experiment to explore frequentist properties such as power and Type I error.
 
-This vignette focuses on (1). The goal is to simulate multiple datasets from our model, analyze each dataset, and assess how often the estimated credible intervals for `beta` capture the true value of `beta` from the simulation.
+This vignette focuses on (1). The goal is to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated credible intervals for `beta` capture the true value of `beta` from the simulation.
 
 ```{r}
 lines <- "data {
@@ -280,3 +281,5 @@ In the graph below, notice how targets `model_model1` and `model_model2` are bot
 ```{r}
 tar_visnetwork(targets_only = TRUE)
 ```
+
+## References
