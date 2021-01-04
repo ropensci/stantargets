@@ -2,7 +2,7 @@
 # stantargets <img src='man/figures/logo.png' align="right" height="139"/>
 
 [![R
-Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia.html)
+Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia/)
 [![cran](http://www.r-pkg.org/badges/version/stantargets)](https://cran.r-project.org/package=stantargets)
 [![active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![check](https://github.com/wlandau/stantargets/workflows/check/badge.svg)](https://github.com/wlandau/stantargets/actions?query=workflow%3Acheck)
