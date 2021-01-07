@@ -14,6 +14,7 @@ tar_stan_mcmc_rep(
   combine = TRUE,
   compile = c("original", "copy"),
   quiet = TRUE,
+  log = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),

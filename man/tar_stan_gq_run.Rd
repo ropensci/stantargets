@@ -52,6 +52,11 @@ VB) object returned by CmdStanR's \code{\link[cmdstanr:fit-method-draws]{$draws(
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
 method.}
 
+\item{log}{Character vector, file path to write the stdout stream
+of the model when it runs. Set to \code{NULL} to print to the console.
+Set to \code{tempfile()} to completely suppress all output.
+Does not apply to messages, warnings, or errors.}
+
 \item{seed}{(positive integer) A seed for the (P)RNG to pass to CmdStan.}
 
 \item{output_dir}{(string) A path to a directory where CmdStan should write

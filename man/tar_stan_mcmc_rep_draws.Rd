@@ -13,6 +13,7 @@ tar_stan_mcmc_rep_draws(
   combine = FALSE,
   compile = c("original", "copy"),
   quiet = TRUE,
+  log = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -93,6 +94,11 @@ method.}
 compilation be suppressed? The default is \code{TRUE}, but if you encounter an
 error we recommend trying again with \code{quiet=FALSE} to see more of the
 output.}
+
+\item{log}{Character vector, file path to write the stdout stream
+of the model when it runs. Set to \code{NULL} to print to the console.
+Set to \code{tempfile()} to completely suppress all output.
+Does not apply to messages, warnings, or errors.}
 
 \item{dir}{(string) The path to the directory in which to store the CmdStan
 executable (or \code{.hpp} file if using \verb{$save_hpp_file()}). The default is the
@@ -404,16 +410,23 @@ previously compiled the model in an upstream \code{\link[=tar_stan_compile]{tar_
 target, then the model should not recompile.
 }
 \examples{
-# First, write your Stan model file. Example:
-# tar_stan_example_file() # Writes stantargets_example.stan
-# Then in _targets.R, write the pipeline:
+if (Sys.getenv("TAR_EXAMPLES") == "true") {
+targets::tar_dir({
+tar_stan_example_file()
+targets::tar_script({
+library(stantargets)
 list(
   tar_stan_mcmc_rep_draws(
     your_model,
     stan_files = "stantargets_example.stan",
     data = tar_stan_example_data(),
     batches = 2,
-    reps = 2
+    reps = 2,
+    log = tempfile()
   )
 )
+})
+targets::tar_make()
+})
+}
 }

@@ -45,24 +45,32 @@
 #'   Saves `posterior::as_draws_df(fit$draws())` to a compressed `tibble`.
 #'   Convenient, but duplicates storage.
 #' @examples
-#' # First, write your Stan model file. Example:
-#' # tar_stan_example_file() # Writes stantargets_example.stan
-#' # Then in _targets.R, write the pipeline:
+#' if (Sys.getenv("TAR_EXAMPLES") == "true") {
+#' targets::tar_dir({
+#' tar_stan_example_file()
+#' targets::tar_script({
+#' library(stantargets)
 #' list(
 #'   tar_stan_mcmc(
 #'     your_model,
 #'     stan_files = "stantargets_example.stan",
 #'     data = tar_stan_example_data(),
 #'     variables = "beta",
-#'     summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
+#'     summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
+#'     log = tempfile()
 #'   )
 #' )
+#' })
+#' targets::tar_make()
+#' })
+#' }
 tar_stan_mcmc <- function(
   name,
   stan_files,
   data = list(),
   compile = c("original", "copy"),
   quiet = TRUE,
+  log = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -170,6 +178,7 @@ tar_stan_mcmc <- function(
     data = sym_data,
     compile = compile,
     quiet = quiet,
+    log = log,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -330,11 +339,16 @@ tar_stan_mcmc <- function(
 #'   no longer needs access to the original Stan model file on your
 #'   local machine. However, as a result, the Stan model re-compiles
 #'   every time the main target reruns.
+#' @param log Character vector, file path to write the stdout stream
+#'   of the model when it runs. Set to `NULL` to print to the console.
+#'   Set to `tempfile()` to completely suppress all output.
+#'   Does not apply to messages, warnings, or errors.
 tar_stan_mcmc_run <- function(
   stan_file,
   data,
   compile,
   quiet,
+  log,
   dir,
   include_paths,
   cpp_options,
@@ -370,6 +384,10 @@ tar_stan_mcmc_run <- function(
   variables,
   inc_warmup
 ) {
+  if (!is.null(log)) {
+    sink(file = log, type = "output")
+    on.exit(sink(file = NULL, type = "output"))
+  }
   file <- stan_file
   if (identical(compile, "copy")) {
     tmp <- tempfile(fileext = ".stan")
