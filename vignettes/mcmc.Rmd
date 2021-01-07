@@ -67,6 +67,14 @@ tar_script({
 # _targets.R
 library(targets)
 library(stantargets)
+
+generate_data <- function() {
+  true_beta <- stats::rnorm(n = 1, mean = 0, sd = 1)
+  x <- seq(from = -1, to = 1, length.out = n)
+  y <- stats::rnorm(n, x * true_beta, 1)
+  list(n = n, x = x, y = y, true_beta = true_beta)
+}
+
 list(
   tar_stan_mcmc(
     example,
@@ -164,11 +172,19 @@ tar_script({
 # _targets.R
 library(targets)
 library(stantargets)
+
+generate_data <- function() {
+  true_beta <- stats::rnorm(n = 1, mean = 0, sd = 1)
+  x <- seq(from = -1, to = 1, length.out = n)
+  y <- stats::rnorm(n, x * true_beta, 1)
+  list(n = n, x = x, y = y, true_beta = true_beta)
+}
+
 list(
   tar_stan_mcmc(
     example,
     "x.stan",
-    tar_stan_example_data(),
+    generate_data(),
     log = R.utils::nullfile()
   ),
   tar_stan_summary(
@@ -225,11 +241,19 @@ tar_script({
 # _targets.R
 library(targets)
 library(stantargets)
+
+generate_data <- function() {
+  true_beta <- stats::rnorm(n = 1, mean = 0, sd = 1)
+  x <- seq(from = -1, to = 1, length.out = n)
+  y <- stats::rnorm(n, x * true_beta, 1)
+  list(n = n, x = x, y = y, true_beta = true_beta)
+}
+
 list(
   tar_stan_mcmc(
     example,
     c("x.stan", "y.stan"), # another model
-    tar_stan_example_data(),
+    generate_data(),
     log = R.utils::nullfile()
   ),
   tar_stan_summary(
@@ -300,6 +324,14 @@ tar_script({
 # _targets.R
 library(targets)
 library(stantargets)
+
+generate_data <- function() {
+  true_beta <- stats::rnorm(n = 1, mean = 0, sd = 1)
+  x <- seq(from = -1, to = 1, length.out = n)
+  y <- stats::rnorm(n, x * true_beta, 1)
+  list(n = n, x = x, y = y, true_beta = true_beta)
+}
+
 list(
   tar_stan_mcmc(
     example,
@@ -311,7 +343,7 @@ list(
     postpred,
     stan_files = "gen.stan",
     fitted_params = example_mcmc_x, # one CmdStanFit object
-    data = tar_stan_example_data(), # multiple simulated datasets
+    data = generate_data(), # Function runs once per rep.
     batches = 2, # 2 dynamic branches
     reps = 5, # 5 replications per branch
     quiet = TRUE,

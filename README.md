@@ -22,6 +22,28 @@ access all of [`cmdstanr`](https://github.com/stan-dev/cmdstanr)’s major
 algorithms (MCMC, variational Bayes, and optimization) and it supports
 both single-fit workflows and multi-rep simulation studies.
 
+## Prerequisites
+
+1.  The [prerequisites of the `targets` R
+    package](https://wlandau.github.io/targets/#prerequisites).
+2.  Basic familiarity with
+    [`targets`](https://wlandau.github.io/targets/): watch minutes 6
+    through 40 of [this video](https://youtu.be/Gqn7Xn4d5NI), then read
+    [this
+    chapter](https://wlandau.github.io/targets-manual/walkthrough.html)
+    of the [user manual](https://wlandau.github.io/targets-manual/).
+3.  Familiarity with Bayesian Statistics and
+    [Stan](https://mc-stan.org/). Prior knowledge of
+    [`cmdstanr`](https://mc-stan.org/cmdstanr/) helps.
+
+## How to get started
+
+Read the `stantargets` tutorial vignettes
+[here](https://wlandau.github.io/stantargets/articles/mcmc.html) and
+[here](https://wlandau.github.io/stantargets/articles/mcmc_rep.html),
+then use <https://wlandau.github.io/stantargets/> as a reference while
+constructing your own worklows.
+
 ## Installation
 
 Install the GitHub development version to access the latest features and
@@ -38,15 +60,43 @@ interface is also required.
 cmdstanr::install_cmdstan()
 ```
 
-## Documentation
+## Usage
 
-The `stantargets` website at <https://wlandau.github.io/stantargets/>
-has function documentation and vignettes. Prior familiarity with
-[`targets`](https://github.com/wlandau/targets) and
-[`cmdstanr`](https://github.com/stan-dev/cmdstanr) is highly
-recommended, and you can learn more at
-<https://wlandau.github.io/targets> and <https://mc-stan.org/cmdstanr/>,
-respectively.
+First, write a [`_targets.R`
+file](https://wlandau.github.io/targets-manual/walkthrough.html) that
+loads your packages, defines a function to generate
+[Stan](https://mc-stan.org/) data, and lists a pipeline of targets. The
+target list can call target factories like
+[`tar_stan_mcmc()`](https://wlandau.github.io/stantargets/reference/tar_stan_mcmc.html)
+as well as ordinary targets with
+[`tar_target()`](https://wlandau.github.io/targets/reference/tar_target.html).
+
+``` r
+# _targets.R
+library(targets)
+library(stantargets)
+
+generate_data <- function() {
+  true_beta <- stats::rnorm(n = 1, mean = 0, sd = 1)
+  x <- seq(from = -1, to = 1, length.out = n)
+  y <- stats::rnorm(n, x * true_beta, 1)
+  list(n = n, x = x, y = y, true_beta = true_beta)
+}
+
+list(
+  tar_stan_mcmc(example, "x.stan", tar_stan_example_data())
+)
+```
+
+Run
+[`tar_visnetwork()`](https://wlandau.github.io/targets/reference/tar_visnetwork.html)
+to check `_targets.R` for correctness, then call
+[`tar_make()`](https://wlandau.github.io/targets/reference/tar_make.html)
+to run the pipeline. Access the results using
+[`tar_read()`](https://wlandau.github.io/targets/reference/tar_read.html),
+e.g. `tar_read(tar_read(example_summary_x)`. Visit [this
+vignette](https://wlandau.github.io/stantargets/articles/mcmc.html) to
+read more about this example.
 
 ## Participation
 
@@ -63,13 +113,11 @@ guide](https://github.com/wlandau/stantargets/blob/main/CONTRIBUTING.md).
 citation("stantargets")
 #> Warning in citation("stantargets"): no date field in DESCRIPTION file of package
 #> 'stantargets'
-#> Warning in citation("stantargets"): could not determine year for 'stantargets'
-#> from package DESCRIPTION file
 #> 
 #> To cite package 'stantargets' in publications use:
 #> 
-#>   William Michael Landau (NA). stantargets: Targets for Stan Workflows.
-#>   https://wlandau.github.io/stantargets/,
+#>   William Michael Landau (2021). stantargets: Targets for Stan
+#>   Workflows. https://wlandau.github.io/stantargets/,
 #>   https://github.com/wlandau/stantargets.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -77,6 +125,8 @@ citation("stantargets")
 #>   @Manual{,
 #>     title = {stantargets: Targets for Stan Workflows},
 #>     author = {William Michael Landau},
-#>     note = {https://wlandau.github.io/stantargets/, https://github.com/wlandau/stantargets},
+#>     year = {2021},
+#>     note = {https://wlandau.github.io/stantargets/,
+#> https://github.com/wlandau/stantargets},
 #>   }
 ```
