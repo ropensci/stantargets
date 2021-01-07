@@ -30,22 +30,30 @@
 #'   `*_mcmc_*` target from [tar_stan_mcmc()]. Must be a subclass
 #'   that `$generate_quantities()` can accept as `fitted_params`.
 #' @examples
-#' # First, write your Stan model file. Example:
-#' # tar_stan_example_file() # Writes stantargets_example.stan
-#' # Then in _targets.R, write the pipeline:
+#' if (Sys.getenv("TAR_EXAMPLES") == "true") {
+#' targets::tar_dir({
+#' tar_stan_example_file()
+#' targets::tar_script({
+#' library(stantargets)
 #' list(
 #'   tar_stan_mcmc(
 #'     your_model,
 #'     stan_files = c(x = "stantargets_example.stan"),
-#'     data = tar_stan_example_data()
+#'     data = tar_stan_example_data(),
+#'     log = tempfile()
 #'   ),
 #'   tar_stan_gq(
 #'     custom_gq,
 #'     stan_files = "stantargets_example.stan", # Can be a different model.
 #'     fitted_params = your_model_mcmc_x,
-#'     data = your_model_data # Can be a different dataset.
+#'     data = your_model_data, # Can be a different dataset.
+#'     log = tempfile()
 #'   )
 #' )
+#' })
+#' targets::tar_make()
+#' })
+#' }
 tar_stan_gq <- function(
   name,
   stan_files,
@@ -53,6 +61,7 @@ tar_stan_gq <- function(
   fitted_params,
   compile = c("original", "copy"),
   quiet = TRUE,
+  log = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -126,6 +135,7 @@ tar_stan_gq <- function(
     fitted_params = substitute(fitted_params),
     compile = compile,
     quiet = quiet,
+    log = log,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -246,6 +256,7 @@ tar_stan_gq_run <- function(
   fitted_params,
   compile,
   quiet,
+  log,
   dir,
   include_paths,
   cpp_options,
@@ -258,6 +269,10 @@ tar_stan_gq_run <- function(
   threads_per_chain,
   variables
 ) {
+  if (!is.null(log)) {
+    sink(file = log, type = "output")
+    on.exit(sink(file = NULL, type = "output"))
+  }
   file <- stan_file
   if (identical(compile, "copy")) {
     tmp <- tempfile(fileext = ".stan")
