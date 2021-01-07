@@ -142,10 +142,14 @@ Most of the arguments are passed to the
 For details, visit \url{https://mc-stan.org/cmdstanr/reference/}.
 }
 \examples{
-# First, write an example Stan model file.
-# tar_stan_example_file() # Writes stantargets_example.stan.
-# Then write a pipeline in _targets.R:
-list(
-  tar_stan_compile(compiled_model, "stantargets_example.stan")
-)
+if (Sys.getenv("TAR_EXAMPLES") == "true") {
+targets::tar_dir({
+tar_stan_example_file()
+targets::tar_script({
+library(stantargets)
+list(tar_stan_compile(compiled_model, "stantargets_example.stan"))
+})
+targets::tar_make()
+})
+}
 }

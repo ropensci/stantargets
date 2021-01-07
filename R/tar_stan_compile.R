@@ -10,12 +10,16 @@
 #' @inheritParams targets::tar_target
 #' @inheritParams tar_stan_compile_run
 #' @examples
-#' # First, write an example Stan model file.
-#' # tar_stan_example_file() # Writes stantargets_example.stan.
-#' # Then write a pipeline in _targets.R:
-#' list(
-#'   tar_stan_compile(compiled_model, "stantargets_example.stan")
-#' )
+#' if (Sys.getenv("TAR_EXAMPLES") == "true") {
+#' targets::tar_dir({
+#' tar_stan_example_file()
+#' targets::tar_script({
+#' library(stantargets)
+#' list(tar_stan_compile(compiled_model, "stantargets_example.stan"))
+#' })
+#' targets::tar_make()
+#' })
+#' }
 tar_stan_compile <- function(
   name,
   stan_file,
