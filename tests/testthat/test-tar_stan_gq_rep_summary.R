@@ -19,7 +19,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         chains = 4,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -30,7 +31,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         quiet = TRUE,
         batches = 2,
         reps = 2,
-        combine = TRUE
+        combine = TRUE,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -121,7 +123,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         chains = 4,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -132,7 +135,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         quiet = TRUE,
         batches = 2,
         reps = 2,
-        combine = TRUE
+        combine = TRUE,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -162,7 +166,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
         chains = 4,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -180,7 +185,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
           ~quantile(.x, probs = c(0.25, 0.75)),
           custom = function(x, my_arg) my_arg
         ),
-        summary_args = list(my_arg = 123L)
+        summary_args = list(my_arg = 123L),
+        log = R.utils::nullfile()
       )
     )
   })
@@ -273,7 +279,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
         chains = 4,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -291,7 +298,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
           ~quantile(.x, probs = c(0.25, 0.75)),
           custom = function(x, my_arg) my_arg
         ),
-        summary_args = list(my_arg = 123L)
+        summary_args = list(my_arg = 123L),
+        log = R.utils::nullfile()
       )
     )
   })

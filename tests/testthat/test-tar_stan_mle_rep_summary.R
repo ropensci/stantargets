@@ -14,7 +14,8 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"original\")", {
         quiet = TRUE,
         refresh = 0,
         batches = 2,
-        reps = 2
+        reps = 2,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -100,7 +101,8 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"original\")", {
         quiet = TRUE,
         refresh = 0,
         batches = 2,
-        reps = 2
+        reps = 2,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -129,7 +131,8 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"copy\") custom", {
         copy_data = c("n", "true_beta"),
         variables = "beta",
         summaries = list(mean = function(x, my_arg) my_arg),
-        summary_args = list(my_arg = -10000)
+        summary_args = list(my_arg = -10000),
+        log = R.utils::nullfile()
       )
     )
   })
@@ -219,7 +222,8 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"copy\") custom", {
         copy_data = c("n", "true_beta"),
         variables = "beta",
         summaries = list(mean = function(x, my_arg) my_arg),
-        summary_args = list(my_arg = -10000)
+        summary_args = list(my_arg = -10000),
+        log = R.utils::nullfile()
       )
     )
   })

@@ -18,7 +18,8 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"original\")", {
         iter_warmup = 50,
         chains = 4,
         batches = 2,
-        reps = 2
+        reps = 2,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -107,7 +108,8 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"original\")", {
         iter_warmup = 50,
         chains = 4,
         batches = 2,
-        reps = 2
+        reps = 2,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -140,7 +142,8 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
         reps = 2,
         save_warmup = TRUE,
         inc_warmup = TRUE,
-        copy_data = c("n", "true_beta")
+        copy_data = c("n", "true_beta"),
+        log = R.utils::nullfile()
       )
     )
   })
@@ -238,7 +241,8 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
         reps = 2,
         save_warmup = TRUE,
         inc_warmup = TRUE,
-        copy_data = c("n", "true_beta")
+        copy_data = c("n", "true_beta"),
+        log = R.utils::nullfile()
       )
     )
   })

@@ -18,14 +18,16 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         chains = 4,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
         fitted_params = model_mcmc_file1,
         compile = "original",
         stan_files = c("file1.stan", "file2.stan"),
-        data = model_data
+        data = model_data,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -115,14 +117,16 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         chains = 4,
         draws = FALSE,
         diagnostics = FALSE,
-        summary = FALSE
+        summary = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
         fitted_params = model_mcmc,
         compile = "original",
         stan_files = c("file1.stan", "file2.stan"),
-        data = tar_stan_example_data()
+        data = tar_stan_example_data(),
+        log = R.utils::nullfile()
       )
     )
   })
@@ -160,7 +164,8 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         init = 1,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
@@ -170,6 +175,7 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         data = model_data,
         variables = "y_rep[1]",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
+        log = R.utils::nullfile()
       )
     )
   })
@@ -277,7 +283,8 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         init = 1,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
@@ -287,6 +294,7 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         data = tar_stan_example_data(),
         variables = "y_rep[1]",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
+        log = R.utils::nullfile()
       )
     )
   })

@@ -10,8 +10,7 @@ targets::tar_test("tar_stan_mle(compile = \"original\")", {
         stan_files = c(x = "a.stan", y = "b.stan"),
         data = tar_stan_example_data(),
         compile = "original",
-        quiet = TRUE,
-        refresh = 0
+        log = R.utils::nullfile()
       )
     )
   })
@@ -88,6 +87,7 @@ targets::tar_test("tar_stan_mle(compile = \"original\")", {
         stan_files = c(x = "a.stan", y = "b.stan"),
         data = c(tar_stan_example_data()),
         compile = "original",
+        log = R.utils::nullfile()
       )
     )
   })
@@ -120,6 +120,7 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
         refresh = 0,
         variables = "beta",
         summaries = list(~c(mean = -10000)),
+        log = R.utils::nullfile()
       )
     )
   })
@@ -205,7 +206,8 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
         compile = "copy",
         refresh = 0,
         variables = "beta",
-        summaries = list(~c(mean = -10000))
+        summaries = list(~c(mean = -10000)),
+        log = R.utils::nullfile()
       )
     )
   })

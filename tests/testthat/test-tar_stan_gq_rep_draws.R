@@ -19,7 +19,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
         chains = 4,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq_rep_draws(
         model,
@@ -30,7 +31,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
         quiet = TRUE,
         batches = 2,
         reps = 2,
-        combine = TRUE
+        combine = TRUE,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -123,7 +125,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
         chains = 4,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq_rep_draws(
         model,
@@ -134,7 +137,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
         quiet = TRUE,
         batches = 2,
         reps = 2,
-        combine = TRUE
+        combine = TRUE,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -164,7 +168,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
         chains = 4,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq_rep_draws(
         model,
@@ -177,7 +182,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
         reps = 2,
         combine = TRUE,
         variables = "y_rep[2]",
-        copy_data = c("n", "true_beta")
+        copy_data = c("n", "true_beta"),
+        log = R.utils::nullfile()
       )
     )
   })
@@ -270,7 +276,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
         chains = 4,
         draws = FALSE,
         summary = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        log = R.utils::nullfile()
       ),
       tar_stan_gq_rep_draws(
         model,
@@ -283,7 +290,8 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
         reps = 2,
         combine = TRUE,
         variables = "y_rep[2]",
-        copy_data = c("n", "true_beta")
+        copy_data = c("n", "true_beta"),
+        log = R.utils::nullfile()
       )
     )
   })

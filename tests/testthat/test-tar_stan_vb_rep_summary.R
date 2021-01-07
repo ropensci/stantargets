@@ -14,7 +14,8 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"original\")", {
         quiet = TRUE,
         refresh = 0,
         batches = 2,
-        reps = 2
+        reps = 2,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -100,7 +101,8 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"original\")", {
         quiet = TRUE,
         refresh = 0,
         batches = 2,
-        reps = 2
+        reps = 2,
+        log = R.utils::nullfile()
       )
     )
   })
@@ -132,7 +134,8 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"copy\") custom", {
           ~quantile(.x, probs = c(0.25, 0.75)),
           custom = function(x, my_arg) my_arg
         ),
-        summary_args = list(my_arg = 123L)
+        summary_args = list(my_arg = 123L),
+        log = R.utils::nullfile()
       )
     )
   })
@@ -231,7 +234,8 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"copy\") custom", {
           ~quantile(.x, probs = c(0.25, 0.75)),
           custom = function(x, my_arg) my_arg
         ),
-        summary_args = list(my_arg = 123L)
+        summary_args = list(my_arg = 123L),
+        log = R.utils::nullfile()
       )
     )
   })
