@@ -36,7 +36,7 @@
 #'     your_model,
 #'     stan_files = "stantargets_example.stan",
 #'     data = tar_stan_example_data(),
-#'     log = tempfile()
+#'     log = R.utils::nullfile()
 #'   )
 #' )
 #' })

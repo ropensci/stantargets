@@ -83,7 +83,7 @@ output.}
 
 \item{log}{Character vector, file path to write the stdout stream
 of the model when it runs. Set to \code{NULL} to print to the console.
-Set to \code{tempfile()} to completely suppress all output.
+Set to \code{R.utils::nullfile()} to completely suppress all output.
 Does not apply to messages, warnings, or errors.}
 
 \item{dir}{(string) The path to the directory in which to store the CmdStan
@@ -339,7 +339,7 @@ list(
     data = tar_stan_example_data(),
     variables = "beta",
     summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-    log = tempfile()
+    log = R.utils::nullfile()
   )
 )
 })

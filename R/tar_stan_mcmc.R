@@ -57,7 +57,7 @@
 #'     data = tar_stan_example_data(),
 #'     variables = "beta",
 #'     summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-#'     log = tempfile()
+#'     log = R.utils::nullfile()
 #'   )
 #' )
 #' })
@@ -341,7 +341,7 @@ tar_stan_mcmc <- function(
 #'   every time the main target reruns.
 #' @param log Character vector, file path to write the stdout stream
 #'   of the model when it runs. Set to `NULL` to print to the console.
-#'   Set to `tempfile()` to completely suppress all output.
+#'   Set to `R.utils::nullfile()` to completely suppress all output.
 #'   Does not apply to messages, warnings, or errors.
 tar_stan_mcmc_run <- function(
   stan_file,

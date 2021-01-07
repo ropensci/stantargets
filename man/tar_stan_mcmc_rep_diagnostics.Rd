@@ -414,7 +414,7 @@ list(
     data = tar_stan_example_data(),
     batches = 2,
     reps = 2,
-    log = tempfile()
+    log = R.utils::nullfile()
   )
 )
 })

@@ -40,14 +40,14 @@
 #'     your_model,
 #'     stan_files = c(x = "stantargets_example.stan"),
 #'     data = tar_stan_example_data(),
-#'     log = tempfile()
+#'     log = R.utils::nullfile()
 #'   ),
 #'   tar_stan_gq(
 #'     custom_gq,
 #'     stan_files = "stantargets_example.stan", # Can be a different model.
 #'     fitted_params = your_model_mcmc_x,
 #'     data = your_model_data, # Can be a different dataset.
-#'     log = tempfile()
+#'     log = R.utils::nullfile()
 #'   )
 #' )
 #' })

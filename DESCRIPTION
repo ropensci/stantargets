@@ -46,6 +46,7 @@ Suggests:
   dplyr (>= 1.0.2),
   fs (>= 1.5.0),
   knitr (>= 1.28),
+  R.utils (>= 2.10.1),
   rmarkdown (>= 2.1),
   testthat (>= 3.0.0),
   visNetwork (>= 2.0.9),

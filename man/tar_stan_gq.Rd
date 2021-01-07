@@ -78,7 +78,7 @@ output.}
 
 \item{log}{Character vector, file path to write the stdout stream
 of the model when it runs. Set to \code{NULL} to print to the console.
-Set to \code{tempfile()} to completely suppress all output.
+Set to \code{R.utils::nullfile()} to completely suppress all output.
 Does not apply to messages, warnings, or errors.}
 
 \item{dir}{(string) The path to the directory in which to store the CmdStan
@@ -279,14 +279,14 @@ list(
     your_model,
     stan_files = c(x = "stantargets_example.stan"),
     data = tar_stan_example_data(),
-    log = tempfile()
+    log = R.utils::nullfile()
   ),
   tar_stan_gq(
     custom_gq,
     stan_files = "stantargets_example.stan", # Can be a different model.
     fitted_params = your_model_mcmc_x,
     data = your_model_data, # Can be a different dataset.
-    log = tempfile()
+    log = R.utils::nullfile()
   )
 )
 })

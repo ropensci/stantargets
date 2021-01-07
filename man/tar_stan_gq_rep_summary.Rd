@@ -283,7 +283,7 @@ list(
     your_model,
     stan_files = c(x = "stantargets_example.stan"),
     data = tar_stan_example_data(),
-    log = tempfile()
+    log = R.utils::nullfile()
   ),
   tar_stan_gq_rep_summary(
     generated_quantities,
@@ -292,7 +292,7 @@ list(
     fitted_params = your_model_mcmc_x,
     batches = 2,
     reps = 2,
-    log = tempfile()
+    log = R.utils::nullfile()
   )
 )
 })
