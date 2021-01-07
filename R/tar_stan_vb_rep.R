@@ -29,6 +29,7 @@ tar_stan_vb_rep <- function(
   combine = TRUE,
   compile = c("original", "copy"),
   quiet = TRUE,
+  log = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -104,6 +105,7 @@ tar_stan_vb_rep <- function(
     output = match.arg(output),
     compile = compile,
     quiet = quiet,
+    log = log,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -259,6 +261,7 @@ tar_stan_vb_rep_run <- function(
   output,
   compile,
   quiet,
+  log,
   dir,
   include_paths,
   cpp_options,
@@ -285,6 +288,10 @@ tar_stan_vb_rep_run <- function(
   summaries,
   summary_args
 ) {
+  if (!is.null(log)) {
+    sink(file = log, type = "output")
+    on.exit(sink(file = NULL, type = "output"))
+  }
   file <- stan_file
   if (identical(compile, "copy")) {
     tmp <- tempfile(fileext = ".stan")

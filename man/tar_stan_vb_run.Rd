@@ -9,6 +9,7 @@ tar_stan_vb_run(
   data,
   compile,
   quiet,
+  log,
   dir,
   include_paths,
   cpp_options,
@@ -60,6 +61,11 @@ to a local copy and compiles the model from there, so it
 no longer needs access to the original Stan model file on your
 local machine. However, as a result, the Stan model re-compiles
 every time the main target reruns.}
+
+\item{log}{Character vector, file path to write the stdout stream
+of the model when it runs. Set to \code{NULL} to print to the console.
+Set to \code{tempfile()} to completely suppress all output.
+Does not apply to messages, warnings, or errors.}
 
 \item{seed}{(positive integer) A seed for the (P)RNG to pass to CmdStan.}
 

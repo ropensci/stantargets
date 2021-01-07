@@ -19,18 +19,25 @@
 #'     Suppressed if `combine` is `FALSE`.
 #' @inheritParams tar_stan_vb_rep
 #' @examples
-#' # First, write your Stan model file. Example:
-#' # tar_stan_example_file() # Writes stantargets_example.stan
-#' # Then in _targets.R, write the pipeline:
+#' if (Sys.getenv("TAR_EXAMPLES") == "true") {
+#' targets::tar_dir({
+#' tar_stan_example_file()
+#' targets::tar_script({
+#' library(stantargets)
 #' list(
 #'   tar_stan_vb_rep_draws(
 #'     your_model,
 #'     stan_files = "stantargets_example.stan",
 #'     data = tar_stan_example_data(),
 #'     batches = 2,
-#'     reps = 2
+#'     reps = 2,
+#'     log = tempfile()
 #'   )
 #' )
+#' })
+#' targets::tar_make()
+#' })
+#' }
 tar_stan_vb_rep_draws <- function(
   name,
   stan_files,
@@ -40,6 +47,7 @@ tar_stan_vb_rep_draws <- function(
   combine = FALSE,
   compile = c("original", "copy"),
   quiet = TRUE,
+  log = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -86,6 +94,7 @@ tar_stan_vb_rep_draws <- function(
     combine = combine,
     compile = compile,
     quiet = quiet,
+    log = log,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
