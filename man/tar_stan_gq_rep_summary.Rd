@@ -14,6 +14,7 @@ tar_stan_gq_rep_summary(
   combine = TRUE,
   compile = c("original", "copy"),
   quiet = TRUE,
+  log = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -272,14 +273,17 @@ previously compiled the model in an upstream \code{\link[=tar_stan_compile]{tar_
 target, then the model should not recompile.
 }
 \examples{
-# First, write your Stan model file. Example:
-# tar_stan_example_file() # Writes stantargets_example.stan
-# Then in _targets.R, write the pipeline:
+if (Sys.getenv("TAR_EXAMPLES") == "true") {
+targets::tar_dir({
+tar_stan_example_file()
+targets::tar_script({
+library(stantargets)
 list(
   tar_stan_mcmc(
     your_model,
     stan_files = c(x = "stantargets_example.stan"),
-    data = tar_stan_example_data()
+    data = tar_stan_example_data(),
+    log = tempfile()
   ),
   tar_stan_gq_rep_summary(
     generated_quantities,
@@ -287,7 +291,12 @@ list(
     data = tar_stan_example_data(),
     fitted_params = your_model_mcmc_x,
     batches = 2,
-    reps = 2
+    reps = 2,
+    log = tempfile()
   )
 )
+})
+targets::tar_make()
+})
+}
 }

@@ -13,6 +13,7 @@ tar_stan_gq_rep_run(
   fitted_params,
   compile,
   quiet,
+  log,
   dir,
   include_paths,
   cpp_options,
