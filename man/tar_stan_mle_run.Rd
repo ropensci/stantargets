@@ -61,7 +61,7 @@ no longer needs access to the original Stan model file on your
 local machine. However, as a result, the Stan model re-compiles
 every time the main target reruns.}
 
-\item{log}{Character vector, file path to write the stdout stream
+\item{log}{Character of length 1, file path to write the stdout stream
 of the model when it runs. Set to \code{NULL} to print to the console.
 Set to \code{R.utils::nullfile()} to completely suppress all output.
 Does not apply to messages, warnings, or errors.}

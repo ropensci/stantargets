@@ -76,7 +76,7 @@ compilation be suppressed? The default is \code{TRUE}, but if you encounter an
 error we recommend trying again with \code{quiet=FALSE} to see more of the
 output.}
 
-\item{log}{Character vector, file path to write the stdout stream
+\item{log}{Character of length 1, file path to write the stdout stream
 of the model when it runs. Set to \code{NULL} to print to the console.
 Set to \code{R.utils::nullfile()} to completely suppress all output.
 Does not apply to messages, warnings, or errors.}

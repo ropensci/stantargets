@@ -52,7 +52,7 @@ VB) object returned by CmdStanR's \code{\link[cmdstanr:fit-method-draws]{$draws(
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
 method.}
 
-\item{log}{Character vector, file path to write the stdout stream
+\item{log}{Character of length 1, file path to write the stdout stream
 of the model when it runs. Set to \code{NULL} to print to the console.
 Set to \code{R.utils::nullfile()} to completely suppress all output.
 Does not apply to messages, warnings, or errors.}
