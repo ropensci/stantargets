@@ -6,7 +6,7 @@ Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&lab
 [![cran](http://www.r-pkg.org/badges/version/stantargets)](https://cran.r-project.org/package=stantargets)
 [![active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![check](https://github.com/wlandau/stantargets/workflows/check/badge.svg)](https://github.com/wlandau/stantargets/actions?query=workflow%3Acheck)
-[![codecov](https://codecov.io/gh/wlandau/stantargets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/targets)
+[![codecov](https://codecov.io/gh/wlandau/stantargets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/stantargets)
 [![lint](https://github.com/wlandau/stantargets/workflows/lint/badge.svg)](https://github.com/wlandau/stantargets/actions?query=workflow%3Alint)
 
 The `stantargets` R package is an extension to
@@ -113,11 +113,13 @@ guide](https://github.com/wlandau/stantargets/blob/main/CONTRIBUTING.md).
 citation("stantargets")
 #> Warning in citation("stantargets"): no date field in DESCRIPTION file of package
 #> 'stantargets'
+#> Warning in citation("stantargets"): could not determine year for 'stantargets'
+#> from package DESCRIPTION file
 #> 
 #> To cite package 'stantargets' in publications use:
 #> 
-#>   William Michael Landau (2021). stantargets: Targets for Stan
-#>   Workflows. https://wlandau.github.io/stantargets/,
+#>   William Michael Landau (NA). stantargets: Targets for Stan Workflows.
+#>   https://wlandau.github.io/stantargets/,
 #>   https://github.com/wlandau/stantargets.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -125,8 +127,6 @@ citation("stantargets")
 #>   @Manual{,
 #>     title = {stantargets: Targets for Stan Workflows},
 #>     author = {William Michael Landau},
-#>     year = {2021},
-#>     note = {https://wlandau.github.io/stantargets/,
-#> https://github.com/wlandau/stantargets},
+#>     note = {https://wlandau.github.io/stantargets/, https://github.com/wlandau/stantargets},
 #>   }
 ```
