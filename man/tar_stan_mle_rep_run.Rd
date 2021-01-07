@@ -12,6 +12,7 @@ tar_stan_mle_rep_run(
   output,
   compile,
   quiet,
+  log,
   dir,
   include_paths,
   cpp_options,
