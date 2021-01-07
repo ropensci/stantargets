@@ -288,6 +288,7 @@ tar_stan_mcmc_rep <- function(
 #' @inheritParams cmdstanr::`model-method-compile`
 #' @inheritParams cmdstanr::`model-method-sample`
 #' @inheritParams cmdstanr::`fit-method-draws`
+#' @inheritParams tar_stan_mcmc
 #' @param stan_name Friendly suffix of the Stan model target.
 #' @param stan_path Original path to the input Stan file.
 #' @param output Type of output to create, either `"summaries"`,

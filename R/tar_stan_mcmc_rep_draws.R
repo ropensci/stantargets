@@ -17,7 +17,6 @@
 #'   * `x`: combine all the model-specific draws targets into
 #'     a single data frame with columns to distinguish among the models.
 #'     Suppressed if `combine` is `FALSE`.
-#' @inheritParams tar_stan_mcmc
 #' @inheritParams tar_stan_mcmc_rep
 #' @examples
 #' if (Sys.getenv("TAR_EXAMPLES") == "true") {
