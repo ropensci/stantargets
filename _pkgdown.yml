@@ -8,7 +8,11 @@ navbar:
   - text: Functions
     href: reference/index.html
   - text: Vignettes
-    href: articles/index.html
+    menu:
+    - text:
+      href: articles/mcmc.html
+    - text:
+      href: articles/mcmc_rep.html
   - text: targets
     href: https://wlandau.github.io/targets
   - text: cmdstanr
