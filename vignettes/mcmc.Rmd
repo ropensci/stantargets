@@ -57,9 +57,7 @@ tar_script({
       example,
       "x.stan",
       tar_stan_example_data(),
-      refresh = 0,
-      init = 1,
-      show_messages = FALSE
+      log = tempfile()
     )
   )
 })
@@ -74,9 +72,7 @@ list(
     example,
     "x.stan",
     tar_stan_example_data(),
-    refresh = 0,
-    init = 1,
-    show_messages = FALSE
+    log = tempfile()
   )
 )
 ```
@@ -153,9 +149,7 @@ tar_script({
       example,
       "x.stan",
       tar_stan_example_data(),
-      refresh = 0,
-      init = 1,
-      show_messages = FALSE
+      log = tempfile()
     ),
     tar_stan_summary(
       custom_summary,
@@ -175,9 +169,7 @@ list(
     example,
     "x.stan",
     tar_stan_example_data(),
-    refresh = 0,
-    init = 1,
-    show_messages = FALSE
+    log = tempfile()
   ),
   tar_stan_summary(
     custom_summary,
@@ -218,9 +210,7 @@ tar_script({
       example,
       c("x.stan", "y.stan"), # another model
       tar_stan_example_data(),
-      refresh = 0,
-      init = 1,
-      show_messages = FALSE
+      log = tempfile()
     ),
     tar_stan_summary(
       custom_summary,
@@ -240,9 +230,7 @@ list(
     example,
     c("x.stan", "y.stan"), # another model
     tar_stan_example_data(),
-    refresh = 0,
-    init = 1,
-    show_messages = FALSE
+    log = tempfile()
   ),
   tar_stan_summary(
     custom_summary,
@@ -292,9 +280,7 @@ tar_script({
       example,
       "x.stan",
       tar_stan_example_data(),
-      refresh = 0,
-      init = 1,
-      show_messages = FALSE
+      log = tempfile()
     ),
     tar_stan_gq_rep_summary(
       postpred,
@@ -303,7 +289,8 @@ tar_script({
       data = tar_stan_example_data(), # multiple simulated datasets
       batches = 2, # 2 dynamic branches
       reps = 5, # 5 replications per branch
-      quiet = TRUE
+      quiet = TRUE,
+      log = tempfile()
     )
   )
 })
@@ -318,9 +305,7 @@ list(
     example,
     "x.stan",
     tar_stan_example_data(),
-    refresh = 0,
-    init = 1,
-    show_messages = FALSE
+    log = tempfile()
   ),
   tar_stan_gq_rep_summary(
     postpred,
@@ -329,7 +314,8 @@ list(
     data = tar_stan_example_data(), # multiple simulated datasets
     batches = 2, # 2 dynamic branches
     reps = 5, # 5 replications per branch
-    quiet = TRUE
+    quiet = TRUE,
+    log = tempfile()
   )
 )
 ```

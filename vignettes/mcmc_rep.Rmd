@@ -59,16 +59,14 @@ tar_script({
       model,
       "model.stan",
       tar_stan_example_data(),
-      refresh = 0,
-      init = 1,
       batches = 5, # Number of branch targets.
       reps = 2, # Number of model reps per branch target.
-      show_messages = FALSE,
       copy_data = "true_beta", # Append scalars from data to the output data frame.
       variables = "beta",
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
-      )
+      ),
+      log = tempfile()
     )
   )
 })
@@ -85,16 +83,14 @@ list(
     model,
     "model.stan",
     tar_stan_example_data(),
-    refresh = 0,
-    init = 1,
     batches = 5, # Number of branch targets.
     reps = 2, # Number of model reps per branch target.
-    show_messages = FALSE,
     copy_data = "true_beta", # Append scalars from data to the output data frame.
     variables = "beta",
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
-    )
+    ),
+    log = tempfile()
   )
 )
 ```
@@ -142,16 +138,14 @@ tar_script({
       model,
       "model.stan",
       tar_stan_example_data(),
-      refresh = 0,
-      init = 1,
       batches = 5, # Number of branch targets.
       reps = 2, # Number of model reps per branch target.
-      show_messages = FALSE,
       copy_data = "true_beta", # Append scalars from data to the output data frame.
       variables = "beta",
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
-      )
+      ),
+      log = tempfile()
     ),
     tar_target(
       coverage,
@@ -171,16 +165,14 @@ list(
     model,
     "model.stan",
     tar_stan_example_data(),
-    refresh = 0,
-    init = 1,
     batches = 5, # Number of branch targets.
     reps = 2, # Number of model reps per branch target.
-    show_messages = FALSE,
     copy_data = "true_beta", # Append scalars from data to the output data frame.
     variables = "beta",
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
-    )
+    ),
+    log = tempfile()
   ),
   tar_target(
     coverage,
@@ -226,16 +218,14 @@ tar_script({
       model,
       c("model.stan", "model2.stan"), # another model
       tar_stan_example_data(),
-      refresh = 0,
-      init = 1,
       batches = 5,
       reps = 2,
-      show_messages = FALSE,
       copy_data = "true_beta",
       variables = "beta",
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
-      )
+      ),
+      log = tempfile()
     ),
     tar_target(
       coverage,
@@ -256,16 +246,14 @@ list(
     model,
     c("model.stan", "model2.stan"), # another model
     tar_stan_example_data(),
-    refresh = 0,
-    init = 1,
     batches = 5,
     reps = 2,
-    show_messages = FALSE,
     copy_data = "true_beta",
     variables = "beta",
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
-    )
+    ),
+    log = tempfile()
   ),
   tar_target(
     coverage,
