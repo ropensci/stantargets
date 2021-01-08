@@ -16,7 +16,7 @@ tar_stan_rep_output <- function(
   )
   out <- tibble::as_tibble(out)
   out <- tar_stan_rep_scalars(out, data, copy_data)
-  out$.rep <- basename(tempfile(pattern = "rep_"))
+  out$.rep <- digest::digest(stats::runif(1), algo = "xxhash32")
   out
 }
 

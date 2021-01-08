@@ -287,7 +287,7 @@ tar_stan_vb_run <- function(
   variables
 ) {
   if (!is.null(log)) {
-    sink(file = log, type = "output")
+    sink(file = log, type = "output", append = TRUE)
     on.exit(sink(file = NULL, type = "output"))
   }
   file <- stan_file

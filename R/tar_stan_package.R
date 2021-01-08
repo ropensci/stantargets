@@ -17,7 +17,7 @@
 #' @importFrom posterior as_draws_df
 #' @importFrom purrr map
 #' @importFrom rlang as_function sym
-#' @importFrom stats rnorm
+#' @importFrom stats rnorm runif
 #' @importFrom targets tar_cue tar_dir tar_load tar_option_get tar_path
 #'   tar_read tar_script tar_target tar_target_raw tar_test
 #' @importFrom tarchetypes tar_combine tar_map

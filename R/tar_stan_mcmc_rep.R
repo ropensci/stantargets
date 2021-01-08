@@ -346,7 +346,7 @@ tar_stan_mcmc_rep_run <- function(
   summary_args
 ) {
   if (!is.null(log)) {
-    sink(file = log, type = "output")
+    sink(file = log, type = "output", append = TRUE)
     on.exit(sink(file = NULL, type = "output"))
   }
   file <- stan_file
