@@ -32,6 +32,7 @@ Depends:
   R (>= 3.5.0)
 Imports:
   cmdstanr (>= 0.2.0),
+  digest (>= 0.6.21),
   fst (>= 0.9.4),
   posterior (>= 0.1.2),
   purrr (>= 0.3.4),

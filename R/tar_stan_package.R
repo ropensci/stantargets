@@ -12,6 +12,7 @@
 #'   both single-fit workflows and multi-rep simulation studies.
 #' @name stantargets-package
 #' @importFrom cmdstanr cmdstan_model
+#' @importFrom digest digest
 #' @importFrom fst read_fst
 #' @importFrom qs qread
 #' @importFrom posterior as_draws_df
