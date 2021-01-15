@@ -144,7 +144,7 @@ targets::tar_test("tar_stan_mcmc_rep_draws(compile = \"copy\") custom", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        copy_data = c("n", "true_beta"),
+        data_copy = c("n", "true_beta"),
         variables = "beta",
         log = R.utils::nullfile()
       )
@@ -237,7 +237,7 @@ targets::tar_test("tar_stan_mcmc_rep_draws(compile = \"copy\") custom", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        copy_data = c("n", "true_beta"),
+        data_copy = c("n", "true_beta"),
         variables = "beta",
         log = R.utils::nullfile()
       )

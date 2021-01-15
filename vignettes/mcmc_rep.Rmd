@@ -46,7 +46,7 @@ model {
 writeLines(lines, "model.stan")
 ```
 
-Next, we define a pipeline to simulate multiple datasets and fit each dataset with the model. Below, we commit to 10 replications: 2 batches with 5 iterations per batch. (In practical situations, the total number of replications should be hundreds of times more.) We also supply custom variable names and summary functions to return the 95% credible intervals for `beta`. Below, we use the `copy_data` argument to copy the true value of `beta` from the data to the results, which will help us assess the credible intervals.
+Next, we define a pipeline to simulate multiple datasets and fit each dataset with the model. Below, we commit to 10 replications: 2 batches with 5 iterations per batch. (In practical situations, the total number of replications should be hundreds of times more.) We also supply custom variable names and summary functions to return the 95% credible intervals for `beta`. Below, we use the `data_copy` argument to copy the true value of `beta` from the data to the results, which will help us assess the credible intervals.
 
 ```{r, echo = FALSE}
 library(targets)
@@ -61,7 +61,7 @@ tar_script({
       tar_stan_example_data(),
       batches = 5, # Number of branch targets.
       reps = 2, # Number of model reps per branch target.
-      copy_data = "true_beta", # Append scalars from data to the output data frame.
+      data_copy = "true_beta", # Append scalars from data to the output data frame.
       variables = "beta",
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
@@ -93,7 +93,7 @@ list(
     generate_data(), # Runs once per rep.
     batches = 5, # Number of branch targets.
     reps = 2, # Number of model reps per branch target.
-    copy_data = "true_beta", # Append scalars from data to the output data frame.
+    data_copy = "true_beta", # Append scalars from data to the output data frame.
     variables = "beta",
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
@@ -115,7 +115,7 @@ Run the computation with `tar_make()`
 tar_make()
 ```
 
-The result is an aggregated data frame of summary statistics, where the `.rep` column distinguishes among individual replicates. We have the credible intervals for `beta` in columns `q2.5` and `q97.5`. And thanks to `copy_data`, we also have `true_beta`, the value of `beta` used to generate the dataset in each simulation rep.
+The result is an aggregated data frame of summary statistics, where the `.rep` column distinguishes among individual replicates. We have the credible intervals for `beta` in columns `q2.5` and `q97.5`. And thanks to `data_copy`, we also have `true_beta`, the value of `beta` used to generate the dataset in each simulation rep.
 
 ```{r}
 tar_load(model)
@@ -148,7 +148,7 @@ tar_script({
       tar_stan_example_data(),
       batches = 5, # Number of branch targets.
       reps = 2, # Number of model reps per branch target.
-      copy_data = "true_beta", # Append scalars from data to the output data frame.
+      data_copy = "true_beta", # Append scalars from data to the output data frame.
       variables = "beta",
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
@@ -183,7 +183,7 @@ list(
     generate_data(),
     batches = 5, # Number of branch targets.
     reps = 2, # Number of model reps per branch target.
-    copy_data = "true_beta", # Append scalars from data to the output data frame.
+    data_copy = "true_beta", # Append scalars from data to the output data frame.
     variables = "beta",
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
@@ -236,7 +236,7 @@ tar_script({
       tar_stan_example_data(),
       batches = 5,
       reps = 2,
-      copy_data = "true_beta",
+      data_copy = "true_beta",
       variables = "beta",
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
@@ -272,7 +272,7 @@ list(
     generate_data(),
     batches = 5,
     reps = 2,
-    copy_data = "true_beta",
+    data_copy = "true_beta",
     variables = "beta",
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))

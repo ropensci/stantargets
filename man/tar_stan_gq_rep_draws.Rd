@@ -26,7 +26,7 @@ tar_stan_gq_rep_draws(
   parallel_chains = getOption("mc.cores", 1),
   threads_per_chain = NULL,
   variables = NULL,
-  copy_data = character(0),
+  data_copy = character(0),
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -153,7 +153,7 @@ the Stan case study \href{https://mc-stan.org/users/documentation/case-studies/r
 \item{variables}{(character vector) The variables to read in. If \code{NULL} (the
 default) then all variables are included.}
 
-\item{copy_data}{Character vector of names of scalars in \code{data}.
+\item{data_copy}{Character vector of names of scalars in \code{data}.
 These values will be inserted as columns in the output data frame
 for each rep. Useful for simulation studies where you want to
 check the results against some "true value" in the data. See the

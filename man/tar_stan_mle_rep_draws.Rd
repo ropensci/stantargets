@@ -34,7 +34,7 @@ tar_stan_mle_rep_draws(
   tol_rel_grad = NULL,
   tol_param = NULL,
   history_size = NULL,
-  copy_data = character(0),
+  data_copy = character(0),
   variables = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
@@ -195,7 +195,7 @@ increased usage of disk space.}
 \item{history_size}{(positive integer) The size of the history used when
 approximating the Hessian. Only available for L-BFGS.}
 
-\item{copy_data}{Character vector of names of scalars in \code{data}.
+\item{data_copy}{Character vector of names of scalars in \code{data}.
 These values will be inserted as columns in the output data frame
 for each rep. Useful for simulation studies where you want to
 check the results against some "true value" in the data. See the

@@ -35,7 +35,7 @@ tar_stan_vb_rep_draws(
   eval_elbo = NULL,
   output_samples = NULL,
   sig_figs = NULL,
-  copy_data = character(0),
+  data_copy = character(0),
   variables = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
@@ -200,7 +200,7 @@ values with 6 significant figures. The upper limit for \code{sig_figs} is 18.
 Increasing this value will result in larger output CSV files and thus an
 increased usage of disk space.}
 
-\item{copy_data}{Character vector of names of scalars in \code{data}.
+\item{data_copy}{Character vector of names of scalars in \code{data}.
 These values will be inserted as columns in the output data frame
 for each rep. Useful for simulation studies where you want to
 check the results against some "true value" in the data. See the

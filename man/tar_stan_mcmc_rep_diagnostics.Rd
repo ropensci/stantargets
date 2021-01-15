@@ -47,7 +47,7 @@ tar_stan_mcmc_rep_diagnostics(
   validate_csv = TRUE,
   show_messages = TRUE,
   inc_warmup = FALSE,
-  copy_data = character(0),
+  data_copy = character(0),
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -287,7 +287,7 @@ fit object can be used to display all the silenced messages.}
 \item{inc_warmup}{(logical) Should warmup draws be included? Defaults to
 \code{FALSE}. Ignored except when used with \link[cmdstanr]{CmdStanMCMC} objects.}
 
-\item{copy_data}{Character vector of names of scalars in \code{data}.
+\item{data_copy}{Character vector of names of scalars in \code{data}.
 These values will be inserted as columns in the output data frame
 for each rep. Useful for simulation studies where you want to
 check the results against some "true value" in the data. See the

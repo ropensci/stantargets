@@ -42,7 +42,7 @@ tar_stan_gq_rep <- function(
   sig_figs = NULL,
   parallel_chains = getOption("mc.cores", 1),
   threads_per_chain = NULL,
-  copy_data = character(0),
+  data_copy = character(0),
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
@@ -108,7 +108,7 @@ tar_stan_gq_rep <- function(
     sig_figs = sig_figs,
     parallel_chains = parallel_chains,
     threads_per_chain = threads_per_chain,
-    copy_data = copy_data,
+    data_copy = data_copy,
     variables = variables,
     summaries = summaries,
     summary_args = summary_args
@@ -254,7 +254,7 @@ tar_stan_gq_rep_run <- function(
   sig_figs,
   parallel_chains,
   threads_per_chain,
-  copy_data,
+  data_copy,
   variables,
   summaries,
   summary_args
@@ -296,7 +296,7 @@ tar_stan_gq_rep_run <- function(
       sig_figs = sig_figs,
       parallel_chains = parallel_chains,
       threads_per_chain = threads_per_chain,
-      copy_data = copy_data,
+      data_copy = data_copy,
       variables = variables,
       summaries = summaries,
       summary_args = summary_args
@@ -317,7 +317,7 @@ tar_stan_gq_rep_run_rep <- function(
   sig_figs,
   parallel_chains,
   threads_per_chain,
-  copy_data,
+  data_copy,
   variables,
   summaries,
   summary_args
@@ -339,6 +339,6 @@ tar_stan_gq_rep_run_rep <- function(
     variables = variables,
     inc_warmup = NULL,
     data = data,
-    copy_data = copy_data
+    data_copy = data_copy
   )
 }

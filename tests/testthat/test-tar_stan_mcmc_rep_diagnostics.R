@@ -142,7 +142,7 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
         reps = 2,
         save_warmup = TRUE,
         inc_warmup = TRUE,
-        copy_data = c("n", "true_beta"),
+        data_copy = c("n", "true_beta"),
         log = R.utils::nullfile()
       )
     )
@@ -241,7 +241,7 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
         reps = 2,
         save_warmup = TRUE,
         inc_warmup = TRUE,
-        copy_data = c("n", "true_beta"),
+        data_copy = c("n", "true_beta"),
         log = R.utils::nullfile()
       )
     )

@@ -53,7 +53,7 @@ tar_stan_mle_rep <- function(
   tol_param = NULL,
   history_size = NULL,
   sig_figs = NULL,
-  copy_data = character(0),
+  data_copy = character(0),
   variables = NULL,
   summaries = list(),
   summary_args = list(),
@@ -128,7 +128,7 @@ tar_stan_mle_rep <- function(
     tol_rel_grad = tol_rel_grad,
     tol_param = tol_param,
     history_size = history_size,
-    copy_data = copy_data,
+    data_copy = data_copy,
     variables = variables,
     summaries = summaries,
     summary_args = summary_args
@@ -282,7 +282,7 @@ tar_stan_mle_rep_run <- function(
   tol_rel_grad,
   tol_param,
   history_size,
-  copy_data,
+  data_copy,
   variables,
   summaries,
   summary_args
@@ -333,7 +333,7 @@ tar_stan_mle_rep_run <- function(
       tol_rel_grad = tol_rel_grad,
       tol_param = tol_param,
       history_size = history_size,
-      copy_data = copy_data,
+      data_copy = data_copy,
       variables = variables,
       summaries = summaries,
       summary_args = summary_args
@@ -363,7 +363,7 @@ tar_stan_mle_rep_run_rep <- function(
   tol_rel_grad,
   tol_param,
   history_size,
-  copy_data,
+  data_copy,
   variables,
   summaries,
   summary_args
@@ -394,6 +394,6 @@ tar_stan_mle_rep_run_rep <- function(
     variables = variables,
     inc_warmup = NULL,
     data = data,
-    copy_data = copy_data
+    data_copy = data_copy
   )
 }

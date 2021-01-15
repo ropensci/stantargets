@@ -73,7 +73,7 @@ tar_stan_mcmc_rep <- function(
   sig_figs = NULL,
   validate_csv = TRUE,
   show_messages = TRUE,
-  copy_data = character(0),
+  data_copy = character(0),
   variables = NULL,
   inc_warmup = FALSE,
   summaries = NULL,
@@ -95,7 +95,7 @@ tar_stan_mcmc_rep <- function(
   compile <- match.arg(compile)
   assert_chr(stan_files, "stan_files must be a character vector")
   assert_unique(stan_files, "stan_files must be unique")
-  assert_chr(copy_data, "copy_data must be a character vector")
+  assert_chr(data_copy, "data_copy must be a character vector")
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")
@@ -163,7 +163,7 @@ tar_stan_mcmc_rep <- function(
     validate_csv = validate_csv,
     show_messages = show_messages,
     inc_warmup = inc_warmup,
-    copy_data = copy_data,
+    data_copy = data_copy,
     variables = variables,
     summaries = summaries,
     summary_args = summary_args
@@ -293,7 +293,7 @@ tar_stan_mcmc_rep <- function(
 #' @param stan_path Original path to the input Stan file.
 #' @param output Type of output to create, either `"summaries"`,
 #'   `"draws"`, or `"diagnostics"`.
-#' @param copy_data Character vector of names of scalars in `data`.
+#' @param data_copy Character vector of names of scalars in `data`.
 #'   These values will be inserted as columns in the output data frame
 #'   for each rep. Useful for simulation studies where you want to
 #'   check the results against some "true value" in the data. See the
@@ -339,7 +339,7 @@ tar_stan_mcmc_rep_run <- function(
   sig_figs,
   validate_csv,
   show_messages,
-  copy_data,
+  data_copy,
   inc_warmup,
   variables,
   summaries,
@@ -403,7 +403,7 @@ tar_stan_mcmc_rep_run <- function(
       sig_figs = sig_figs,
       validate_csv = validate_csv,
       show_messages = show_messages,
-      copy_data = copy_data,
+      data_copy = data_copy,
       inc_warmup = inc_warmup,
       variables = variables,
       summaries = summaries,
@@ -448,7 +448,7 @@ tar_stan_mcmc_rep_run_rep <- function(
   show_messages,
   variables,
   inc_warmup,
-  copy_data,
+  data_copy,
   summaries,
   summary_args
 ) {
@@ -490,6 +490,6 @@ tar_stan_mcmc_rep_run_rep <- function(
     variables = variables,
     inc_warmup = inc_warmup,
     data = data,
-    copy_data = copy_data
+    data_copy = data_copy
   )
 }

@@ -27,7 +27,7 @@ tar_stan_gq_rep(
   sig_figs = NULL,
   parallel_chains = getOption("mc.cores", 1),
   threads_per_chain = NULL,
-  copy_data = character(0),
+  data_copy = character(0),
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
@@ -157,7 +157,7 @@ run in parallel. The actual number of CPU cores used use is
 \code{parallel_chains*threads_per_chain}. For an example of using threading see
 the Stan case study \href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
 
-\item{copy_data}{Character vector of names of scalars in \code{data}.
+\item{data_copy}{Character vector of names of scalars in \code{data}.
 These values will be inserted as columns in the output data frame
 for each rep. Useful for simulation studies where you want to
 check the results against some "true value" in the data. See the

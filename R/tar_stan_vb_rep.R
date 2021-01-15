@@ -51,7 +51,7 @@ tar_stan_vb_rep <- function(
   eval_elbo = NULL,
   output_samples = NULL,
   sig_figs = NULL,
-  copy_data = character(0),
+  data_copy = character(0),
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
@@ -127,7 +127,7 @@ tar_stan_vb_rep <- function(
     eval_elbo = eval_elbo,
     output_samples = output_samples,
     sig_figs = sig_figs,
-    copy_data = copy_data,
+    data_copy = data_copy,
     variables = variables,
     summaries = summaries,
     summary_args = summary_args
@@ -283,7 +283,7 @@ tar_stan_vb_rep_run <- function(
   eval_elbo,
   output_samples,
   sig_figs,
-  copy_data,
+  data_copy,
   variables,
   summaries,
   summary_args
@@ -335,7 +335,7 @@ tar_stan_vb_rep_run <- function(
       eval_elbo = eval_elbo,
       output_samples = output_samples,
       sig_figs = sig_figs,
-      copy_data = copy_data,
+      data_copy = data_copy,
       variables = variables,
       summaries = summaries,
       summary_args = summary_args
@@ -366,7 +366,7 @@ tar_stan_vb_rep_run_rep <- function(
   eval_elbo,
   output_samples,
   sig_figs,
-  copy_data,
+  data_copy,
   variables,
   summaries,
   summary_args
@@ -398,6 +398,6 @@ tar_stan_vb_rep_run_rep <- function(
     variables = variables,
     inc_warmup = NULL,
     data = data,
-    copy_data = copy_data
+    data_copy = data_copy
   )
 }

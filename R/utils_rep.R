@@ -6,7 +6,7 @@ tar_stan_rep_output <- function(
   variables,
   inc_warmup,
   data,
-  copy_data
+  data_copy
 ) {
   out <- switch(
     output,
@@ -15,7 +15,7 @@ tar_stan_rep_output <- function(
     diagnostics = tar_stan_rep_diagnostics(fit, inc_warmup)
   )
   out <- tibble::as_tibble(out)
-  out <- tar_stan_rep_scalars(out, data, copy_data)
+  out <- tar_stan_rep_scalars(out, data, data_copy)
   out$.rep <- digest::digest(stats::runif(1), algo = "xxhash32")
   out
 }
@@ -44,11 +44,11 @@ tar_stan_rep_diagnostics <- function(fit, inc_warmup) {
   tibble::as_tibble(posterior::as_draws_df(out))
 }
 
-tar_stan_rep_scalars <- function(x, data, copy_data) {
-  for (var in copy_data) {
-    msg <- paste(var, "in copy_data must have length 1 in data.")
+tar_stan_rep_scalars <- function(x, data, data_copy) {
+  for (var in data_copy) {
+    msg <- paste(var, "in data_copy must have length 1 in data.")
     assert_scalar(data[[var]], msg)
-    msg <- paste(var, "in copy_data must not already be in output.")
+    msg <- paste(var, "in data_copy must not already be in output.")
     assert_not_in(var, colnames(x), msg)
     x[[var]] <- data[[var]]
   }
