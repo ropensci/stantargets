@@ -5,8 +5,10 @@
 \alias{stantargets-package}
 \title{targets: Targets Archetypes for Stan}
 \description{
-The \code{stantargets} R package is an extension to
-\code{targets} and \code{cmdstanr} for Bayesian data analysis.
+Bayesian data analysis usually incurs long runtimes
+and cumbersome custom code. A specialized pipeline toolkit for
+Bayesians, the \code{stantargets} R package leverages
+\code{targets} and \code{cmdstanr} to ease these burdens.
 \code{stantargets} makes it super easy to set up useful scalable
 Stan pipelines that automatically parallelize the computation
 and skip expensive steps when the results are already up to date.

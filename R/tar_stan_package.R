@@ -1,7 +1,9 @@
 #' targets: Targets Archetypes for Stan
 #' @docType package
-#' @description The `stantargets` R package is an extension to
-#'   `targets` and `cmdstanr` for Bayesian data analysis.
+#' @description Bayesian data analysis usually incurs long runtimes
+#'   and cumbersome custom code. A specialized pipeline toolkit for
+#'   Bayesians, the `stantargets` R package leverages
+#'   `targets` and `cmdstanr` to ease these burdens.
 #'   `stantargets` makes it super easy to set up useful scalable
 #'   Stan pipelines that automatically parallelize the computation
 #'   and skip expensive steps when the results are already up to date.
