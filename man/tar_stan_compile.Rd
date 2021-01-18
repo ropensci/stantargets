@@ -142,7 +142,7 @@ Most of the arguments are passed to the
 For details, visit \url{https://mc-stan.org/cmdstanr/reference/}.
 }
 \examples{
-if (Sys.getenv("TAR_EXAMPLES") == "true") {
+if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 targets::tar_dir({
 tar_stan_example_file()
 targets::tar_script({

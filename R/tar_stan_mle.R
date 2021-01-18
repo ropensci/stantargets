@@ -26,7 +26,7 @@
 #' @inheritParams tar_stan_mcmc
 #' @inheritParams targets::tar_target
 #' @examples
-#' if (Sys.getenv("TAR_EXAMPLES") == "true") {
+#' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 #' targets::tar_dir({
 #' tar_stan_example_file()
 #' targets::tar_script({
@@ -39,7 +39,7 @@
 #'     log = R.utils::nullfile()
 #'   )
 #' )
-#' })
+#' }, ask = FALSE)
 #' targets::tar_make()
 #' })
 #' }

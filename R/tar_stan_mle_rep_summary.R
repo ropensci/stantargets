@@ -18,7 +18,7 @@
 #'     Suppressed if `combine` is `FALSE`.
 #' @inheritParams tar_stan_mle_rep
 #' @examples
-#' if (Sys.getenv("TAR_EXAMPLES") == "true") {
+#' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 #' targets::tar_dir({
 #' tar_stan_example_file()
 #' targets::tar_script({
@@ -33,7 +33,7 @@
 #'     log = R.utils::nullfile()
 #'   )
 #' )
-#' })
+#' }, ask = FALSE)
 #' targets::tar_make()
 #' })
 #' }
