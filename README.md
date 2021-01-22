@@ -3,21 +3,23 @@
 
 [![R
 Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia/)
+<!--
 [![cran](http://www.r-pkg.org/badges/version/stantargets)](https://cran.r-project.org/package=stantargets)
+-->
 [![active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![check](https://github.com/wlandau/stantargets/workflows/check/badge.svg)](https://github.com/wlandau/stantargets/actions?query=workflow%3Acheck)
 [![codecov](https://codecov.io/gh/wlandau/stantargets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/stantargets)
 [![lint](https://github.com/wlandau/stantargets/workflows/lint/badge.svg)](https://github.com/wlandau/stantargets/actions?query=workflow%3Alint)
 
 The `stantargets` R package is an extension to
-[`targets`](https://github.com/wlandau/targets) and
+[`targets`](https://docs.ropensci.org/targets/) and
 [`cmdstanr`](https://github.com/stan-dev/cmdstanr) for Bayesian data
 analysis. `stantargets` makes it super easy to set up useful scalable
 Stan pipelines that automatically parallelize the computation and skip
 expensive steps when the results are already up to date. Minimal custom
 code is required, and there is no need to manually configure branching,
 so usage is much easier than
-[`targets`](https://github.com/wlandau/targets) alone. `stantargets` can
+[`targets`](https://docs.ropensci.org/targets/) alone. `stantargets` can
 access all of [`cmdstanr`](https://github.com/stan-dev/cmdstanr)’s major
 algorithms (MCMC, variational Bayes, and optimization) and it supports
 both single-fit workflows and multi-rep simulation studies.
@@ -25,13 +27,12 @@ both single-fit workflows and multi-rep simulation studies.
 ## Prerequisites
 
 1.  The [prerequisites of the `targets` R
-    package](https://wlandau.github.io/targets/#prerequisites).
+    package](https://docs.ropensci.org/targets/index.html#prerequisites).
 2.  Basic familiarity with
-    [`targets`](https://wlandau.github.io/targets/): watch minutes 6
+    [`targets`](https://docs.ropensci.org/targets/): watch minutes 6
     through 40 of [this video](https://youtu.be/Gqn7Xn4d5NI), then read
-    [this
-    chapter](https://wlandau.github.io/targets-manual/walkthrough.html)
-    of the [user manual](https://wlandau.github.io/targets-manual/).
+    [this chapter](https://books.ropensci.org/targets/walkthrough.html)
+    of the [user manual](https://books.ropensci.org/targets/).
 3.  Familiarity with Bayesian Statistics and
     [Stan](https://mc-stan.org/). Prior knowledge of
     [`cmdstanr`](https://mc-stan.org/cmdstanr/) helps.
@@ -63,13 +64,13 @@ cmdstanr::install_cmdstan()
 ## Usage
 
 First, write a [`_targets.R`
-file](https://wlandau.github.io/targets-manual/walkthrough.html) that
-loads your packages, defines a function to generate
+file](https://books.ropensci.org/targets/walkthrough.html) that loads
+your packages, defines a function to generate
 [Stan](https://mc-stan.org/) data, and lists a pipeline of targets. The
 target list can call target factories like
 [`tar_stan_mcmc()`](https://wlandau.github.io/stantargets/reference/tar_stan_mcmc.html)
 as well as ordinary targets with
-[`tar_target()`](https://wlandau.github.io/targets/reference/tar_target.html).
+[`tar_target()`](https://docs.ropensci.org/targets/reference/tar_target.html).
 
 ``` r
 # _targets.R
@@ -89,11 +90,11 @@ list(
 ```
 
 Run
-[`tar_visnetwork()`](https://wlandau.github.io/targets/reference/tar_visnetwork.html)
+[`tar_visnetwork()`](https://docs.ropensci.org/targets/reference/tar_visnetwork.html)
 to check `_targets.R` for correctness, then call
-[`tar_make()`](https://wlandau.github.io/targets/reference/tar_make.html)
+[`tar_make()`](https://docs.ropensci.org/targets/reference/tar_make.html)
 to run the pipeline. Access the results using
-[`tar_read()`](https://wlandau.github.io/targets/reference/tar_read.html),
+[`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html),
 e.g. `tar_read(tar_read(example_summary_x)`. Visit [this
 vignette](https://wlandau.github.io/stantargets/articles/mcmc.html) to
 read more about this example.

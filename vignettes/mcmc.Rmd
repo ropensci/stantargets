@@ -22,7 +22,7 @@ library(targets)
 library(stantargets)
 ```
 
-The `stantargets` package makes it easy to run a single Stan model and keep track of the results. [`cmdstanr`](https://github.com/stan-dev/cmdstanr) fits the models, and [`targets`](https://github.com/wlandau/targets) manages the workflow and helps avoid unnecessary computation.
+The `stantargets` package makes it easy to run a single Stan model and keep track of the results. [`cmdstanr`](https://github.com/stan-dev/cmdstanr) fits the models, and [`targets`](https://docs.ropensci.org/targets/) manages the workflow and helps avoid unnecessary computation.
 
 First, write a Stan model file.
 
@@ -44,7 +44,7 @@ writeLines(lines, "x.stan")
 ```
 
 
-Next, create a `_targets.R` file to define the [`targets`](https://github.com/wlandau/targets) pipeline.
+Next, create a `_targets.R` file to define the [`targets`](https://docs.ropensci.org/targets/) pipeline.
 
 ```{r, echo = FALSE}
 library(targets)
@@ -102,7 +102,7 @@ Run `tar_manifest()` to see a tidy data frame of commands and settings for the t
 tar_manifest()
 ```
 
-[`targets`](https://github.com/wlandau/targets) produces a graph to show the dependency relationships among the targets. Below, the MCMC depends on the model file and the data, and the draws, summary, and diagnostics depend on the MCMC.
+[`targets`](https://docs.ropensci.org/targets/) produces a graph to show the dependency relationships among the targets. Below, the MCMC depends on the model file and the data, and the draws, summary, and diagnostics depend on the MCMC.
 
 ```{r, output = FALSE, message = FALSE}
 tar_visnetwork(targets_only = TRUE)
@@ -114,7 +114,7 @@ Run the computation with `tar_make()`.
 tar_make()
 ```
 
-The output lives in a special folder called `_targets/` and you can retrieve it with functions `tar_load()` and `tar_read()` (from [`targets`](https://github.com/wlandau/targets)).
+The output lives in a special folder called `_targets/` and you can retrieve it with functions `tar_load()` and `tar_read()` (from [`targets`](https://docs.ropensci.org/targets/)).
 
 ```{r}
 tar_read(example_summary_x)
@@ -372,4 +372,4 @@ tar_read(postpred)
 
 ## More information
 
-For more on [`targets`](https://github.com/wlandau/targets), please visit the reference website <https://wlandau.github.io/targets/> or the user manual <https://wlandau.github.io/targets-manual/>. The manual walks though advanced features of `targets` such as [high-performance computing](https://wlandau.github.io/targets-manual/hpc.html) and [cloud storage support](https://wlandau.github.io/targets-manual/cloud.html).
+For more on [`targets`](https://docs.ropensci.org/targets/), please visit the reference website <https://docs.ropensci.org/targets/> or the user manual <https://books.ropensci.org/targets/>. The manual walks though advanced features of `targets` such as [high-performance computing](https://books.ropensci.org/targets/hpc.html) and [cloud storage support](https://books.ropensci.org/targets/cloud.html).

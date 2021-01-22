@@ -122,7 +122,7 @@ tar_load(model)
 model
 ```
 
-Now, let's assess how often the estimated 95% credible intervals capture the true values of `beta`. If the model is implemented correctly, the coverage value below should be close to 95%. (Ordinarily, we would [increase the number of batches and reps per batch](https://wlandau.github.io/targets-manual/dynamic.html#batching) and [run batches in parallel computing](https://wlandau.github.io/targets-manual/hpc.html).)
+Now, let's assess how often the estimated 95% credible intervals capture the true values of `beta`. If the model is implemented correctly, the coverage value below should be close to 95%. (Ordinarily, we would [increase the number of batches and reps per batch](https://books.ropensci.org/targets/dynamic.html#batching) and [run batches in parallel computing](https://books.ropensci.org/targets/hpc.html).)
 
 ```{r}
 library(dplyr)
