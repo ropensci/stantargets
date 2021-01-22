@@ -41,8 +41,8 @@ Imports:
   qs (>= 0.14.1),
   rlang (>= 0.4.8),
   stats,
-  targets (>= 0.0.0.9003),
-  tarchetypes (>= 0.0.0.9000),
+  targets (>= 0.0.1),
+  tarchetypes (>= 0.0.1),
   tibble (>= 3.0.4),
   tools
 Suggests:
@@ -57,7 +57,6 @@ Suggests:
 Remotes:
   stan-dev/cmdstanr,
   stan-dev/posterior,
-  wlandau/targets,
   wlandau/tarchetypes
 SystemRequirements: CmdStan >= 2.25.0
 Encoding: UTF-8
