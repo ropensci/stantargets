@@ -151,7 +151,7 @@ if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 targets::tar_dir({ # tar_dir() runs code from a temporary directory.
 targets::tar_script({
 library(stantargets)
-# Do not user temporary storage for stan files in real projects
+# Do not use temporary storage for stan files in real projects
 # or else your targets will always rerun.
 path <- tempfile(fileext = ".stan")
 tar_stan_example_file(path = path)

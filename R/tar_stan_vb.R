@@ -33,13 +33,16 @@
 #' @examples
 #' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 #' targets::tar_dir({ # tar_dir() runs code from a temporary directory.
-#' tar_stan_example_file()
 #' targets::tar_script({
 #' library(stantargets)
+#' # Do not use temporary storage for stan files in real projects
+#' # or else your targets will always rerun.
+#' path <- tempfile(fileext = ".stan")
+#' tar_stan_example_file(path = path)
 #' list(
 #'   tar_stan_vb(
 #'     your_model,
-#'     stan_files = "stantargets_example.stan",
+#'     stan_files = path,
 #'     data = tar_stan_example_data(),
 #'     variables = "beta",
 #'     summaries = list(~quantile(.x, probs = c(0.25, 0.75))),

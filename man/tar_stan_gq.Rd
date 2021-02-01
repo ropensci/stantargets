@@ -277,19 +277,22 @@ target, then the model should not recompile.
 \examples{
 if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 targets::tar_dir({ # tar_dir() runs code from a temporary directory.
-tar_stan_example_file()
 targets::tar_script({
 library(stantargets)
+# Do not use temporary storage for stan files in real projects
+# or else your targets will always rerun.
+path <- tempfile(fileext = ".stan")
+tar_stan_example_file(path = path)
 list(
   tar_stan_mcmc(
     your_model,
-    stan_files = c(x = "stantargets_example.stan"),
+    stan_files = c(x = path),
     data = tar_stan_example_data(),
     log = R.utils::nullfile()
   ),
   tar_stan_gq(
     custom_gq,
-    stan_files = "stantargets_example.stan", # Can be a different model.
+    stan_files = path, # Can be a different model.
     fitted_params = your_model_mcmc_x,
     data = your_model_data, # Can be a different dataset.
     log = R.utils::nullfile()

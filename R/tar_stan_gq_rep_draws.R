@@ -26,20 +26,23 @@
 #' @examples
 #' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 #' targets::tar_dir({ # tar_dir() runs code from a temporary directory.
-#' tar_stan_example_file()
 #' targets::tar_script({
 #' library(stantargets)
+#' # Do not use temporary storage for stan files in real projects
+#' # or else your targets will always rerun.
+#' path <- tempfile(fileext = ".stan")
+#' tar_stan_example_file(path = path)
 #' list(
 #'   tar_stan_mcmc(
 #'     your_model,
-#'     stan_files = c(x = "stantargets_example.stan"),
+#'     stan_files = c(x = path),
 #'     data = tar_stan_example_data(),
 #'     log = R.utils::nullfile(),
 #'     refresh = 0
 #'   ),
 #'   tar_stan_gq_rep_draws(
 #'     generated_quantities,
-#'     stan_files = "stantargets_example.stan",
+#'     stan_files = path,
 #'     data = tar_stan_example_data(),
 #'     fitted_params = your_model_mcmc_x,
 #'     batches = 2,
