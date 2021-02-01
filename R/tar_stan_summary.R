@@ -4,7 +4,13 @@
 #' @details [tar_stan_mcmc()] etc. with `summary = TRUE` already gives you a
 #'   target with a `$summary()` object.
 #'   Use `tar_stan_summary()` to create additional specialized summaries.
-#' @return A `targets::tar_target()` object to summarize a `CmdStanFit` object.
+#' @return A target object to summarize a `CmdStanFit` object.
+#'
+#'   Target objects represent skippable steps of the analysis pipeline
+#'   as described at <https://books.ropensci.org/targets/>.
+#'   Please see the design specification at
+#'   <https://books.ropensci.org/targets-design/>
+#'   to learn about the structure and composition of target objects.
 #' @inheritParams tar_stan_mcmc
 #' @inheritParams targets::tar_target
 #' @inheritParams cmdstanr::`fit-method-summary`

@@ -111,7 +111,13 @@ If \code{"worker"}, the worker loads the targets dependencies.}
 rules that decide whether the target is up to date.}
 }
 \value{
-A \code{targets::tar_target()} object to summarize a \code{CmdStanFit} object.
+A target object to summarize a \code{CmdStanFit} object.
+
+Target objects represent skippable steps of the analysis pipeline
+as described at \url{https://books.ropensci.org/targets/}.
+Please see the design specification at
+\url{https://books.ropensci.org/targets-design/}
+to learn about the structure and composition of target objects.
 }
 \description{
 Target to run the \verb{$summary()} method of a \code{CmdStanFit} object.

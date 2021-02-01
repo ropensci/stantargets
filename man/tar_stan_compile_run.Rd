@@ -45,7 +45,7 @@ https://mc-stan.org/docs/cmdstan-guide/stanc.html.}
 not modified since last compiled. The default is \code{FALSE}.}
 }
 \value{
-Character of length 1, the value of \code{stan_file}
+Character of length 1, the value of \code{stan_file}.
 }
 \description{
 Not a user-side function. Do not invoke directly.

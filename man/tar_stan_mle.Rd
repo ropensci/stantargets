@@ -292,7 +292,7 @@ rules that decide whether the target is up to date.}
 }
 \value{
 \code{tar_stan_mle(name = x, stan_files = "y.stan", ...)} returns a list
-of \code{targets::tar_target()} objects:
+of target objects:
 \itemize{
 \item \code{x_file_y}: reproducibly track the Stan model file.
 \item \code{x_lines_y}: contents of the Stan model file.
@@ -306,6 +306,12 @@ Omitted if \code{summary = FALSE}.
 If you supply multiple models, you will get more (model-specific) targets.
 All the models share the same dataset.
 }
+
+Target objects represent skippable steps of the analysis pipeline
+as described at \url{https://books.ropensci.org/targets/}.
+Please see the design specification at
+\url{https://books.ropensci.org/targets-design/}
+to learn about the structure and composition of target objects.
 }
 \description{
 Targets to optimize a Stan model once

@@ -6,7 +6,12 @@
 #' @details Most of the arguments are passed to the
 #'   `$compile()` method of the `CmdStanModel` class.
 #'   For details, visit <https://mc-stan.org/cmdstanr/reference/>.
-#' @return Character of length 1, the original Stan model file.
+#' @return A target object to compile a Stan file.
+#'   Target objects represent skippable steps of the analysis pipeline
+#'   as described at <https://books.ropensci.org/targets/>.
+#'   Please see the design specification at
+#'   <https://books.ropensci.org/targets-design/>
+#'   to learn about the structure and composition of target objects.
 #' @inheritParams targets::tar_target
 #' @inheritParams tar_stan_compile_run
 #' @examples
@@ -131,7 +136,7 @@ tar_stan_compile_command <- function(
 #' @export
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
-#' @return Character of length 1, the value of `stan_file`
+#' @return Character of length 1, the value of `stan_file`.
 #' @inheritParams cmdstanr::cmdstan_model
 #' @inheritParams cmdstanr::`model-method-compile`
 tar_stan_compile_run <- function(

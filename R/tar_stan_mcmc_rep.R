@@ -3,7 +3,7 @@
 #' @description Internal function for replicated MCMC.
 #'   Users should not invoke directly.
 #' @return `tar_stan_mcmc_rep(name = x, stan_files = "y.stan")`
-#'   returns a list of `targets::tar_target()` objects:
+#'   returns a list of target objects:
 #'   * `x_file_y`: reproducibly track the Stan model file.
 #'   * `x_lines_y`: contents of the Stan model file.
 #'     Omitted if `compile = "original"`.
@@ -12,6 +12,12 @@
 #'   * `x`: combine all the model-specific summary targets into
 #'     a single data frame with columns to distinguish among the models.
 #'     Suppressed if `combine` is `FALSE`.
+#'
+#'   Target objects represent skippable steps of the analysis pipeline
+#'   as described at <https://books.ropensci.org/targets/>.
+#'   Please see the design specification at
+#'   <https://books.ropensci.org/targets-design/>
+#'   to learn about the structure and composition of target objects.
 #' @inheritParams tar_stan_mcmc_rep_run
 #' @inheritParams tar_stan_summary
 #' @inheritParams cmdstanr::cmdstan_model
