@@ -8,6 +8,10 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+# With the root.dir option below,
+# this vignette runs the R code in a temporary directory
+# so new files are written to temporary storage
+# and not the user's file space.
 knitr::opts_knit$set(root.dir = fs::dir_create(tempfile()))
 knitr::opts_chunk$set(
   collapse = TRUE,

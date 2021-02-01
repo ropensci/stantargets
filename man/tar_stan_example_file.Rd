@@ -4,7 +4,7 @@
 \alias{tar_stan_example_file}
 \title{Write an example Stan model file.}
 \usage{
-tar_stan_example_file(path = "stantargets_example.stan")
+tar_stan_example_file(path = tempfile())
 }
 \arguments{
 \item{path}{Character of length 1, file path to write the model file.}

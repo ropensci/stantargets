@@ -8,7 +8,7 @@
 #' path <- tempfile()
 #' tar_stan_example_file(path = path)
 #' writeLines(readLines(path))
-tar_stan_example_file <- function(path = "stantargets_example.stan") {
+tar_stan_example_file <- function(path = tempfile()) {
   src <- system.file("example.stan", package = "stantargets", mustWork = TRUE)
   file.copy(src, path, overwrite = TRUE)
   invisible()

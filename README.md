@@ -43,7 +43,7 @@ Read the `stantargets` tutorial vignettes
 [here](https://wlandau.github.io/stantargets/articles/mcmc.html) and
 [here](https://wlandau.github.io/stantargets/articles/mcmc_rep.html),
 then use <https://wlandau.github.io/stantargets/> as a reference while
-constructing your own worklows.
+constructing your own workflows.
 
 ## Installation
 
