@@ -17,10 +17,13 @@
 #' @examples
 #' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 #' targets::tar_dir({
-#' tar_stan_example_file()
 #' targets::tar_script({
 #' library(stantargets)
-#' list(tar_stan_compile(compiled_model, "stantargets_example.stan"))
+#' # Do not user temporary storage for stan files in real projects
+#' # or else your targets will always rerun.
+#' path <- tempfile(fileext = ".stan")
+#' tar_stan_example_file(path = path)
+#' list(tar_stan_compile(compiled_model, path))
 #' })
 #' targets::tar_make()
 #' })
