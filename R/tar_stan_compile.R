@@ -16,7 +16,7 @@
 #' @inheritParams tar_stan_compile_run
 #' @examples
 #' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
-#' targets::tar_dir({
+#' targets::tar_dir({ # tar_dir() runs code from a temporary directory.
 #' targets::tar_script({
 #' library(stantargets)
 #' # Do not user temporary storage for stan files in real projects

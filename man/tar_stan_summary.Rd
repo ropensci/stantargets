@@ -128,22 +128,28 @@ target with a \verb{$summary()} object.
 Use \code{tar_stan_summary()} to create additional specialized summaries.
 }
 \examples{
-# First, write your Stan model file. Example:
-# tar_stan_example_file() # Writes stantargets_example.stan
-# Then in _targets.R, write the pipeline:
+# First, write your Stan model file, e.g. model.stan.
+# Then in _targets.R, write a pipeline like this:
+if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
+targets::tar_dir({ # tar_dir() runs code from a temporary directory.
+targets::tar_script({
+library(stantargets)
 list(
   # Run a model and produce default summaries.
   tar_stan_mcmc(
     your_model,
-    stan_files = "stantargets_example.stan",
+    stan_files = "model.stan",
     data = tar_stan_example_data()
   ),
   # Produce a more specialized summary
   tar_stan_summary(
     your_summary,
-    fit = your_model,
+    fit = your_model_mcmc_model,
     variables = "beta",
     summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
   )
-)
+)}, ask = FALSE)
+targets::tar_manifest()
+})
+}
 }

@@ -25,7 +25,7 @@
 #' @inheritParams tar_stan_vb_rep
 #' @examples
 #' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
-#' targets::tar_dir({
+#' targets::tar_dir({ # tar_dir() runs code from a temporary directory.
 #' tar_stan_example_file()
 #' targets::tar_script({
 #' library(stantargets)
