@@ -1,3 +1,5 @@
+# targets::tar_test() runs the test code inside a temporary directory
+# to avoid accidentally writing to the user's file space.
 targets::tar_test("%||%", {
   expect_equal("x" %||% "y", "x")
   expect_equal(character(0) %||% "y", character(0))

@@ -1,3 +1,5 @@
+# targets::tar_test() runs the test code inside a temporary directory
+# to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
