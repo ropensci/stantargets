@@ -33,7 +33,7 @@ jobs:
       - name: Install packages
         run: |
           install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE, type = ifelse(tolower(Sys.info()["sysname"]) == "linux", "source", "binary"))
+          remotes::install_deps(dependencies = TRUE, type = "source")
           remotes::install_cran("covr")
         shell: Rscript {0}
 

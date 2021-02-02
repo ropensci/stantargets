@@ -56,8 +56,7 @@ Suggests:
   withr (>= 2.1.2)
 Remotes:
   stan-dev/cmdstanr,
-  stan-dev/posterior,
-  wlandau/tarchetypes
+  stan-dev/posterior
 SystemRequirements: CmdStan >= 2.25.0
 Encoding: UTF-8
 Language: en-US
