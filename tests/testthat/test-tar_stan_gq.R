@@ -2,14 +2,14 @@
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_gq(compile = \"original\")", {
   skip_on_cran()
-  tar_stan_example_file("file1.stan")
-  tar_stan_example_file("file2.stan")
+  tar_stan_example_file("a.stan")
+  tar_stan_example_file("b.stan")
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     list(
       tar_stan_mcmc(
         model,
-        stan_files = "file1.stan",
+        stan_files = "a.stan",
         data = tar_stan_example_data(),
         compile = "original",
         quiet = TRUE,
@@ -27,7 +27,7 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         gq,
         fitted_params = model_mcmc_file1,
         compile = "original",
-        stan_files = c("file1.stan", "file2.stan"),
+        stan_files = c("a.stan", "b.stan"),
         data = model_data,
         log = R.utils::nullfile()
       )
@@ -61,8 +61,8 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
   expect_equal(out, exp)
   # results
   capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
-  expect_equal(targets::tar_read(gq_file_file1), "file1.stan")
-  expect_equal(targets::tar_read(gq_file_file2), "file2.stan")
+  expect_equal(targets::tar_read(gq_file_file1), "a.stan")
+  expect_equal(targets::tar_read(gq_file_file2), "b.stan")
   out <- targets::tar_read(gq_data)
   expect_true(is.list(out))
   expect_equal(out$n, 10L)
@@ -93,7 +93,7 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
   # Everything should be up to date.
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   # Change the model.
-  write("", file = "file2.stan", append = TRUE)
+  write("", file = "b.stan", append = TRUE)
   out <- targets::tar_outdated(callr_function = NULL)
   exp <- c(
     "gq_file_file2",
@@ -108,7 +108,7 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
     list(
       tar_stan_mcmc(
         model,
-        stan_files = "file1.stan",
+        stan_files = "a.stan",
         data = tar_stan_example_data(),
         compile = "original",
         quiet = TRUE,
@@ -126,7 +126,7 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         gq,
         fitted_params = model_mcmc,
         compile = "original",
-        stan_files = c("file1.stan", "file2.stan"),
+        stan_files = c("a.stan", "b.stan"),
         data = tar_stan_example_data(),
         log = R.utils::nullfile()
       )
