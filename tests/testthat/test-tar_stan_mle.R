@@ -143,7 +143,7 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
   exp <- tibble::tribble(
     ~from, ~to,
     "model_data", "model_summary_a",
-    "model_data", "model_summary_a",
+    "model_data", "model_summary_b",
     "model_data", "model_mle_a",
     "model_data", "model_mle_b",
     "model_file_a", "model_lines_a",
