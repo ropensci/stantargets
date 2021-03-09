@@ -32,7 +32,7 @@ It is sometimes desirable to run one or more Bayesian models repeatedly across m
 1. Validate the implementation of a Bayesian model using simulation [@cook2006; @talts2020].
 2. Simulate a randomized controlled experiment to explore frequentist properties such as power and Type I error.
 
-This vignette focuses on (1). The goal is to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated credible intervals for `beta` capture the true value of `beta` from the simulation.
+This vignette focuses on (1). The goal is to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated credible intervals cover the true parameters from the simulation.
 
 ```{r}
 lines <- "data {
@@ -41,16 +41,19 @@ lines <- "data {
   vector[n] y;
 }
 parameters {
-  real beta;
+  real alpha;
+  vector[n] beta;
 }
 model {
-  y ~ normal(x * beta, 1);
+  y ~ normal(alpha + x .* beta, 1);
+  alpha ~ normal(0, 1);
   beta ~ normal(0, 1);
 }"
 writeLines(lines, "model.stan")
 ```
 
-Next, we define a pipeline to simulate multiple datasets and fit each dataset with the model. Below, we commit to 10 replications: 2 batches with 5 iterations per batch. (In practical situations, the total number of replications should be hundreds of times more.) We also supply custom variable names and summary functions to return the 95% credible intervals for `beta`. Below, we use the `data_copy` argument to copy the true value of `beta` from the data to the results, which will help us assess the credible intervals.
+Next, we define a pipeline to simulate multiple datasets and fit each dataset with the model. Below, we commit to 10 replications: 2 batches with 5 iterations per batch. (In practical situations, the total number of replications should be hundreds of times more.) Our input data has a special 
+`.join_data` list, which gets appended scalar-by-scalar to the numerical summaries of the correspondingly named model parameters.
 
 ```{r, echo = FALSE}
 library(targets)
@@ -58,15 +61,26 @@ tar_script({
   library(stantargets)
   options(crayon.enabled = FALSE)
   tar_option_set(memory = "transient", garbage_collection = TRUE)
+  simulate_data <- function(n = 10L) {
+    alpha <- rnorm(n = 1, mean = 0, sd = 1)
+    beta <- rnorm(n = n, mean = 0, sd = 1)
+    x <- seq(from = -1, to = 1, length.out = n)
+    y <- rnorm(n, alpha + x * beta, 1)
+    list(
+      n = n,
+      x = x,
+      y = y,
+      .join_data = list(alpha = alpha, beta = beta)
+    )
+  }
   list(
     tar_stan_mcmc_rep_summary(
       model,
       "model.stan",
-      tar_stan_example_data(),
+      simulate_data(),
       batches = 5, # Number of branch targets.
       reps = 2, # Number of model reps per branch target.
-      data_copy = "true_beta", # Append scalars from data to the output data frame.
-      variables = "beta",
+      variables = c("alpha", "beta"),
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       ),
@@ -83,22 +97,27 @@ library(stantargets)
 options(crayon.enabled = FALSE)
 tar_option_set(memory = "transient", garbage_collection = TRUE)
 
-generate_data <- function() {
-  true_beta <- stats::rnorm(n = 1, mean = 0, sd = 1)
+simulate_data <- function(n = 10L) {
+  alpha <- rnorm(n = 1, mean = 0, sd = 1)
+  beta <- rnorm(n = n, mean = 0, sd = 1)
   x <- seq(from = -1, to = 1, length.out = n)
-  y <- stats::rnorm(n, x * true_beta, 1)
-  list(n = n, x = x, y = y, true_beta = true_beta)
+  y <- rnorm(n, alpha + x * beta, 1)
+  list(
+    n = n,
+    x = x,
+    y = y,
+    .join_data = list(alpha = alpha, beta = beta)
+  )
 }
 
 list(
   tar_stan_mcmc_rep_summary(
     model,
     "model.stan",
-    generate_data(), # Runs once per rep.
+    simulate_data(), # Runs once per rep.
     batches = 5, # Number of branch targets.
     reps = 2, # Number of model reps per branch target.
-    data_copy = "true_beta", # Append scalars from data to the output data frame.
-    variables = "beta",
+    variables = c("alpha", "beta"),
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
     ),
@@ -110,7 +129,7 @@ list(
 We now have a pipeline that runs the model 10 times: 5 batches (branch targets) with 2 replications per batch.
 
 ```{r}
-tar_visnetwork(targets_only = TRUE)
+tar_visnetwork()
 ```
 
 Run the computation with `tar_make()`
@@ -119,7 +138,7 @@ Run the computation with `tar_make()`
 tar_make()
 ```
 
-The result is an aggregated data frame of summary statistics, where the `.rep` column distinguishes among individual replicates. We have the credible intervals for `beta` in columns `q2.5` and `q97.5`. And thanks to `data_copy`, we also have `true_beta`, the value of `beta` used to generate the dataset in each simulation rep.
+The result is an aggregated data frame of summary statistics, where the `.rep` column distinguishes among individual replicates. We have the credible intervals for `beta` in columns `q2.5` and `q97.5`. And thanks to `.join_data` in `simulate_data()`, there is a special `.join_data` column in the output to indicate the true value of each parameter from the simulation.
 
 ```{r}
 tar_load(model)
@@ -131,7 +150,8 @@ Now, let's assess how often the estimated 95% credible intervals capture the tru
 ```{r}
 library(dplyr)
 model %>%
-  summarize(coverage = mean(q2.5 < true_beta & true_beta < q97.5))
+  group_by(variable) %>%
+  summarize(coverage = mean(q2.5 < .join_data & .join_data < q97.5))
 ```
 For maximum reproducibility, we should express the coverage assessment as a custom function and a target in the pipeline.
 
@@ -145,15 +165,26 @@ tar_script({
     memory = "transient",
     garbage_collection = TRUE
   )
+  simulate_data <- function(n = 10L) {
+    alpha <- rnorm(n = 1, mean = 0, sd = 1)
+    beta <- rnorm(n = n, mean = 0, sd = 1)
+    x <- seq(from = -1, to = 1, length.out = n)
+    y <- rnorm(n, alpha + x * beta, 1)
+    list(
+      n = n,
+      x = x,
+      y = y,
+      .join_data = list(alpha = alpha, beta = beta)
+    )
+  }
   list(
     tar_stan_mcmc_rep_summary(
       model,
       "model.stan",
-      tar_stan_example_data(),
+      simulate_data(),
       batches = 5, # Number of branch targets.
       reps = 2, # Number of model reps per branch target.
-      data_copy = "true_beta", # Append scalars from data to the output data frame.
-      variables = "beta",
+      variables = c("alpha", "beta"),
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       ),
@@ -162,7 +193,8 @@ tar_script({
     tar_target(
       coverage,
       model %>%
-        summarize(coverage = mean(q2.5 < true_beta & true_beta < q97.5))
+        group_by(variable) %>%
+        summarize(coverage = mean(q2.5 < .join_data & .join_data < q97.5))
     )
   )
 })
@@ -173,22 +205,27 @@ tar_script({
 library(targets)
 library(stantargets)
 
-generate_data <- function() {
-  true_beta <- stats::rnorm(n = 1, mean = 0, sd = 1)
+simulate_data <- function(n = 10L) {
+  alpha <- rnorm(n = 1, mean = 0, sd = 1)
+  beta <- rnorm(n = n, mean = 0, sd = 1)
   x <- seq(from = -1, to = 1, length.out = n)
-  y <- stats::rnorm(n, x * true_beta, 1)
-  list(n = n, x = x, y = y, true_beta = true_beta)
+  y <- rnorm(n, alpha + x * beta, 1)
+  list(
+    n = n,
+    x = x,
+    y = y,
+    .join_data = list(alpha = alpha, beta = beta)
+  )
 }
 
 list(
   tar_stan_mcmc_rep_summary(
     model,
     "model.stan",
-    generate_data(),
+    simulate_data(),
     batches = 5, # Number of branch targets.
     reps = 2, # Number of model reps per branch target.
-    data_copy = "true_beta", # Append scalars from data to the output data frame.
-    variables = "beta",
+    variables = c("alpha", "beta"),
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
     ),
@@ -197,7 +234,8 @@ list(
   tar_target(
     coverage,
     model %>%
-      summarize(coverage = mean(q2.5 < true_beta & true_beta < q97.5))
+      group_by(variable) %>%
+      summarize(coverage = mean(q2.5 < .join_data & .join_data < q97.5))
   )
 )
 ```
@@ -205,7 +243,7 @@ list(
 The new `coverage` target should the only outdated target, and it should be connected to the upstream `model` target.
 
 ```{r}
-tar_visnetwork(targets_only = TRUE)
+tar_visnetwork()
 ```
 
 When we run the pipeline, only the coverage assessment should run. That way, we skip all the expensive computation of simulating datasets and running MCMC multiple times.
@@ -233,15 +271,26 @@ tar_script({
     memory = "transient",
     garbage_collection = TRUE
   )
+  simulate_data <- function(n = 10L) {
+    alpha <- rnorm(n = 1, mean = 0, sd = 1)
+    beta <- rnorm(n = n, mean = 0, sd = 1)
+    x <- seq(from = -1, to = 1, length.out = n)
+    y <- rnorm(n, alpha + x * beta, 1)
+    list(
+      n = n,
+      x = x,
+      y = y,
+      .join_data = list(alpha = alpha, beta = beta)
+    )
+  }
   list(
     tar_stan_mcmc_rep_summary(
       model,
       c("model.stan", "model2.stan"), # another model
-      tar_stan_example_data(),
+      simulate_data(),
       batches = 5,
       reps = 2,
-      data_copy = "true_beta",
-      variables = "beta",
+      variables = c("alpha", "beta"),
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       ),
@@ -250,8 +299,8 @@ tar_script({
     tar_target(
       coverage,
       model %>%
-        group_by(.name) %>%
-        summarize(coverage = mean(q2.5 < true_beta & true_beta < q97.5))
+        group_by(.name, variable) %>%
+        summarize(coverage = mean(q2.5 < .join_data & .join_data < q97.5))
     )
   )
 })
@@ -262,22 +311,27 @@ tar_script({
 library(targets)
 library(stantargets)
 
-generate_data <- function() {
-  true_beta <- stats::rnorm(n = 1, mean = 0, sd = 1)
+simulate_data <- function(n = 10L) {
+  alpha <- rnorm(n = 1, mean = 0, sd = 1)
+  beta <- rnorm(n = n, mean = 0, sd = 1)
   x <- seq(from = -1, to = 1, length.out = n)
-  y <- stats::rnorm(n, x * true_beta, 1)
-  list(n = n, x = x, y = y, true_beta = true_beta)
+  y <- rnorm(n, alpha + x * beta, 1)
+  list(
+    n = n,
+    x = x,
+    y = y,
+    .join_data = list(alpha = alpha, beta = beta)
+  )
 }
 
 list(
   tar_stan_mcmc_rep_summary(
     model,
     c("model.stan", "model2.stan"), # another model
-    generate_data(),
+    simulate_data(),
     batches = 5,
     reps = 2,
-    data_copy = "true_beta",
-    variables = "beta",
+    variables = c("alpha", "beta"),
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
     ),
@@ -286,8 +340,8 @@ list(
   tar_target(
     coverage,
     model %>%
-      group_by(.name) %>%
-      summarize(coverage = mean(q2.5 < true_beta & true_beta < q97.5))
+      group_by(.name, variable) %>%
+      summarize(coverage = mean(q2.5 < .join_data & .join_data < q97.5))
   )
 )
 ```
@@ -295,7 +349,7 @@ list(
 In the graph below, notice how targets `model_model1` and `model_model2` are both connected to `model_data` upstream. Downstream, `model` is equivalent to `dplyr::bind_rows(model_model1, model_model2)`, and it will have special columns `.name` and `.file` to distinguish among all the models.
 
 ```{r}
-tar_visnetwork(targets_only = TRUE)
+tar_visnetwork()
 ```
 
 ## References
