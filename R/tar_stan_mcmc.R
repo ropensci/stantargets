@@ -171,6 +171,7 @@ tar_stan_mcmc <- function(
   )
   command_summary <- tar_stan_summary_call(
     sym_fit = sym_mcmc,
+    sym_data = sym_data,
     summaries = substitute(summaries),
     summary_args = substitute(summary_args),
     variables = variables

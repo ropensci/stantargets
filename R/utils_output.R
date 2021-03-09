@@ -20,20 +20,32 @@ tar_stan_output <- function(
 ) {
   out <- switch(
     output,
-    summary = tar_stan_summary(fit, data, summaries, summary_args, variables),
-    draws = tar_stan_draws(fit, variables, inc_warmup),
-    diagnostics = tar_stan_diagnostics(fit, inc_warmup)
+    summary = tar_stan_output_summary(
+      fit = fit,
+      data = data,
+      summaries = summaries,
+      summary_args = summary_args,
+      variables = variables
+    ),
+    draws = tar_stan_output_draws(fit, variables, inc_warmup),
+    diagnostics = tar_stan_output_diagnostics(fit, inc_warmup)
   )
   out <- tibble::as_tibble(out)
-  out <- tar_stan_rep_scalars(out, data, data_copy)
+  out <- tar_stan_output_rep_scalars(out, data, data_copy)
   out$.rep <- digest::digest(stats::runif(1), algo = "xxhash32")
   out
 }
 
-tar_stan_summary <- function(fit, data, summaries, summary_args, variables) {
+tar_stan_output_summary <- function(
+  fit,
+  data,
+  summaries,
+  summary_args,
+  variables
+) {
   command <- tar_stan_summary_call(
     sym_fit = rlang::sym("fit"),
-#    sym_data = rlang::sym("data"),
+    sym_data = rlang::sym("data"),
     summaries = summaries,
     summary_args = summary_args,
     variables = variables
@@ -41,7 +53,7 @@ tar_stan_summary <- function(fit, data, summaries, summary_args, variables) {
   eval(command)
 }
 
-tar_stan_draws <- function(fit, variables, inc_warmup) {
+tar_stan_output_draws <- function(fit, variables, inc_warmup) {
   out <- trn(
     is.null(inc_warmup),
     fit$draws(variables = variables),
@@ -50,12 +62,12 @@ tar_stan_draws <- function(fit, variables, inc_warmup) {
   tibble::as_tibble(posterior::as_draws_df(out))
 }
 
-tar_stan_diagnostics <- function(fit, inc_warmup) {
+tar_stan_output_diagnostics <- function(fit, inc_warmup) {
   out <- fit$sampler_diagnostics(inc_warmup = inc_warmup)
   tibble::as_tibble(posterior::as_draws_df(out))
 }
 
-tar_stan_rep_scalars <- function(x, data, data_copy) {
+tar_stan_output_rep_scalars <- function(x, data, data_copy) {
   for (var in data_copy) {
     msg <- paste(var, "in data_copy must have length 1 in data.")
     assert_scalar(data[[var]], msg)

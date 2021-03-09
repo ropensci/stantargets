@@ -40,6 +40,7 @@
 #'   tar_stan_summary(
 #'     your_summary,
 #'     fit = your_model_mcmc_model,
+#'     data = your_model_data_model,
 #'     variables = "beta",
 #'     summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
 #'   )
@@ -50,6 +51,7 @@
 tar_stan_summary <- function(
   name,
   fit,
+  data = NULL,
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
@@ -64,9 +66,9 @@ tar_stan_summary <- function(
   cue = targets::tar_option_get("cue")
 ) {
   name <- deparse_language(substitute(name))
-  fit <- deparse_language(substitute(fit))
   command <- tar_stan_summary_call(
-    sym_fit = rlang::sym(fit),
+    sym_fit = substitute(fit),
+    sym_data = substitute(data),
     summaries = substitute(summaries),
     summary_args = substitute(summary_args),
     variables = variables
@@ -87,6 +89,7 @@ tar_stan_summary <- function(
 
 tar_stan_summary_call <- function(
   sym_fit,
+  sym_data,
   summaries,
   summary_args,
   variables
@@ -101,5 +104,39 @@ tar_stan_summary_call <- function(
   args$.args <- summary_args
   args <- c(args, summaries)
   expr <- as.call(list(quote(tibble::tibble), as.call(args)))
+  expr <- as.call(
+    list(
+      quote(stantargets::tar_stan_summary_join_data),
+      summaries = expr,
+      data = sym_data
+    )
+  )
   as.expression(expr)
+}
+
+#' @title Join some Stan data to summary output
+#' @export
+#' @keywords internal
+#' @description Not a user-side function. Do not invoke directly.
+#' @return A data frame of user-friendly Stan output.
+#' @param summaries A data frame of Stan posterior summaries.
+#' @param data List, Stan dataset.
+tar_stan_summary_join_data <- function(summaries, data) {
+  summaries$.join_data <- purrr::map_dbl(
+    summaries$variable,
+    ~tar_stan_summary_join_data_scalar(.x, data$.join_data)
+  )
+  summaries
+}
+
+tar_stan_summary_join_data_scalar <- function(text, data) {
+  out <- try(eval(parse(text = text), envir = data), silent = TRUE)
+  if (!is.vector(out) || length(out) != 1L) {
+    out <- NA_real_
+  }
+  out
+}
+
+tar_jags_df_dic <- function(fit) {
+  tibble::tibble(dic = fit$BUGSoutput$DIC, pD = fit$BUGSoutput$pD)
 }

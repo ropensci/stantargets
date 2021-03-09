@@ -131,6 +131,7 @@ tar_stan_vb <- function(
   )
   command_summary <- tar_stan_summary_call(
     sym_fit = sym_vb,
+    sym_data = sym_data,
     summaries = substitute(summaries),
     summary_args = substitute(summary_args),
     variables = variables

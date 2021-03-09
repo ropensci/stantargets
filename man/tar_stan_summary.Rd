@@ -4,13 +4,34 @@
 \alias{tar_stan_summary}
 \title{One summary of a \code{CmdStanFit} object.}
 \usage{
-tar_stan_summary(fit, data, summaries, summary_args, variables)
+tar_stan_summary(
+  name,
+  fit,
+  data = NULL,
+  variables = NULL,
+  summaries = NULL,
+  summary_args = NULL,
+  error = targets::tar_option_get("error"),
+  memory = targets::tar_option_get("memory"),
+  garbage_collection = targets::tar_option_get("garbage_collection"),
+  deployment = targets::tar_option_get("deployment"),
+  priority = targets::tar_option_get("priority"),
+  resources = targets::tar_option_get("resources"),
+  storage = targets::tar_option_get("storage"),
+  retrieval = targets::tar_option_get("retrieval"),
+  cue = targets::tar_option_get("cue")
+)
 }
 \arguments{
+\item{name}{Symbol, base name for the collection of targets.
+Serves as a prefix for target names.}
+
 \item{fit}{Symbol, name of a \code{CmdStanFit} object or an upstream target
 that returns a \code{CmdStanFit} object.}
 
 \item{data}{Code to generate the \code{data} for the Stan model.}
+
+\item{variables}{(character vector) The variables to include.}
 
 \item{summaries}{Optional list of summary functions passed to \code{...} in
 \code{posterior::summarize_draws()} through \verb{$summary()}
@@ -20,7 +41,81 @@ on the \code{CmdStanFit} object.}
 \code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
 
-\item{variables}{(character vector) The variables to include.}
+\item{error}{Character of length 1, what to do if the target
+runs into an error. If \code{"stop"}, the whole pipeline stops
+and throws an error. If \code{"continue"}, the error is recorded,
+but the pipeline keeps going.}
+
+\item{memory}{Character of length 1, memory strategy.
+If \code{"persistent"}, the target stays in memory
+until the end of the pipeline (unless \code{storage} is \code{"worker"},
+in which case \code{targets} unloads the value from memory
+right after storing it in order to avoid sending
+copious data over a network).
+If \code{"transient"}, the target gets unloaded
+after every new target completes.
+Either way, the target gets automatically loaded into memory
+whenever another target needs the value.
+For cloud-based dynamic files such as \code{format = "aws_file"},
+this memory policy applies to
+temporary local copies of the file in \verb{_targets/scratch/"}:
+\code{"persistent"} means they remain until the end of the pipeline,
+and \code{"transient"} means they get deleted from the file system
+as soon as possible. The former conserves bandwidth,
+and the latter conserves local storage.}
+
+\item{garbage_collection}{Logical, whether to run \code{base::gc()}
+just before the target runs.}
+
+\item{deployment}{Character of length 1, only relevant to
+\code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[targets:tar_make_future]{tar_make_future()}}. If \code{"worker"},
+the target builds on a parallel worker. If \code{"main"},
+the target builds on the host machine / process managing the pipeline.}
+
+\item{priority}{Numeric of length 1 between 0 and 1. Controls which
+targets get deployed first when multiple competing targets are ready
+simultaneously. Targets with priorities closer to 1 get built earlier
+(and polled earlier in \code{\link[targets:tar_make_future]{tar_make_future()}}).
+Only applies to \code{\link[targets:tar_make_future]{tar_make_future()}} and \code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}}
+(not \code{\link[targets:tar_make]{tar_make()}}). \code{\link[targets:tar_make_future]{tar_make_future()}} with no extra settings is
+a drop-in replacement for \code{\link[targets:tar_make]{tar_make()}} in this case.}
+
+\item{resources}{A named list of computing resources. Uses:
+\itemize{
+\item Template file wildcards for \code{future::future()} in \code{\link[targets:tar_make_future]{tar_make_future()}}.
+\item Template file wildcards \code{clustermq::workers()} in \code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}}.
+\item Custom target-level \code{future::plan()}, e.g.
+\code{resources = list(plan = future.callr::callr)}.
+\item Custom \code{curl} handle if \code{format = "url"},
+e.g. \code{resources = list(handle = curl::new_handle(nobody = TRUE))}.
+In custom handles, most users should manually set \code{nobody = TRUE}
+so \code{targets} does not download the entire file when it
+only needs to check the time stamp and ETag.
+\item Custom preset for \code{qs::qsave()} if \code{format = "qs"}, e.g.
+\code{resources = list(handle = "archive")}.
+\item Custom compression level for \code{fst::write_fst()} if
+\code{format} is \code{"fst"}, \code{"fst_dt"}, or \code{"fst_tbl"}, e.g.
+\code{resources = list(compress = 100)}.
+\item AWS bucket and prefix for the \code{"aws_"} formats, e.g.
+\code{resources = list(bucket = "your-bucket", prefix = "folder/name")}.
+\code{bucket} is required for AWS formats. See the cloud computing chapter
+of the manual for details.
+}}
+
+\item{storage}{Character of length 1, only relevant to
+\code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[targets:tar_make_future]{tar_make_future()}}.
+If \code{"main"}, the target's return value is sent back to the
+host machine and saved locally. If \code{"worker"}, the worker
+saves the value.}
+
+\item{retrieval}{Character of length 1, only relevant to
+\code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[targets:tar_make_future]{tar_make_future()}}.
+If \code{"main"}, the target's dependencies are loaded on the host machine
+and sent to the worker before the target builds.
+If \code{"worker"}, the worker loads the targets dependencies.}
+
+\item{cue}{An optional object from \code{tar_cue()} to customize the
+rules that decide whether the target is up to date.}
 }
 \value{
 A target object to summarize a \code{CmdStanFit} object.
@@ -57,6 +152,7 @@ list(
   tar_stan_summary(
     your_summary,
     fit = your_model_mcmc_model,
+    data = your_model_data_model,
     variables = "beta",
     summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
   )

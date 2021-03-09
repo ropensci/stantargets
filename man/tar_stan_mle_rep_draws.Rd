@@ -51,7 +51,8 @@ tar_stan_mle_rep_draws(
 )
 }
 \arguments{
-\item{name}{Symbol, name of the target.}
+\item{name}{Symbol, base name for the collection of targets.
+Serves as a prefix for target names.}
 
 \item{stan_files}{Character vector of paths to known existing Stan model
 files created before running the pipeline.}
