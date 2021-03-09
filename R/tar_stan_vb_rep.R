@@ -377,8 +377,10 @@ tar_stan_vb_rep_run_rep <- function(
   summaries,
   summary_args
 ) {
+  stan_data <- data
+  stan_data$.join_data <- NULL
   fit <- model$variational(
-    data = data,
+    data = stan_data,
     seed = seed,
     refresh = refresh,
     init = init,

@@ -80,6 +80,11 @@ targets::tar_test("tar_stan_mcmc(compile = \"original\")", {
   expect_true(tibble::is_tibble(out_y))
   expect_true("lp__" %in% out_x$variable)
   expect_true("lp__" %in% out_y$variable)
+  original_data <- tar_read(model_data)
+  beta <- original_data$.join_data$beta
+  y_rep <- original_data$.join_data$y_rep
+  expect_equal(out_x$.join_data[out_x$variable == "beta"], beta)
+  expect_equal(out_x$.join_data[grepl("y_rep", out_x$variable)], y_rep)
   out_x <- targets::tar_read(model_diagnostics_x)
   out_y <- targets::tar_read(model_diagnostics_y)
   expect_true(tibble::is_tibble(out_x))

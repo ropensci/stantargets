@@ -417,8 +417,10 @@ tar_stan_mcmc_run <- function(
   if (is.null(seed)) {
     seed <- abs(targets::tar_seed()) + 1L
   }
+  stan_data <- data
+  stan_data$.join_data <- NULL
   fit <- model$sample(
-    data = data,
+    data = stan_data,
     seed = seed,
     refresh = refresh,
     init = init,

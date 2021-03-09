@@ -16,6 +16,6 @@ tar_stan_example_data <- function(n = 10L) {
     x = x,
     y = y,
     true_beta = beta,
-    .join_data = list(beta = beta)
+    .join_data = list(beta = beta, y_rep = y)
   )
 }

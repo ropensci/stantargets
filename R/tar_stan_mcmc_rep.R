@@ -458,8 +458,10 @@ tar_stan_mcmc_rep_run_rep <- function(
   summaries,
   summary_args
 ) {
+  stan_data <- data
+  stan_data$.join_data <- NULL
   fit <- model$sample(
-    data = data,
+    data = stan_data,
     seed = seed,
     refresh = refresh,
     init = init,

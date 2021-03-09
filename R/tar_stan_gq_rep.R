@@ -328,9 +328,11 @@ tar_stan_gq_rep_run_rep <- function(
   summaries,
   summary_args
 ) {
+  stan_data <- data
+  stan_data$.join_data <- NULL
   fit <- model$generate_quantities(
     fitted_params = fitted_params,
-    data = data,
+    data = stan_data,
     seed = seed,
     output_dir = output_dir,
     sig_figs = sig_figs,

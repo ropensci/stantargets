@@ -302,9 +302,11 @@ tar_stan_gq_run <- function(
   if (is.null(seed)) {
     seed <- abs(targets::tar_seed()) + 1L
   }
+  stan_data <- data
+  stan_data$.join_data <- NULL
   fit <- model$generate_quantities(
     fitted_params = fitted_params,
-    data = data,
+    data = stan_data,
     seed = seed,
     output_dir = output_dir,
     sig_figs = sig_figs,
