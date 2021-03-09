@@ -119,8 +119,8 @@ tar_stan_summary_call <- function(
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A data frame of user-friendly Stan output.
+#' @inheritParams tar_stan_mcmc
 #' @param summaries A data frame of Stan posterior summaries.
-#' @param data List, Stan dataset.
 tar_stan_summary_join_data <- function(summaries, data) {
   summaries$.join_data <- purrr::map_dbl(
     summaries$variable,

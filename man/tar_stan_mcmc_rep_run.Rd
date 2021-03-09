@@ -278,9 +278,10 @@ fit object can be used to display all the silenced messages.}
 
 \item{data_copy}{Character vector of names of scalars in \code{data}.
 These values will be inserted as columns in the output data frame
-for each rep. Useful for simulation studies where you want to
-check the results against some "true value" in the data. See the
-\code{mcmc_rep} vignette for an example.}
+for each rep. To join more than just scalars, include a \code{.join_data}
+element of your Stan data list with names and dimensions corresponding
+to those of the model. For details, read
+\url{https://wlandau.github.io/stantargets/articles/mcmc_rep.html}.}
 
 \item{inc_warmup}{(logical) Should warmup draws be included? Defaults to
 \code{FALSE}. Ignored except when used with \link[cmdstanr]{CmdStanMCMC} objects.}

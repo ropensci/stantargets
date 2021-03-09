@@ -73,8 +73,13 @@ Serves as a prefix for target names.}
 \item{stan_files}{Character vector of paths to known existing Stan model
 files created before running the pipeline.}
 
-\item{data}{Code to generate one replication of a simulated dataset.
-All models iterate over the same replicated datasets.}
+\item{data}{Code to generate a single replication of a simulated dataset.
+The workflow simulates multiple datasets, and each
+model runs on each dataset. To join data on to the model
+summaries, include a \code{.join_data}
+element of your Stan data list with names and dimensions corresponding
+to those of the model. For details, read
+\url{https://wlandau.github.io/stantargets/articles/mcmc_rep.html}.}
 
 \item{output}{Type of output to create, either \code{"summaries"},
 \code{"draws"}, or \code{"diagnostics"}.}
@@ -293,9 +298,10 @@ fit object can be used to display all the silenced messages.}
 
 \item{data_copy}{Character vector of names of scalars in \code{data}.
 These values will be inserted as columns in the output data frame
-for each rep. Useful for simulation studies where you want to
-check the results against some "true value" in the data. See the
-\code{mcmc_rep} vignette for an example.}
+for each rep. To join more than just scalars, include a \code{.join_data}
+element of your Stan data list with names and dimensions corresponding
+to those of the model. For details, read
+\url{https://wlandau.github.io/stantargets/articles/mcmc_rep.html}.}
 
 \item{variables}{(character vector) The variables to read in. If \code{NULL} (the
 default) then all variables are included.}

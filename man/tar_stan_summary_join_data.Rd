@@ -9,7 +9,7 @@ tar_stan_summary_join_data(summaries, data)
 \arguments{
 \item{summaries}{A data frame of Stan posterior summaries.}
 
-\item{data}{List, Stan dataset.}
+\item{data}{Code to generate the \code{data} for the Stan model.}
 }
 \value{
 A data frame of user-friendly Stan output.

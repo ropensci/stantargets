@@ -27,8 +27,13 @@
 #' @inheritParams targets::tar_target
 #' @param stan_files Character vector of paths to known existing Stan model
 #'   files created before running the pipeline.
-#' @param data Code to generate one replication of a simulated dataset.
-#'   All models iterate over the same replicated datasets.
+#' @param data Code to generate a single replication of a simulated dataset.
+#'   The workflow simulates multiple datasets, and each
+#'   model runs on each dataset. To join data on to the model
+#'   summaries, include a `.join_data`
+#'   element of your Stan data list with names and dimensions corresponding
+#'   to those of the model. For details, read
+#'   <https://wlandau.github.io/stantargets/articles/mcmc_rep.html>.
 #' @param batches Number of batches. Each batch is a branch target
 #'   that generates a dataset and runs the model `reps` times.
 #' @param reps Number of replications per batch.
@@ -301,9 +306,10 @@ tar_stan_mcmc_rep <- function(
 #'   `"draws"`, or `"diagnostics"`.
 #' @param data_copy Character vector of names of scalars in `data`.
 #'   These values will be inserted as columns in the output data frame
-#'   for each rep. Useful for simulation studies where you want to
-#'   check the results against some "true value" in the data. See the
-#'   `mcmc_rep` vignette for an example.
+#'   for each rep. To join more than just scalars, include a `.join_data`
+#'   element of your Stan data list with names and dimensions corresponding
+#'   to those of the model. For details, read
+#'   <https://wlandau.github.io/stantargets/articles/mcmc_rep.html>.
 tar_stan_mcmc_rep_run <- function(
   stan_file,
   stan_name,

@@ -154,9 +154,10 @@ the Stan case study \href{https://mc-stan.org/users/documentation/case-studies/r
 
 \item{data_copy}{Character vector of names of scalars in \code{data}.
 These values will be inserted as columns in the output data frame
-for each rep. Useful for simulation studies where you want to
-check the results against some "true value" in the data. See the
-\code{mcmc_rep} vignette for an example.}
+for each rep. To join more than just scalars, include a \code{.join_data}
+element of your Stan data list with names and dimensions corresponding
+to those of the model. For details, read
+\url{https://wlandau.github.io/stantargets/articles/mcmc_rep.html}.}
 
 \item{variables}{(character vector) The variables to read in. If \code{NULL} (the
 default) then all variables are included.}
