@@ -2,7 +2,7 @@
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_compile()", {
   skip_on_cran()
-  tar_stan_example_file("a.stan")
+  restore_compiled_models()
   targets::tar_script({
     list(
       tar_stan_compile(compile, stan_file = "a.stan")

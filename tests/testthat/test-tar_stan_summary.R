@@ -2,20 +2,20 @@
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_summary() with defaults", {
   skip_on_cran()
-  tar_stan_example_file("x.stan")
+  restore_compiled_models()
   tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     list(
       tar_stan_mcmc(
         model,
-        stan_files = "x.stan",
+        stan_files = "a.stan",
         data = tar_stan_example_data(),
         init = 1,
         summary = FALSE,
         draws = FALSE,
         diagnostics = FALSE
       ),
-      tar_stan_summary(summary, fit = model_mcmc_x)
+      tar_stan_summary(summary, fit = model_mcmc_a)
     )
   })
   capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
@@ -27,13 +27,13 @@ targets::tar_test("tar_stan_summary() with defaults", {
 
 targets::tar_test("tar_stan_summary() with custom summaries", {
   skip_on_cran()
-  tar_stan_example_file("x.stan")
+  restore_compiled_models()
   tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     list(
       tar_stan_mcmc(
         model,
-        stan_files = "x.stan",
+        stan_files = "a.stan",
         data = tar_stan_example_data(),
         init = 1,
         summary = FALSE,
@@ -42,7 +42,7 @@ targets::tar_test("tar_stan_summary() with custom summaries", {
       ),
       tar_stan_summary(
         summary,
-        fit = model_mcmc_x,
+        fit = model_mcmc_a,
         variables = "beta",
         summaries = list(
           ~quantile(.x, probs = c(0.25, 0.75)),

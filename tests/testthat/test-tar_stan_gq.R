@@ -2,8 +2,7 @@
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_gq(compile = \"original\")", {
   skip_on_cran()
-  tar_stan_example_file("a.stan")
-  tar_stan_example_file("b.stan")
+  restore_compiled_models()
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     list(
@@ -25,7 +24,7 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
       ),
       tar_stan_gq(
         gq,
-        fitted_params = model_mcmc_file1,
+        fitted_params = model_mcmc_a,
         compile = "original",
         stan_files = c("a.stan", "b.stan"),
         data = model_data,
@@ -42,27 +41,27 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
   rownames(out) <- NULL
   exp <- tibble::tribble(
     ~from, ~to,
-    "gq_data", "gq_gq_file1",
-     "gq_data", "gq_gq_file2",
-     "gq_file_file1", "gq_gq_file1",
-     "gq_file_file2", "gq_gq_file2",
-     "gq_gq_file1", "gq_draws_file1",
-     "gq_gq_file1", "gq_summary_file1",
-     "gq_gq_file2", "gq_draws_file2",
-     "gq_gq_file2", "gq_summary_file2",
+    "gq_data", "gq_gq_a",
+     "gq_data", "gq_gq_b",
+     "gq_file_a", "gq_gq_a",
+     "gq_file_b", "gq_gq_b",
+     "gq_gq_a", "gq_draws_a",
+     "gq_gq_a", "gq_summary_a",
+     "gq_gq_b", "gq_draws_b",
+     "gq_gq_b", "gq_summary_b",
      "model_data", "gq_data",
-     "model_data", "model_mcmc_file1",
-     "model_file_file1", "model_mcmc_file1",
-     "model_mcmc_file1", "gq_gq_file1",
-     "model_mcmc_file1", "gq_gq_file2"
+     "model_data", "model_mcmc_a",
+     "model_file_a", "model_mcmc_a",
+     "model_mcmc_a", "gq_gq_a",
+     "model_mcmc_a", "gq_gq_b"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
   capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
-  expect_equal(targets::tar_read(gq_file_file1), "a.stan")
-  expect_equal(targets::tar_read(gq_file_file2), "b.stan")
+  expect_equal(targets::tar_read(gq_file_a), "a.stan")
+  expect_equal(targets::tar_read(gq_file_b), "b.stan")
   out <- targets::tar_read(gq_data)
   expect_true(is.list(out))
   expect_equal(out$n, 10L)
@@ -70,22 +69,22 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
   expect_equal(length(out$y), 10L)
   expect_true(is.numeric(out$x))
   expect_true(is.numeric(out$y))
-  out1 <- targets::tar_read(gq_gq_file1)
-  out2 <- targets::tar_read(gq_gq_file2)
+  out1 <- targets::tar_read(gq_gq_a)
+  out2 <- targets::tar_read(gq_gq_b)
   expect_true(inherits(out1, "CmdStanGQ"))
   expect_true(inherits(out2, "CmdStanGQ"))
   expect_true(inherits(out1$draws(), "array"))
   expect_true(inherits(out2$draws(), "array"))
-  out1 <- targets::tar_read(gq_draws_file1)
-  out2 <- targets::tar_read(gq_draws_file2)
+  out1 <- targets::tar_read(gq_draws_a)
+  out2 <- targets::tar_read(gq_draws_b)
   expect_true(tibble::is_tibble(out1))
   expect_true(tibble::is_tibble(out2))
   expect_equal(nrow(out1), 4000L)
   expect_equal(nrow(out2), 4000L)
   expect_true("y_rep[1]" %in% colnames(out1))
   expect_true("y_rep[1]" %in% colnames(out2))
-  out1 <- targets::tar_read(gq_summary_file1)
-  out2 <- targets::tar_read(gq_summary_file2)
+  out1 <- targets::tar_read(gq_summary_a)
+  out2 <- targets::tar_read(gq_summary_b)
   expect_true(tibble::is_tibble(out1))
   expect_true(tibble::is_tibble(out2))
   expect_true("y_rep[1]" %in% out1$variable)
@@ -96,10 +95,10 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
   write("", file = "b.stan", append = TRUE)
   out <- targets::tar_outdated(callr_function = NULL)
   exp <- c(
-    "gq_file_file2",
-    "gq_gq_file2",
-    "gq_draws_file2",
-    "gq_summary_file2"
+    "gq_file_b",
+    "gq_gq_b",
+    "gq_draws_b",
+    "gq_summary_b"
   )
   expect_equal(sort(out), sort(exp))
   # Change the data code.
@@ -135,19 +134,20 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
   out <- targets::tar_outdated(callr_function = NULL)
   exp <- c(
     "gq_data",
-    "gq_file_file2",
-    "gq_gq_file1",
-    "gq_gq_file2",
-    "gq_draws_file1",
-    "gq_draws_file2",
-    "gq_summary_file1",
-    "gq_summary_file2"
+    "gq_file_b",
+    "gq_gq_a",
+    "gq_gq_b",
+    "gq_draws_a",
+    "gq_draws_b",
+    "gq_summary_a",
+    "gq_summary_b"
   )
   expect_equal(sort(out), sort(exp))
 })
 
 targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
   skip_on_cran()
+  skip_compile_copy()
   tar_stan_example_file("a.stan")
   tar_stan_example_file("b.stan")
   targets::tar_script({

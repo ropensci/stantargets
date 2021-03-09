@@ -2,8 +2,7 @@
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_vb(compile = \"original\")", {
   skip_on_cran()
-  tar_stan_example_file(path = "a.stan")
-  tar_stan_example_file(path = "b.stan")
+  restore_compiled_models()
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     list(
@@ -116,6 +115,7 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
 targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
+  skip_compile_copy()
   tar_stan_example_file(path = "a.stan")
   tar_stan_example_file(path = "b.stan")
   targets::tar_script({
