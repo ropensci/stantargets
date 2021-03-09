@@ -33,6 +33,7 @@ tar_stan_output <- function(
 tar_stan_summary <- function(fit, data, summaries, summary_args, variables) {
   command <- tar_stan_summary_call(
     sym_fit = rlang::sym("fit"),
+#    sym_data = rlang::sym("data"),
     summaries = summaries,
     summary_args = summary_args,
     variables = variables
