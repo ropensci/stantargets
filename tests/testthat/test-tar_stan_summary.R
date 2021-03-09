@@ -43,6 +43,7 @@ targets::tar_test("tar_stan_summary() with custom summaries", {
       tar_stan_summary(
         summary,
         fit = model_mcmc_a,
+        data = model_data,
         variables = "beta",
         summaries = list(
           ~quantile(.x, probs = c(0.25, 0.75)),
@@ -62,4 +63,7 @@ targets::tar_test("tar_stan_summary() with custom summaries", {
     sort(c("variable", "25%", "75%", "custom", ".join_data"))
   )
   expect_true(all(out$custom == 123L))
+  data <- tar_read(model_data)
+  beta <- data$.join_data$beta
+  expect_equal(out$.join_data, beta)
 })
