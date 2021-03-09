@@ -191,11 +191,11 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
   expect_equal(out2$variable, "beta")
   expect_equal(
     sort(colnames(out1)),
-    sort(c("variable", "estimate"))
+    sort(c("variable", "estimate", ".join_data"))
   )
   expect_equal(
     sort(colnames(out2)),
-    sort(c("variable", "estimate"))
+    sort(c("variable", "estimate", ".join_data"))
   )
   expect_equal(out1$estimate, -10000)
   expect_equal(out2$estimate, -10000)
