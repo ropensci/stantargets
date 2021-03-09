@@ -81,6 +81,12 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"original\")", {
   expect_equal(unique(out2$.file), "b.stan")
   expect_equal(unique(out1$.name), "x")
   expect_equal(unique(out2$.name), "y")
+  original_data <- tar_read(model_data)
+  beta <- original_data[[1]][[1]]$.join_data$beta
+  y_rep <- original_data[[1]][[1]]$.join_data$y_rep
+  out1 <- out1[out1$.rep == out1$.rep[1], ]
+  expect_equal(out1$.join_data[out1$variable == "beta"], beta)
+  expect_equal(out1$.join_data[grepl("y_rep", out1$variable)], y_rep)
   # Everything should be up to date.
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   # Change the model.
