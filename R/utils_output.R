@@ -30,15 +30,6 @@ tar_stan_output <- function(
   out
 }
 
-#' @title Summarize Stan output
-#' @export
-#' @keywords internal
-#' @description Not a user-side function. Do not invoke directly.
-#' @return A data frame of user-friendly Stan output.
-#' @inheritParams tar_stan_summary
-#' @inheritParams tar_stan_mcmc_rep
-#' @param fit A Stan fit object.
-#' @param data List, Stan dataset.
 tar_stan_summary <- function(fit, data, summaries, summary_args, variables) {
   command <- tar_stan_summary_call(
     sym_fit = rlang::sym("fit"),

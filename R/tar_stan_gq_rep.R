@@ -337,7 +337,7 @@ tar_stan_gq_rep_run_rep <- function(
     parallel_chains = parallel_chains,
     threads_per_chain = threads_per_chain
   )
-  tar_stan_rep_output(
+  tar_stan_output(
     fit = fit,
     output = output,
     summaries = summaries,

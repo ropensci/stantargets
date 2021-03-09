@@ -488,7 +488,7 @@ tar_stan_mcmc_rep_run_rep <- function(
     validate_csv = validate_csv,
     show_messages = show_messages
   )
-  tar_stan_rep_output(
+  tar_stan_output(
     fit = fit,
     output = output,
     summaries = summaries,

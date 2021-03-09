@@ -396,7 +396,7 @@ tar_stan_vb_rep_run_rep <- function(
     output_samples = output_samples,
     sig_figs = sig_figs
   )
-  tar_stan_rep_output(
+  tar_stan_output(
     fit = fit,
     output = output,
     summaries = summaries,

@@ -392,7 +392,7 @@ tar_stan_mle_rep_run_rep <- function(
     tol_param = tol_param,
     history_size = history_size
   )
-  tar_stan_rep_output(
+  tar_stan_output(
     fit = fit,
     output = output,
     summaries = summaries,
