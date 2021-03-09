@@ -91,6 +91,9 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
   expect_true(tibble::is_tibble(out2))
   expect_true("y_rep[1]" %in% out1$variable)
   expect_true("y_rep[1]" %in% out2$variable)
+  original_data <- tar_read(model_data)
+  y_rep <- original_data$.join_data$y_rep
+  expect_equal(out1$.join_data[grepl("y_rep", out1$variable)], y_rep)
   # Everything should be up to date.
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   # Change the model.
