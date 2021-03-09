@@ -136,7 +136,3 @@ tar_stan_summary_join_data_scalar <- function(text, data) {
   }
   out
 }
-
-tar_jags_df_dic <- function(fit) {
-  tibble::tibble(dic = fit$BUGSoutput$DIC, pD = fit$BUGSoutput$pD)
-}
