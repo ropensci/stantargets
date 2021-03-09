@@ -14,8 +14,8 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         quiet = TRUE,
         refresh = 0,
         init = 1,
-        iter_sampling = 1000,
-        iter_warmup = 500,
+        iter_sampling = 20,
+        iter_warmup = 10,
         chains = 4,
         draws = FALSE,
         summary = FALSE,
@@ -79,8 +79,8 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
   out2 <- targets::tar_read(gq_draws_b)
   expect_true(tibble::is_tibble(out1))
   expect_true(tibble::is_tibble(out2))
-  expect_equal(nrow(out1), 4000L)
-  expect_equal(nrow(out2), 4000L)
+  expect_equal(nrow(out1), 80L)
+  expect_equal(nrow(out2), 80L)
   expect_true("y_rep[1]" %in% colnames(out1))
   expect_true("y_rep[1]" %in% colnames(out2))
   out1 <- targets::tar_read(gq_summary_a)
@@ -113,8 +113,8 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         quiet = TRUE,
         refresh = 0,
         init = 1,
-        iter_sampling = 1000,
-        iter_warmup = 500,
+        iter_sampling = 20,
+        iter_warmup = 10,
         chains = 4,
         draws = FALSE,
         diagnostics = FALSE,
