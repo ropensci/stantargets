@@ -198,8 +198,14 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
   out2 <- targets::tar_read(model_summary_b)
   expect_equal(out1$variable, "beta")
   expect_equal(out2$variable, "beta")
-  expect_equal(colnames(out1), c("variable", "25%", "75%"))
-  expect_equal(colnames(out2), c("variable", "25%", "75%"))
+  expect_equal(
+    sort(colnames(out1)),
+    sort(c("variable", "25%", "75%", ".join_data"))
+  )
+  expect_equal(
+    sort(colnames(out2)),
+    sort(c("variable", "25%", "75%", ".join_data"))
+  )
   # Everything should be up to date.
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   # Change the model.

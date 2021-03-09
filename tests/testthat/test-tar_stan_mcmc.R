@@ -227,8 +227,14 @@ targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
   out_b <- targets::tar_read(model_summary_b)
   expect_equal(out_a$variable, "beta")
   expect_equal(out_b$variable, "beta")
-  expect_equal(colnames(out_a), c("variable", "25%", "75%"))
-  expect_equal(colnames(out_b), c("variable", "25%", "75%"))
+  expect_equal(
+    sort(colnames(out_a)),
+    sort(c("variable", "25%", "75%", ".join_data"))
+  )
+  expect_equal(
+    sort(colnames(out_b)),
+    sort(c("variable", "25%", "75%", ".join_data"))
+  )
   out_a <- targets::tar_read(model_diagnostics_a)
   out_b <- targets::tar_read(model_diagnostics_b)
   expect_true(tibble::is_tibble(out_a))

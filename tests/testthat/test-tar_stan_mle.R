@@ -142,8 +142,8 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
   rownames(out) <- NULL
   exp <- tibble::tribble(
     ~from, ~to,
-    "model_data", "model_mle_x",
-    "model_data", "model_mle_y",
+    "model_data", "model_summary_a",
+    "model_data", "model_summary_a",
     "model_data", "model_mle_a",
     "model_data", "model_mle_b",
     "model_file_a", "model_lines_a",
@@ -189,8 +189,14 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
   out2 <- targets::tar_read(model_summary_b)
   expect_equal(out1$variable, "beta")
   expect_equal(out2$variable, "beta")
-  expect_equal(colnames(out1), c("variable", "estimate"))
-  expect_equal(colnames(out2), c("variable", "estimate"))
+  expect_equal(
+    sort(colnames(out1)),
+    sort(c("variable", "estimate"))
+  )
+  expect_equal(
+    sort(colnames(out2)),
+    sort(c("variable", "estimate"))
+  )
   expect_equal(out1$estimate, -10000)
   expect_equal(out2$estimate, -10000)
   # Everything should be up to date.
