@@ -57,6 +57,9 @@ targets::tar_test("tar_stan_summary() with custom summaries", {
   expect_true(tibble::is_tibble(out))
   expect_equal(nrow(out), 1L)
   expect_equal(out$variable, "beta")
-  expect_equal(colnames(out), c("variable", "25%", "75%", "custom"))
+  expect_equal(
+    sort(colnames(out)),
+    sort(c("variable", "25%", "75%", "custom", ".join_data"))
+  )
   expect_true(all(out$custom == 123L))
 })

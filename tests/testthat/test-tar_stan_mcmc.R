@@ -33,6 +33,8 @@ targets::tar_test("tar_stan_mcmc(compile = \"original\")", {
     ~from, ~to,
     "model_data", "model_mcmc_x",
     "model_data", "model_mcmc_y",
+    "model_data", "model_summary_x",
+    "model_data", "model_summary_y",
     "model_file_x", "model_mcmc_x",
     "model_file_y", "model_mcmc_y",
     "model_mcmc_x", "model_diagnostics_x",
@@ -165,6 +167,8 @@ targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
   rownames(out) <- NULL
   exp <- tibble::tribble(
     ~from, ~to,
+    "model_data", "model_summary_a",
+    "model_data", "model_summary_b",
     "model_data", "model_mcmc_a",
     "model_data", "model_mcmc_b",
     "model_file_a", "model_lines_a",

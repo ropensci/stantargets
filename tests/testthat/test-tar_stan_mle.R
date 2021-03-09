@@ -24,6 +24,8 @@ targets::tar_test("tar_stan_mle(compile = \"original\")", {
   rownames(out) <- NULL
   exp <- tibble::tribble(
     ~from, ~to,
+    "model_data", "model_summary_x",
+    "model_data", "model_summary_y",
     "model_data", "model_mle_x",
     "model_file_x", "model_mle_x",
     "model_data", "model_mle_y",
@@ -135,6 +137,8 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
   rownames(out) <- NULL
   exp <- tibble::tribble(
     ~from, ~to,
+    "model_data", "model_mle_x",
+    "model_data", "model_mle_y",
     "model_data", "model_mle_a",
     "model_data", "model_mle_b",
     "model_file_a", "model_lines_a",
