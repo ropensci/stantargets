@@ -2,8 +2,7 @@
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_vb(compile = \"original\")", {
   skip_on_cran()
-  tar_stan_example_file(path = "a.stan")
-  tar_stan_example_file(path = "b.stan")
+  restore_compiled_models()
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     list(
@@ -28,6 +27,8 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
   rownames(out) <- NULL
   exp <- tibble::tribble(
     ~from, ~to,
+    "model_data", "model_summary_x",
+    "model_data", "model_summary_y",
     "model_data", "model_vb_x",
     "model_file_x", "model_vb_x",
     "model_data", "model_vb_y",
@@ -71,6 +72,11 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
   expect_true(tibble::is_tibble(out2))
   expect_true("lp__" %in% out1$variable)
   expect_true("lp__" %in% out2$variable)
+  original_data <- tar_read(model_data)
+  beta <- original_data$.join_data$beta
+  y_rep <- original_data$.join_data$y_rep
+  expect_equal(out1$.join_data[out1$variable == "beta"], beta)
+  expect_equal(out1$.join_data[grepl("y_rep", out1$variable)], y_rep)
   # Everything should be up to date.
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   # Change the model.
@@ -116,6 +122,7 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
 targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
+  skip_compile_copy()
   tar_stan_example_file(path = "a.stan")
   tar_stan_example_file(path = "b.stan")
   targets::tar_script({
@@ -144,6 +151,8 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
   rownames(out) <- NULL
   exp <- tibble::tribble(
     ~from, ~to,
+    "model_data", "model_summary_a",
+    "model_data", "model_summary_b",
     "model_data", "model_vb_a",
     "model_data", "model_vb_b",
     "model_file_a", "model_lines_a",
@@ -189,8 +198,14 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
   out2 <- targets::tar_read(model_summary_b)
   expect_equal(out1$variable, "beta")
   expect_equal(out2$variable, "beta")
-  expect_equal(colnames(out1), c("variable", "25%", "75%"))
-  expect_equal(colnames(out2), c("variable", "25%", "75%"))
+  expect_equal(
+    sort(colnames(out1)),
+    sort(c("variable", "25%", "75%", ".join_data"))
+  )
+  expect_equal(
+    sort(colnames(out2)),
+    sort(c("variable", "25%", "75%", ".join_data"))
+  )
   # Everything should be up to date.
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   # Change the model.

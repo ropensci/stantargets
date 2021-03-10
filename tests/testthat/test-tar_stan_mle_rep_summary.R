@@ -3,8 +3,7 @@
 targets::tar_test("tar_stan_mle_rep_summary(compile = \"original\")", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
-  tar_stan_example_file(path = "a.stan")
-  tar_stan_example_file(path = "b.stan")
+  restore_compiled_models()
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     list(
@@ -57,7 +56,7 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"original\")", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 4L)
+  expect_equal(length(out), 5L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -84,6 +83,12 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"original\")", {
   expect_equal(unique(out2$.file), "b.stan")
   expect_equal(unique(out1$.name), "x")
   expect_equal(unique(out2$.name), "y")
+  original_data <- tar_read(model_data)
+  beta <- original_data[[1]][[1]]$.join_data$beta
+  y_rep <- original_data[[1]][[1]]$.join_data$y_rep
+  out1 <- out1[out1$.rep == out1$.rep[1], ]
+  expect_equal(out1$.join_data[out1$variable == "beta"], beta)
+  expect_equal(out1$.join_data[grepl("y_rep", out1$variable)], y_rep)
   # Everything should be up to date.
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   # Change the model.
@@ -116,6 +121,7 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"original\")", {
 targets::tar_test("tar_stan_mle_rep_summary(compile = \"copy\") custom", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
+  skip_compile_copy()
   tar_stan_example_file("a.stan")
   tar_stan_example_file("b.stan")
   targets::tar_script({
@@ -178,7 +184,7 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"copy\") custom", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 4L)
+  expect_equal(length(out), 5L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)

@@ -7,6 +7,7 @@
 tar_stan_summary(
   name,
   fit,
+  data = NULL,
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
@@ -27,6 +28,8 @@ Serves as a prefix for target names.}
 
 \item{fit}{Symbol, name of a \code{CmdStanFit} object or an upstream target
 that returns a \code{CmdStanFit} object.}
+
+\item{data}{Code to generate the \code{data} for the Stan model.}
 
 \item{variables}{(character vector) The variables to include.}
 
@@ -71,7 +74,8 @@ the target builds on the host machine / process managing the pipeline.}
 
 \item{priority}{Numeric of length 1 between 0 and 1. Controls which
 targets get deployed first when multiple competing targets are ready
-simultaneously. Targets with priorities closer to 1 get built earlier.
+simultaneously. Targets with priorities closer to 1 get built earlier
+(and polled earlier in \code{\link[targets:tar_make_future]{tar_make_future()}}).
 Only applies to \code{\link[targets:tar_make_future]{tar_make_future()}} and \code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}}
 (not \code{\link[targets:tar_make]{tar_make()}}). \code{\link[targets:tar_make_future]{tar_make_future()}} with no extra settings is
 a drop-in replacement for \code{\link[targets:tar_make]{tar_make()}} in this case.}
@@ -83,7 +87,10 @@ a drop-in replacement for \code{\link[targets:tar_make]{tar_make()}} in this cas
 \item Custom target-level \code{future::plan()}, e.g.
 \code{resources = list(plan = future.callr::callr)}.
 \item Custom \code{curl} handle if \code{format = "url"},
-e.g. \code{resources = list(handle = curl::new_handle())}.
+e.g. \code{resources = list(handle = curl::new_handle(nobody = TRUE))}.
+In custom handles, most users should manually set \code{nobody = TRUE}
+so \code{targets} does not download the entire file when it
+only needs to check the time stamp and ETag.
 \item Custom preset for \code{qs::qsave()} if \code{format = "qs"}, e.g.
 \code{resources = list(handle = "archive")}.
 \item Custom compression level for \code{fst::write_fst()} if
@@ -145,6 +152,7 @@ list(
   tar_stan_summary(
     your_summary,
     fit = your_model_mcmc_model,
+    data = your_model_data_model,
     variables = "beta",
     summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
   )

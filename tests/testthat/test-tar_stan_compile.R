@@ -2,12 +2,12 @@
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_compile()", {
   skip_on_cran()
-  tar_stan_example_file("x.stan")
+  restore_compiled_models()
   targets::tar_script({
     list(
-      tar_stan_compile(compile, stan_file = "x.stan")
+      tar_stan_compile(compile, stan_file = "a.stan")
     )
   })
   targets::tar_make(callr_function = NULL)
-  expect_equal(targets::tar_read(compile), "x.stan")
+  expect_equal(targets::tar_read(compile), "a.stan")
 })

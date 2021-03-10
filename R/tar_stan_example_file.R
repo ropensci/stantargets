@@ -10,6 +10,6 @@
 #' writeLines(readLines(path))
 tar_stan_example_file <- function(path = tempfile()) {
   src <- system.file("example.stan", package = "stantargets", mustWork = TRUE)
-  file.copy(src, path, overwrite = TRUE)
+  file.copy(src, path, overwrite = TRUE, copy.date = TRUE)
   invisible()
 }

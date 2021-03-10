@@ -374,8 +374,10 @@ tar_stan_mle_rep_run_rep <- function(
   summaries,
   summary_args
 ) {
+  stan_data <- data
+  stan_data$.join_data <- NULL
   fit <- model$optimize(
-    data = data,
+    data = stan_data,
     seed = seed,
     refresh = refresh,
     init = init,
@@ -392,7 +394,7 @@ tar_stan_mle_rep_run_rep <- function(
     tol_param = tol_param,
     history_size = history_size
   )
-  tar_stan_rep_output(
+  tar_stan_output(
     fit = fit,
     output = output,
     summaries = summaries,

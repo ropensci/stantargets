@@ -3,8 +3,7 @@
 targets::tar_test("tar_stan_mcmc(compile = \"original\")", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
-  tar_stan_example_file(path = "a.stan")
-  tar_stan_example_file(path = "b.stan")
+  restore_compiled_models()
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     list(
@@ -34,6 +33,8 @@ targets::tar_test("tar_stan_mcmc(compile = \"original\")", {
     ~from, ~to,
     "model_data", "model_mcmc_x",
     "model_data", "model_mcmc_y",
+    "model_data", "model_summary_x",
+    "model_data", "model_summary_y",
     "model_file_x", "model_mcmc_x",
     "model_file_y", "model_mcmc_y",
     "model_mcmc_x", "model_diagnostics_x",
@@ -79,6 +80,11 @@ targets::tar_test("tar_stan_mcmc(compile = \"original\")", {
   expect_true(tibble::is_tibble(out_y))
   expect_true("lp__" %in% out_x$variable)
   expect_true("lp__" %in% out_y$variable)
+  original_data <- tar_read(model_data)
+  beta <- original_data$.join_data$beta
+  y_rep <- original_data$.join_data$y_rep
+  expect_equal(out_x$.join_data[out_x$variable == "beta"], beta)
+  expect_equal(out_x$.join_data[grepl("y_rep", out_x$variable)], y_rep)
   out_x <- targets::tar_read(model_diagnostics_x)
   out_y <- targets::tar_read(model_diagnostics_y)
   expect_true(tibble::is_tibble(out_x))
@@ -134,6 +140,7 @@ targets::tar_test("tar_stan_mcmc(compile = \"original\")", {
 targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
+  skip_compile_copy()
   tar_stan_example_file(path = "a.stan")
   tar_stan_example_file(path = "b.stan")
   targets::tar_script({
@@ -165,6 +172,8 @@ targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
   rownames(out) <- NULL
   exp <- tibble::tribble(
     ~from, ~to,
+    "model_data", "model_summary_a",
+    "model_data", "model_summary_b",
     "model_data", "model_mcmc_a",
     "model_data", "model_mcmc_b",
     "model_file_a", "model_lines_a",
@@ -218,8 +227,14 @@ targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
   out_b <- targets::tar_read(model_summary_b)
   expect_equal(out_a$variable, "beta")
   expect_equal(out_b$variable, "beta")
-  expect_equal(colnames(out_a), c("variable", "25%", "75%"))
-  expect_equal(colnames(out_b), c("variable", "25%", "75%"))
+  expect_equal(
+    sort(colnames(out_a)),
+    sort(c("variable", "25%", "75%", ".join_data"))
+  )
+  expect_equal(
+    sort(colnames(out_b)),
+    sort(c("variable", "25%", "75%", ".join_data"))
+  )
   out_a <- targets::tar_read(model_diagnostics_a)
   out_b <- targets::tar_read(model_diagnostics_b)
   expect_true(tibble::is_tibble(out_a))

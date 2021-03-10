@@ -1,8 +1,7 @@
 targets::tar_test("tar_stan_vb_rep_draws(compile = \"original\")", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
-  tar_stan_example_file(path = "a.stan")
-  tar_stan_example_file(path = "b.stan")
+  restore_compiled_models()
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
     list(
@@ -57,7 +56,7 @@ targets::tar_test("tar_stan_vb_rep_draws(compile = \"original\")", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 4L)
+  expect_equal(length(out), 5L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -116,6 +115,7 @@ targets::tar_test("tar_stan_vb_rep_draws(compile = \"original\")", {
 targets::tar_test("tar_stan_vb_rep_draws(compile = \"copy\") custom", {
   skip_on_cran()
   skip_if_not_installed("dplyr")
+  skip_compile_copy()
   tar_stan_example_file("a.stan")
   tar_stan_example_file("b.stan")
   targets::tar_script({
@@ -176,7 +176,7 @@ targets::tar_test("tar_stan_vb_rep_draws(compile = \"copy\") custom", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 4L)
+  expect_equal(length(out), 5L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
