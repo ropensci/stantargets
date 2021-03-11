@@ -126,7 +126,6 @@ jobs:
         with:
           path: ${{ env.CMDSTAN_PATH }}
           key: ${{ runner.os }}-cmdstan-${{ env.CMDSTAN_VERSION }}
-          restore-keys: ${{ runner.os }}-cmdstan-
 
       - name: Install cmdstan
         run: |
