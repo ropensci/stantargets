@@ -60,6 +60,12 @@ jobs:
       CMDSTAN_VERSION: 2.26.1
 
     steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.config.r }}
+
       - name: Platform-independent cmdstan path
         run: writeLines(normalizePath(file.path("~", ".cmdstanr"), mustWork = FALSE), ".github/cmdstan_path")
         shell: Rscript {0}
@@ -67,12 +73,6 @@ jobs:
       - name: cmdstan env vars
         run: echo "CMDSTAN_PATH=$(cat .github/cmdstan_path)" >> $GITHUB_ENV
         shell: bash
-    
-      - uses: actions/checkout@v2
-
-      - uses: r-lib/actions/setup-r@master
-        with:
-          r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-pandoc@master
 
