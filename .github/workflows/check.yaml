@@ -29,9 +29,16 @@ jobs:
       CMDSTAN_VERSION: 2.26.1
 
     steps:
-      - name: cmdstan env vars
+      - name: Non-Windows cmdstan env vars
+        if: runner.os != 'Windows'
         run: |
           echo "CMDSTAN_PATH=${HOME}/.cmdstanr" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Windows cmdstan env vars
+        if: runner.os == 'Windows'
+        run: |
+          echo "CMDSTAN_PATH=${HOME}/Documents/.cmdstanr" >> $GITHUB_ENV
         shell: bash
     
       - uses: actions/checkout@v2
