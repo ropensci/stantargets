@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Platform-independent cmdstan path
-        run: writeLines(normalizePath("~/.cmdstanr"), ".github/cmdstan_path")
+        run: writeLines(normalizePath(file.path("~", ".cmdstanr"), mustWork = FALSE), ".github/cmdstan_path")
         shell: Rscript {0}
 
       - name: cmdstan env vars
