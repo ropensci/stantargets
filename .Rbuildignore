@@ -46,3 +46,4 @@
 ^vignettes/csv_files$
 ^stantargets_example$
 ^stantargets_example\.stan$
+^NOTICE$
