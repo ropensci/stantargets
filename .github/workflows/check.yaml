@@ -65,8 +65,7 @@ jobs:
         shell: Rscript {0}
 
       - name: cmdstan env vars
-        run: |
-          echo "CMDSTAN_PATH=${HOME}/.cmdstanr" >> $GITHUB_ENV
+        run: echo "CMDSTAN_PATH=$(cat .github/cmdstan_path)" >> $GITHUB_ENV
         shell: bash
     
       - uses: actions/checkout@v2
