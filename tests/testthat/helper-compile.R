@@ -26,7 +26,7 @@ compile_models <- function() {
   file.copy("a", "b", copy.date = TRUE)
 }
 
-restore_compiled_models <- function(to = ".") {
+restore_compiled_models <- function(to = getwd()) {
   for (file in c("a.stan", "b.stan", "a", "b")) {
     file.copy(compiled_path(file), to, copy.date = TRUE)
   }
