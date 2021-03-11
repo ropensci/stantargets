@@ -29,10 +29,10 @@ library(stantargets)
 
 It is sometimes desirable to run one or more Bayesian models repeatedly across multiple simulated datasets. Examples:
 
-1. Validate the implementation of a Bayesian model using simulation [@cook2006; @talts2020].
+1. Validate the implementation of a Bayesian model using simulation.
 2. Simulate a randomized controlled experiment to explore frequentist properties such as power and Type I error.
 
-This vignette focuses on (1). The goal is to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated credible intervals cover the true parameters from the simulation.
+This vignette focuses on (1). The goal of this particular example to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated posterior intervals cover the true parameters from the prior predictive simulations. The quantile method by @cook2006 generalizes this concept, and simulation-based calibration [@talts2020] generalizes further. The interval-based technique featured in this vignette is not as robust as SBC, but it may be more expedient for large models because it does not require visual inspection of multiple histograms.
 
 ```{r}
 lines <- "data {
@@ -138,14 +138,14 @@ Run the computation with `tar_make()`
 tar_make()
 ```
 
-The result is an aggregated data frame of summary statistics, where the `.rep` column distinguishes among individual replicates. We have the credible intervals for `beta` in columns `q2.5` and `q97.5`. And thanks to `.join_data` in `simulate_data()`, there is a special `.join_data` column in the output to indicate the true value of each parameter from the simulation.
+The result is an aggregated data frame of summary statistics, where the `.rep` column distinguishes among individual replicates. We have the posterior intervals for `beta` in columns `q2.5` and `q97.5`. And thanks to `.join_data` in `simulate_data()`, there is a special `.join_data` column in the output to indicate the true value of each parameter from the simulation.
 
 ```{r}
 tar_load(model)
 model
 ```
 
-Now, let's assess how often the estimated 95% credible intervals capture the true values of `beta`. If the model is implemented correctly, the coverage value below should be close to 95%. (Ordinarily, we would [increase the number of batches and reps per batch](https://books.ropensci.org/targets/dynamic.html#batching) and [run batches in parallel computing](https://books.ropensci.org/targets/hpc.html).)
+Now, let's assess how often the estimated 95% posterior intervals capture the true values of `beta`. If the model is implemented correctly, the coverage value below should be close to 95%. (Ordinarily, we would [increase the number of batches and reps per batch](https://books.ropensci.org/targets/dynamic.html#batching) and [run batches in parallel computing](https://books.ropensci.org/targets/hpc.html).)
 
 ```{r}
 library(dplyr)
