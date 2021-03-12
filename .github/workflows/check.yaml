@@ -68,8 +68,7 @@ jobs:
 
       - name: Platform-independent cmdstan path
         run: |
-          install.packages("fs")
-          path <- fs::path_rel(normalizePath(file.path("~", ".cmdstanr"), mustWork = FALSE))
+          path <- normalizePath(file.path("~", ".cmdstanr"), mustWork = FALSE)
           print(path)
           writeLines(path, ".github/cmdstan_path")
         shell: Rscript {0}
