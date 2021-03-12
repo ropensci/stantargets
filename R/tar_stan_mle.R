@@ -232,7 +232,7 @@ tar_stan_mle <- function(
   target_summary <- targets::tar_target_raw(
     name = name_summary,
     command = command_summary,
-    packages = character(0),
+    packages = packages,
     format = "fst_tbl",
     error = error,
     memory = memory,

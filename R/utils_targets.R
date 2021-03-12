@@ -52,6 +52,7 @@ tar_stan_target_list_rep <- function(
   target_lines,
   target_data,
   target_output,
+  packages,
   error,
   memory,
   garbage_collection,
@@ -83,7 +84,7 @@ tar_stan_target_list_rep <- function(
     out[[name]] <- tarchetypes::tar_combine_raw(
       name = name,
       out[names_output],
-      packages = character(0),
+      packages = packages,
       format = "fst_tbl",
       iteration = "vector",
       error = error,

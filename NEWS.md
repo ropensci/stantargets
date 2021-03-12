@@ -2,6 +2,7 @@
 
 * Join on data to summary output using `.join_data` in the Stan data (#18).
 * Pre-compile models for testing and add an environment variable to skip tests that always force recompilation (#19).
+* Load packages for any target computing summaries.
 
 # stantargets 0.0.0.9000
 

@@ -281,6 +281,7 @@ tar_stan_mcmc_rep <- function(
     target_lines = target_lines,
     target_data = target_data,
     target_output = target_output,
+    packages = packages,
     error = error,
     memory = memory,
     garbage_collection = garbage_collection,
