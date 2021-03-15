@@ -2,6 +2,7 @@
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_mle_rep_draws(compile = \"original\")", {
   skip_on_cran()
+  skip_if_missing_cmdstan()
   skip_if_not_installed("dplyr")
   restore_compiled_models()
   targets::tar_script({
@@ -114,6 +115,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"original\")", {
 
 targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom", {
   skip_on_cran()
+  skip_if_missing_cmdstan()
   skip_if_not_installed("dplyr")
   skip_compile_copy()
   tar_stan_example_file("a.stan")

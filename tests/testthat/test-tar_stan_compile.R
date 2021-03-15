@@ -2,6 +2,7 @@
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_compile()", {
   skip_on_cran()
+  skip_if_missing_cmdstan()
   restore_compiled_models()
   targets::tar_script({
     list(

@@ -2,6 +2,7 @@
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"original\")", {
   skip_on_cran()
+  skip_if_missing_cmdstan()
   restore_compiled_models()
   targets::tar_script({
     tar_option_set(memory = "transient", garbage_collection = TRUE)
@@ -121,6 +122,7 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"original\")", {
 
 targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
   skip_on_cran()
+  skip_if_missing_cmdstan()
   skip_if_not_installed("dplyr")
   skip_compile_copy()
   tar_stan_example_file("a.stan")
