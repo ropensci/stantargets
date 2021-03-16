@@ -85,7 +85,7 @@ generate_data <- function() {
 }
 
 list(
-  tar_stan_mcmc(example, "x.stan", tar_stan_example_data())
+  tar_stan_mcmc(example, "x.stan", generate_data())
 )
 ```
 
