@@ -103,7 +103,7 @@ tar_stan_mle_rep_summary <- function(
     combine = combine,
     compile = compile,
     quiet = quiet,
-    log = log,
+    log = substitute(log),
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,

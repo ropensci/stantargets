@@ -8,3 +8,10 @@ produce_stan_names <- function(stan_files) {
   assert_nzchar(out, "target suffixes from stan_files must be nonempty.")
   make.names(out)
 }
+
+command_lines <- function(sym_file) {
+  substitute(
+    readLines(grep("*.stan$", file, value = TRUE)),
+    env = list(file = sym_file)
+  )
+}

@@ -1,3 +1,7 @@
+# stantargets 0.0.0.9002
+
+* Return the executable file after the Stan source file in model compilation targets.
+
 # stantargets 0.0.0.9001
 
 * Join on data to summary output using `.join_data` in the Stan data (#18).

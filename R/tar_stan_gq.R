@@ -116,10 +116,6 @@ tar_stan_gq <- function(
   sym_lines <- rlang::sym(name_lines)
   sym_data <- rlang::sym(name_data)
   sym_gq <- rlang::sym(name_gq)
-  command_lines <- call_function(
-    "readLines",
-    args = list(con = rlang::sym(name_file))
-  )
   command_data <- tidy_eval(
     substitute(data),
     envir = envir,
@@ -145,7 +141,7 @@ tar_stan_gq <- function(
     fitted_params = substitute(fitted_params),
     compile = compile,
     quiet = quiet,
-    log = log,
+    log = substitute(log),
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -173,7 +169,7 @@ tar_stan_gq <- function(
   )
   target_lines <- targets::tar_target_raw(
     name = name_lines,
-    command = command_lines,
+    command = command_lines(sym_file),
     packages = character(0),
     error = error,
     memory = memory,

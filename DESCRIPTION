@@ -14,7 +14,7 @@ Description: Bayesian data analysis usually incurs long runtimes
   both single-fit workflows and multi-rep simulation studies.
   For the statistical methodology, please refer to 'Stan' documentation
   (Stan Development Team 2020) <https://mc-stan.org/>.
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 License: MIT + file LICENSE
 URL: https://wlandau.github.io/stantargets/, https://github.com/wlandau/stantargets
 BugReports: https://github.com/wlandau/stantargets/issues
@@ -35,6 +35,7 @@ Depends:
 Imports:
   cmdstanr (>= 0.2.0),
   digest (>= 0.6.21),
+  fs (>= 1.5.0),
   fst (>= 0.9.4),
   posterior (>= 0.1.2),
   purrr (>= 0.3.4),
@@ -47,7 +48,6 @@ Imports:
   tools
 Suggests:
   dplyr (>= 1.0.2),
-  fs (>= 1.5.0),
   knitr (>= 1.28),
   R.utils (>= 2.10.1),
   rmarkdown (>= 2.1),

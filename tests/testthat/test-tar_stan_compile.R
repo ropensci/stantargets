@@ -6,9 +6,15 @@ targets::tar_test("tar_stan_compile()", {
   restore_compiled_models()
   targets::tar_script({
     list(
-      tar_stan_compile(compile, stan_file = "a.stan")
+      tar_stan_compile(
+        compile,
+        stan_file = "a.stan",
+        log = R.utils::nullfile()
+      )
     )
   })
   targets::tar_make(callr_function = NULL)
-  expect_equal(targets::tar_read(compile), "a.stan")
+  out <- targets::tar_read(compile)
+  expect_equal(length(out), 2)
+  expect_equal(out[1], "a.stan")
 })

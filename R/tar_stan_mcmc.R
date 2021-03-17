@@ -150,10 +150,6 @@ tar_stan_mcmc <- function(
   sym_lines <- rlang::sym(name_lines)
   sym_data <- rlang::sym(name_data)
   sym_mcmc <- rlang::sym(name_mcmc)
-  command_lines <- call_function(
-    "readLines",
-    args = list(con = rlang::sym(name_file))
-  )
   command_data <- tidy_eval(
     substitute(data),
     envir = envir,
@@ -188,7 +184,7 @@ tar_stan_mcmc <- function(
     data = sym_data,
     compile = compile,
     quiet = quiet,
-    log = log,
+    log = substitute(log),
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -239,7 +235,7 @@ tar_stan_mcmc <- function(
   )
   target_lines <- targets::tar_target_raw(
     name = name_lines,
-    command = command_lines,
+    command = command_lines(sym_file),
     packages = character(0),
     error = error,
     memory = memory,
@@ -335,6 +331,7 @@ tar_stan_mcmc <- function(
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A `CmdStanFit` object.
+#' @inheritParams tar_stan_compile
 #' @inheritParams cmdstanr::cmdstan_model
 #' @inheritParams cmdstanr::`model-method-sample`
 #' @param compile Character of length 1. If `"original"`, then
@@ -349,10 +346,6 @@ tar_stan_mcmc <- function(
 #'   no longer needs access to the original Stan model file on your
 #'   local machine. However, as a result, the Stan model re-compiles
 #'   every time the main target reruns.
-#' @param log Character of length 1, file path to write the stdout stream
-#'   of the model when it runs. Set to `NULL` to print to the console.
-#'   Set to `R.utils::nullfile()` to completely suppress all output.
-#'   Does not apply to messages, warnings, or errors.
 tar_stan_mcmc_run <- function(
   stan_file,
   data,

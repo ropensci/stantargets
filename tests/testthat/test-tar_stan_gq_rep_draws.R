@@ -70,8 +70,10 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
   capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
   meta <- tar_meta(starts_with("model_data_"))
   expect_equal(nrow(meta), 2L)
-  expect_equal(targets::tar_read(model_file_x), "a.stan")
-  expect_equal(targets::tar_read(model_file_y), "b.stan")
+  expect_equal(length(targets::tar_read(model_file_x)), 2)
+  expect_equal(length(targets::tar_read(model_file_y)), 2)
+  expect_equal(targets::tar_read(model_file_x)[1], "a.stan")
+  expect_equal(targets::tar_read(model_file_y)[1], "b.stan")
   out <- targets::tar_read(model_data)
   expect_equal(length(out), 2L)
   out <- out[[2]]
