@@ -150,10 +150,6 @@ tar_stan_mcmc <- function(
   sym_lines <- rlang::sym(name_lines)
   sym_data <- rlang::sym(name_data)
   sym_mcmc <- rlang::sym(name_mcmc)
-  command_lines <- call_function(
-    "readLines",
-    args = list(con = rlang::sym(name_file))
-  )
   command_data <- tidy_eval(
     substitute(data),
     envir = envir,
@@ -239,7 +235,7 @@ tar_stan_mcmc <- function(
   )
   target_lines <- targets::tar_target_raw(
     name = name_lines,
-    command = command_lines,
+    command = command_lines(sym_file),
     packages = character(0),
     error = error,
     memory = memory,

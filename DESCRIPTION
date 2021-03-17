@@ -35,6 +35,7 @@ Depends:
 Imports:
   cmdstanr (>= 0.2.0),
   digest (>= 0.6.21),
+  fs (>= 1.5.0),
   fst (>= 0.9.4),
   posterior (>= 0.1.2),
   purrr (>= 0.3.4),
@@ -47,7 +48,6 @@ Imports:
   tools
 Suggests:
   dplyr (>= 1.0.2),
-  fs (>= 1.5.0),
   knitr (>= 1.28),
   R.utils (>= 2.10.1),
   rmarkdown (>= 2.1),

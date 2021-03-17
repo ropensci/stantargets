@@ -163,7 +163,7 @@ tar_stan_compile_run <- function(
     on.exit(sink(file = NULL, type = "output"))
   }
   assert_stan_file(stan_file)
-  cmdstanr::cmdstan_model(
+  model <- cmdstanr::cmdstan_model(
     stan_file = stan_file,
     compile = TRUE,
     quiet = quiet,
@@ -173,5 +173,5 @@ tar_stan_compile_run <- function(
     stanc_options = stanc_options,
     force_recompile = force_recompile
   )
-  stan_file
+  fs::path_rel(c(stan_file, model$exe_file()), start = getwd())
 }

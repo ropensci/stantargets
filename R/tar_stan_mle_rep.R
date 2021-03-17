@@ -90,10 +90,6 @@ tar_stan_mle_rep <- function(
   sym_lines <- rlang::sym(name_lines)
   sym_batch <- rlang::sym(name_batch)
   sym_data <- rlang::sym(name_data)
-  command_lines <- call_function(
-    "readLines",
-    args = list(con = rlang::sym(name_file))
-  )
   command_batch <- substitute(seq_len(x), env = list(x = batches))
   command_rep <- tidy_eval(
     data,
@@ -176,7 +172,7 @@ tar_stan_mle_rep <- function(
   )
   target_lines <- targets::tar_target_raw(
     name = name_lines,
-    command = command_lines,
+    command = command_lines(sym_file),
     packages = character(0),
     error = error,
     memory = memory,
@@ -305,6 +301,7 @@ tar_stan_mle_rep_run <- function(
     writeLines(stan_file, tmp)
     file <- tmp
   }
+  file <- grep("*.stan$", file, value = TRUE)
   model <- cmdstanr::cmdstan_model(
     stan_file = file,
     compile = TRUE,
