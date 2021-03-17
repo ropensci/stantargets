@@ -32,6 +32,7 @@ tar_stan_compile <- function(
   name,
   stan_file,
   quiet = TRUE,
+  log = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -52,6 +53,7 @@ tar_stan_compile <- function(
     name = name,
     stan_file = stan_file,
     quiet = quiet,
+    log = substitute(log),
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -73,6 +75,7 @@ tar_stan_compile_raw <- function(
   name,
   stan_file,
   quiet,
+  log,
   dir,
   include_paths,
   cpp_options,
@@ -91,6 +94,7 @@ tar_stan_compile_raw <- function(
   command <- tar_stan_compile_command(
     stan_file = stan_file,
     quiet = quiet,
+    log = log,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -116,6 +120,7 @@ tar_stan_compile_raw <- function(
 tar_stan_compile_command <- function(
   stan_file,
   quiet,
+  log,
   dir,
   include_paths,
   cpp_options,
@@ -126,6 +131,7 @@ tar_stan_compile_command <- function(
     call_ns("stantargets", "tar_stan_compile_run"),
     stan_file = stan_file,
     quiet = quiet,
+    log = log,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -145,12 +151,17 @@ tar_stan_compile_command <- function(
 tar_stan_compile_run <- function(
   stan_file,
   quiet = TRUE,
+  log = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
   stanc_options = list(),
   force_recompile = FALSE
 ) {
+  if (!is.null(log)) {
+    sink(file = log, type = "output", append = TRUE)
+    on.exit(sink(file = NULL, type = "output"))
+  }
   assert_stan_file(stan_file)
   cmdstanr::cmdstan_model(
     stan_file = stan_file,

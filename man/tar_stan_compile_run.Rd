@@ -7,6 +7,7 @@
 tar_stan_compile_run(
   stan_file,
   quiet = TRUE,
+  log = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),

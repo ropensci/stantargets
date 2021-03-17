@@ -145,7 +145,7 @@ tar_stan_gq <- function(
     fitted_params = substitute(fitted_params),
     compile = compile,
     quiet = quiet,
-    log = log,
+    log = substitute(log),
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,

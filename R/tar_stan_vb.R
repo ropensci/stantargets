@@ -142,7 +142,7 @@ tar_stan_vb <- function(
     data = sym_data,
     compile = compile,
     quiet = quiet,
-    log = log,
+    log = substitute(log),
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,

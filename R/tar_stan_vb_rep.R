@@ -157,6 +157,7 @@ tar_stan_vb_rep <- function(
     name = name_file,
     stan_file = quote(._stantargets_file_50e43091),
     quiet = quiet,
+    log = log,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,

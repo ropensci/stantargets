@@ -6,7 +6,11 @@ targets::tar_test("tar_stan_compile()", {
   restore_compiled_models()
   targets::tar_script({
     list(
-      tar_stan_compile(compile, stan_file = "a.stan")
+      tar_stan_compile(
+        compile,
+        stan_file = "a.stan",
+        log = R.utils::nullfile()
+      )
     )
   })
   targets::tar_make(callr_function = NULL)
