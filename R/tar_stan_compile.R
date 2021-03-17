@@ -148,6 +148,10 @@ tar_stan_compile_command <- function(
 #' @return Character of length 1, the value of `stan_file`.
 #' @inheritParams cmdstanr::cmdstan_model
 #' @inheritParams cmdstanr::`model-method-compile`
+#' @param log Character of length 1, file path to write the stdout stream
+#'   of the model when it runs. Set to `NULL` to print to the console.
+#'   Set to `R.utils::nullfile()` to completely suppress all output.
+#'   Does not apply to messages, warnings, or errors.
 tar_stan_compile_run <- function(
   stan_file,
   quiet = TRUE,

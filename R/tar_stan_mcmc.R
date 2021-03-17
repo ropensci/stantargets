@@ -331,6 +331,7 @@ tar_stan_mcmc <- function(
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
 #' @return A `CmdStanFit` object.
+#' @inheritParams tar_stan_compile
 #' @inheritParams cmdstanr::cmdstan_model
 #' @inheritParams cmdstanr::`model-method-sample`
 #' @param compile Character of length 1. If `"original"`, then
@@ -345,10 +346,6 @@ tar_stan_mcmc <- function(
 #'   no longer needs access to the original Stan model file on your
 #'   local machine. However, as a result, the Stan model re-compiles
 #'   every time the main target reruns.
-#' @param log Character of length 1, file path to write the stdout stream
-#'   of the model when it runs. Set to `NULL` to print to the console.
-#'   Set to `R.utils::nullfile()` to completely suppress all output.
-#'   Does not apply to messages, warnings, or errors.
 tar_stan_mcmc_run <- function(
   stan_file,
   data,
