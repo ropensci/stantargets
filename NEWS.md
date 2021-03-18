@@ -1,6 +1,7 @@
 # stantargets 0.0.0.9002
 
 * Return the executable file after the Stan source file in model compilation targets.
+* Replace the `log` argument with `stdout` and `stderr` (#23).
 
 # stantargets 0.0.0.9001
 
