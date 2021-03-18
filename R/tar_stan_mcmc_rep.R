@@ -52,6 +52,7 @@ tar_stan_mcmc_rep <- function(
   compile = c("original", "copy"),
   quiet = TRUE,
   stdout = NULL,
+  stderr = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -137,6 +138,7 @@ tar_stan_mcmc_rep <- function(
     compile = compile,
     quiet = quiet,
     stdout = stdout,
+    stderr = stderr,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -195,6 +197,7 @@ tar_stan_mcmc_rep <- function(
     stan_file = quote(._stantargets_file_50e43091),
     quiet = quiet,
     stdout = stdout,
+    stderr = stderr,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -317,6 +320,7 @@ tar_stan_mcmc_rep_run <- function(
   compile,
   quiet,
   stdout,
+  stderr,
   dir,
   include_paths,
   cpp_options,
@@ -360,8 +364,12 @@ tar_stan_mcmc_rep_run <- function(
     on.exit(sink(file = NULL, type = "output"))
   }
   if (!is.null(stderr)) {
-    sink(file(stderr, "at"), type = "message", append = TRUE)
-    on.exit(sink(file = NULL, type = "message"))
+    con <- file(stderr, "at")
+    sink(con, type = "message", append = TRUE)
+    on.exit({
+      sink(file = NULL, type = "message")
+      close(con)
+    }, add = TRUE)
   }
   file <- stan_file
   if (identical(compile, "copy")) {

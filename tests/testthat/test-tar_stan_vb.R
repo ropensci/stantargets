@@ -15,7 +15,8 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
         quiet = TRUE,
         refresh = 0,
         iter = 1000,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -43,7 +44,7 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   expect_equal(targets::tar_read(model_file_x), "a.stan")
   expect_equal(targets::tar_read(model_file_y), "b.stan")
   out <- targets::tar_read(model_data)
@@ -102,7 +103,8 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
         quiet = TRUE,
         refresh = 0,
         iter = 1000,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -140,7 +142,8 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
         iter = 1000,
         variables = "beta",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -170,7 +173,7 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   expect_equal(targets::tar_read(model_file_a), "a.stan")
   expect_equal(targets::tar_read(model_file_b), "b.stan")
   expect_equal(targets::tar_read(model_lines_a), readLines("a.stan"))
@@ -235,7 +238,8 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
         iter = 1000,
         variables = "beta",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })

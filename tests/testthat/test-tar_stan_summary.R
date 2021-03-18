@@ -14,12 +14,14 @@ targets::tar_test("tar_stan_summary() with defaults", {
         init = 1,
         summary = FALSE,
         draws = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       ),
       tar_stan_summary(summary, fit = model_mcmc_a)
     )
   })
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   out <- tar_read(summary)
   expect_true(tibble::is_tibble(out))
   expect_true(nrow(out) > 1L)
@@ -40,7 +42,9 @@ targets::tar_test("tar_stan_summary() with custom summaries", {
         init = 1,
         summary = FALSE,
         draws = FALSE,
-        diagnostics = FALSE
+        diagnostics = FALSE,
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       ),
       tar_stan_summary(
         summary,
@@ -55,7 +59,7 @@ targets::tar_test("tar_stan_summary() with custom summaries", {
       )
     )
   })
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   out <- tar_read(summary)
   expect_true(tibble::is_tibble(out))
   expect_equal(nrow(out), 1L)

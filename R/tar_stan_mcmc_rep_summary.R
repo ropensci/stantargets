@@ -39,7 +39,8 @@
 #'     data = tar_stan_example_data(),
 #'     batches = 2,
 #'     reps = 2,
-#'     stdout = R.utils::nullfile()
+#'     stdout = R.utils::nullfile(),
+#'     stderr = R.utils::nullfile()
 #'   )
 #' )
 #' }, ask = FALSE)
@@ -56,6 +57,7 @@ tar_stan_mcmc_rep_summary <- function(
   compile = c("original", "copy"),
   quiet = TRUE,
   stdout = NULL,
+  stderr = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -116,6 +118,7 @@ tar_stan_mcmc_rep_summary <- function(
     compile = match.arg(compile),
     quiet = quiet,
     stdout = stdout,
+    stderr = stderr,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,

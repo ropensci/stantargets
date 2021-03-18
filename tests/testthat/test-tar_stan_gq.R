@@ -21,7 +21,8 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
@@ -29,7 +30,8 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         compile = "original",
         stan_files = c("a.stan", "b.stan"),
         data = model_data,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -62,7 +64,7 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   expect_equal(targets::tar_read(gq_file_a), "a.stan")
   expect_equal(targets::tar_read(gq_file_b), "b.stan")
   out <- targets::tar_read(gq_data)
@@ -125,7 +127,8 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         draws = FALSE,
         diagnostics = FALSE,
         summary = FALSE,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
@@ -133,7 +136,8 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         compile = "original",
         stan_files = c("a.stan", "b.stan"),
         data = tar_stan_example_data(),
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -174,7 +178,8 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
@@ -184,7 +189,8 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         data = model_data,
         variables = "y_rep[1]",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -220,7 +226,7 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   expect_equal(targets::tar_read(gq_file_a), "a.stan")
   expect_equal(targets::tar_read(gq_file_b), "b.stan")
   expect_equal(
@@ -301,7 +307,8 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
@@ -311,7 +318,8 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         data = tar_stan_example_data(),
         variables = "y_rep[1]",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })

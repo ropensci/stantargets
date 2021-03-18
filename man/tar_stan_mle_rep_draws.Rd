@@ -13,7 +13,8 @@ tar_stan_mle_rep_draws(
   combine = TRUE,
   compile = c("original", "copy"),
   quiet = TRUE,
-  log = NULL,
+  stdout = NULL,
+  stderr = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -86,9 +87,14 @@ compilation be suppressed? The default is \code{TRUE}, but if you encounter an
 error we recommend trying again with \code{quiet=FALSE} to see more of the
 output.}
 
-\item{log}{Character of length 1, file path to write the stdout stream
+\item{stdout}{Character of length 1, file path to write the stdout stream
 of the model when it runs. Set to \code{NULL} to print to the console.
-Set to \code{R.utils::nullfile()} to completely suppress all output.
+Set to \code{R.utils::nullfile()} to suppress stdout.
+Does not apply to messages, warnings, or errors.}
+
+\item{stderr}{Character of length 1, file path to write the stderr stream
+of the model when it runs. Set to \code{NULL} to print to the console.
+Set to \code{R.utils::nullfile()} to suppress stderr.
 Does not apply to messages, warnings, or errors.}
 
 \item{dir}{(string) The path to the directory in which to store the CmdStan
@@ -339,7 +345,8 @@ list(
     data = tar_stan_example_data(),
     batches = 2,
     reps = 2,
-    log = R.utils::nullfile()
+    stdout = R.utils::nullfile(),
+    stderr = R.utils::nullfile()
   )
 )
 }, ask = FALSE)

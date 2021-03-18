@@ -22,7 +22,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -34,7 +35,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -67,7 +69,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   meta <- tar_meta(starts_with("model_data_"))
   expect_equal(nrow(meta), 2L)
   expect_equal(length(targets::tar_read(model_file_x)), 2)
@@ -132,7 +134,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -144,7 +147,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -177,7 +181,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -196,7 +201,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
           custom = function(x, my_arg) my_arg
         ),
         summary_args = list(my_arg = 123L),
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -231,7 +237,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   meta <- tar_meta(starts_with("model_data_"))
   expect_equal(nrow(meta), 2L)
   expect_equal(targets::tar_read(model_file_a), "a.stan")
@@ -290,7 +296,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -309,7 +316,8 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
           custom = function(x, my_arg) my_arg
         ),
         summary_args = list(my_arg = 123L),
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })

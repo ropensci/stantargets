@@ -12,7 +12,8 @@ targets::tar_test("tar_stan_mle(compile = \"original\")", {
         stan_files = c(x = "a.stan", y = "b.stan"),
         data = tar_stan_example_data(),
         compile = "original",
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -40,7 +41,7 @@ targets::tar_test("tar_stan_mle(compile = \"original\")", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   expect_equal(targets::tar_read(model_file_x), "a.stan")
   expect_equal(targets::tar_read(model_file_y), "b.stan")
   out <- targets::tar_read(model_data)
@@ -96,7 +97,8 @@ targets::tar_test("tar_stan_mle(compile = \"original\")", {
         stan_files = c(x = "a.stan", y = "b.stan"),
         data = c(tar_stan_example_data()),
         compile = "original",
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -131,7 +133,8 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
         refresh = 0,
         variables = "beta",
         summaries = list(~c(mean = -10000)),
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
@@ -161,7 +164,7 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   expect_equal(targets::tar_read(model_file_a), "a.stan")
   expect_equal(targets::tar_read(model_file_b), "b.stan")
   expect_equal(targets::tar_read(model_lines_a), readLines("a.stan"))
@@ -226,7 +229,8 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
         refresh = 0,
         variables = "beta",
         summaries = list(~c(mean = -10000)),
-        stdout = R.utils::nullfile()
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
       )
     )
   })
