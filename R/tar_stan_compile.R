@@ -174,12 +174,10 @@ tar_stan_compile_run <- function(
   force_recompile = FALSE
 ) {
   if (!is.null(stdout)) {
-    sink(file = stdout, type = "output", append = TRUE)
-    on.exit(sink(file = NULL, type = "output"))
+    withr::local_output_sink(new = stdout, append = TRUE, split = TRUE)
   }
   if (!is.null(stderr)) {
-    sink(file(stderr, "at"), type = "message", append = TRUE)
-    on.exit(try(sink(file = NULL, type = "message"), silent = TRUE))
+    withr::local_message_sink(new = stderr, append = TRUE)
   }
   assert_stan_file(stan_file)
   model <- cmdstanr::cmdstan_model(

@@ -297,16 +297,10 @@ tar_stan_vb_run <- function(
   variables
 ) {
   if (!is.null(stdout)) {
-    sink(file = stdout, type = "output", append = TRUE)
-    on.exit(sink(file = NULL, type = "output"))
+    withr::local_output_sink(new = stdout, append = TRUE, split = TRUE)
   }
   if (!is.null(stderr)) {
-    con <- file(stderr, "at")
-    sink(con, type = "message", append = TRUE)
-    on.exit({
-      sink(file = NULL, type = "message")
-      close(con)
-    }, add = TRUE)
+    withr::local_message_sink(new = stderr, append = TRUE)
   }
   file <- stan_file
   if (identical(compile, "copy")) {
