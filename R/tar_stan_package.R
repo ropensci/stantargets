@@ -25,7 +25,7 @@
 #' @importFrom targets tar_cue tar_dir tar_load tar_option_get tar_path
 #'   tar_read tar_script tar_target tar_target_raw tar_test
 #' @importFrom tarchetypes tar_combine tar_map
-#' @importFrom withr with_message_sink with_output_sink
+#' @importFrom withr local_message_sink local_output_sink
 NULL
 
 utils::globalVariables(
