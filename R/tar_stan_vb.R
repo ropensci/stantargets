@@ -297,7 +297,7 @@ tar_stan_vb_run <- function(
   variables
 ) {
   if (!is.null(stdout)) {
-    withr::local_output_sink(new = stdout, append = TRUE, split = TRUE)
+    withr::local_output_sink(new = stdout, append = TRUE)
   }
   if (!is.null(stderr)) {
     withr::local_message_sink(new = stderr, append = TRUE)

@@ -48,7 +48,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"original\")", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   meta <- tar_meta(starts_with("model_data_"))
   expect_equal(nrow(meta), 2L)
   expect_equal(length(targets::tar_read(model_file_x)), 2)
@@ -171,7 +171,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
+  suppressWarnings(targets::tar_make(callr_function = NULL))
   meta <- tar_meta(starts_with("model_data_"))
   expect_equal(nrow(meta), 2L)
   expect_equal(targets::tar_read(model_file_a), "a.stan")
