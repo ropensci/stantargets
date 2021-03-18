@@ -19,7 +19,7 @@ targets::tar_test("tar_stan_mcmc(compile = \"original\")", {
         iter_sampling = 100,
         iter_warmup = 50,
         chains = 4,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -122,7 +122,7 @@ targets::tar_test("tar_stan_mcmc(compile = \"original\")", {
         iter_sampling = 100,
         iter_warmup = 50,
         chains = 4,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -161,7 +161,7 @@ targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
         init = 1,
         variables = "beta",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -276,7 +276,7 @@ targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
         chains = 4,
         variables = "beta",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })

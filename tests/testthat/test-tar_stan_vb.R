@@ -15,7 +15,7 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
         quiet = TRUE,
         refresh = 0,
         iter = 1000,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -102,7 +102,7 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
         quiet = TRUE,
         refresh = 0,
         iter = 1000,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -140,7 +140,7 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
         iter = 1000,
         variables = "beta",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -235,7 +235,7 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
         iter = 1000,
         variables = "beta",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })

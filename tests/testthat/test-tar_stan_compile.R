@@ -9,7 +9,7 @@ targets::tar_test("tar_stan_compile()", {
       tar_stan_compile(
         compile,
         stan_file = "a.stan",
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })

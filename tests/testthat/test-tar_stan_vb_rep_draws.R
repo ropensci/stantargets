@@ -17,7 +17,7 @@ targets::tar_test("tar_stan_vb_rep_draws(compile = \"original\")", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -106,7 +106,7 @@ targets::tar_test("tar_stan_vb_rep_draws(compile = \"original\")", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -138,7 +138,7 @@ targets::tar_test("tar_stan_vb_rep_draws(compile = \"copy\") custom", {
         combine = TRUE,
         data_copy = c("n", "true_beta"),
         variables = "beta",
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -227,7 +227,7 @@ targets::tar_test("tar_stan_vb_rep_draws(compile = \"copy\") custom", {
         combine = TRUE,
         data_copy = c("n", "true_beta"),
         variables = "beta",
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })

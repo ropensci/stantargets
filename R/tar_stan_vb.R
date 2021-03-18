@@ -46,7 +46,7 @@
 #'     data = tar_stan_example_data(),
 #'     variables = "beta",
 #'     summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-#'     log = R.utils::nullfile()
+#'     stdout = R.utils::nullfile()
 #'   )
 #' )
 #' }, ask = FALSE)
@@ -59,7 +59,7 @@ tar_stan_vb <- function(
   data = list(),
   compile = c("original", "copy"),
   quiet = TRUE,
-  log = NULL,
+  stdout = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -138,7 +138,7 @@ tar_stan_vb <- function(
     data = sym_data,
     compile = compile,
     quiet = quiet,
-    log = substitute(log),
+    stdout = stdout,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -268,7 +268,7 @@ tar_stan_vb_run <- function(
   data,
   compile,
   quiet,
-  log,
+  stdout,
   dir,
   include_paths,
   cpp_options,
@@ -292,9 +292,13 @@ tar_stan_vb_run <- function(
   sig_figs,
   variables
 ) {
-  if (!is.null(log)) {
-    sink(file = log, type = "output", append = TRUE)
+  if (!is.null(stdout)) {
+    sink(file = stdout, type = "output", append = TRUE)
     on.exit(sink(file = NULL, type = "output"))
+  }
+  if (!is.null(stderr)) {
+    sink(file(stderr, "at"), type = "message", append = TRUE)
+    on.exit(sink(file = NULL, type = "message"))
   }
   file <- stan_file
   if (identical(compile, "copy")) {

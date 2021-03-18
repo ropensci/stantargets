@@ -32,7 +32,8 @@ tar_stan_compile <- function(
   name,
   stan_file,
   quiet = TRUE,
-  log = NULL,
+  stdout = NULL,
+  stderr = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -53,7 +54,8 @@ tar_stan_compile <- function(
     name = name,
     stan_file = stan_file,
     quiet = quiet,
-    log = substitute(log),
+    stdout = stdout,
+    stderr = substitute(stderr),
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -75,7 +77,8 @@ tar_stan_compile_raw <- function(
   name,
   stan_file,
   quiet,
-  log,
+  stdout,
+  stderr,
   dir,
   include_paths,
   cpp_options,
@@ -94,7 +97,8 @@ tar_stan_compile_raw <- function(
   command <- tar_stan_compile_command(
     stan_file = stan_file,
     quiet = quiet,
-    log = log,
+    stdout = stdout,
+    stderr = stderr,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -120,7 +124,8 @@ tar_stan_compile_raw <- function(
 tar_stan_compile_command <- function(
   stan_file,
   quiet,
-  log,
+  stdout,
+  stderr,
   dir,
   include_paths,
   cpp_options,
@@ -131,7 +136,8 @@ tar_stan_compile_command <- function(
     call_ns("stantargets", "tar_stan_compile_run"),
     stan_file = stan_file,
     quiet = quiet,
-    log = log,
+    stdout = stdout,
+    stderr = stderr,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,
@@ -148,23 +154,32 @@ tar_stan_compile_command <- function(
 #' @return Character of length 1, the value of `stan_file`.
 #' @inheritParams cmdstanr::cmdstan_model
 #' @inheritParams cmdstanr::`model-method-compile`
-#' @param log Character of length 1, file path to write the stdout stream
+#' @param stdout Character of length 1, file path to write the stdout stream
 #'   of the model when it runs. Set to `NULL` to print to the console.
-#'   Set to `R.utils::nullfile()` to completely suppress all output.
+#'   Set to `R.utils::nullfile()` to suppress stdout.
+#'   Does not apply to messages, warnings, or errors.
+#' @param stderr Character of length 1, file path to write the stderr stream
+#'   of the model when it runs. Set to `NULL` to print to the console.
+#'   Set to `R.utils::nullfile()` to suppress stderr.
 #'   Does not apply to messages, warnings, or errors.
 tar_stan_compile_run <- function(
   stan_file,
   quiet = TRUE,
-  log = NULL,
+  stdout = NULL,
+  stderr = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
   stanc_options = list(),
   force_recompile = FALSE
 ) {
-  if (!is.null(log)) {
-    sink(file = log, type = "output", append = TRUE)
+  if (!is.null(stdout)) {
+    sink(file = stdout, type = "output", append = TRUE)
     on.exit(sink(file = NULL, type = "output"))
+  }
+  if (!is.null(stderr)) {
+    sink(file(stderr, "at"), type = "message", append = TRUE)
+    on.exit(sink(file = NULL, type = "message"))
   }
   assert_stan_file(stan_file)
   model <- cmdstanr::cmdstan_model(

@@ -37,7 +37,7 @@
 #'     your_model,
 #'     stan_files = c(x = path),
 #'     data = tar_stan_example_data(),
-#'     log = R.utils::nullfile(),
+#'     stdout = R.utils::nullfile(),
 #'     refresh = 0
 #'   ),
 #'   tar_stan_gq_rep_draws(
@@ -47,7 +47,7 @@
 #'     fitted_params = your_model_mcmc_x,
 #'     batches = 2,
 #'     reps = 2,
-#'     log = R.utils::nullfile()
+#'     stdout = R.utils::nullfile()
 #'   )
 #' )
 #' }, ask = FALSE)
@@ -64,7 +64,7 @@ tar_stan_gq_rep_draws <- function(
   combine = FALSE,
   compile = c("original", "copy"),
   quiet = TRUE,
-  log = NULL,
+  stdout = NULL,
   dir = NULL,
   include_paths = NULL,
   cpp_options = list(),
@@ -101,7 +101,7 @@ tar_stan_gq_rep_draws <- function(
     combine = combine,
     compile = compile,
     quiet = quiet,
-    log = substitute(log),
+    stdout = stdout,
     dir = dir,
     include_paths = include_paths,
     cpp_options = cpp_options,

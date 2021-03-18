@@ -21,7 +21,7 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
@@ -29,7 +29,7 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         compile = "original",
         stan_files = c("a.stan", "b.stan"),
         data = model_data,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -125,7 +125,7 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         draws = FALSE,
         diagnostics = FALSE,
         summary = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
@@ -133,7 +133,7 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
         compile = "original",
         stan_files = c("a.stan", "b.stan"),
         data = tar_stan_example_data(),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -174,7 +174,7 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
@@ -184,7 +184,7 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         data = model_data,
         variables = "y_rep[1]",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -301,7 +301,7 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq(
         gq,
@@ -311,7 +311,7 @@ targets::tar_test("tar_stan_gq(compile = \"copy\") with custom summaries", {
         data = tar_stan_example_data(),
         variables = "y_rep[1]",
         summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })

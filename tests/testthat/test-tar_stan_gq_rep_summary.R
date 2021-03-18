@@ -22,7 +22,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -34,7 +34,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -132,7 +132,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -144,7 +144,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"original\")", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -177,7 +177,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -196,7 +196,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
           custom = function(x, my_arg) my_arg
         ),
         summary_args = list(my_arg = 123L),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -290,7 +290,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq_rep_summary(
         model,
@@ -309,7 +309,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
           custom = function(x, my_arg) my_arg
         ),
         summary_args = list(my_arg = 123L),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })

@@ -22,7 +22,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq_rep_draws(
         model,
@@ -34,7 +34,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -130,7 +130,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq_rep_draws(
         model,
@@ -142,7 +142,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
         batches = 2,
         reps = 2,
         combine = TRUE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -175,7 +175,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq_rep_draws(
         model,
@@ -189,7 +189,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
         combine = TRUE,
         variables = "y_rep[2]",
         data_copy = c("n", "true_beta"),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
@@ -283,7 +283,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
         draws = FALSE,
         summary = FALSE,
         diagnostics = FALSE,
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       ),
       tar_stan_gq_rep_draws(
         model,
@@ -297,7 +297,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
         combine = TRUE,
         variables = "y_rep[2]",
         data_copy = c("n", "true_beta"),
-        log = R.utils::nullfile()
+        stdout = R.utils::nullfile()
       )
     )
   })
