@@ -44,7 +44,7 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  suppressWarnings(targets::tar_make(callr_function = NULL))
+  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
   expect_equal(targets::tar_read(model_file_x), "a.stan")
   expect_equal(targets::tar_read(model_file_y), "b.stan")
   out <- targets::tar_read(model_data)
@@ -173,7 +173,7 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
   rownames(exp) <- NULL
   expect_equal(out, exp)
   # results
-  suppressWarnings(targets::tar_make(callr_function = NULL))
+  capture.output(suppressWarnings(targets::tar_make(callr_function = NULL)))
   expect_equal(targets::tar_read(model_file_a), "a.stan")
   expect_equal(targets::tar_read(model_file_b), "b.stan")
   expect_equal(targets::tar_read(model_lines_a), readLines("a.stan"))

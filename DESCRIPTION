@@ -53,6 +53,7 @@ Suggests:
   R.utils (>= 2.10.1),
   rmarkdown (>= 2.1),
   testthat (>= 3.0.0),
+  utils,
   visNetwork (>= 2.0.9)
 Remotes:
   stan-dev/cmdstanr,
