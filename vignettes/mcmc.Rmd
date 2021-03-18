@@ -61,7 +61,8 @@ tar_script({
       example,
       "x.stan",
       tar_stan_example_data(),
-      log = R.utils::nullfile()
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
     )
   )
 })
@@ -84,7 +85,8 @@ list(
     example,
     "x.stan",
     tar_stan_example_data(),
-    log = R.utils::nullfile()
+    stdout = R.utils::nullfile(),
+    stderr = R.utils::nullfile()
   )
 )
 ```
@@ -161,7 +163,8 @@ tar_script({
       example,
       "x.stan",
       tar_stan_example_data(),
-      log = R.utils::nullfile()
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
     ),
     tar_stan_summary(
       custom_summary,
@@ -189,7 +192,8 @@ list(
     example,
     "x.stan",
     generate_data(),
-    log = R.utils::nullfile()
+    stdout = R.utils::nullfile(),
+    stderr = R.utils::nullfile()
   ),
   tar_stan_summary(
     custom_summary,
@@ -230,7 +234,8 @@ tar_script({
       example,
       c("x.stan", "y.stan"), # another model
       tar_stan_example_data(),
-      log = R.utils::nullfile()
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
     ),
     tar_stan_summary(
       custom_summary,
@@ -258,7 +263,8 @@ list(
     example,
     c("x.stan", "y.stan"), # another model
     generate_data(),
-    log = R.utils::nullfile()
+    stdout = R.utils::nullfile(),
+    stderr = R.utils::nullfile()
   ),
   tar_stan_summary(
     custom_summary,
@@ -308,7 +314,8 @@ tar_script({
       example,
       "x.stan",
       tar_stan_example_data(),
-      log = R.utils::nullfile()
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
     ),
     tar_stan_gq_rep_summary(
       postpred,
@@ -318,7 +325,8 @@ tar_script({
       batches = 2, # 2 dynamic branches
       reps = 5, # 5 replications per branch
       quiet = TRUE,
-      log = R.utils::nullfile()
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
     )
   )
 })
@@ -341,7 +349,8 @@ list(
     example,
     "x.stan",
     tar_stan_example_data(),
-    log = R.utils::nullfile()
+    stdout = R.utils::nullfile(),
+    stderr = R.utils::nullfile()
   ),
   tar_stan_gq_rep_summary(
     postpred,
@@ -351,7 +360,8 @@ list(
     batches = 2, # 2 dynamic branches
     reps = 5, # 5 replications per branch
     quiet = TRUE,
-    log = R.utils::nullfile()
+    stdout = R.utils::nullfile(),
+    stderr = R.utils::nullfile()
   )
 )
 ```

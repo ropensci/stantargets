@@ -84,7 +84,8 @@ tar_script({
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       ),
-      log = R.utils::nullfile()
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
     )
   )
 })
@@ -121,7 +122,8 @@ list(
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
     ),
-    log = R.utils::nullfile()
+    stdout = R.utils::nullfile(),
+    stderr = R.utils::nullfile()
   )
 )
 ```
@@ -188,7 +190,8 @@ tar_script({
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       ),
-      log = R.utils::nullfile()
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
     ),
     tar_target(
       coverage,
@@ -229,7 +232,8 @@ list(
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
     ),
-    log = R.utils::nullfile()
+    stdout = R.utils::nullfile(),
+    stderr = R.utils::nullfile()
   ),
   tar_target(
     coverage,
@@ -294,7 +298,8 @@ tar_script({
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       ),
-      log = R.utils::nullfile()
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
     ),
     tar_target(
       coverage,
@@ -335,7 +340,8 @@ list(
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
     ),
-    log = R.utils::nullfile()
+    stdout = R.utils::nullfile(),
+    stderr = R.utils::nullfile()
   ),
   tar_target(
     coverage,
