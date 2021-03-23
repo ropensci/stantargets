@@ -34,8 +34,9 @@
 #'   element of your Stan data list with names and dimensions corresponding
 #'   to those of the model. For details, read
 #'   <https://wlandau.github.io/stantargets/articles/mcmc_rep.html>.
-#' @param batches Number of batches. Each batch is a branch target
-#'   that generates a dataset and runs the model `reps` times.
+#' @param batches Number of batches. Each batch is a sequence
+#'   of branch targets containing multiple reps. Each rep
+#'   generates a dataset and runs the model on it.
 #' @param reps Number of replications per batch.
 #' @param combine Logical, whether to create a target to
 #'   combine all the model results

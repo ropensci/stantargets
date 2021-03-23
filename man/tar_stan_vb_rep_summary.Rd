@@ -71,8 +71,9 @@ appendices in the CmdStan manual for details on using these formats.
 \item \code{NULL} or an empty list if the Stan program has no \code{data} block.
 }}
 
-\item{batches}{Number of batches. Each batch is a branch target
-that generates a dataset and runs the model \code{reps} times.}
+\item{batches}{Number of batches. Each batch is a sequence
+of branch targets containing multiple reps. Each rep
+generates a dataset and runs the model on it.}
 
 \item{reps}{Number of replications per batch.}
 

@@ -85,8 +85,9 @@ to those of the model. For details, read
 \item{output}{Type of output to create, either \code{"summaries"},
 \code{"draws"}, or \code{"diagnostics"}.}
 
-\item{batches}{Number of batches. Each batch is a branch target
-that generates a dataset and runs the model \code{reps} times.}
+\item{batches}{Number of batches. Each batch is a sequence
+of branch targets containing multiple reps. Each rep
+generates a dataset and runs the model on it.}
 
 \item{reps}{Number of replications per batch.}
 
