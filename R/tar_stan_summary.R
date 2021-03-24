@@ -100,7 +100,7 @@ tar_stan_summary_call <- function(
   }
   method <- call_function("$", list(sym_fit, sym_summary))
   args <- list(method)
-  args$variables <- variables %||% quote(identity(NULL))
+  args$variables <- variables %|||% quote(identity(NULL))
   args$.args <- summary_args
   args <- c(args, summaries)
   expr <- as.call(list(quote(tibble::tibble), as.call(args)))

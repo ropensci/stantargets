@@ -2,6 +2,7 @@
 
 * Return the executable file after the Stan source file in model compilation targets.
 * Replace the `log` argument with `stdout` and `stderr` (#23).
+* Switch meaning of `%||%` and `%|||%` to conform to historical precedent.
 
 # stantargets 0.0.0.9001
 
