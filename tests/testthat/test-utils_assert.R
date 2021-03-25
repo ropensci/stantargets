@@ -5,6 +5,11 @@ targets::tar_test("assert_chr()", {
   expect_error(assert_chr(123), class = "condition_validate")
 })
 
+targets::tar_test("assert_nonempty()", {
+  expect_silent(assert_nonempty(letters))
+  expect_error(assert_nonempty(NULL), class = "condition_validate")
+})
+
 targets::tar_test("assert_not_in()", {
   expect_silent(assert_not_in("1", letters))
   expect_error(assert_not_in("a", letters), class = "condition_validate")
@@ -29,6 +34,13 @@ targets::tar_test("assert_path()", {
 targets::tar_test("assert_scalar()", {
   expect_silent(assert_scalar(1))
   expect_error(assert_scalar(letters), class = "condition_validate")
+})
+
+targets::tar_test("assert_stan_file()", {
+  tmp <- tempfile()
+  tar_stan_example_file(tmp)
+  expect_silent(assert_stan_file(tmp))
+  expect_error(assert_stan_file(tempdir()), class = "condition_validate")
 })
 
 targets::tar_test("assert_unique()", {
