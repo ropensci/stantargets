@@ -100,7 +100,7 @@ tar_stan_mle_rep_summary <- function(
     name = deparse_language(substitute(name)),
     stan_files,
     data = substitute(data),
-    output = "summary",
+    output_type = "summary",
     batches = batches,
     reps = reps,
     combine = combine,

@@ -115,7 +115,7 @@ tar_stan_mcmc_rep_diagnostics <- function(
     name = deparse_language(substitute(name)),
     stan_files = stan_files,
     data = substitute(data),
-    output = "diagnostics",
+    output_type = "diagnostics",
     batches = batches,
     reps = reps,
     combine = combine,

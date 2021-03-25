@@ -99,7 +99,7 @@ tar_stan_gq_rep_draws <- function(
     stan_files = stan_files,
     data = substitute(data),
     fitted_params = substitute(fitted_params),
-    output = "draws",
+    output_type = "draws",
     batches = batches,
     reps = reps,
     combine = combine,

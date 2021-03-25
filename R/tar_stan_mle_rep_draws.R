@@ -98,7 +98,7 @@ tar_stan_mle_rep_draws <- function(
     name = deparse_language(substitute(name)),
     stan_files,
     data = substitute(data),
-    output = "draws",
+    output_type = "draws",
     batches = batches,
     reps = reps,
     combine = combine,

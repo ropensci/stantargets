@@ -8,7 +8,7 @@ tar_stan_mcmc_rep(
   name,
   stan_files,
   data = list(),
-  output = c("summary", "draws", "diagnostics"),
+  output_type = c("summary", "draws", "diagnostics"),
   batches = 1L,
   reps = 1L,
   combine = TRUE,
@@ -83,7 +83,7 @@ element of your Stan data list with names and dimensions corresponding
 to those of the model. For details, read
 \url{https://wlandau.github.io/stantargets/articles/mcmc_rep.html}.}
 
-\item{output}{Type of output to create, either \code{"summaries"},
+\item{output_type}{Type of output to create, either \code{"summaries"},
 \code{"draws"}, or \code{"diagnostics"}.}
 
 \item{batches}{Number of batches. Each batch is a sequence

@@ -32,7 +32,7 @@ tar_stan_mle_rep <- function(
   name,
   stan_files,
   data = list(),
-  output = c("summary", "draws"),
+  output_type = c("summary", "draws"),
   batches = 1L,
   reps = 1L,
   combine = TRUE,
@@ -108,7 +108,7 @@ tar_stan_mle_rep <- function(
     stan_name = quote(._stantargets_name_chr_50e43091),
     stan_path = quote(._stantargets_file_50e43091),
     data = sym_data,
-    output = match.arg(output),
+    output_type = match.arg(output_type),
     compile = compile,
     quiet = quiet,
     stdout = stdout,
@@ -268,7 +268,7 @@ tar_stan_mle_rep_run <- function(
   stan_name,
   stan_path,
   data,
-  output,
+  output_type,
   compile,
   quiet,
   stdout,
@@ -333,7 +333,7 @@ tar_stan_mle_rep_run <- function(
     ~tar_stan_mle_rep_run_rep(
       data = .x,
       seed = .y,
-      output = output,
+      output_type = output_type,
       model = model,
       refresh = refresh,
       init = init,
@@ -363,7 +363,7 @@ tar_stan_mle_rep_run <- function(
 tar_stan_mle_rep_run_rep <- function(
   data,
   seed,
-  output,
+  output_type,
   model,
   refresh,
   init,
@@ -406,7 +406,7 @@ tar_stan_mle_rep_run_rep <- function(
   )
   tar_stan_output(
     fit = fit,
-    output = output,
+    output_type = output_type,
     summaries = summaries,
     summary_args = summary_args,
     variables = variables,

@@ -10,7 +10,7 @@
 #' @param inc_warmup Logical, whether to include the warmup draws.
 tar_stan_output <- function(
   fit,
-  output,
+  output_type,
   summaries,
   summary_args,
   variables,
@@ -19,7 +19,7 @@ tar_stan_output <- function(
   data_copy
 ) {
   out <- switch(
-    output,
+    output_type,
     summary = tar_stan_output_summary(
       fit = fit,
       data = data,

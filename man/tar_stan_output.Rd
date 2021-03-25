@@ -6,7 +6,7 @@
 \usage{
 tar_stan_output(
   fit,
-  output,
+  output_type,
   summaries,
   summary_args,
   variables,
@@ -18,7 +18,7 @@ tar_stan_output(
 \arguments{
 \item{fit}{A Stan fit object.}
 
-\item{output}{Type of output to create, either \code{"summaries"},
+\item{output_type}{Type of output to create, either \code{"summaries"},
 \code{"draws"}, or \code{"diagnostics"}.}
 
 \item{summaries}{Optional list of summary functions passed to \code{...} in

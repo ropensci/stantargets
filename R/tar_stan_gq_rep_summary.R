@@ -100,7 +100,7 @@ tar_stan_gq_rep_summary <- function(
     stan_files = stan_files,
     data = substitute(data),
     fitted_params = substitute(fitted_params),
-    output = "summary",
+    output_type = "summary",
     batches = batches,
     reps = reps,
     combine = combine,

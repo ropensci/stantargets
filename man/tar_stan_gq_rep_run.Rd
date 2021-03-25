@@ -9,7 +9,7 @@ tar_stan_gq_rep_run(
   stan_name,
   stan_path,
   data,
-  output,
+  output_type,
   fitted_params,
   compile,
   quiet,
@@ -51,7 +51,7 @@ appendices in the CmdStan manual for details on using these formats.
 \item \code{NULL} or an empty list if the Stan program has no \code{data} block.
 }}
 
-\item{output}{Type of output to create, either \code{"summaries"},
+\item{output_type}{Type of output to create, either \code{"summaries"},
 \code{"draws"}, or \code{"diagnostics"}.}
 
 \item{fitted_params}{(multiple options) The parameter draws to use. One of

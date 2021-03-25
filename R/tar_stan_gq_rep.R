@@ -31,7 +31,7 @@ tar_stan_gq_rep <- function(
   stan_files,
   data = quote(list()),
   fitted_params,
-  output = c("summary", "draws"),
+  output_type = c("summary", "draws"),
   batches = 1L,
   reps = 1L,
   combine = TRUE,
@@ -97,7 +97,7 @@ tar_stan_gq_rep <- function(
     stan_name = quote(._stantargets_name_chr_50e43091),
     stan_path = quote(._stantargets_file_50e43091),
     data = sym_data,
-    output = match.arg(output),
+    output_type = match.arg(output_type),
     fitted_params = fitted_params,
     compile = compile,
     quiet = quiet,
@@ -249,7 +249,7 @@ tar_stan_gq_rep_run <- function(
   stan_name,
   stan_path,
   data,
-  output,
+  output_type,
   fitted_params,
   compile,
   quiet,
@@ -305,7 +305,7 @@ tar_stan_gq_rep_run <- function(
     ~tar_stan_gq_rep_run_rep(
       data = .x,
       seed = .y,
-      output = output,
+      output_type = output_type,
       fitted_params = fitted_params,
       model = model,
       output_dir = output_dir,
@@ -325,7 +325,7 @@ tar_stan_gq_rep_run <- function(
 
 tar_stan_gq_rep_run_rep <- function(
   data,
-  output,
+  output_type,
   seed,
   model,
   fitted_params,
@@ -351,7 +351,7 @@ tar_stan_gq_rep_run_rep <- function(
   )
   tar_stan_output(
     fit = fit,
-    output = output,
+    output_type = output_type,
     summaries = summaries,
     summary_args = summary_args,
     variables = variables,

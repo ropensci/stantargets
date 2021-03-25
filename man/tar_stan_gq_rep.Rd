@@ -10,7 +10,7 @@ tar_stan_gq_rep(
   stan_files,
   data = quote(list()),
   fitted_params,
-  output = c("summary", "draws"),
+  output_type = c("summary", "draws"),
   batches = 1L,
   reps = 1L,
   combine = TRUE,
@@ -73,7 +73,7 @@ VB) object returned by CmdStanR's \code{\link[cmdstanr:fit-method-draws]{$draws(
 \item A character vector of paths to CmdStan CSV output files.
 }}
 
-\item{output}{Type of output to create, either \code{"summaries"},
+\item{output_type}{Type of output to create, either \code{"summaries"},
 \code{"draws"}, or \code{"diagnostics"}.}
 
 \item{batches}{Number of batches. Each batch is a sequence

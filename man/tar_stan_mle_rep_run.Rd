@@ -9,7 +9,7 @@ tar_stan_mle_rep_run(
   stan_name,
   stan_path,
   data,
-  output,
+  output_type,
   compile,
   quiet,
   stdout,

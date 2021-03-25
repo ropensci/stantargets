@@ -8,7 +8,7 @@ tar_stan_vb_rep(
   name,
   stan_files,
   data = list(),
-  output = c("summary", "draws"),
+  output_type = c("summary", "draws"),
   batches = 1L,
   reps = 1L,
   combine = TRUE,
@@ -73,7 +73,7 @@ appendices in the CmdStan manual for details on using these formats.
 \item \code{NULL} or an empty list if the Stan program has no \code{data} block.
 }}
 
-\item{output}{Type of output to create, either \code{"summaries"},
+\item{output_type}{Type of output to create, either \code{"summaries"},
 \code{"draws"}, or \code{"diagnostics"}.}
 
 \item{batches}{Number of batches. Each batch is a sequence

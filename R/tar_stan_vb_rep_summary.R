@@ -101,7 +101,7 @@ tar_stan_vb_rep_summary <- function(
     name = deparse_language(substitute(name)),
     stan_files = stan_files,
     data = substitute(data),
-    output = "summary",
+    output_type = "summary",
     batches = batches,
     reps = reps,
     combine = combine,
