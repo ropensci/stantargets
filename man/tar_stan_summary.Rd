@@ -93,6 +93,9 @@ so \code{targets} does not download the entire file when it
 only needs to check the time stamp and ETag.
 \item Custom preset for \code{qs::qsave()} if \code{format = "qs"}, e.g.
 \code{resources = list(handle = "archive")}.
+\item Arguments \code{compression} and \code{compression_level} to
+\code{arrow::write_feather()} and \code{arrow:write_parquet()} if \code{format} is
+\code{"feather"}, \code{"parquet"}, \code{"aws_feather"}, or \code{"aws_parquet"}.
 \item Custom compression level for \code{fst::write_fst()} if
 \code{format} is \code{"fst"}, \code{"fst_dt"}, or \code{"fst_tbl"}, e.g.
 \code{resources = list(compress = 100)}.

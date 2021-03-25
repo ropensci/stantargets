@@ -10,6 +10,7 @@ tar_stan_compile_run(
   stdout = NULL,
   stderr = NULL,
   dir = NULL,
+  pedantic = FALSE,
   include_paths = NULL,
   cpp_options = list(),
   stanc_options = list(),
@@ -39,6 +40,13 @@ Does not apply to messages, warnings, or errors.}
 \item{dir}{(string) The path to the directory in which to store the CmdStan
 executable (or \code{.hpp} file if using \verb{$save_hpp_file()}). The default is the
 same location as the Stan program.}
+
+\item{pedantic}{(logical) Should pedantic mode be turned on? The default is
+\code{FALSE}. Pedantic mode attempts to warn you about potential issues in your
+Stan program beyond syntax errors. For details see the \href{https://mc-stan.org/docs/reference-manual/pedantic-mode.html}{\emph{Pedantic mode} chapter} in
+the Stan Reference Manual. \strong{Note:} to do a pedantic check for a model
+that is already compiled use the
+\code{\link[cmdstanr:model-method-check_syntax]{$check_syntax()}} method instead.}
 
 \item{include_paths}{(character vector) Paths to directories where Stan
 should look for files specified in \verb{#include} directives in the Stan

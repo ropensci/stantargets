@@ -11,6 +11,7 @@ tar_stan_compile(
   stdout = NULL,
   stderr = NULL,
   dir = NULL,
+  pedantic = FALSE,
   include_paths = NULL,
   cpp_options = list(),
   stanc_options = list(),
@@ -63,6 +64,13 @@ Does not apply to messages, warnings, or errors.}
 \item{dir}{(string) The path to the directory in which to store the CmdStan
 executable (or \code{.hpp} file if using \verb{$save_hpp_file()}). The default is the
 same location as the Stan program.}
+
+\item{pedantic}{(logical) Should pedantic mode be turned on? The default is
+\code{FALSE}. Pedantic mode attempts to warn you about potential issues in your
+Stan program beyond syntax errors. For details see the \href{https://mc-stan.org/docs/reference-manual/pedantic-mode.html}{\emph{Pedantic mode} chapter} in
+the Stan Reference Manual. \strong{Note:} to do a pedantic check for a model
+that is already compiled use the
+\code{\link[cmdstanr:model-method-check_syntax]{$check_syntax()}} method instead.}
 
 \item{include_paths}{(character vector) Paths to directories where Stan
 should look for files specified in \verb{#include} directives in the Stan
@@ -132,6 +140,9 @@ so \code{targets} does not download the entire file when it
 only needs to check the time stamp and ETag.
 \item Custom preset for \code{qs::qsave()} if \code{format = "qs"}, e.g.
 \code{resources = list(handle = "archive")}.
+\item Arguments \code{compression} and \code{compression_level} to
+\code{arrow::write_feather()} and \code{arrow:write_parquet()} if \code{format} is
+\code{"feather"}, \code{"parquet"}, \code{"aws_feather"}, or \code{"aws_parquet"}.
 \item Custom compression level for \code{fst::write_fst()} if
 \code{format} is \code{"fst"}, \code{"fst_dt"}, or \code{"fst_tbl"}, e.g.
 \code{resources = list(compress = 100)}.
