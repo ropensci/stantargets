@@ -121,7 +121,7 @@ tar_stan_mcmc_rep <- function(
   sym_batch <- as.symbol(name_batch)
   sym_data <- as.symbol(name_data)
   command_batch <- substitute(seq_len(x), env = list(x = batches))
-  command_rep <- tidy_eval(
+  command_rep <- tar_tidy_eval(
     data,
     envir = envir,
     tidy_eval = tidy_eval

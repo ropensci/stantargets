@@ -153,7 +153,7 @@ tar_stan_mcmc <- function(
   sym_lines <- as.symbol(name_lines)
   sym_data <- as.symbol(name_data)
   sym_mcmc <- as.symbol(name_mcmc)
-  command_data <- tidy_eval(
+  command_data <- tar_tidy_eval(
     substitute(data),
     envir = envir,
     tidy_eval = tidy_eval
