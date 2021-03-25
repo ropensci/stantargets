@@ -148,11 +148,11 @@ tar_stan_mcmc <- function(
   name_draws <- paste0(name, "_draws")
   name_summary <- paste0(name, "_summary")
   name_diagnostics <- paste0(name, "_diagnostics")
-  sym_stan <- rlang::syms(name_stan)
-  sym_file <- rlang::sym(name_file)
-  sym_lines <- rlang::sym(name_lines)
-  sym_data <- rlang::sym(name_data)
-  sym_mcmc <- rlang::sym(name_mcmc)
+  sym_stan <- as_symbols(name_stan)
+  sym_file <- as.symbol(name_file)
+  sym_lines <- as.symbol(name_lines)
+  sym_data <- as.symbol(name_data)
+  sym_mcmc <- as.symbol(name_mcmc)
   command_data <- tidy_eval(
     substitute(data),
     envir = envir,

@@ -44,8 +44,8 @@ tar_stan_output_summary <- function(
   variables
 ) {
   command <- tar_stan_summary_call(
-    sym_fit = rlang::sym("fit"),
-    sym_data = rlang::sym("data"),
+    sym_fit = as.symbol("fit"),
+    sym_data = as.symbol("data"),
     summaries = summaries,
     summary_args = summary_args,
     variables = variables

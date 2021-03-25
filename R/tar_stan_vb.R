@@ -112,11 +112,11 @@ tar_stan_vb <- function(
   name_vb <- paste0(name, "_vb")
   name_draws <- paste0(name, "_draws")
   name_summary <- paste0(name, "_summary")
-  sym_stan <- rlang::syms(name_stan)
-  sym_file <- rlang::sym(name_file)
-  sym_lines <- rlang::sym(name_lines)
-  sym_data <- rlang::sym(name_data)
-  sym_vb <- rlang::sym(name_vb)
+  sym_stan <- as_symbols(name_stan)
+  sym_file <- as.symbol(name_file)
+  sym_lines <- as.symbol(name_lines)
+  sym_data <- as.symbol(name_data)
+  sym_vb <- as.symbol(name_vb)
   command_data <- tidy_eval(
     substitute(data),
     envir = envir,

@@ -87,11 +87,11 @@ tar_stan_mle_rep <- function(
   name_lines <- paste0(name, "_lines")
   name_batch <- paste0(name, "_batch")
   name_data <- paste0(name, "_data")
-  sym_stan <- rlang::syms(name_stan)
-  sym_file <- rlang::sym(name_file)
-  sym_lines <- rlang::sym(name_lines)
-  sym_batch <- rlang::sym(name_batch)
-  sym_data <- rlang::sym(name_data)
+  sym_stan <- as_symbols(name_stan)
+  sym_file <- as.symbol(name_file)
+  sym_lines <- as.symbol(name_lines)
+  sym_batch <- as.symbol(name_batch)
+  sym_data <- as.symbol(name_data)
   command_batch <- substitute(seq_len(x), env = list(x = batches))
   command_rep <- tidy_eval(
     data,

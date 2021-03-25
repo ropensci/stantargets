@@ -112,11 +112,11 @@ tar_stan_mle <- function(
   name_mle <- paste0(name, "_mle")
   name_draws <- paste0(name, "_draws")
   name_summary <- paste0(name, "_summary")
-  sym_stan <- rlang::syms(name_stan)
-  sym_file <- rlang::sym(name_file)
-  sym_lines <- rlang::sym(name_lines)
-  sym_data <- rlang::sym(name_data)
-  sym_mle <- rlang::sym(name_mle)
+  sym_stan <- as_symbols(name_stan)
+  sym_file <- as.symbol(name_file)
+  sym_lines <- as.symbol(name_lines)
+  sym_data <- as.symbol(name_data)
+  sym_mle <- as.symbol(name_mle)
   command_data <- tidy_eval(
     substitute(data),
     envir = envir,

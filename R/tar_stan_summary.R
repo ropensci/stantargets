@@ -94,7 +94,7 @@ tar_stan_summary_call <- function(
   summary_args,
   variables
 ) {
-  sym_summary <- rlang::sym("summary")
+  sym_summary <- as.symbol("summary")
   if (!is.null(summaries)) {
     summaries <- trn(is.list(summaries), summaries, as.list(summaries[-1]))
   }
