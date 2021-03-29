@@ -11,7 +11,7 @@ targets::tar_test("produce_stan_names()", {
   )
   expect_error(
     produce_stan_names(c("x/a.stan", "y/a.stan")),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
   expect_equal(
     produce_stan_names(c(a = "x/a.stan", b = "y/a.stan")),
@@ -19,6 +19,6 @@ targets::tar_test("produce_stan_names()", {
   )
   expect_error(
     produce_stan_names(c("x/a.stan", y = "y/asdf.stan")),
-    class = "condition_validate"
+    class = "tar_condition_validate"
   )
 })
