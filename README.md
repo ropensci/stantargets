@@ -69,12 +69,21 @@ patches.
 remotes::install_github("wlandau/stantargets")
 ```
 
-The [`cmdstan`](https://github.com/stan-dev/cmdstan) command line
+The [CmdStan](https://github.com/stan-dev/cmdstan) command line
 interface is also required.
 
 ``` r
 cmdstanr::install_cmdstan()
 ```
+
+If you have problems installing
+[CmdStan](https://github.com/stan-dev/cmdstan), please consult the
+[installation guide of
+`cmdstanr`](https://mc-stan.org/cmdstanr/articles/cmdstanr.html) and the
+[installation guide of
+CmdStan](https://mc-stan.org/docs/2_26/cmdstan-guide/cmdstan-installation.html).
+Alternatively, the [Stan discourse](https://discourse.mc-stan.org) is a
+friendly place to ask Stan experts for help.
 
 ## Usage
 

@@ -38,7 +38,6 @@ The `stantargets` R package is an extension to [`targets`](https://docs.ropensci
 
 Read the `stantargets` tutorial vignettes [here](https://wlandau.github.io/stantargets/articles/mcmc.html) and [here](https://wlandau.github.io/stantargets/articles/mcmc_rep.html), then use <https://wlandau.github.io/stantargets/> as a reference while constructing your own workflows.
 
-
 ## Installation
 
 Install the GitHub development version to access the latest features and patches.
@@ -47,11 +46,13 @@ Install the GitHub development version to access the latest features and patches
 remotes::install_github("wlandau/stantargets")
 ```
 
-The [`cmdstan`](https://github.com/stan-dev/cmdstan) command line interface is also required.
+The [CmdStan](https://github.com/stan-dev/cmdstan) command line interface is also required.
 
 ```{r, eval = FALSE}
 cmdstanr::install_cmdstan()
 ```
+
+If you have problems installing [CmdStan](https://github.com/stan-dev/cmdstan), please consult the [installation guide of `cmdstanr`](https://mc-stan.org/cmdstanr/articles/cmdstanr.html) and the [installation guide of CmdStan](https://mc-stan.org/docs/2_26/cmdstan-guide/cmdstan-installation.html). Alternatively, the [Stan discourse](https://discourse.mc-stan.org) is a friendly place to ask Stan experts for help.
 
 ## Usage
 
