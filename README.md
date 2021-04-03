@@ -95,6 +95,10 @@ target list can call target factories like
 [`tar_stan_mcmc()`](https://wlandau.github.io/stantargets/reference/tar_stan_mcmc.html)
 as well as ordinary targets with
 [`tar_target()`](https://docs.ropensci.org/targets/reference/tar_target.html).
+The following minimal example is simple enough to contain entirely
+within the `_targets.R` file, but for larger projects, you may wish to
+store functions in separate files as in the
+[`targets-stan`](https://github.com/wlandau/targets-stan) example.
 
 ``` r
 # _targets.R
@@ -109,7 +113,11 @@ generate_data <- function() {
 }
 
 list(
-  tar_stan_mcmc(example, "x.stan", generate_data())
+  tar_stan_mcmc(
+    name = example,
+    stan_files = "x.stan",
+    data = generate_data()
+  )
 )
 ```
 
