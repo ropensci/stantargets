@@ -17,12 +17,27 @@ The `stantargets` R package is an extension to
 analysis. `stantargets` makes it super easy to set up useful scalable
 Stan pipelines that automatically parallelize the computation and skip
 expensive steps when the results are already up to date. Minimal custom
-code is required, and there is no need to manually configure branching,
-so usage is much easier than
-[`targets`](https://docs.ropensci.org/targets/) alone. `stantargets` can
-access all of [`cmdstanr`](https://github.com/stan-dev/cmdstanr)’s major
-algorithms (MCMC, variational Bayes, and optimization) and it supports
-both single-fit workflows and multi-rep simulation studies.
+code is required, and there is no need to manually configure branching.
+`stantargets` can access all of
+[`cmdstanr`](https://github.com/stan-dev/cmdstanr)’s major algorithms
+(MCMC, variational Bayes, and optimization) and it supports both
+single-fit workflows and multi-rep simulation studies.
+
+## How it works
+
+`stantargets` supports specialized [target
+factories](https://ropensci.org/blog/2021/02/03/targets/#target-factories)
+that create ensembles of [target
+objects](https://docs.ropensci.org/targets/reference/tar_target.html)
+for [`cmdstanr`](https://github.com/stan-dev/cmdstanr) workflows. These
+[target
+factories](https://ropensci.org/blog/2021/02/03/targets/#target-factories)
+abstract away the details of
+[`targets`](https://docs.ropensci.org/targets/) and
+[`cmdstanr`](https://github.com/stan-dev/cmdstanr) and make both
+packages easier to use. For details, please read the [vignette on
+non-branching MCMC
+pipelines](https://wlandau.github.io/stantargets/articles/mcmc.html).
 
 ## Prerequisites
 
