@@ -123,6 +123,25 @@ e.g. `tar_read(tar_read(example_summary_x)`. Visit [this
 vignette](https://wlandau.github.io/stantargets/articles/mcmc.html) to
 read more about this example.
 
+## Help
+
+If you have trouble using `stantargets`, you can ask for help in the
+[GitHub discussions
+forum](https://github.com/wlandau/stantargets/discussions/categories/help).
+Because the purpose of `stantargets` is to combine
+[`targets`](https://docs.ropensci.org/targets/) and
+[`cmdstanr`](https://github.com/stan-dev/cmdstanr), your issue may have
+something to do with one of the latter two packages, a [dependency of
+`targets`](https://github.com/ropensci/targets/blob/4e3ef2a6c986f558a25e544416f480fc01236b6b/DESCRIPTION#L49-L88),
+or [Stan](https://mc-stan.org) itself. When you troubleshoot, peel back
+as many layers as possible to isolate the problem. For example, if the
+issue comes from [`cmdstanr`](https://github.com/stan-dev/cmdstanr),
+create a [reproducible example](https://reprex.tidyverse.org) that
+directly invokes [`cmdstanr`](https://github.com/stan-dev/cmdstanr)
+without invoking `stantargets`. The GitHub discussion and issue forums
+of those packages, as well as the [Stan
+discourse](https://discourse.mc-stan.org), are great resources.
+
 ## Participation
 
 Development is a community effort, and we welcome discussion and
