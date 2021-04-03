@@ -127,7 +127,7 @@ to check `_targets.R` for correctness, then call
 [`tar_make()`](https://docs.ropensci.org/targets/reference/tar_make.html)
 to run the pipeline. Access the results using
 [`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html),
-e.g. `tar_read(tar_read(example_summary_x)`. Visit [this
+e.g. `ar_read(example_summary_x)`. Visit [this
 vignette](https://wlandau.github.io/stantargets/articles/mcmc.html) to
 read more about this example.
 
@@ -163,10 +163,6 @@ guide](https://github.com/wlandau/stantargets/blob/main/CONTRIBUTING.md).
 
 ``` r
 citation("stantargets")
-#> Warning in citation("stantargets"): no date field in DESCRIPTION file of package
-#> 'stantargets'
-#> Warning in citation("stantargets"): could not determine year for 'stantargets'
-#> from package DESCRIPTION file
 #> 
 #> To cite package 'stantargets' in publications use:
 #> 

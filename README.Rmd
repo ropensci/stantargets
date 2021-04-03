@@ -91,6 +91,6 @@ Development is a community effort, and we welcome discussion and contribution. B
 
 ## Citation
 
-```{r}
+```{r, warning = FALSE}
 citation("stantargets")
 ```
