@@ -1,7 +1,7 @@
 produce_stan_names <- function(stan_files) {
   out <- trn(
     is.null(names(stan_files)),
-    tools::file_path_sans_ext(basename(stan_files)),
+    fs::path_ext_remove(basename(stan_files)),
     names(stan_files)
   )
   assert_unique(out, "target suffixes from stan_files are not unique.")

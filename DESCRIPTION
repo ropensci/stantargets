@@ -45,7 +45,6 @@ Imports:
   targets (>= 0.0.1),
   tarchetypes (>= 0.0.1),
   tibble (>= 3.0.4),
-  tools,
   withr (>= 2.1.2)
 Suggests:
   dplyr (>= 1.0.2),

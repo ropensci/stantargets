@@ -15,16 +15,16 @@
 #' @name stantargets-package
 #' @importFrom cmdstanr cmdstan_model
 #' @importFrom digest digest
-#' @importFrom fs path_rel
+#' @importFrom fs path_ext_remove path_rel
 #' @importFrom fst read_fst
 #' @importFrom qs qread
 #' @importFrom posterior as_draws_df
-#' @importFrom purrr map
+#' @importFrom purrr map map_dbl map2_dfr
 #' @importFrom rlang check_installed expr quo_squash
 #' @importFrom stats rnorm runif
 #' @importFrom targets tar_cue tar_dir tar_load tar_option_get tar_path
 #'   tar_read tar_script tar_target tar_target_raw tar_test
-#' @importFrom tarchetypes tar_combine tar_map
+#' @importFrom tarchetypes tar_combine_raw tar_map
 #' @importFrom withr local_message_sink local_output_sink
 NULL
 
