@@ -31,7 +31,7 @@ The `stantargets` R package is an extension to [`targets`](https://docs.ropensci
 ## Prerequisites
 
 1. The [prerequisites of the `targets` R package](https://docs.ropensci.org/targets/index.html#prerequisites).
-1. Basic familiarity with [`targets`](https://docs.ropensci.org/targets/): watch minutes 6 through 40 of [this video](https://youtu.be/Gqn7Xn4d5NI), then read [this chapter](https://books.ropensci.org/targets/walkthrough.html) of the [user manual](https://books.ropensci.org/targets/).
+1. Basic familiarity with [`targets`](https://docs.ropensci.org/targets/): watch minutes 7 through 40 of [this video](https://youtu.be/Gqn7Xn4d5NI?t=439), then read [this chapter](https://books.ropensci.org/targets/walkthrough.html) of the [user manual](https://books.ropensci.org/targets/).
 1. Familiarity with Bayesian Statistics and [Stan](https://mc-stan.org/). Prior knowledge of [`cmdstanr`](https://mc-stan.org/cmdstanr/) helps.
 
 ## How to get started
