@@ -3,9 +3,12 @@
 #' @description Create a target to run the `$summary()`
 #'   method of a `CmdStanFit` object.
 #' @details [tar_stan_mcmc()] etc. with `summary = TRUE` already gives you a
-#'   target with a `$summary()` object.
+#'   target with output from the `$summary()` method.
 #'   Use `tar_stan_summary()` to create additional specialized summaries.
-#' @return A target object to summarize a `CmdStanFit` object.
+#' @return `tar_stan_summary()` returns target object to
+#'   summarize a `CmdStanFit` object. The return value of the target
+#'   is a tidy data frame of summaries returned by the `$summary()` 
+#'   method of the `CmdStanFit` object.
 #'   See the "Target objects" section for background.
 #' @inheritSection tar_stan_compile Target objects
 #' @inheritParams tar_stan_mcmc

@@ -11,7 +11,8 @@
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
 #' @family MCMC
-#' @return A list of target objects. See the "Target objects" section for
+#' @return `tar_stan_mcmc_rep_diagnostics()` returns
+#'   a list of target objects. See the "Target objects" section for
 #'   background. The specific target objects returned by
 #'   `tar_stan_mcmc_rep_diagnostics(name = x, stan_files = "y.stan")`
 #'   are as follows.

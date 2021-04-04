@@ -168,7 +168,11 @@ If \code{"worker"}, the worker loads the targets dependencies.}
 rules that decide whether the target is up to date.}
 }
 \value{
-A target object to compile a Stan file.
+\code{tar_stan_compile()} returns a target object to compile a Stan file.
+The return value of this target is a character vector
+containing the Stan model source file and compiled
+executable file. A change in either file
+will cause the target to rerun in the next run of the pipeline.
 See the "Target objects" section for background.
 }
 \description{

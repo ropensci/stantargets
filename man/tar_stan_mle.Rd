@@ -312,7 +312,8 @@ If \code{"worker"}, the worker loads the targets dependencies.}
 rules that decide whether the target is up to date.}
 }
 \value{
-A list of target objects. See the "Target objects" section for
+\code{tar_stan_mle()} returns a
+list of target objects. See the "Target objects" section for
 background. The specific target objects returned by
 \code{tar_stan_mle(name = x, stan_files = "y.stan", ...)}
 are as follows.

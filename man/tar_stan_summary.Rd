@@ -121,7 +121,10 @@ If \code{"worker"}, the worker loads the targets dependencies.}
 rules that decide whether the target is up to date.}
 }
 \value{
-A target object to summarize a \code{CmdStanFit} object.
+\code{tar_stan_summary()} returns target object to
+summarize a \code{CmdStanFit} object. The return value of the target
+is a tidy data frame of summaries returned by the \verb{$summary()}
+method of the \code{CmdStanFit} object.
 See the "Target objects" section for background.
 }
 \description{
@@ -130,7 +133,7 @@ method of a \code{CmdStanFit} object.
 }
 \details{
 \code{\link[=tar_stan_mcmc]{tar_stan_mcmc()}} etc. with \code{summary = TRUE} already gives you a
-target with a \verb{$summary()} object.
+target with output from the \verb{$summary()} method.
 Use \code{tar_stan_summary()} to create additional specialized summaries.
 }
 \section{Target objects}{

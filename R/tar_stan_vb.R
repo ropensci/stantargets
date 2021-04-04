@@ -7,7 +7,8 @@
 #'   If you previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
 #' @family variational Bayes
-#' @return A list of target objects. See the "Target objects" section for
+#' @return `tar_stan_vb()` returns a list of target objects.
+#'   See the "Target objects" section for
 #'   background. The specific target objects returned by
 #'   `tar_stan_vb(name = x, stan_files = "y.stan", ...)` are as follows.
 #'   * `x_file_y`: reproducibly track the Stan model file.

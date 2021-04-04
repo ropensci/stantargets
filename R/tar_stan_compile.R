@@ -7,7 +7,11 @@
 #' @details Most of the arguments are passed to the
 #'   `$compile()` method of the `CmdStanModel` class.
 #'   For details, visit <https://mc-stan.org/cmdstanr/reference/>.
-#' @return A target object to compile a Stan file.
+#' @return `tar_stan_compile()` returns a target object to compile a Stan file.
+#'   The return value of this target is a character vector
+#'   containing the Stan model source file and compiled
+#'   executable file. A change in either file
+#'   will cause the target to rerun in the next run of the pipeline.
 #'   See the "Target objects" section for background.
 #' @section Target objects:
 #'   Most `stantargets` functions are target factories,

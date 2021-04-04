@@ -277,7 +277,8 @@ If \code{"worker"}, the worker loads the targets dependencies.}
 rules that decide whether the target is up to date.}
 }
 \value{
-A list of target objects. See the "Target objects" section for
+\code{tar_stan_gq_rep_summaries()} returns a
+list of target objects. See the "Target objects" section for
 background. The specific target objects returned by
 \code{tar_stan_gq_rep_summary(name = x, stan_files = "y.stan")}
 returns a list of target objects:

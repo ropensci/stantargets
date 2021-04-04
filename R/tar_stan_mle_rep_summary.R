@@ -8,7 +8,8 @@
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
 #' @family optimization
-#' @return A list of target objects. See the "Target objects" section for
+#' @return `tar_stan_mle_rep_summaries()` returns a
+#'   list of target objects. See the "Target objects" section for
 #'   background. The specific target objects returned by
 #'   `tar_stan_mle_rep_summary(name = x, , stan_files = "y.stan")`
 #'   are as follows.
