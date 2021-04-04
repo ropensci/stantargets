@@ -1,4 +1,4 @@
-#' @title One summary of a `CmdStanFit` object.
+#' @title One summary of a `CmdStanFit` object
 #' @export
 #' @description Target to run the `$summary()` method of a `CmdStanFit` object.
 #' @details [tar_stan_mcmc()] etc. with `summary = TRUE` already gives you a

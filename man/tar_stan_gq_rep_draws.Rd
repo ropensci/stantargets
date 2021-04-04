@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_gq_rep_draws.R
 \name{tar_stan_gq_rep_draws}
 \alias{tar_stan_gq_rep_draws}
-\title{Multiple runs of generated quantities per model with draws.}
+\title{Multiple runs of generated quantities per model with draws}
 \usage{
 tar_stan_gq_rep_draws(
   name,

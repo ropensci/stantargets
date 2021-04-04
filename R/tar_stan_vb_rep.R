@@ -1,4 +1,4 @@
-#' @title Multiple iterations per model of variational Bayes with tidy output.
+#' @title Multiple iterations per model of variational Bayes with tidy output
 #' @keywords internal
 #' @description Internal function. Users should not invoke directly.
 #' @return `tar_stan_vb_rep(name = x,  stan_files = "y.stan")`

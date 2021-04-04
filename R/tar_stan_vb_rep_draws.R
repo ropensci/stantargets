@@ -1,4 +1,4 @@
-#' @title Multiple variational Bayes runs per model with draws.
+#' @title Multiple variational Bayes runs per model with draws
 #' @export
 #' @description Targets to run vb multiple times and
 #'   save only the draws from each run. We recommend thinning

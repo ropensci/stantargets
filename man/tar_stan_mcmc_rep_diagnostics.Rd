@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_mcmc_rep_diagnostics.R
 \name{tar_stan_mcmc_rep_diagnostics}
 \alias{tar_stan_mcmc_rep_diagnostics}
-\title{Multiple MCMCs per model with sampler diagnostics.}
+\title{Multiple MCMCs per model with sampler diagnostics}
 \usage{
 tar_stan_mcmc_rep_diagnostics(
   name,

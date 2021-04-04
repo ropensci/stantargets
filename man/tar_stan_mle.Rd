@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_mle.R
 \name{tar_stan_mle}
 \alias{tar_stan_mle}
-\title{One optimization run per model with multiple outputs.}
+\title{One optimization run per model with multiple outputs}
 \usage{
 tar_stan_mle(
   name,

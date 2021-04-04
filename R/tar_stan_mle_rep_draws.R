@@ -1,4 +1,4 @@
-#' @title Multiple optimization runs per model with draws.
+#' @title Multiple optimization runs per model with draws
 #' @export
 #' @description Targets to run vb multiple times and
 #'   save only the MLEs in a wide-form "draws" data frame.

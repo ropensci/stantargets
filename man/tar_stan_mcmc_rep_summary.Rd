@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_mcmc_rep_summary.R
 \name{tar_stan_mcmc_rep_summary}
 \alias{tar_stan_mcmc_rep_summary}
-\title{Multiple MCMCs per model with summaries.}
+\title{Multiple MCMCs per model with summaries}
 \usage{
 tar_stan_mcmc_rep_summary(
   name,

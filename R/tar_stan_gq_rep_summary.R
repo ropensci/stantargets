@@ -1,4 +1,4 @@
-#' @title Multiple runs of generated quantities per model with summaries.
+#' @title Multiple runs of generated quantities per model with summaries
 #' @export
 #' @description Targets to run generated quantities multiple times and
 #'   save only the summaries from each run.

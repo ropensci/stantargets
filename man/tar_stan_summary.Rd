@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_summary.R
 \name{tar_stan_summary}
 \alias{tar_stan_summary}
-\title{One summary of a \code{CmdStanFit} object.}
+\title{One summary of a \code{CmdStanFit} object}
 \usage{
 tar_stan_summary(
   name,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_vb_rep_draws.R
 \name{tar_stan_vb_rep_draws}
 \alias{tar_stan_vb_rep_draws}
-\title{Multiple variational Bayes runs per model with draws.}
+\title{Multiple variational Bayes runs per model with draws}
 \usage{
 tar_stan_vb_rep_draws(
   name,

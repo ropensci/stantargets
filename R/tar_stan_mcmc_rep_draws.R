@@ -1,4 +1,4 @@
-#' @title Multiple MCMC runs per model with draws.
+#' @title Multiple MCMC runs per model with draws
 #' @export
 #' @description Targets to run MCMC multiple times and
 #'   save only the draws from each run. We recommend thinning

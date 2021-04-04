@@ -1,5 +1,5 @@
 #' @title Multiple runs of generated quantities per model with
-#'   tidy output.
+#'   tidy output
 #' @keywords internal
 #' @description Not a user-side function. Do not invoke directly.
 #' @return `tar_stan_gq_rep(name = x, stan_files = "y.stan")`

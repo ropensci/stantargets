@@ -1,4 +1,4 @@
-#' @title Example data for [tar_stan_example_file()]
+#' @title Simulate example data for [tar_stan_example_file()].
 #' @export
 #' @description An example dataset compatible with the model file
 #'   from [tar_stan_example_file()].

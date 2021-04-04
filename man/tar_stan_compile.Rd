@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_compile.R
 \name{tar_stan_compile}
 \alias{tar_stan_compile}
-\title{Target to compile a Stan model}
+\title{Stan model compilation}
 \usage{
 tar_stan_compile(
   name,

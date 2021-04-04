@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_gq_rep_summary.R
 \name{tar_stan_gq_rep_summary}
 \alias{tar_stan_gq_rep_summary}
-\title{Multiple runs of generated quantities per model with summaries.}
+\title{Multiple runs of generated quantities per model with summaries}
 \usage{
 tar_stan_gq_rep_summary(
   name,

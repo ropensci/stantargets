@@ -1,4 +1,4 @@
-#' @title Multiple MCMCs per model with summaries.
+#' @title Multiple MCMCs per model with summaries
 #' @export
 #' @description Targets to run MCMC multiple times and
 #'   save only the summary output from each run.

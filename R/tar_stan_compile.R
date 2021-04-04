@@ -1,4 +1,4 @@
-#' @title Target to compile a Stan model
+#' @title Stan model compilation
 #' @export
 #' @description Target to compile a Stan model and return the
 #'   original Stan model file. Does not compile the model

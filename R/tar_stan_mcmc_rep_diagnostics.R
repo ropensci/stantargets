@@ -1,4 +1,4 @@
-#' @title Multiple MCMCs per model with sampler diagnostics.
+#' @title Multiple MCMCs per model with sampler diagnostics
 #' @export
 #' @description Targets to run MCMC multiple times and
 #'   save only the sampler diagnostics from each run. We recommend thinning

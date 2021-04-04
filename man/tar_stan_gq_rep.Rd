@@ -3,7 +3,7 @@
 \name{tar_stan_gq_rep}
 \alias{tar_stan_gq_rep}
 \title{Multiple runs of generated quantities per model with
-tidy output.}
+tidy output}
 \usage{
 tar_stan_gq_rep(
   name,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_vb_rep.R
 \name{tar_stan_vb_rep}
 \alias{tar_stan_vb_rep}
-\title{Multiple iterations per model of variational Bayes with tidy output.}
+\title{Multiple iterations per model of variational Bayes with tidy output}
 \usage{
 tar_stan_vb_rep(
   name,

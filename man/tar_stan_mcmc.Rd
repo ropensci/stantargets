@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_mcmc.R
 \name{tar_stan_mcmc}
 \alias{tar_stan_mcmc}
-\title{One MCMC per model with multiple outputs.}
+\title{One MCMC per model with multiple outputs}
 \usage{
 tar_stan_mcmc(
   name,

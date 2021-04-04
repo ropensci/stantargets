@@ -1,4 +1,4 @@
-#' @title One optimization run per model with multiple outputs.
+#' @title One optimization run per model with multiple outputs
 #' @export
 #' @description Targets to optimize a Stan model once
 #'   and save multiple outputs.

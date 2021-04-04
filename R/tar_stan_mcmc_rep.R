@@ -1,4 +1,4 @@
-#' @title Multiple MCMCs per model with tidy output.
+#' @title Multiple MCMCs per model with tidy output
 #' @keywords internal
 #' @description Internal function for replicated MCMC.
 #'   Users should not invoke directly.

@@ -1,4 +1,4 @@
-#' @title Multiple iterations per model of variational Bayes with summaries.
+#' @title Multiple iterations per model of variational Bayes with summaries
 #' @export
 #' @description Targets to run variational Bayes multiple times and
 #'   save only the summary output from each run.

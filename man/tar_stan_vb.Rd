@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_vb.R
 \name{tar_stan_vb}
 \alias{tar_stan_vb}
-\title{One variational Bayes run per model with multiple outputs.}
+\title{One variational Bayes run per model with multiple outputs}
 \usage{
 tar_stan_vb(
   name,

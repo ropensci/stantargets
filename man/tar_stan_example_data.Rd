@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_example_data.R
 \name{tar_stan_example_data}
 \alias{tar_stan_example_data}
-\title{Example data for \code{\link[=tar_stan_example_file]{tar_stan_example_file()}}}
+\title{Simulate example data for \code{\link[=tar_stan_example_file]{tar_stan_example_file()}}.}
 \format{
 A list with the following elements:
 \itemize{

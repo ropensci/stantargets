@@ -1,4 +1,4 @@
-#' @title Multiple runs of generated quantities per model with draws.
+#' @title Multiple runs of generated quantities per model with draws
 #' @export
 #' @description Targets to run generated quantities multiple times and
 #'   save only the draws from each run.

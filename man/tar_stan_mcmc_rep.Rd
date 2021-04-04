@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_mcmc_rep.R
 \name{tar_stan_mcmc_rep}
 \alias{tar_stan_mcmc_rep}
-\title{Multiple MCMCs per model with tidy output.}
+\title{Multiple MCMCs per model with tidy output}
 \usage{
 tar_stan_mcmc_rep(
   name,
