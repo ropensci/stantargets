@@ -373,7 +373,7 @@ list(
     batches = 2,
     reps = 2,
     stdout = R.utils::nullfile(),
-    stderr = R.utils::nullfile
+    stderr = R.utils::nullfile()
   )
 )
 }, ask = FALSE)
