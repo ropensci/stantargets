@@ -337,13 +337,17 @@ Please see the design specification at
 to learn about the structure and composition of target objects.
 }
 \description{
-Targets to run vb multiple times and
-save only the draws from each run. We recommend thinning
-if the number of vb runs is large.
+\code{tar_stan_vb_rep_draws()} creates targets to run
+variational Bayes multiple times per model and
+save only the draws from each run.
 }
 \details{
+Draws could take up a lot of storage. If storage becomes
+excessive, please consider thinning the draws or using
+\code{tar_stan_vb_rep_summaries()} instead.
+
 Most of the arguments are passed to the \verb{$compile()}
-and \verb{$sample()} methods of the \code{CmdStanModel} class. If you
+and \verb{$variational()} methods of the \code{CmdStanModel} class. If you
 previously compiled the model in an upstream \code{\link[=tar_stan_compile]{tar_stan_compile()}}
 target, then the model should not recompile.
 }

@@ -332,12 +332,13 @@ Please see the design specification at
 to learn about the structure and composition of target objects.
 }
 \description{
-Targets to run vb multiple times and
-save only the MLEs in a wide-form "draws" data frame.
+\code{tar_stan_mle_rep_draws()} creates targets
+to run maximum likelihood multiple times per model and
+save the MLEs in a wide-form draws-like data frame.
 }
 \details{
 Most of the arguments are passed to the \verb{$compile()}
-and \verb{$sample()} methods of the \code{CmdStanModel} class. If you
+and \verb{$optimize()} methods of the \code{CmdStanModel} class. If you
 previously compiled the model in an upstream \code{\link[=tar_stan_compile]{tar_stan_compile()}}
 target, then the model should not recompile.
 }

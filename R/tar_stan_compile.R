@@ -1,6 +1,7 @@
 #' @title Stan model compilation
 #' @export
-#' @description Target to compile a Stan model and return the
+#' @description `tar_stan_compile()` creates a target
+#'   to compile a Stan model and return the
 #'   original Stan model file. Does not compile the model
 #'   if the compilation is already up to date.
 #' @details Most of the arguments are passed to the

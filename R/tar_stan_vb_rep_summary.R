@@ -1,9 +1,10 @@
 #' @title Multiple iterations per model of variational Bayes with summaries
 #' @export
-#' @description Targets to run variational Bayes multiple times and
+#' @description `tar_stan_vb_rep_summaries()` creates targets
+#'   to run variational Bayes multiple times and
 #'   save only the summary output from each run.
 #' @details Most of the arguments are passed to the `$compile()`
-#'   and `$sample()` methods of the `CmdStanModel` class. If you
+#'   and `$variational()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
 #' @family variational Bayes

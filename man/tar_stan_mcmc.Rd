@@ -435,8 +435,8 @@ Please see the design specification at
 to learn about the structure and composition of target objects.
 }
 \description{
-Targets to run a Stan model once with MCMC
-and save multiple outputs.
+\code{tar_stan_mcmc()} creates targets to run one MCMC
+per model and separately save summaries draws, and diagnostics.
 }
 \details{
 Most of the arguments are passed to the \verb{$compile()},

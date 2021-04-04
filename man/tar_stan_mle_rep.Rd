@@ -347,8 +347,5 @@ to learn about the structure and composition of target objects.
 }
 \description{
 Internal function. Users should not invoke directly.
-and \verb{$sample()} methods of the \code{CmdStanModel} class. If you
-previously compiled the model in an upstream \code{\link[=tar_stan_compile]{tar_stan_compile()}}
-target, then the model should not recompile.
 }
 \keyword{internal}

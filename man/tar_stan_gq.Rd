@@ -285,8 +285,9 @@ Please see the design specification at
 to learn about the structure and composition of target objects.
 }
 \description{
-Targets to run the generated quantities of
-a Stan model and optionally save draws and summaries separately.
+\code{tar_stan_gq()} creates targets to run
+the generated quantities of a Stan model and save
+draws and summaries separately.
 }
 \details{
 Most of the arguments are passed to the \verb{$compile()},

@@ -430,13 +430,16 @@ Please see the design specification at
 to learn about the structure and composition of target objects.
 }
 \description{
-Targets to run MCMC multiple times and
-save only the sampler diagnostics from each run. We recommend thinning
-if the number of MCMC runs is large.
+\code{tar_stan_mcmc_rep_diagnostics()} creates targets
+to run MCMC multiple times per model and save only the sampler
+diagnostics from each run.
 }
 \details{
+Saved diagnostics could get quite large in storage,
+so please use thinning if necessary.
+
 Most of the arguments are passed to the \verb{$compile()}
-and \verb{$sample()} methods of the \code{CmdStanModel} class. If you
+and \verb{$generate_quantities()} methods of the \code{CmdStanModel} class. If you
 previously compiled the model in an upstream \code{\link[=tar_stan_compile]{tar_stan_compile()}}
 target, then the model should not recompile.
 }

@@ -1,7 +1,7 @@
 #' @title One MCMC per model with multiple outputs
 #' @export
-#' @description Targets to run a Stan model once with MCMC
-#'   and save multiple outputs.
+#' @description `tar_stan_mcmc()` creates targets to run one MCMC
+#'   per model and separately save summaries draws, and diagnostics.
 #' @details Most of the arguments are passed to the `$compile()`,
 #'  `$sample()`, and `$summary()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]

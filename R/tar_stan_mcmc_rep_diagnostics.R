@@ -1,10 +1,13 @@
 #' @title Multiple MCMCs per model with sampler diagnostics
 #' @export
-#' @description Targets to run MCMC multiple times and
-#'   save only the sampler diagnostics from each run. We recommend thinning
-#'   if the number of MCMC runs is large.
-#' @details Most of the arguments are passed to the `$compile()`
-#'   and `$sample()` methods of the `CmdStanModel` class. If you
+#' @description `tar_stan_mcmc_rep_diagnostics()` creates targets
+#'   to run MCMC multiple times per model and save only the sampler
+#'   diagnostics from each run.
+#' @details Saved diagnostics could get quite large in storage,
+#'   so please use thinning if necessary.
+#'
+#'   Most of the arguments are passed to the `$compile()`
+#'   and `$generate_quantities()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
 #' @family MCMC

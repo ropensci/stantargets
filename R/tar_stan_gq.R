@@ -1,7 +1,8 @@
 #' @title Generated quantities on an existing CmdStanFit object
 #' @export
-#' @description Targets to run the generated quantities of
-#'   a Stan model and optionally save draws and summaries separately.
+#' @description `tar_stan_gq()` creates targets to run
+#'   the generated quantities of a Stan model and save
+#'   draws and summaries separately.
 #' @details Most of the arguments are passed to the `$compile()`,
 #'  `$generate_quantities()`, and `$summary()` methods
 #'   of the `CmdStanModel` class. If you

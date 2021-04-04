@@ -1,9 +1,10 @@
 #' @title Multiple optimization runs per model with summaries
 #' @export
-#' @description Targets to run optimization multiple times and
-#'   save only the summary output from each run.
+#' @description `tar_stan_mle_rep_summaries()` creates targets
+#'   to run maximum likelihood multiple times per model and
+#'   save the MLEs in a long-form summary-like data frame.
 #' @details Most of the arguments are passed to the `$compile()`
-#'   and `$sample()` methods of the `CmdStanModel` class. If you
+#'   and `$optimize()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
 #' @family optimization

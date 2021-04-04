@@ -176,7 +176,8 @@ Please see the design specification at
 to learn about the structure and composition of target objects.
 }
 \description{
-Target to compile a Stan model and return the
+\code{tar_stan_compile()} creates a target
+to compile a Stan model and return the
 original Stan model file. Does not compile the model
 if the compilation is already up to date.
 }

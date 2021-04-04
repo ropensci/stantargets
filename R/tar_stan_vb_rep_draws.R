@@ -1,10 +1,14 @@
 #' @title Multiple variational Bayes runs per model with draws
 #' @export
-#' @description Targets to run vb multiple times and
-#'   save only the draws from each run. We recommend thinning
-#'   if the number of vb runs is large.
-#' @details Most of the arguments are passed to the `$compile()`
-#'   and `$sample()` methods of the `CmdStanModel` class. If you
+#' @description `tar_stan_vb_rep_draws()` creates targets to run
+#'   variational Bayes multiple times per model and
+#'   save only the draws from each run.
+#' @details Draws could take up a lot of storage. If storage becomes
+#'    excessive, please consider thinning the draws or using
+#'   `tar_stan_vb_rep_summaries()` instead.
+#'
+#'   Most of the arguments are passed to the `$compile()`
+#'   and `$variational()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
 #' @family variational Bayes

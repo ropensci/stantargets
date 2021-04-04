@@ -1,9 +1,10 @@
 #' @title Multiple optimization runs per model with draws
 #' @export
-#' @description Targets to run vb multiple times and
-#'   save only the MLEs in a wide-form "draws" data frame.
+#' @description `tar_stan_mle_rep_draws()` creates targets
+#'   to run maximum likelihood multiple times per model and
+#'   save the MLEs in a wide-form draws-like data frame.
 #' @details Most of the arguments are passed to the `$compile()`
-#'   and `$sample()` methods of the `CmdStanModel` class. If you
+#'   and `$optimize()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
 #' @family optimization

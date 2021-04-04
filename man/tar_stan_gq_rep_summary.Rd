@@ -297,12 +297,13 @@ Please see the design specification at
 to learn about the structure and composition of target objects.
 }
 \description{
-Targets to run generated quantities multiple times and
+\code{tar_stan_gq_rep_summaries()} creates targets
+to run generated quantities multiple times and
 save only the summaries from each run.
 }
 \details{
 Most of the arguments are passed to the \verb{$compile()}
-and \verb{$sample()} methods of the \code{CmdStanModel} class. If you
+and \verb{$generate_quantities()} methods of the \code{CmdStanModel} class. If you
 previously compiled the model in an upstream \code{\link[=tar_stan_compile]{tar_stan_compile()}}
 target, then the model should not recompile.
 }

@@ -335,8 +335,8 @@ Please see the design specification at
 to learn about the structure and composition of target objects.
 }
 \description{
-Targets to optimize a Stan model once
-and save multiple outputs.
+\code{tar_stan_mle()} creates targets to optimize a Stan model once
+per model and separately save draws-like output and summary-like output.
 }
 \details{
 Most of the arguments are passed to the \verb{$compile()},

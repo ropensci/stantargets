@@ -1,7 +1,7 @@
 #' @title One optimization run per model with multiple outputs
 #' @export
-#' @description Targets to optimize a Stan model once
-#'   and save multiple outputs.
+#' @description `tar_stan_mle()` creates targets to optimize a Stan model once
+#'   per model and separately save draws-like output and summary-like output.
 #' @details Most of the arguments are passed to the `$compile()`,
 #'  `$optimize()`, and `$summary()` methods of the `CmdStanModel` class.
 #'   If you previously compiled the model in an upstream [tar_stan_compile()]

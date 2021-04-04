@@ -287,7 +287,8 @@ Please see the design specification at
 to learn about the structure and composition of target objects.
 }
 \description{
-Targets to run generated quantities multiple times and
+\code{tar_stan_gq_rep_draws()} creates targets
+to run generated quantities multiple times and
 save only the draws from each run.
 }
 \details{

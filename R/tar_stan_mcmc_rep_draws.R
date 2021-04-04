@@ -1,9 +1,13 @@
 #' @title Multiple MCMC runs per model with draws
 #' @export
-#' @description Targets to run MCMC multiple times and
-#'   save only the draws from each run. We recommend thinning
-#'   if the number of MCMC runs is large.
-#' @details Most of the arguments are passed to the `$compile()`
+#' @description `tar_stan_mcmc_rep_draws()` creates targets
+#'   to run MCMC multiple times per model and
+#'   save only the draws from each run.
+#' @details Draws could take up a lot of storage. If storage becomes
+#'    excessive, please consider thinning the draws or using
+#'   `tar_stan_mcmc_rep_summaries()` instead.
+#'
+#'   Most of the arguments are passed to the `$compile()`
 #'   and `$sample()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.

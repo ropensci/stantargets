@@ -1,9 +1,6 @@
 #' @title Multiple optimization runs per model with tidy output
 #' @keywords internal
 #' @description Internal function. Users should not invoke directly.
-#'   and `$sample()` methods of the `CmdStanModel` class. If you
-#'   previously compiled the model in an upstream [tar_stan_compile()]
-#'   target, then the model should not recompile.
 #' @return `tar_stan_mle_rep(name = x, , stan_files = "y.stan")`
 #'   returns a list of target objects:
 #'   * `x_file_y`: reproducibly track the Stan model file.
