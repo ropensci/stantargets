@@ -279,7 +279,10 @@ rules that decide whether the target is up to date.}
 \value{
 \code{tar_stan_gq_rep_summaries()} returns a
 list of target objects. See the "Target objects" section for
-background. The specific target objects returned by
+background.
+The target names use the \code{name} argument as a prefix, and the individual
+elements of \code{stan_files} appear in the suffixes where applicable.
+The specific target objects returned by
 \code{tar_stan_gq_rep_summary(name = x, stan_files = "y.stan")}
 returns a list of target objects:
 \itemize{

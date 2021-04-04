@@ -324,7 +324,10 @@ rules that decide whether the target is up to date.}
 \value{
 \code{tar_stan_vb()} returns a list of target objects.
 See the "Target objects" section for
-background. The specific target objects returned by
+background.
+The target names use the \code{name} argument as a prefix, and the individual
+elements of \code{stan_files} appear in the suffixes where applicable.
+The specific target objects returned by
 \code{tar_stan_vb(name = x, stan_files = "y.stan", ...)} are as follows.
 \itemize{
 \item \code{x_file_y}: reproducibly track the Stan model file.

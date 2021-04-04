@@ -9,7 +9,10 @@
 #' @family optimization
 #' @return `tar_stan_mle()` returns a
 #'   list of target objects. See the "Target objects" section for
-#'   background. The specific target objects returned by
+#'   background.
+#'   The target names use the `name` argument as a prefix, and the individual
+#'   elements of `stan_files` appear in the suffixes where applicable.
+#'   The specific target objects returned by
 #'   `tar_stan_mle(name = x, stan_files = "y.stan", ...)`
 #'   are as follows.
 #'   * `x_file_y`: reproducibly track the Stan model file.
