@@ -97,6 +97,7 @@ tar_stan_compile_raw <- function(
   retrieval,
   cue
 ) {
+  assert_stan_file(stan_file)
   command <- tar_stan_compile_command(
     stan_file = stan_file,
     quiet = quiet,

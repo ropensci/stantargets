@@ -320,3 +320,22 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
   )
   expect_equal(sort(out), sort(exp))
 })
+
+targets::tar_test("stan files missing", {
+  expect_error(
+    tar_stan_gq_rep_draws(
+      model,
+      stan_files = c(x = "a.stan", y = "b.stan"),
+      data = tar_stan_example_data(),
+      fitted_params = fit_mcmc_a,
+      compile = "original",
+      quiet = TRUE,
+      batches = 2,
+      reps = 2,
+      combine = TRUE,
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
+    ),
+    class = "tar_condition_validate"
+  )
+})

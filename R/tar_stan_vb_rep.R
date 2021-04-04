@@ -80,6 +80,7 @@ tar_stan_vb_rep <- function(
   compile <- match.arg(compile)
   assert_chr(stan_files)
   assert_unique(stan_files)
+  lapply(stan_files, assert_stan_file)
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")

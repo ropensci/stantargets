@@ -102,6 +102,7 @@ tar_stan_vb <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
+  lapply(stan_files, assert_stan_file)
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
   name <- deparse_language(substitute(name))

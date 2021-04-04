@@ -19,3 +19,15 @@ targets::tar_test("tar_stan_compile()", {
   expect_equal(length(out), 2)
   expect_equal(out[1], "a.stan")
 })
+
+targets::tar_test("stan file missing", {
+  expect_error(
+    tar_stan_compile(
+      compile,
+      stan_file = "a.stan",
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
+    ),
+    class = "tar_condition_validate"
+  )
+})

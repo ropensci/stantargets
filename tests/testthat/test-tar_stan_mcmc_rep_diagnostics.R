@@ -267,3 +267,29 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
   )
   expect_equal(sort(out), sort(exp))
 })
+
+targets::tar_test("stan files missing", {
+  expect_error(
+    tar_stan_mcmc_rep_diagnostics(
+      model,
+      stan_files = c("a.stan", "b.stan"),
+      data = c(tar_stan_example_data()),
+      compile = "copy",
+      combine = TRUE,
+      quiet = TRUE,
+      refresh = 0,
+      iter_sampling = 100,
+      iter_warmup = 50,
+      chains = 4,
+      init = 1,
+      batches = 2,
+      reps = 2,
+      save_warmup = TRUE,
+      inc_warmup = TRUE,
+      data_copy = c("n", "true_beta"),
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
+    ),
+    class = "tar_condition_validate"
+  )
+})

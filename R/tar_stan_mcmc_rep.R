@@ -110,6 +110,7 @@ tar_stan_mcmc_rep <- function(
   assert_chr(stan_files, "stan_files must be a character vector")
   assert_unique(stan_files, "stan_files must be unique")
   assert_chr(data_copy, "data_copy must be a character vector")
+  lapply(stan_files, assert_stan_file)
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")

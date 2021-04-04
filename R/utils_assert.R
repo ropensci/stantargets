@@ -48,11 +48,11 @@ assert_scalar <- function(x, msg = NULL) {
 }
 
 assert_stan_file <- function(stan_file) {
-  assert_scalar(stan_file, "only one Stan model file allowed at a time.")
-  assert_chr(stan_file, "stan_file must be a character.")
-  assert_path(stan_file, "stan_file is not an existing file.")
+  assert_scalar(stan_file, "only one stan_file allowed at a time.")
+  assert_chr(stan_file, "Stan model file argument must be a character.")
+  assert_path(stan_file, "Stan model file does not exist.")
   if (dir.exists(stan_file)) {
-    throw_validate("stan_file must not be a directory.")
+    throw_validate("Stan model file must not be a directory.")
   }
 }
 

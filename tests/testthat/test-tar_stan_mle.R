@@ -248,3 +248,20 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
   )
   expect_equal(sort(out), sort(exp))
 })
+
+targets::tar_test("stan files missing", {
+  expect_error(
+    tar_stan_mle(
+      model,
+      stan_files = c("a.stan", "b.stan"),
+      data = c(tar_stan_example_data()),
+      compile = "copy",
+      refresh = 0,
+      variables = "beta",
+      summaries = list(~c(mean = -10000)),
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile()
+    ),
+    class = "tar_condition_validate"
+  )
+})
