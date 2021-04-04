@@ -51,6 +51,7 @@ tar_stan_compile <- function(
   cue = targets::tar_option_get("cue")
 ) {
   name <- deparse_language(substitute(name))
+  assert_stan_file(stan_file)
   tar_stan_compile_raw(
     name = name,
     stan_file = stan_file,
@@ -97,7 +98,6 @@ tar_stan_compile_raw <- function(
   retrieval,
   cue
 ) {
-  assert_stan_file(stan_file)
   command <- tar_stan_compile_command(
     stan_file = stan_file,
     quiet = quiet,
