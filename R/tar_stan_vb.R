@@ -14,13 +14,20 @@
 #'   elements of `stan_files` appear in the suffixes where applicable.
 #'   As an example, the specific target objects returned by
 #'   `tar_stan_vb(name = x, stan_files = "y.stan", ...)` are as follows.
-#'   * `x_file_y`: reproducibly track the Stan model file.
-#'   * `x_lines_y`: contents of the Stan model file.
-#'     Omitted if `compile = "original"`.
-#'   * `x_data`: data for the variational Bayes computation.
-#'   * `x_vb_y`: `CmdStanVB` object with all the VB results.
-#'   * `x_draws_y`: tidy data frame of VB draws. Omitted if `draws = FALSE`.
-#'   * `x_summary_y`: tidy data frame of VB summaries.
+#'   * `x_file_y`: reproducibly track the Stan model file. Returns
+#'     a character vector with the model file and compiled executable.
+#'   * `x_lines_y`: read the Stan model file for safe transport to
+#'     parallel workers. Omitted if `compile = "original"`.
+#'     Returns a character vector of lines in the model file.
+#'   * `x_data`: run the R expression in the `data` argument to produce
+#'     a Stan dataset for the model. Returns a Stan data list.
+#'   * `x_vb_y`: run variational Bayes on the model and the dataset.
+#'     Returns a `cmdstanr` `CmdStanVB` object with all the results.
+#'   * `x_draws_y`: extract draws from `x_vb_y`.
+#'     Omitted if `draws = FALSE`.
+#'     Returns a tidy data frame of draws.
+#'   * `x_summary_y`: extract compact summaries from `x_vb_y`.
+#'     Returns a tidy data frame of summaries.
 #'     Omitted if `summary = FALSE`.
 #' @inheritSection tar_stan_compile Target objects
 #' @inheritParams cmdstanr::cmdstan_model

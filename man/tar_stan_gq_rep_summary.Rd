@@ -286,14 +286,22 @@ As an example, the specific target objects returned by
 \code{tar_stan_gq_rep_summary(name = x, stan_files = "y.stan")}
 returns a list of target objects:
 \itemize{
-\item \code{x_file_y}: reproducibly track the Stan model file.
-\item \code{x_lines_y}: contents of the Stan model file.
-Omitted if \code{compile = "original"}.
-\item \code{x_data}: dynamic branching target with simulated datasets.
-\item \code{x_y}: dynamic branching target with tidy data frames of summaries.
-\item \code{x}: combine all the model-specific summaries targets into
-a single data frame with columns to distinguish among the models.
+\item \code{x_file_y}: reproducibly track the Stan model file. Returns
+a character vector with the model file and compiled executable.
+\item \code{x_lines_y}: read the Stan model file for safe transport to
+parallel workers. Omitted if \code{compile = "original"}.
+Returns a character vector of lines in the model file.
+\item \code{x_data}: use dynamic branching to generate multiple datasets
+by repeatedly running the R expression in the \code{data} argument.
+Each dynamic branch returns a batch of Stan data lists that \code{x_y}
+supplies to the model.
+\item \code{x_y}: dynamic branching target to run generated quantities
+once per dataset.
+Each dynamic branch returns a tidy data frames of summaries
+corresponding to a batch of Stan data from \code{x_data}.
+\item \code{x}: combine all branches of \code{x_y} into a single non-dynamic target.
 Suppressed if \code{combine} is \code{FALSE}.
+Returns a long tidy data frame of summaries.
 }
 }
 \description{
@@ -314,7 +322,7 @@ which means they return target objects
 or lists of target objects.
 Target objects represent skippable steps of the analysis pipeline
 as described at \url{https://books.ropensci.org/targets/}.
-Please read the walkrough at
+Please read the walkthrough at
 \url{https://books.ropensci.org/targets/walkthrough.html}
 to understand the role of target objects in analysis pipelines.
 

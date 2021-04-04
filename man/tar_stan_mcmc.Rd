@@ -420,15 +420,23 @@ As an example, the specific target objects returned by
 \code{tar_stan_mcmc(name = x, stan_files = "y.stan", ...)}
 are as follows.
 \itemize{
-\item \code{x_file_y}: reproducibly track the Stan model file.
-\item \code{x_lines_y}: contents of the Stan model file.
-Omitted if \code{compile = "original"}.
-\item \code{x_data}: data for the MCMC.
-\item \code{x_mcmc_y}: \code{CmdStanMCMC} object with all the MCMC results.
-\item \code{x_draws_y}: tidy data frame of MCMC draws. Omitted if \code{draws = FALSE}.
-\item \code{x_summary_y}: tidy data frame of MCMC summaries.
+\item \code{x_file_y}: reproducibly track the Stan model file. Returns
+a character vector with the model file and compiled executable.
+\item \code{x_lines_y}: read the Stan model file for safe transport to
+parallel workers. Omitted if \code{compile = "original"}.
+Returns a character vector of lines in the model file.
+\item \code{x_data}: run the R expression in the \code{data} argument to produce
+a Stan dataset for the model. Returns a Stan data list.
+\item \code{x_mcmc_y}: run MCMC on the model and the dataset.
+Returns a \code{cmdstanr} \code{CmdStanMCMC} object with all the results.
+\item \code{x_draws_y}: extract draws from \code{x_mcmc_y}.
+Omitted if \code{draws = FALSE}.
+Returns a tidy data frame of draws.
+\item \code{x_summary_y}: extract compact summaries from \code{x_mcmc_y}.
+Returns a tidy data frame of summaries.
 Omitted if \code{summary = FALSE}.
-\item \code{x_diagnostics}: tidy data frame of MCMC sampler diagnostics.
+\item \code{x_diagnostics}: extract HMC diagnostics from \code{x_mcmc_y}.
+Returns a tidy data frame of HMC diagnostics.
 Omitted if \code{diagnostics = FALSE}.
 }
 }
@@ -449,7 +457,7 @@ which means they return target objects
 or lists of target objects.
 Target objects represent skippable steps of the analysis pipeline
 as described at \url{https://books.ropensci.org/targets/}.
-Please read the walkrough at
+Please read the walkthrough at
 \url{https://books.ropensci.org/targets/walkthrough.html}
 to understand the role of target objects in analysis pipelines.
 

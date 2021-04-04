@@ -19,7 +19,7 @@
 #'   or lists of target objects.
 #'   Target objects represent skippable steps of the analysis pipeline
 #'   as described at <https://books.ropensci.org/targets/>.
-#'   Please read the walkrough at
+#'   Please read the walkthrough at
 #'   <https://books.ropensci.org/targets/walkthrough.html>
 #'   to understand the role of target objects in analysis pipelines.
 #'

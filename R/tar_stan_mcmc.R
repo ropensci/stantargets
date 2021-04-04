@@ -15,15 +15,23 @@
 #'   As an example, the specific target objects returned by
 #'   `tar_stan_mcmc(name = x, stan_files = "y.stan", ...)`
 #'   are as follows.
-#'   * `x_file_y`: reproducibly track the Stan model file.
-#'   * `x_lines_y`: contents of the Stan model file.
-#'     Omitted if `compile = "original"`.
-#'   * `x_data`: data for the MCMC.
-#'   * `x_mcmc_y`: `CmdStanMCMC` object with all the MCMC results.
-#'   * `x_draws_y`: tidy data frame of MCMC draws. Omitted if `draws = FALSE`.
-#'   * `x_summary_y`: tidy data frame of MCMC summaries.
+#'   * `x_file_y`: reproducibly track the Stan model file. Returns
+#'     a character vector with the model file and compiled executable.
+#'   * `x_lines_y`: read the Stan model file for safe transport to
+#'     parallel workers. Omitted if `compile = "original"`.
+#'     Returns a character vector of lines in the model file.
+#'   * `x_data`: run the R expression in the `data` argument to produce
+#'     a Stan dataset for the model. Returns a Stan data list.
+#'   * `x_mcmc_y`: run MCMC on the model and the dataset.
+#'     Returns a `cmdstanr` `CmdStanMCMC` object with all the results.
+#'   * `x_draws_y`: extract draws from `x_mcmc_y`.
+#'     Omitted if `draws = FALSE`.
+#'     Returns a tidy data frame of draws.
+#'   * `x_summary_y`: extract compact summaries from `x_mcmc_y`.
+#'     Returns a tidy data frame of summaries.
 #'     Omitted if `summary = FALSE`.
-#'   * `x_diagnostics`: tidy data frame of MCMC sampler diagnostics.
+#'   * `x_diagnostics`: extract HMC diagnostics from `x_mcmc_y`.
+#'     Returns a tidy data frame of HMC diagnostics.
 #'     Omitted if `diagnostics = FALSE`.
 #' @inheritSection tar_stan_compile Target objects
 #' @inheritParams cmdstanr::cmdstan_model

@@ -16,14 +16,22 @@
 #'   As an example, the specific target objects returned by
 #'   `tar_stan_mcmc_rep_draws(name = x, stan_files = "y.stan")`
 #'   are as follows.
-#'   * `x_file_y`: reproducibly track the Stan model file.
-#'   * `x_lines_y`: contents of the Stan model file.
-#'     Omitted if `compile = "original"`.
-#'   * `x_data`: dynamic branching target with simulated datasets.
-#'   * `x_y`: dynamic branching target with tidy data frames of MLE draws.
-#'   * `x`: combine all the model-specific draws targets into
-#'     a single data frame with columns to distinguish among the models.
+#'   * `x_file_y`: reproducibly track the Stan model file. Returns
+#'     a character vector with the model file and compiled executable.
+#'   * `x_lines_y`: read the Stan model file for safe transport to
+#'     parallel workers. Omitted if `compile = "original"`.
+#'     Returns a character vector of lines in the model file.
+#'   * `x_data`: use dynamic branching to generate multiple datasets
+#'     by repeatedly running the R expression in the `data` argument.
+#'     Each dynamic branch returns a batch of Stan data lists that `x_y`
+#'     supplies to the model.
+#'   * `x_y`: dynamic branching target to run maximum likelihood
+#'     once per dataset.
+#'     Each dynamic branch returns a tidy data frames of maximum likelihood
+#'     estimates corresponding to a batch of Stan data from `x_data`.
+#'   * `x`: combine all branches of `x_y` into a single non-dynamic target.
 #'     Suppressed if `combine` is `FALSE`.
+#'     Returns a long tidy data frame of maximum likelihood estimates.
 #' @inheritSection tar_stan_compile Target objects
 #' @inheritParams tar_stan_mle_rep
 #' @examples

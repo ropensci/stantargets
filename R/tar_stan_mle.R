@@ -15,14 +15,21 @@
 #'   As an example, the specific target objects returned by
 #'   `tar_stan_mle(name = x, stan_files = "y.stan", ...)`
 #'   are as follows.
-#'   * `x_file_y`: reproducibly track the Stan model file.
-#'   * `x_lines_y`: contents of the Stan model file.
-#'     Omitted if `compile = "original"`.
-#'   * `x_data`: data for the variational Bayes computation.
-#'   * `x_mle_y`: `CmdStanMLE` object with the optimization results.
-#'   * `x_draws_y`: wide-form data frame with the single MLE value.
-#'     Omitted if `draws` is `FALSE`.
-#'   * `x_summary_y`: long-form data frame with the single MLE value.
+#'   * `x_file_y`: reproducibly track the Stan model file. Returns
+#'     a character vector with the model file and compiled executable.
+#'   * `x_lines_y`: read the Stan model file for safe transport to
+#'     parallel workers. Omitted if `compile = "original"`.
+#'     Returns a character vector of lines in the model file.
+#'   * `x_data`: run the R expression in the `data` argument to produce
+#'     a Stan dataset for the model. Returns a Stan data list.
+#'   * `x_mle_y`: run generated quantities on the model and the dataset.
+#'     Returns a `cmdstanr` `CmdStanGQ` object with all the results.
+#'   * `x_draws_y`: extract maximum likelihood estimates from `x_mle_y`
+#'     in draws format.
+#'     Omitted if `draws = FALSE`.
+#'     Returns a wide data frame of MLEs.
+#'   * `x_summary_y`: extract MLEs from from `x_mle_y` in summary format.
+#'     Returns a long data frame of MLEs.
 #'     Omitted if `summary = FALSE`.
 #' @inheritSection tar_stan_compile Target objects
 #' @inheritParams cmdstanr::cmdstan_model
