@@ -2,6 +2,7 @@
 #' @export
 #' @description An example dataset compatible with the model file
 #'   from [tar_stan_example_file()].
+#' @family examples
 #' @return List, dataset compatible with the model file from
 #'   [tar_stan_example_file()].
 #' @format A list with the following elements:

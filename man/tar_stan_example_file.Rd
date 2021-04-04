@@ -21,3 +21,8 @@ path <- tempfile(pattern = "", fileext = ".stan")
 tar_stan_example_file(path = path)
 writeLines(readLines(path))
 }
+\seealso{
+Other examples: 
+\code{\link{tar_stan_example_data}()}
+}
+\concept{examples}

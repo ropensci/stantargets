@@ -2,6 +2,7 @@
 #' @export
 #' @description Overwrites the file at `path` with a built-in example
 #'   Stan model file.
+#' @family examples
 #' @return `NULL` (invisibly).
 #' @param path Character of length 1, file path to write the model file.
 #' @examples

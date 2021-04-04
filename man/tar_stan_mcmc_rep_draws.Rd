@@ -465,3 +465,10 @@ targets::tar_make()
 })
 }
 }
+\seealso{
+Other MCMC: 
+\code{\link{tar_stan_mcmc_rep_diagnostics}()},
+\code{\link{tar_stan_mcmc_rep_summary}()},
+\code{\link{tar_stan_mcmc}()}
+}
+\concept{MCMC}

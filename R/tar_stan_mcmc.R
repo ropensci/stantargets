@@ -6,6 +6,7 @@
 #'  `$sample()`, and `$summary()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
+#' @family MCMC
 #' @return `tar_stan_mcmc(name = x, stan_files = "y.stan", ...)` returns a list
 #'   of target objects:
 #'   * `x_file_y`: reproducibly track the Stan model file.

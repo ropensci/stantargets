@@ -378,3 +378,9 @@ targets::tar_make()
 })
 }
 }
+\seealso{
+Other variational Bayes: 
+\code{\link{tar_stan_vb_rep_draws}()},
+\code{\link{tar_stan_vb_rep_summary}()}
+}
+\concept{variational Bayes}

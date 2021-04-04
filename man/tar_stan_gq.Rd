@@ -326,3 +326,9 @@ targets::tar_make()
 })
 }
 }
+\seealso{
+Other generated quantities: 
+\code{\link{tar_stan_gq_rep_draws}()},
+\code{\link{tar_stan_gq_rep_summary}()}
+}
+\concept{generated quantities}

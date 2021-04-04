@@ -36,3 +36,8 @@ from \code{\link[=tar_stan_example_file]{tar_stan_example_file()}}.
 \examples{
 tar_stan_example_data()
 }
+\seealso{
+Other examples: 
+\code{\link{tar_stan_example_file}()}
+}
+\concept{examples}

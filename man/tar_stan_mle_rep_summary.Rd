@@ -376,3 +376,9 @@ targets::tar_make()
 })
 }
 }
+\seealso{
+Other optimization: 
+\code{\link{tar_stan_mle_rep_draws}()},
+\code{\link{tar_stan_mle}()}
+}
+\concept{optimization}
