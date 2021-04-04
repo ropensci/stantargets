@@ -267,6 +267,8 @@ tar_read(coverage)
 
 ```{r, echo = FALSE}
 library(targets)
+file.copy("model.stan", "model1.stan")
+file.copy("model.stan", "model2.stan")
 tar_script({
   library(stantargets)
   options(crayon.enabled = FALSE)
