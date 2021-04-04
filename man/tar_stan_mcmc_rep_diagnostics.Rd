@@ -406,8 +406,10 @@ If \code{"worker"}, the worker loads the targets dependencies.}
 rules that decide whether the target is up to date.}
 }
 \value{
+A list of target objects. See the "Target objects" section for
+background. The specific target objects returned by
 \code{tar_stan_mcmc_rep_diagnostics(name = x, stan_files = "y.stan")}
-returns a list of target objects:
+are as follows.
 \itemize{
 \item \code{x_file_y}: reproducibly track the Stan model file. Compile the model
 if \code{compile = "original"}.
@@ -419,15 +421,7 @@ sampler diagnostics.
 \item \code{x}: combine all the model-specific diagnostic targets into
 a single data frame with columns to distinguish among the models.
 Suppressed if \code{combine} is \code{FALSE}.
-If you supply multiple models, you will get more (model-specific) targets.
-All the models share the same dataset.
 }
-
-Target objects represent skippable steps of the analysis pipeline
-as described at \url{https://books.ropensci.org/targets/}.
-Please see the design specification at
-\url{https://books.ropensci.org/targets-design/}
-to learn about the structure and composition of target objects.
 }
 \description{
 \code{tar_stan_mcmc_rep_diagnostics()} creates targets
@@ -443,6 +437,25 @@ and \verb{$generate_quantities()} methods of the \code{CmdStanModel} class. If y
 previously compiled the model in an upstream \code{\link[=tar_stan_compile]{tar_stan_compile()}}
 target, then the model should not recompile.
 }
+\section{Target objects}{
+
+Most \code{stantargets} functions are target factories,
+which means they return target objects
+or lists of target objects.
+Target objects represent skippable steps of the analysis pipeline
+as described at \url{https://books.ropensci.org/targets/}.
+Please read the walkrough at
+\url{https://books.ropensci.org/targets/walkthrough.html}
+to understand the role of target objects in analysis pipelines.
+
+For developers,
+\url{https://wlandau.github.io/targetopia/contributing.html#target-factories}
+explains target factories (functions like this one which generate targets)
+and the design specification at
+\url{https://books.ropensci.org/targets-design/}
+details the structure and composition of target objects.
+}
+
 \examples{
 if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 targets::tar_dir({ # tar_dir() runs code from a temporary directory.

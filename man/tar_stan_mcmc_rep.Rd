@@ -424,22 +424,10 @@ If \code{"worker"}, the worker loads the targets dependencies.}
 rules that decide whether the target is up to date.}
 }
 \value{
-\code{tar_stan_mcmc_rep(name = x, stan_files = "y.stan")}
-returns a list of target objects:
-\itemize{
-\item \code{x_file_y}: reproducibly track the Stan model file.
-\item \code{x_lines_y}: contents of the Stan model file.
-Omitted if \code{compile = "original"}.
-\item \code{x_data}: dynamic branching target with simulated datasets.
-\item \code{x_y}: dynamic branching target with tidy data frames of MCMC summaries.
-\item \code{x}: combine all the model-specific summary targets into
-a single data frame with columns to distinguish among the models.
-Suppressed if \code{combine} is \code{FALSE}.
-}
-
+A list of target objects.
 Target objects represent skippable steps of the analysis pipeline
 as described at \url{https://books.ropensci.org/targets/}.
-Please see the design specification at
+Developers can consult the design specification at
 \url{https://books.ropensci.org/targets-design/}
 to learn about the structure and composition of target objects.
 }

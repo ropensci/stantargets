@@ -8,11 +8,23 @@
 #'   `$compile()` method of the `CmdStanModel` class.
 #'   For details, visit <https://mc-stan.org/cmdstanr/reference/>.
 #' @return A target object to compile a Stan file.
+#'   See the "Target objects" section for background.
+#' @section Target objects:
+#'   Most `stantargets` functions are target factories,
+#'   which means they return target objects
+#'   or lists of target objects.
 #'   Target objects represent skippable steps of the analysis pipeline
 #'   as described at <https://books.ropensci.org/targets/>.
-#'   Please see the design specification at
+#'   Please read the walkrough at
+#'   <https://books.ropensci.org/targets/walkthrough.html>
+#'   to understand the role of target objects in analysis pipelines.
+#'
+#'   For developers,
+#'   <https://wlandau.github.io/targetopia/contributing.html#target-factories>
+#'   explains target factories (functions like this one which generate targets)
+#'   and the design specification at
 #'   <https://books.ropensci.org/targets-design/>
-#'   to learn about the structure and composition of target objects.
+#'   details the structure and composition of target objects.
 #' @inheritParams targets::tar_target
 #' @inheritParams tar_stan_compile_run
 #' @examples

@@ -169,11 +169,7 @@ rules that decide whether the target is up to date.}
 }
 \value{
 A target object to compile a Stan file.
-Target objects represent skippable steps of the analysis pipeline
-as described at \url{https://books.ropensci.org/targets/}.
-Please see the design specification at
-\url{https://books.ropensci.org/targets-design/}
-to learn about the structure and composition of target objects.
+See the "Target objects" section for background.
 }
 \description{
 \code{tar_stan_compile()} creates a target
@@ -186,6 +182,25 @@ Most of the arguments are passed to the
 \verb{$compile()} method of the \code{CmdStanModel} class.
 For details, visit \url{https://mc-stan.org/cmdstanr/reference/}.
 }
+\section{Target objects}{
+
+Most \code{stantargets} functions are target factories,
+which means they return target objects
+or lists of target objects.
+Target objects represent skippable steps of the analysis pipeline
+as described at \url{https://books.ropensci.org/targets/}.
+Please read the walkrough at
+\url{https://books.ropensci.org/targets/walkthrough.html}
+to understand the role of target objects in analysis pipelines.
+
+For developers,
+\url{https://wlandau.github.io/targetopia/contributing.html#target-factories}
+explains target factories (functions like this one which generate targets)
+and the design specification at
+\url{https://books.ropensci.org/targets-design/}
+details the structure and composition of target objects.
+}
+
 \examples{
 if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 targets::tar_dir({ # tar_dir() runs code from a temporary directory.

@@ -122,21 +122,36 @@ rules that decide whether the target is up to date.}
 }
 \value{
 A target object to summarize a \code{CmdStanFit} object.
-
-Target objects represent skippable steps of the analysis pipeline
-as described at \url{https://books.ropensci.org/targets/}.
-Please see the design specification at
-\url{https://books.ropensci.org/targets-design/}
-to learn about the structure and composition of target objects.
+See the "Target objects" section for background.
 }
 \description{
-Target to run the \verb{$summary()} method of a \code{CmdStanFit} object.
+Create a target to run the \verb{$summary()}
+method of a \code{CmdStanFit} object.
 }
 \details{
 \code{\link[=tar_stan_mcmc]{tar_stan_mcmc()}} etc. with \code{summary = TRUE} already gives you a
 target with a \verb{$summary()} object.
 Use \code{tar_stan_summary()} to create additional specialized summaries.
 }
+\section{Target objects}{
+
+Most \code{stantargets} functions are target factories,
+which means they return target objects
+or lists of target objects.
+Target objects represent skippable steps of the analysis pipeline
+as described at \url{https://books.ropensci.org/targets/}.
+Please read the walkrough at
+\url{https://books.ropensci.org/targets/walkthrough.html}
+to understand the role of target objects in analysis pipelines.
+
+For developers,
+\url{https://wlandau.github.io/targetopia/contributing.html#target-factories}
+explains target factories (functions like this one which generate targets)
+and the design specification at
+\url{https://books.ropensci.org/targets-design/}
+details the structure and composition of target objects.
+}
+
 \examples{
 # First, write your Stan model file, e.g. model.stan.
 # Then in _targets.R, write a pipeline like this:

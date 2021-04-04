@@ -8,7 +8,9 @@
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
 #' @family generated quantities
-#' @return `tar_stan_gq_rep_summary(name = x, stan_files = "y.stan")`
+#' @return A list of target objects. See the "Target objects" section for
+#'   background. The specific target objects returned by
+#'   `tar_stan_gq_rep_summary(name = x, stan_files = "y.stan")`
 #'   returns a list of target objects:
 #'   * `x_file_y`: reproducibly track the Stan model file.
 #'   * `x_lines_y`: contents of the Stan model file.
@@ -18,12 +20,7 @@
 #'   * `x`: combine all the model-specific summaries targets into
 #'     a single data frame with columns to distinguish among the models.
 #'     Suppressed if `combine` is `FALSE`.
-#'
-#'   Target objects represent skippable steps of the analysis pipeline
-#'   as described at <https://books.ropensci.org/targets/>.
-#'   Please see the design specification at
-#'   <https://books.ropensci.org/targets-design/>
-#'   to learn about the structure and composition of target objects.
+#' @inheritSection tar_stan_compile Target objects
 #' @inheritParams tar_stan_gq_rep
 #' @examples
 #' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
