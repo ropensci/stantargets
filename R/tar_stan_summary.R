@@ -7,7 +7,7 @@
 #'   Use `tar_stan_summary()` to create additional specialized summaries.
 #' @return `tar_stan_summary()` returns target object to
 #'   summarize a `CmdStanFit` object. The return value of the target
-#'   is a tidy data frame of summaries returned by the `$summary()` 
+#'   is a tidy data frame of summaries returned by the `$summary()`
 #'   method of the `CmdStanFit` object.
 #'   See the "Target objects" section for background.
 #' @inheritSection tar_stan_compile Target objects
