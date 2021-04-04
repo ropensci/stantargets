@@ -17,7 +17,7 @@
 #'   background.
 #'   The target names use the `name` argument as a prefix, and the individual
 #'   elements of `stan_files` appear in the suffixes where applicable.
-#'   The specific target objects returned by
+#'   As an example, the specific target objects returned by
 #'   `tar_stan_vb_rep_draws(name = x, stan_files = "y.stan")`
 #'   are as follows.
 #'   * `x_file_y`: reproducibly track the Stan model file.

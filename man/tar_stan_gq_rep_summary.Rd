@@ -282,7 +282,7 @@ list of target objects. See the "Target objects" section for
 background.
 The target names use the \code{name} argument as a prefix, and the individual
 elements of \code{stan_files} appear in the suffixes where applicable.
-The specific target objects returned by
+As an example, the specific target objects returned by
 \code{tar_stan_gq_rep_summary(name = x, stan_files = "y.stan")}
 returns a list of target objects:
 \itemize{

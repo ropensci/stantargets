@@ -416,7 +416,7 @@ See the "Target objects" section for
 background.
 The target names use the \code{name} argument as a prefix, and the individual
 elements of \code{stan_files} appear in the suffixes where applicable.
-The specific target objects returned by
+As an example, the specific target objects returned by
 \code{tar_stan_mcmc(name = x, stan_files = "y.stan", ...)}
 are as follows.
 \itemize{

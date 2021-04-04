@@ -327,7 +327,7 @@ See the "Target objects" section for
 background.
 The target names use the \code{name} argument as a prefix, and the individual
 elements of \code{stan_files} appear in the suffixes where applicable.
-The specific target objects returned by
+As an example, the specific target objects returned by
 \code{tar_stan_vb(name = x, stan_files = "y.stan", ...)} are as follows.
 \itemize{
 \item \code{x_file_y}: reproducibly track the Stan model file.
