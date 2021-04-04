@@ -27,6 +27,11 @@
 #' # Then in _targets.R, write a pipeline like this:
 #' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 #' targets::tar_dir({ # tar_dir() runs code from a temporary directory.
+#' # Running inside a temporary directory to avoid
+#' # modifying the user's file space. The file "model.stan"
+#' # created below lives in a temporary directory.
+#' # This satisfies CRAN policies.
+#' tar_stan_example_file("model.stan")
 #' targets::tar_script({
 #' library(stantargets)
 #' list(
@@ -45,7 +50,7 @@
 #'     summaries = list(~quantile(.x, probs = c(0.25, 0.75)))
 #'   )
 #' )}, ask = FALSE)
-#' targets::tar_manifest()
+#' targets::tar_make()
 #' })
 #' }
 tar_stan_summary <- function(

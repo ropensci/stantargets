@@ -4,7 +4,7 @@
 \alias{tar_stan_example_file}
 \title{Write an example Stan model file.}
 \usage{
-tar_stan_example_file(path = tempfile())
+tar_stan_example_file(path = tempfile(pattern = "", fileext = ".stan"))
 }
 \arguments{
 \item{path}{Character of length 1, file path to write the model file.}
@@ -17,7 +17,7 @@ Overwrites the file at \code{path} with a built-in example
 Stan model file.
 }
 \examples{
-path <- tempfile()
+path <- tempfile(pattern = "", fileext = ".stan")
 tar_stan_example_file(path = path)
 writeLines(readLines(path))
 }

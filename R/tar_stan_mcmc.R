@@ -57,7 +57,7 @@
 #' library(stantargets)
 #' # Do not use temporary storage for stan files in real projects
 #' # or else your targets will always rerun.
-#' path <- tempfile(fileext = ".stan")
+#' path <- tempfile(pattern = "", fileext = ".stan")
 #' tar_stan_example_file(path = path)
 #' list(
 #'   tar_stan_mcmc(
@@ -403,7 +403,7 @@ tar_stan_mcmc_run <- function(
   }
   file <- stan_file
   if (identical(compile, "copy")) {
-    tmp <- tempfile(fileext = ".stan")
+    tmp <- tempfile(pattern = "", fileext = ".stan")
     writeLines(stan_file, tmp)
     file <- tmp
   }

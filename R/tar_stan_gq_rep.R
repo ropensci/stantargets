@@ -280,7 +280,7 @@ tar_stan_gq_rep_run <- function(
   }
   file <- stan_file
   if (identical(compile, "copy")) {
-    tmp <- tempfile(fileext = ".stan")
+    tmp <- tempfile(pattern = "", fileext = ".stan")
     writeLines(stan_file, tmp)
     file <- tmp
   }

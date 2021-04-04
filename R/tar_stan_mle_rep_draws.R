@@ -30,7 +30,7 @@
 #' library(stantargets)
 #' # Do not use temporary storage for stan files in real projects
 #' # or else your targets will always rerun.
-#' path <- tempfile(fileext = ".stan")
+#' path <- tempfile(pattern = "", fileext = ".stan")
 #' tar_stan_example_file(path = path)
 #' list(
 #'   tar_stan_mle_rep_draws(
