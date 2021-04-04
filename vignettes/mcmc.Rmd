@@ -225,6 +225,7 @@ tar_read(custom_summary)
 
 ```{r, echo = FALSE}
 library(targets)
+file.copy("x.stan", "y.stan")
 tar_script({
   library(stantargets)
   options(crayon.enabled = FALSE)
