@@ -17,7 +17,8 @@
 #'   `tar_stan_gq_rep_summary(name = x, stan_files = "y.stan")`
 #'   returns a list of target objects:
 #'   * `x_file_y`: reproducibly track the Stan model file. Returns
-#'     a character vector with the model file and compiled executable.
+#'     a character vector with the paths to the
+#'     model file and compiled executable.
 #'   * `x_lines_y`: read the Stan model file for safe transport to
 #'     parallel workers. Omitted if `compile = "original"`.
 #'     Returns a character vector of lines in the model file.

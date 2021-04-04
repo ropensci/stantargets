@@ -17,7 +17,8 @@
 #'   `tar_stan_vb_rep_summary(name = x,  stan_files = "y.stan")`
 #'   are as follows.
 #'   * `x_file_y`: reproducibly track the Stan model file. Returns
-#'     a character vector with the model file and compiled executable.
+#'     a character vector with paths to
+#'     the model file and compiled executable.
 #'   * `x_lines_y`: read the Stan model file for safe transport to
 #'     parallel workers. Omitted if `compile = "original"`.
 #'     Returns a character vector of lines in the model file.

@@ -421,7 +421,8 @@ As an example, the specific target objects returned by
 are as follows.
 \itemize{
 \item \code{x_file_y}: reproducibly track the Stan model file. Returns
-a character vector with the model file and compiled executable.
+a character vector with paths to the
+model file and compiled executable.
 \item \code{x_lines_y}: read the Stan model file for safe transport to
 parallel workers. Omitted if \code{compile = "original"}.
 Returns a character vector of lines in the model file.
