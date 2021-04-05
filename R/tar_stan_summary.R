@@ -101,7 +101,7 @@ tar_stan_summary_call <- function(
 ) {
   sym_summary <- as.symbol("summary")
   if (!is.null(summaries)) {
-    summaries <- trn(is.list(summaries), summaries, as.list(summaries[-1]))
+    summaries <- if_any(is.list(summaries), summaries, as.list(summaries[-1]))
   }
   method <- call_function("$", list(sym_fit, sym_summary))
   args <- list(method)

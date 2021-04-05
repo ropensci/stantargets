@@ -93,7 +93,7 @@ tar_stan_vb_rep <- function(
   )
   args <- list(
     call_ns("stantargets", "tar_stan_vb_rep_run"),
-    stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
+    stan_file = if_any(identical(compile, "original"), sym_file, sym_lines),
     stan_name = quote(._stantargets_name_chr_50e43091),
     stan_path = quote(._stantargets_file_50e43091),
     data = sym_data,

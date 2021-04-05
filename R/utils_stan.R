@@ -1,5 +1,5 @@
 produce_stan_names <- function(stan_files) {
-  out <- trn(
+  out <- if_any(
     is.null(names(stan_files)),
     fs::path_ext_remove(basename(stan_files)),
     names(stan_files)

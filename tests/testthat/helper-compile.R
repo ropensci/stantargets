@@ -1,5 +1,5 @@
 compiled_dir <- function() {
-  parent <- trn(
+  parent <- if_any(
     getRversion() >= "4.0.0",
     tools::R_user_dir("stantargets", "cache"),
     tempdir()

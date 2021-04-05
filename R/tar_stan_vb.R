@@ -145,7 +145,7 @@ tar_stan_vb <- function(
   )
   args_vb <- list(
     call_ns("stantargets", "tar_stan_vb_run"),
-    stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
+    stan_file = if_any(identical(compile, "original"), sym_file, sym_lines),
     data = sym_data,
     compile = compile,
     quiet = quiet,

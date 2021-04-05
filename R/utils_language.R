@@ -11,7 +11,7 @@ call_function <- function(name, args) {
 }
 
 deparse_language <- function(x) {
-  trn(!is.character(x) && !is.null(x), safe_deparse(x), x)
+  if_any(!is.character(x) && !is.null(x), safe_deparse(x), x)
 }
 
 safe_deparse <- function(x, collapse = "\n", backtick = TRUE) {
@@ -20,7 +20,7 @@ safe_deparse <- function(x, collapse = "\n", backtick = TRUE) {
     control = deparse_control_custom,
     backtick = backtick
   )
-  trn(length(out) > 1L, paste(out, collapse = collapse), out)
+  if_any(length(out) > 1L, paste(out, collapse = collapse), out)
 }
 
 deparse_control_custom <- .deparseOpts(c("keepNA", "keepInteger"))

@@ -150,7 +150,7 @@ tar_stan_gq <- function(
   )
   args_gq <- list(
     call_ns("stantargets", "tar_stan_gq_run"),
-    stan_file = trn(identical(compile, "original"), sym_file, sym_lines),
+    stan_file = if_any(identical(compile, "original"), sym_file, sym_lines),
     data = sym_data,
     fitted_params = substitute(fitted_params),
     compile = compile,

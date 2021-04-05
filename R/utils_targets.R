@@ -16,11 +16,11 @@ tar_stan_target_list <- function(
 ) {
   out <- list(
     target_file,
-    trn(identical(compile, "original"), NULL, target_lines),
+    if_any(identical(compile, "original"), NULL, target_lines),
     target_output,
-    trn(identical(draws, TRUE), target_draws, NULL),
-    trn(identical(summary, TRUE), target_summary, NULL),
-    trn(identical(diagnostics, TRUE), target_diagnostics, NULL)
+    if_any(identical(draws, TRUE), target_draws, NULL),
+    if_any(identical(summary, TRUE), target_summary, NULL),
+    if_any(identical(diagnostics, TRUE), target_diagnostics, NULL)
   )
   out <- list_nonempty(out)
   values <- list(
@@ -61,8 +61,8 @@ tar_stan_target_list_rep <- function(
   cue
 ) {
   out <- list(
-    trn(identical(compile, "original"), target_compile, target_file),
-    trn(identical(compile, "original"), NULL, target_lines),
+    if_any(identical(compile, "original"), target_compile, target_file),
+    if_any(identical(compile, "original"), NULL, target_lines),
     target_output
   )
   out <- list_nonempty(out)

@@ -54,7 +54,7 @@ tar_stan_output_summary <- function(
 }
 
 tar_stan_output_draws <- function(fit, variables, inc_warmup) {
-  out <- trn(
+  out <- if_any(
     is.null(inc_warmup),
     fit$draws(variables = variables),
     fit$draws(variables = variables, inc_warmup = inc_warmup)
