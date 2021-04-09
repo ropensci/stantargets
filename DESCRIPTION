@@ -16,8 +16,8 @@ Description: Bayesian data analysis usually incurs long runtimes
   (Stan Development Team 2020) <https://mc-stan.org/>.
 Version: 0.0.0.9002
 License: MIT + file LICENSE
-URL: https://wlandau.github.io/stantargets/, https://github.com/wlandau/stantargets
-BugReports: https://github.com/wlandau/stantargets/issues
+URL: https://docs.ropensci.org/stantargets/, https://github.com/ropensci/stantargets
+BugReports: https://github.com/ropensci/stantargets/issues
 Authors@R: c(
   person(
     given = c("William", "Michael"),

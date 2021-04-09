@@ -77,7 +77,7 @@ model runs on each dataset. To join data on to the model
 summaries, include a \code{.join_data}
 element of your Stan data list with names and dimensions corresponding
 to those of the model. For details, read
-\url{https://wlandau.github.io/stantargets/articles/mcmc_rep.html}.}
+\url{https://docs.ropensci.org/stantargets/articles/mcmc_rep.html}.}
 
 \item{batches}{Number of batches. Each batch is a sequence
 of branch targets containing multiple reps. Each rep
@@ -312,7 +312,7 @@ These values will be inserted as columns in the output data frame
 for each rep. To join more than just scalars, include a \code{.join_data}
 element of your Stan data list with names and dimensions corresponding
 to those of the model. For details, read
-\url{https://wlandau.github.io/stantargets/articles/mcmc_rep.html}.}
+\url{https://docs.ropensci.org/stantargets/articles/mcmc_rep.html}.}
 
 \item{tidy_eval}{Logical, whether to enable tidy evaluation
 when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use the
@@ -329,7 +329,11 @@ when loading \code{packages}.}
 \item{error}{Character of length 1, what to do if the target
 runs into an error. If \code{"stop"}, the whole pipeline stops
 and throws an error. If \code{"continue"}, the error is recorded,
-but the pipeline keeps going.}
+but the pipeline keeps going. \code{error = "workspace"} is just like
+\code{error = "stop"} except \code{targets} saves a special workspace file
+to support interactive debugging outside the pipeline.
+(Visit \url{https://books.ropensci.org/targets/debugging.html}
+to learn how to debug targets using saved workspaces.)}
 
 \item{memory}{Character of length 1, memory strategy.
 If \code{"persistent"}, the target stays in memory

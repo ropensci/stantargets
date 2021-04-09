@@ -1,14 +1,17 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "stantargets",
-  "description": "The 'targets' package is a pipeline toolkit that brings together\n  function-oriented programming and Make-like declarative workflows for\n  Statistics and data science in R. The 'stantargets' package provides\n  convenient user-side functions to create Bayesian data analysis\n  workflows with 'targets' and Stan. These functions reduce\n  cognitive overhead and micromanagement so the user can focus\n  more on model development than software development.\n  'stantargets' invokes Stan through the 'cmdstanr' package:\n  <https://mc-stan.org/cmdstanr>.",
+  "description": "Bayesian data analysis usually incurs long runtimes\n  and cumbersome custom code. A specialized pipeline toolkit for\n  Bayesians, the 'stantargets' R package leverages\n  'targets' and 'cmdstanr' to ease these burdens.\n  'stantargets' makes it super easy to set up useful scalable\n  Stan pipelines that automatically parallelize the computation\n  and skip expensive steps when the results are already up to date.\n  Minimal custom code is required, and there is no need to manually\n  configure branching, so usage is much easier than 'targets' alone.\n  'stantargets' can access all of 'cmdstanr''s major algorithms\n  (MCMC, variational Bayes, and optimization) and it supports\n  both single-fit workflows and multi-rep simulation studies.\n  For the statistical methodology, please refer to 'Stan' documentation\n  (Stan Development Team 2020) <https://mc-stan.org/>.",
   "name": "stantargets: Targets for Stan Workflows",
-  "codeRepository": "https://github.com/wlandau/stantargets",
-  "relatedLink": "https://wlandau.github.io/stantargets/",
-  "issueTracker": "https://github.com/wlandau/stantargets/issues",
+  "codeRepository": "https://github.com/ropensci/stantargets",
+  "relatedLink": ["https://wlandau.github.io/stantargets/", "https://docs.ropensci.org/stantargets/"],
+  "issueTracker": "https://github.com/ropensci/stantargets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9000",
+  "version": "0.0.0.9002",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -57,22 +60,9 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "fs",
-      "name": "fs",
-      "version": ">= 1.5.0",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=fs"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "knitr",
       "name": "knitr",
-      "version": ">= 1.28",
+      "version": ">= 1.30",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -83,9 +73,22 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "R.utils",
+      "name": "R.utils",
+      "version": ">= 2.10.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=R.utils"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "rmarkdown",
       "name": "rmarkdown",
-      "version": ">= 2.1",
+      "version": ">= 2.3",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -109,19 +112,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "tidyr",
-      "name": "tidyr",
-      "version": ">= 1.1.2",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=tidyr"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "visNetwork",
       "name": "visNetwork",
       "version": ">= 2.0.9",
@@ -132,19 +122,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=visNetwork"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "withr",
-      "name": "withr",
-      "version": ">= 2.1.2",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=withr"
     }
   ],
   "softwareRequirements": [
@@ -163,9 +140,35 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "digest",
+      "name": "digest",
+      "version": ">= 0.6.25",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=digest"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "fs",
+      "name": "fs",
+      "version": ">= 1.5.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=fs"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "fst",
       "name": "fst",
-      "version": ">= 0.9.4",
+      "version": ">= 0.9.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -198,7 +201,7 @@
       "@type": "SoftwareApplication",
       "identifier": "qs",
       "name": "qs",
-      "version": ">= 0.14.1",
+      "version": ">= 0.23.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -211,7 +214,7 @@
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
-      "version": ">= 0.4.8",
+      "version": ">= 0.4.10",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -229,14 +232,33 @@
       "@type": "SoftwareApplication",
       "identifier": "targets",
       "name": "targets",
-      "version": ">= 0.0.0.9003",
-      "sameAs": "https://github.com/wlandau/targets"
+      "version": ">= 0.0.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=targets"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "tarchetypes",
+      "name": "tarchetypes",
+      "version": ">= 0.0.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tarchetypes"
     },
     {
       "@type": "SoftwareApplication",
       "identifier": "tibble",
       "name": "tibble",
-      "version": ">= 3.0.4",
+      "version": ">= 3.0.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -244,11 +266,42 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "withr",
+      "name": "withr",
+      "version": ">= 2.1.2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=withr"
     }
   ],
-  "readme": "https://github.com/wlandau/stantargets/blob/main/README.md",
-  "fileSize": "517.727KB",
-  "contIntegration": "https://codecov.io/gh/wlandau/targets",
+  "readme": "https://github.com/ropensci/stantargets/blob/main/README.md",
+  "fileSize": "964.37KB",
+  "contIntegration": "https://codecov.io/gh/ropensci/stantargets",
   "developmentStatus": "https://www.repostatus.org/#active",
-  "keywords": ["r", "rstats", "reproducibility", "high-performance-computing", "stan", "bayesian", "statistics", "targets", "make", "rstats-package"]
+  "keywords": [
+    "r",
+    "rstats",
+    "reproducibility",
+    "high-performance-computing",
+    "stan",
+    "bayesian",
+    "statistics",
+    "targets",
+    "make",
+    "rstats-package",
+    "r-targetopia"
+  ],
+  "releaseNotes": "https://github.com/ropensci/stantargets/blob/master/NEWS.md",
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/software-review/issues/430",
+    "provider": "https://ropensci.org"
+  }
 }

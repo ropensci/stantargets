@@ -10,14 +10,14 @@ navbar:
   - text: Vignettes
     href: articles/index.html
   - text: targets
-    href: https://wlandau.github.io/targets
+    href: https://docs.ropensci.org/targets
   - text: cmdstanr
     href: https://mc-stan.org/cmdstanr/index.html
   - text: News
     href: news/index.html
   right:
   - icon: fa-github fa-lg
-    href: https://github.com/wlandau/stantargets
+    href: https://github.com/ropensci/stantargets
 reference:
 - title: Help
   contents:

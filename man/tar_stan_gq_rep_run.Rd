@@ -153,7 +153,7 @@ These values will be inserted as columns in the output data frame
 for each rep. To join more than just scalars, include a \code{.join_data}
 element of your Stan data list with names and dimensions corresponding
 to those of the model. For details, read
-\url{https://wlandau.github.io/stantargets/articles/mcmc_rep.html}.}
+\url{https://docs.ropensci.org/stantargets/articles/mcmc_rep.html}.}
 
 \item{variables}{(character vector) The variables to read in. If \code{NULL} (the
 default) then all variables are included.}

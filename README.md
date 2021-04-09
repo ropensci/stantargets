@@ -8,9 +8,9 @@ Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&lab
 [![cran](http://www.r-pkg.org/badges/version/stantargets)](https://cran.r-project.org/package=stantargets)
 -->
 [![active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![check](https://github.com/wlandau/stantargets/workflows/check/badge.svg)](https://github.com/wlandau/stantargets/actions?query=workflow%3Acheck)
-[![codecov](https://codecov.io/gh/wlandau/stantargets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/wlandau/stantargets)
-[![lint](https://github.com/wlandau/stantargets/workflows/lint/badge.svg)](https://github.com/wlandau/stantargets/actions?query=workflow%3Alint)
+[![check](https://github.com/ropensci/stantargets/workflows/check/badge.svg)](https://github.com/ropensci/stantargets/actions?query=workflow%3Acheck)
+[![codecov](https://codecov.io/gh/ropensci/stantargets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/ropensci/stantargets)
+[![lint](https://github.com/ropensci/stantargets/workflows/lint/badge.svg)](https://github.com/ropensci/stantargets/actions?query=workflow%3Alint)
 
 The `stantargets` R package is an extension to
 [`targets`](https://docs.ropensci.org/targets/) and
@@ -38,7 +38,7 @@ abstract away the details of
 [`cmdstanr`](https://github.com/stan-dev/cmdstanr) and make both
 packages easier to use. For details, please read the [vignette on
 non-branching MCMC
-pipelines](https://wlandau.github.io/stantargets/articles/mcmc.html).
+pipelines](https://docs.ropensci.org/stantargets/articles/mcmc.html).
 
 ## Prerequisites
 
@@ -57,9 +57,9 @@ pipelines](https://wlandau.github.io/stantargets/articles/mcmc.html).
 ## How to get started
 
 Read the `stantargets` tutorial vignettes
-[here](https://wlandau.github.io/stantargets/articles/mcmc.html) and
-[here](https://wlandau.github.io/stantargets/articles/mcmc_rep.html),
-then use <https://wlandau.github.io/stantargets/> as a reference while
+[here](https://docs.ropensci.org/stantargets/articles/mcmc.html) and
+[here](https://docs.ropensci.org/stantargets/articles/mcmc_rep.html),
+then use <https://docs.ropensci.org/stantargets/> as a reference while
 constructing your own workflows.
 
 ## Installation
@@ -68,7 +68,7 @@ Install the GitHub development version to access the latest features and
 patches.
 
 ``` r
-remotes::install_github("wlandau/stantargets")
+remotes::install_github("ropensci/stantargets")
 ```
 
 The [CmdStan](https://github.com/stan-dev/cmdstan) command line
@@ -94,7 +94,7 @@ file](https://books.ropensci.org/targets/walkthrough.html) that loads
 your packages, defines a function to generate
 [Stan](https://mc-stan.org/) data, and lists a pipeline of targets. The
 target list can call target factories like
-[`tar_stan_mcmc()`](https://wlandau.github.io/stantargets/reference/tar_stan_mcmc.html)
+[`tar_stan_mcmc()`](https://docs.ropensci.org/stantargets/reference/tar_stan_mcmc.html)
 as well as ordinary targets with
 [`tar_target()`](https://docs.ropensci.org/targets/reference/tar_target.html).
 The following minimal example is simple enough to contain entirely
@@ -130,14 +130,14 @@ to check `_targets.R` for correctness, then call
 to run the pipeline. Access the results using
 [`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html),
 e.g. `tar_read(example_summary_x)`. Visit [this
-vignette](https://wlandau.github.io/stantargets/articles/mcmc.html) to
+vignette](https://docs.ropensci.org/stantargets/articles/mcmc.html) to
 read more about this example.
 
 ## Help
 
 If you have trouble using `stantargets`, you can ask for help in the
 [GitHub discussions
-forum](https://github.com/wlandau/stantargets/discussions/categories/help).
+forum](https://github.com/ropensci/stantargets/discussions/categories/help).
 Because the purpose of `stantargets` is to combine
 [`targets`](https://docs.ropensci.org/targets/) and
 [`cmdstanr`](https://github.com/stan-dev/cmdstanr), your issue may have
@@ -167,14 +167,14 @@ citation("stantargets")
 #> To cite package 'stantargets' in publications use:
 #> 
 #>   William Michael Landau (NA). stantargets: Targets for Stan Workflows.
-#>   https://wlandau.github.io/stantargets/,
-#>   https://github.com/wlandau/stantargets.
+#>   https://docs.ropensci.org/stantargets/,
+#>   https://github.com/ropensci/stantargets.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {stantargets: Targets for Stan Workflows},
 #>     author = {William Michael Landau},
-#>     note = {https://wlandau.github.io/stantargets/, https://github.com/wlandau/stantargets},
+#>     note = {https://docs.ropensci.org/stantargets/, https://github.com/ropensci/stantargets},
 #>   }
 ```
