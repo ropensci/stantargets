@@ -155,11 +155,9 @@ discourse](https://discourse.mc-stan.org), are great resources.
 ## Participation
 
 Development is a community effort, and we welcome discussion and
-contribution. By participating in this project, you agree to abide by
-the [code of
-conduct](https://github.com/wlandau/stantargets/blob/main/CODE_OF_CONDUCT.md)
-and the [contributing
-guide](https://github.com/wlandau/stantargets/blob/main/CONTRIBUTING.md).
+contribution. Please note that this package is released with a
+[Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By
+contributing to this project, you agree to abide by its terms.
 
 ## Citation
 
