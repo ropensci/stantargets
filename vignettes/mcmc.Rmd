@@ -24,6 +24,9 @@ library(cmdstanr)
 library(dplyr)
 library(targets)
 library(stantargets)
+if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
+  cmdstanr::install_cmdstan()
+}
 ```
 
 The `stantargets` package makes it easy to run a single Stan model and keep track of the results. [`cmdstanr`](https://github.com/stan-dev/cmdstanr) fits the models, and [`targets`](https://docs.ropensci.org/targets/) manages the workflow and helps avoid unnecessary computation.

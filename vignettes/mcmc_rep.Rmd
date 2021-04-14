@@ -25,6 +25,9 @@ library(cmdstanr)
 library(dplyr)
 library(targets)
 library(stantargets)
+if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
+  cmdstanr::install_cmdstan()
+}
 ```
 
 It is sometimes desirable to run one or more Bayesian models repeatedly across multiple simulated datasets. Examples:
