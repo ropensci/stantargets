@@ -1,5 +1,5 @@
 ---
-title: 'The stantargets R package: a workflow framework for efficient reproducible Stan-powered Bayesian data analysis'
+title: 'The stantargets R package: a workflow framework for efficient reproducible Stan-powered Bayesian data analysis pipelines'
 tags:
 - R
 - reproducibility
