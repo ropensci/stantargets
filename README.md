@@ -2,6 +2,7 @@
 # stantargets <img src='man/figures/logo.png' align="right" height="139"/>
 
 [![ropensci](https://badges.ropensci.org/430_status.svg)](https://github.com/ropensci/software-review/issues/430)
+[![DOI](https://zenodo.org/badge/315447649.svg)](https://zenodo.org/badge/latestdoi/315447649)
 [![R
 Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia/)
 <!--
