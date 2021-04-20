@@ -59,8 +59,14 @@ pipelines](https://docs.ropensci.org/stantargets/articles/mcmc.html).
 Read the `stantargets` tutorial vignettes
 [here](https://docs.ropensci.org/stantargets/articles/mcmc.html) and
 [here](https://docs.ropensci.org/stantargets/articles/mcmc_rep.html),
-then use <https://docs.ropensci.org/stantargets/> as a reference while
-constructing your own workflows.
+and use <https://docs.ropensci.org/stantargets/> as a reference while
+constructing your own workflows. Visit
+<https://github.com/wlandau/stantargets-example-validation> for an
+example project based on
+<https://docs.ropensci.org/stantargets/articles/mcmc_rep.html>. The
+example has an [RStudio Cloud
+workspace](https://rstudio.cloud/project/2466069) which allows you to
+run the project in a web browser.
 
 ## Installation
 
