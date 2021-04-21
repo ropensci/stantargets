@@ -2,7 +2,8 @@
 # stantargets <img src='man/figures/logo.png' align="right" height="139"/>
 
 [![ropensci](https://badges.ropensci.org/430_status.svg)](https://github.com/ropensci/software-review/issues/430)
-[![DOI](https://zenodo.org/badge/315447649.svg)](https://zenodo.org/badge/latestdoi/315447649)
+[![joss](https://joss.theoj.org/papers/10.21105/joss.03193/status.svg)](https://doi.org/10.21105/joss.03193)
+[![zenodo](https://zenodo.org/badge/315447649.svg)](https://zenodo.org/badge/latestdoi/315447649)
 [![R
 Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&labelColor=gray)](https://wlandau.github.io/targetopia/)
 <!--
@@ -171,17 +172,23 @@ contributing to this project, you agree to abide by its terms.
 ``` r
 citation("stantargets")
 #> 
-#> To cite package 'stantargets' in publications use:
+#> To cite stantargets in publications use:
 #> 
-#>   William Michael Landau (NA). stantargets: Targets for Stan Workflows.
-#>   https://docs.ropensci.org/stantargets/,
-#>   https://github.com/ropensci/stantargets.
+#>   Landau, W. M., (2021). The stantargets R package: a workflow
+#>   framework for efficient reproducible Stan-powered Bayesian data
+#>   analysis pipelines. Journal of Open Source Software, 6(60), 3193,
+#>   https://doi.org/10.21105/joss.03193
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
-#>   @Manual{,
-#>     title = {stantargets: Targets for Stan Workflows},
+#>   @Article{,
+#>     title = {The stantargets {R} package: a workflow framework for efficient reproducible {S}tan-powered {B}ayesian data analysis pipelines},
 #>     author = {William Michael Landau},
-#>     note = {https://docs.ropensci.org/stantargets/, https://github.com/ropensci/stantargets},
+#>     journal = {Journal of Open Source Software},
+#>     year = {2021},
+#>     volume = {6},
+#>     number = {60},
+#>     pages = {3193},
+#>     url = {https://doi.org/10.21105/joss.03193},
 #>   }
 ```

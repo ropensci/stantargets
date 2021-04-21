@@ -1,6 +1,6 @@
-# stantargets 0.0.1.9000
+# stantargets 0.0.2
 
-
+* Reference JOSS paper.
 
 # stantargets 0.0.1
 
