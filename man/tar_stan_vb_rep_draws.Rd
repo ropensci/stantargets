@@ -256,12 +256,10 @@ globally for all subsequent targets you define.}
 \item{library}{Character vector of library paths to try
 when loading \code{packages}.}
 
-\item{format}{Character of length 1, storage format of the non-data-frame
-targets such as the Stan data and any CmdStanFit objects.
-Please choose an all=purpose
-format such as \code{"qs"} or \code{"aws_qs"} rather than a file format like
-\code{"file"} or a data frame format like \code{"parquet"}. For more on storage
-formats, see the help file of \code{targets::tar_target()}.}
+\item{format}{Character of length 1, storage format of the data frame
+of posterior summaries. We recommend efficient data frame formats
+such as \code{"feather"} or \code{"aws_parquet"}. For more on storage formats,
+see the help file of \code{targets::tar_target()}.}
 
 \item{format_df}{Character of length 1, storage format of the data frame
 targets such as posterior draws. We recommend efficient data frame formats

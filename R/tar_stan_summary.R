@@ -22,7 +22,7 @@
 #' @param summary_args Optional list of summary function arguments passed to
 #'    `.args` in `posterior::summarize_draws()` through `$summary()`
 #'    on the `CmdStanFit` object.
-#' @format Character of length 1, storage format of the data frame
+#' @param format Character of length 1, storage format of the data frame
 #'   of posterior summaries. We recommend efficient data frame formats
 #'   such as `"feather"` or `"aws_parquet"`. For more on storage formats,
 #'   see the help file of `targets::tar_target()`.
