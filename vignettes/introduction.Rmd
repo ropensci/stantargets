@@ -1,8 +1,8 @@
 ---
-title: "MCMC pipelines"
+title: "Introduction to stantargets"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{MCMC pipelines}
+  %\VignetteIndexEntry{Introduction to stantargets}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

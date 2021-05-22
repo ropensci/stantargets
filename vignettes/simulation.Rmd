@@ -1,9 +1,9 @@
 ---
-title: "Pipelines with several MCMC runs"
+title: "Bayesian simulation pipelines with stantargets"
 output: rmarkdown::html_vignette
-bibliography: mcmc_rep.bib
+bibliography: simulation.bib
 vignette: >
-  %\VignetteIndexEntry{Pipelines with several MCMC runs}
+  %\VignetteIndexEntry{Bayesian simulation pipelines with stantargets}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -32,7 +32,7 @@ if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
 
 ## Background
 
-It is sometimes desirable to run one or more Bayesian models repeatedly across multiple simulated datasets. Examples:
+The [introductory vignette](https://docs.ropensci.org/stantargets/articles/introduction.html) vignette caters to Bayesian data analysis workflows with few datasets to analyze. However, it is sometimes desirable to run one or more Bayesian models repeatedly across multiple simulated datasets. Examples:
 
 1. Validate the implementation of a Bayesian model using simulation.
 2. Simulate a randomized controlled experiment to explore frequentist properties such as power and Type I error.

@@ -56,5 +56,5 @@ articles:
     desc: >
       MCMC for Bayesian models
     contents:
-      - mcmc
-      - mcmc_rep
+      - introduction
+      - simulation

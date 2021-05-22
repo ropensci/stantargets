@@ -48,15 +48,16 @@ both single-fit workflows and multi-rep simulation studies.
 
 ## How to get started
 
-Read the `stantargets` tutorial vignettes
-[here](https://docs.ropensci.org/stantargets/articles/mcmc.html) and
-[here](https://docs.ropensci.org/stantargets/articles/mcmc_rep.html),
-and use <https://docs.ropensci.org/stantargets/> as a reference while
-constructing your own workflows. Visit
+Read the `stantargets`
+[introduction](https://docs.ropensci.org/stantargets/articles/introduction.html)
+and
+[simulation](https://docs.ropensci.org/stantargets/articles/simulation.html)
+vignettes, and use <https://docs.ropensci.org/stantargets/> as a
+reference while constructing your own workflows. Visit
 <https://github.com/wlandau/stantargets-example-validation> for an
-example project based on
-<https://docs.ropensci.org/stantargets/articles/mcmc_rep.html>. The
-example has an [RStudio Cloud
+example project based on the [simulation
+vignette](https://docs.ropensci.org/stantargets/articles/simulation.html).
+The example has an [RStudio Cloud
 workspace](https://rstudio.cloud/project/2466069) which allows you to
 run the project in a web browser.
 
@@ -127,9 +128,9 @@ to check `_targets.R` for correctness, then call
 [`tar_make()`](https://docs.ropensci.org/targets/reference/tar_make.html)
 to run the pipeline. Access the results using
 [`tar_read()`](https://docs.ropensci.org/targets/reference/tar_read.html),
-e.g. `tar_read(example_summary_x)`. Visit [this
-vignette](https://docs.ropensci.org/stantargets/articles/mcmc.html) to
-read more about this example.
+e.g. `tar_read(example_summary_x)`. Visit the [introductory
+vignette](https://docs.ropensci.org/stantargets/articles/introduction.html)
+to read more about this example.
 
 ## How it works behind the scenes
 
@@ -143,9 +144,8 @@ factories](https://ropensci.org/blog/2021/02/03/targets/#target-factories)
 abstract away the details of
 [`targets`](https://docs.ropensci.org/targets/) and
 [`cmdstanr`](https://github.com/stan-dev/cmdstanr) and make both
-packages easier to use. For details, please read the [vignette on
-non-branching MCMC
-pipelines](https://docs.ropensci.org/stantargets/articles/mcmc.html).
+packages easier to use. For details, please read the [introductory
+vignette](https://docs.ropensci.org/stantargets/articles/introduction.html).
 
 ## Help
 
