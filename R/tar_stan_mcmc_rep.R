@@ -10,6 +10,7 @@
 #'   to learn about the structure and composition of target objects.
 #' @inheritParams tar_stan_mcmc_rep_run
 #' @inheritParams tar_stan_summary
+#' @inheritParams tar_stan_mcmc
 #' @inheritParams cmdstanr::cmdstan_model
 #' @inheritParams cmdstanr::`model-method-compile`
 #' @inheritParams cmdstanr::`model-method-sample`
@@ -85,6 +86,8 @@ tar_stan_mcmc_rep <- function(
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
+  format = "qs",
+  format_df = "fst_tbl",
   error = targets::tar_option_get("error"),
   memory = targets::tar_option_get("memory"),
   garbage_collection = targets::tar_option_get("garbage_collection"),
@@ -236,7 +239,7 @@ tar_stan_mcmc_rep <- function(
     pattern = pattern_data,
     packages = packages,
     library = library,
-    format = "qs",
+    format = format,
     iteration = "list",
     error = error,
     memory = memory,
@@ -250,7 +253,7 @@ tar_stan_mcmc_rep <- function(
     command = command,
     pattern = pattern,
     packages = character(0),
-    format = "fst_tbl",
+    format = format_df,
     error = error,
     memory = memory,
     garbage_collection = garbage_collection,

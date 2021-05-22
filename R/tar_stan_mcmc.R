@@ -59,6 +59,16 @@
 #'   `posterior::as_draws_df(fit$sampler_diagnostics())`.
 #'   Saves `posterior::as_draws_df(fit$draws())` to a compressed `tibble`.
 #'   Convenient, but duplicates storage.
+#' @param format Character of length 1, storage format of the non-data-frame
+#'   targets such as the Stan data and any CmdStanFit objects.
+#'   Please choose an all=purpose
+#'   format such as `"qs"` or `"aws_qs"` rather than a file format like
+#'   `"file"` or a data frame format like `"parquet"`. For more on storage
+#'   formats, see the help file of `targets::tar_target()`.
+#' @param format_df Character of length 1, storage format of the data frame
+#'   targets such as posterior draws. We recommend efficient data frame formats
+#'   such as `"feather"` or `"aws_parquet"`. For more on storage formats,
+#'   see the help file of `targets::tar_target()`.
 #' @examples
 #' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 #' targets::tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -134,6 +144,8 @@ tar_stan_mcmc <- function(
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
+  format = "qs",
+  format_df = "fst_tbl",
   error = targets::tar_option_get("error"),
   memory = targets::tar_option_get("memory"),
   garbage_collection = targets::tar_option_get("garbage_collection"),
@@ -264,7 +276,7 @@ tar_stan_mcmc <- function(
     command = command_data,
     packages = packages,
     library = library,
-    format = "qs",
+    format = format,
     error = error,
     memory = memory,
     garbage_collection = garbage_collection,
@@ -275,7 +287,7 @@ tar_stan_mcmc <- function(
   target_output <- targets::tar_target_raw(
     name = name_mcmc,
     command = command_mcmc,
-    format = "qs",
+    format = format,
     packages = character(0),
     error = error,
     memory = memory,
@@ -291,7 +303,7 @@ tar_stan_mcmc <- function(
     name = name_draws,
     command = command_draws,
     packages = character(0),
-    format = "fst_tbl",
+    format = format_df,
     error = error,
     memory = memory,
     garbage_collection = garbage_collection,
@@ -303,7 +315,7 @@ tar_stan_mcmc <- function(
     name = name_summary,
     command = command_summary,
     packages = packages,
-    format = "fst_tbl",
+    format = format_df,
     error = error,
     memory = memory,
     garbage_collection = garbage_collection,
@@ -315,7 +327,7 @@ tar_stan_mcmc <- function(
     name = name_diagnostics,
     command = command_diagnostics,
     packages = character(0),
-    format = "fst_tbl",
+    format = format_df,
     error = error,
     memory = memory,
     garbage_collection = garbage_collection,

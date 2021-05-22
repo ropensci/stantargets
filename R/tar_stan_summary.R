@@ -22,6 +22,10 @@
 #' @param summary_args Optional list of summary function arguments passed to
 #'    `.args` in `posterior::summarize_draws()` through `$summary()`
 #'    on the `CmdStanFit` object.
+#' @format Character of length 1, storage format of the data frame
+#'   of posterior summaries. We recommend efficient data frame formats
+#'   such as `"feather"` or `"aws_parquet"`. For more on storage formats,
+#'   see the help file of `targets::tar_target()`.
 #' @examples
 #' # First, write your Stan model file, e.g. model.stan.
 #' # Then in _targets.R, write a pipeline like this:
@@ -60,6 +64,7 @@ tar_stan_summary <- function(
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
+  format = "fst_tbl",
   error = targets::tar_option_get("error"),
   memory = targets::tar_option_get("memory"),
   garbage_collection = targets::tar_option_get("garbage_collection"),
@@ -82,7 +87,7 @@ tar_stan_summary <- function(
     name = name,
     command = command,
     packages = character(0),
-    format = "fst_tbl",
+    format = format,
     error = error,
     memory = memory,
     garbage_collection = garbage_collection,
