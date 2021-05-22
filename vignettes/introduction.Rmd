@@ -101,22 +101,22 @@ list(
 )
 ```
 
-Above, `tar_stan_mcmc(example, ...)` only *defines* the pipeline. It does not actually run Stan, it declares the targets that will eventually run Stan. The specific targets are as follows.
+Above, `tar_stan_mcmc(example, ...)` only *defines* the pipeline. It does not actually run Stan, it declares the targets that will eventually run Stan. Run `tar_manifest()` to show specific details about the targets.
+
+```{r}
+tar_manifest()
+```
+
+Each target listed above is responsible for a piece of the owrkflow.
 
 * `example_file_x`: Reproducibly track changes to the Stan model file.
-* `example_data`: Run the code you supplied to `data` and return a dataset compatible with Stan.
+* `example_data`: Run the code you supplied to the `data` argument of `tar_stan_mcmc()` and return a dataset compatible with Stan.
 * `example_mcmc_x`: Run the MCMC and return an object of class `CmdStanMCMC`.
 * `example_draws_X`: Return a friendly `tibble` of the posterior draws from `example`. Uses the `$draws()` method. Suppress with `draws = FALSE` in `tar_stan_mcmc()`.
 * `example_summaries_x`: Return a friendly `tibble` of the posterior summaries from `example`. Uses the `$summary()` method. Suppress with `summary = FALSE` in `tar_stan_mcmc()`.
 * `example_diagnostics_x`: Return a friendly `tibble` of the sampler diagnostics from `example`. Uses the `$sampler_diagnostics()` method. Suppress with `diagnostics = FALSE` in `tar_stan_mcmc()`.
 
 The suffix `_x` comes from the base name of the model file, in this case `x.stan`. If you supply multiple model files to the `stan_files` argument, all the models share the same dataset, and the suffixes distinguish among the various targets.
-
-Run `tar_manifest()` to show specific details about the targets.
-
-```{r}
-tar_manifest()
-```
 
 [`targets`](https://docs.ropensci.org/targets/) produces a graph to show the dependency relationships among the targets. Below, the MCMC depends on the model file and the data, and the draws, summary, and diagnostics depend on the MCMC.
 
