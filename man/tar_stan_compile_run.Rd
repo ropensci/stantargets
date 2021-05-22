@@ -18,9 +18,9 @@ tar_stan_compile_run(
 )
 }
 \arguments{
-\item{stan_file}{The path to a \code{.stan} file containing a Stan program. The
-helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when it is
-more convenient to specify the Stan program as a string.}
+\item{stan_file}{(string) The path to a \code{.stan} file containing a Stan
+program. The helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when
+it is more convenient to specify the Stan program as a string.}
 
 \item{quiet}{(logical) Should the verbose output from CmdStan during
 compilation be suppressed? The default is \code{TRUE}, but if you encounter an

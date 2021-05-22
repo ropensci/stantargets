@@ -43,28 +43,28 @@ tar_stan_vb_rep_run(
 )
 }
 \arguments{
-\item{stan_file}{The path to a \code{.stan} file containing a Stan program. The
-helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when it is
-more convenient to specify the Stan program as a string.}
+\item{stan_file}{(string) The path to a \code{.stan} file containing a Stan
+program. The helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when
+it is more convenient to specify the Stan program as a string.}
 
 \item{stan_name}{Friendly suffix of the Stan model target.}
 
 \item{stan_path}{Original path to the input Stan file.}
 
 \item{data}{(multiple options) The data to use for the variables specified in
-the \code{data} block of the Stan program. One of the following:
+the data block of the Stan program. One of the following:
 \itemize{
 \item A named list of \R objects (like for RStan). Internally this list is then
 written to JSON for CmdStan using \code{\link[cmdstanr:write_stan_json]{write_stan_json()}}.
 \item A path to a data file compatible with CmdStan (JSON or \R dump). See the
 appendices in the CmdStan manual for details on using these formats.
-\item \code{NULL} or an empty list if the Stan program has no \code{data} block.
+\item \code{NULL} or an empty list if the Stan program has no data block.
 }}
 
 \item{output_type}{Type of output to create, either \code{"summaries"},
 \code{"draws"}, or \code{"diagnostics"}.}
 
-\item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
+\item{compile}{(logical) Do compilation? The default is \code{TRUE}. If \code{FALSE}
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
 method.}
 
@@ -113,11 +113,11 @@ not modified since last compiled. The default is \code{FALSE}.}
 \item{seed}{(positive integer(s)) A seed for the (P)RNG to pass to CmdStan.
 In the case of multi-chain sampling the single \code{seed} will automatically be
 augmented by the the run (chain) ID so that each chain uses a different
-seed. The exception is the \verb{transformed data} block, which defaults to
+seed. The exception is the transformed data block, which defaults to
 using same seed for all chains so that the same data is generated for all
 chains if RNG functions are used. The only time \code{seed} should be specified
 as a vector (one element per chain) is if RNG functions are used in
-\verb{transformed data} and the goal is to generate \emph{different} data for each
+transformed data and the goal is to generate \emph{different} data for each
 chain.}
 
 \item{refresh}{(non-negative integer) The number of iterations between
@@ -125,7 +125,7 @@ printed screen updates. If \code{refresh = 0}, only error messages will be
 printed.}
 
 \item{init}{(multiple options) The initialization method to use for the
-variables declared in the \code{parameters} block of the Stan program:
+variables declared in the parameters block of the Stan program:
 \itemize{
 \item A real number \code{x>0}. This initializes \emph{all} parameters randomly between
 \verb{[-x,x]} (on the \emph{unconstrained} parameter space);
@@ -213,8 +213,17 @@ element of your Stan data list with names and dimensions corresponding
 to those of the model. For details, read
 \url{https://docs.ropensci.org/stantargets/articles/mcmc_rep.html}.}
 
-\item{variables}{(character vector) The variables to read in. If \code{NULL} (the
-default) then all variables are included.}
+\item{variables}{(character vector) Optionally, the names of the variables
+(parameters, transformed parameters, and generated quantities) to read in.
+\itemize{
+\item If \code{NULL} (the default) then all variables are included.
+\item If an empty string (\code{variables=""}) then none are included.
+\item For non-scalar variables all elements or specific elements can be selected:
+\itemize{
+\item \code{variables = "theta"} selects all elements of \code{theta};
+\item \code{variables = c("theta[1]", "theta[3]")} selects only the 1st and 3rd elements.
+}
+}}
 
 \item{summaries}{Optional list of summary functions passed to \code{...} in
 \code{posterior::summarize_draws()} through \verb{$summary()}

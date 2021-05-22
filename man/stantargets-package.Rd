@@ -6,10 +6,10 @@
 \title{targets: Targets Archetypes for Stan}
 \description{
 Bayesian data analysis usually incurs long runtimes
-and cumbersome custom code. A specialized pipeline toolkit for
-Bayesians, the \code{stantargets} R package leverages
+and cumbersome custom code. A pipeline toolkit tailored to
+Bayesian statisticians, the \code{stantargets} R package leverages
 \code{targets} and \code{cmdstanr} to ease these burdens.
-\code{stantargets} makes it super easy to set up useful scalable
+\code{stantargets} makes it super easy to set up scalable
 Stan pipelines that automatically parallelize the computation
 and skip expensive steps when the results are already up to date.
 Minimal custom code is required, and there is no need to manually
@@ -17,4 +17,7 @@ configure branching, so usage is much easier than \code{targets} alone.
 \code{stantargets} can access all of \code{cmdstanr}'s major algorithms
 (MCMC, variational Bayes, and optimization) and it supports
 both single-fit workflows and multi-rep simulation studies.
+}
+\seealso{
+\url{https://docs.ropensci.org/stantargets/}, \code{\link[=tar_stan_mcmc]{tar_stan_mcmc()}}
 }

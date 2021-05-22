@@ -33,6 +33,16 @@ List, dataset compatible with the model file from
 An example dataset compatible with the model file
 from \code{\link[=tar_stan_example_file]{tar_stan_example_file()}}.
 }
+\details{
+The \code{tar_stan_example_data()} function draws a Stan
+dataset from the prior predictive distribution of the
+model from \code{\link[=tar_stan_example_file]{tar_stan_example_file()}}. First, the
+regression coefficient \code{beta} is drawn from its standard
+normal prior, and the covariate \code{x} is computed.
+Then, conditional on the \code{beta} draws and the covariate,
+the response vector \code{y} is drawn from its
+Normal(\code{x * beta}, 1) likelihood.
+}
 \examples{
 tar_stan_example_data()
 }

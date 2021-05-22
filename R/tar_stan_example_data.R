@@ -1,8 +1,16 @@
 #' @title Simulate example data for [tar_stan_example_file()].
 #' @export
+#' @family examples
 #' @description An example dataset compatible with the model file
 #'   from [tar_stan_example_file()].
-#' @family examples
+#' @details The `tar_stan_example_data()` function draws a Stan
+#'   dataset from the prior predictive distribution of the
+#'   model from [tar_stan_example_file()]. First, the
+#'   regression coefficient `beta` is drawn from its standard
+#'   normal prior, and the covariate `x` is computed.
+#'   Then, conditional on the `beta` draws and the covariate,
+#'   the response vector `y` is drawn from its
+#'   Normal(`x * beta`, 1) likelihood.
 #' @return List, dataset compatible with the model file from
 #'   [tar_stan_example_file()].
 #' @format A list with the following elements:

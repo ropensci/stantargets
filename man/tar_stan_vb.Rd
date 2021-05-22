@@ -65,16 +65,16 @@ as target name suffixes. If \code{stan_files} is a named vector,
 the suffixed will come from \code{names(stan_files)}.}
 
 \item{data}{(multiple options) The data to use for the variables specified in
-the \code{data} block of the Stan program. One of the following:
+the data block of the Stan program. One of the following:
 \itemize{
 \item A named list of \R objects (like for RStan). Internally this list is then
 written to JSON for CmdStan using \code{\link[cmdstanr:write_stan_json]{write_stan_json()}}.
 \item A path to a data file compatible with CmdStan (JSON or \R dump). See the
 appendices in the CmdStan manual for details on using these formats.
-\item \code{NULL} or an empty list if the Stan program has no \code{data} block.
+\item \code{NULL} or an empty list if the Stan program has no data block.
 }}
 
-\item{compile}{Do compilation? The default is \code{TRUE}. If \code{FALSE}
+\item{compile}{(logical) Do compilation? The default is \code{TRUE}. If \code{FALSE}
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
 method.}
 
@@ -123,11 +123,11 @@ not modified since last compiled. The default is \code{FALSE}.}
 \item{seed}{(positive integer(s)) A seed for the (P)RNG to pass to CmdStan.
 In the case of multi-chain sampling the single \code{seed} will automatically be
 augmented by the the run (chain) ID so that each chain uses a different
-seed. The exception is the \verb{transformed data} block, which defaults to
+seed. The exception is the transformed data block, which defaults to
 using same seed for all chains so that the same data is generated for all
 chains if RNG functions are used. The only time \code{seed} should be specified
 as a vector (one element per chain) is if RNG functions are used in
-\verb{transformed data} and the goal is to generate \emph{different} data for each
+transformed data and the goal is to generate \emph{different} data for each
 chain.}
 
 \item{refresh}{(non-negative integer) The number of iterations between
@@ -135,7 +135,7 @@ printed screen updates. If \code{refresh = 0}, only error messages will be
 printed.}
 
 \item{init}{(multiple options) The initialization method to use for the
-variables declared in the \code{parameters} block of the Stan program:
+variables declared in the parameters block of the Stan program:
 \itemize{
 \item A real number \code{x>0}. This initializes \emph{all} parameters randomly between
 \verb{[-x,x]} (on the \emph{unconstrained} parameter space);

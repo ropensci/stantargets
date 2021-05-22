@@ -54,36 +54,33 @@ lines <- "data {
   vector[n] y;
 }
 parameters {
-  real alpha;
-  vector[n] beta;
+  vector[2] beta;
 }
 model {
-  y ~ normal(alpha + x .* beta, 1);
-  alpha ~ normal(0, 1);
+  y ~ normal(beta[1] + x * beta[2], 1);
   beta ~ normal(0, 1);
 }"
 writeLines(lines, "model.stan")
 ```
 
-Next, we define a pipeline to simulate multiple datasets and fit each dataset with the model. Below, we commit to 10 replications: 2 batches with 5 iterations per batch. (In practical situations, the total number of replications should be hundreds of times more.) Our input data has a special 
-`.join_data` list, which gets appended scalar-by-scalar to the numerical summaries of the correspondingly named model parameters.
+Next, we define a pipeline to simulate multiple datasets and fit each dataset with the model. In our data-generating function, we put the true parameter values of each simulation in a special `.join_data` list. `stantargets` will automatically join the elements of `.join_data` to the correspondingly named variables in the summary output. This will make it super easy to check how often our posterior intervals capture the truth. As for scale, generate 10 datasets (5 batches with 2 replications each) and run the model on each of the 10 datasets.^[Internally, each batch is a [dynamic branch target](https://books.ropensci.org/targets/dynamic.html), and the number of replications determines the amount of work done within a branch. In the general case, [batching](https://books.ropensci.org/targets/dynamic.html#batching) is a way to find the right compromise between target-specific overhead and the horizontal scale of the pipeline.] By default, each of the 10 model runs computes 4 MCMC chains with 2000 MCMC iterations each (including burn-in) and you can adjust with the `chains`, `iter_sampling`, and `iter_warmup` arguments of `tar_stan_mcmc_rep_summary()`.
 
 ```{r, echo = FALSE}
 library(targets)
 tar_script({
   library(stantargets)
   options(crayon.enabled = FALSE)
+  # Use computer memory more sparingly:
   tar_option_set(memory = "transient", garbage_collection = TRUE)
   simulate_data <- function(n = 10L) {
-    alpha <- rnorm(n = 1, mean = 0, sd = 1)
-    beta <- rnorm(n = n, mean = 0, sd = 1)
+    beta <- rnorm(n = 2, mean = 0, sd = 1)
     x <- seq(from = -1, to = 1, length.out = n)
-    y <- rnorm(n, alpha + x * beta, 1)
+    y <- rnorm(n, beta[1] + x * beta[2], 1)
     list(
       n = n,
       x = x,
       y = y,
-      .join_data = list(alpha = alpha, beta = beta)
+      .join_data = list(beta = beta)
     )
   }
   list(
@@ -93,7 +90,7 @@ tar_script({
       simulate_data(),
       batches = 5, # Number of branch targets.
       reps = 2, # Number of model reps per branch target.
-      variables = c("alpha", "beta"),
+      variables = "beta",
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       ),
@@ -109,18 +106,18 @@ tar_script({
 library(targets)
 library(stantargets)
 options(crayon.enabled = FALSE)
+# Use computer memory more sparingly:
 tar_option_set(memory = "transient", garbage_collection = TRUE)
 
 simulate_data <- function(n = 10L) {
-  alpha <- rnorm(n = 1, mean = 0, sd = 1)
-  beta <- rnorm(n = n, mean = 0, sd = 1)
+  beta <- rnorm(n = 2, mean = 0, sd = 1)
   x <- seq(from = -1, to = 1, length.out = n)
-  y <- rnorm(n, alpha + x * beta, 1)
+  y <- rnorm(n, beta[1] + x * beta[2], 1)
   list(
     n = n,
     x = x,
     y = y,
-    .join_data = list(alpha = alpha, beta = beta)
+    .join_data = list(beta = beta)
   )
 }
 
@@ -131,7 +128,7 @@ list(
     simulate_data(), # Runs once per rep.
     batches = 5, # Number of branch targets.
     reps = 2, # Number of model reps per branch target.
-    variables = c("alpha", "beta"),
+    variables = "beta",
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
     ),
@@ -181,15 +178,14 @@ tar_script({
     garbage_collection = TRUE
   )
   simulate_data <- function(n = 10L) {
-    alpha <- rnorm(n = 1, mean = 0, sd = 1)
-    beta <- rnorm(n = n, mean = 0, sd = 1)
+    beta <- rnorm(n = 2, mean = 0, sd = 1)
     x <- seq(from = -1, to = 1, length.out = n)
-    y <- rnorm(n, alpha + x * beta, 1)
+    y <- rnorm(n, beta[1] + x * beta[2], 1)
     list(
       n = n,
       x = x,
       y = y,
-      .join_data = list(alpha = alpha, beta = beta)
+      .join_data = list(beta = beta)
     )
   }
   list(
@@ -199,7 +195,7 @@ tar_script({
       simulate_data(),
       batches = 5, # Number of branch targets.
       reps = 2, # Number of model reps per branch target.
-      variables = c("alpha", "beta"),
+      variables = "beta",
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       ),
@@ -222,15 +218,14 @@ library(targets)
 library(stantargets)
 
 simulate_data <- function(n = 10L) {
-  alpha <- rnorm(n = 1, mean = 0, sd = 1)
-  beta <- rnorm(n = n, mean = 0, sd = 1)
+  beta <- rnorm(n = 2, mean = 0, sd = 1)
   x <- seq(from = -1, to = 1, length.out = n)
-  y <- rnorm(n, alpha + x * beta, 1)
+  y <- rnorm(n, beta[1] + x * beta[2], 1)
   list(
     n = n,
     x = x,
     y = y,
-    .join_data = list(alpha = alpha, beta = beta)
+    .join_data = list(beta = beta)
   )
 }
 
@@ -241,7 +236,7 @@ list(
     simulate_data(),
     batches = 5, # Number of branch targets.
     reps = 2, # Number of model reps per branch target.
-    variables = c("alpha", "beta"),
+    variables = "beta",
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
     ),
@@ -275,13 +270,29 @@ tar_read(coverage)
 
 ## Multiple models
 
-`tar_stan_rep_mcmc_summary()` and similar functions allow you to supply multiple Stan models. If you do, each model will share the the same collection of datasets. Below, we add a new `model2.stan` file to the `stan_files` argument of `tar_stan_rep_mcmc_summary()`. In the coverage summary below, we group by `.name` to compute a coverage statistic for each model.
+`tar_stan_rep_mcmc_summary()` and similar functions allow you to supply multiple Stan models. If you do, each model will share the the same collection of datasets. Suppose we have a new model, `model2.stan`.
+
+```{r}
+lines <- "data {
+  int <lower = 1> n;
+  vector[n] x;
+  vector[n] y;
+}
+parameters {
+  vector[2] beta;
+}
+model {
+  y ~ normal(beta[1] + x * x * beta[2], 1); // Regress on x^2 instead of x.
+  beta ~ normal(0, 1);
+}"
+writeLines(lines, "model2.stan")
+```
+
+To set up the simulation workflow to run on both models, we add `model2.stan` to the `stan_files` argument of `tar_stan_rep_mcmc_summary()`. And in the coverage summary below, we group by `.name` to compute a coverage statistic for each model.
 
 
 ```{r, echo = FALSE}
 library(targets)
-file.copy("model.stan", "model1.stan")
-file.copy("model.stan", "model2.stan")
 tar_script({
   library(stantargets)
   options(crayon.enabled = FALSE)
@@ -291,15 +302,14 @@ tar_script({
     garbage_collection = TRUE
   )
   simulate_data <- function(n = 10L) {
-    alpha <- rnorm(n = 1, mean = 0, sd = 1)
-    beta <- rnorm(n = n, mean = 0, sd = 1)
+    beta <- rnorm(n = 2, mean = 0, sd = 1)
     x <- seq(from = -1, to = 1, length.out = n)
-    y <- rnorm(n, alpha + x * beta, 1)
+    y <- rnorm(n, beta[1] + x * beta[2], 1)
     list(
       n = n,
       x = x,
       y = y,
-      .join_data = list(alpha = alpha, beta = beta)
+      .join_data = list(beta = beta)
     )
   }
   list(
@@ -309,7 +319,7 @@ tar_script({
       simulate_data(),
       batches = 5,
       reps = 2,
-      variables = c("alpha", "beta"),
+      variables = "beta",
       summaries = list(
         ~posterior::quantile2(.x, probs = c(0.025, 0.975))
       ),
@@ -332,15 +342,14 @@ library(targets)
 library(stantargets)
 
 simulate_data <- function(n = 10L) {
-  alpha <- rnorm(n = 1, mean = 0, sd = 1)
-  beta <- rnorm(n = n, mean = 0, sd = 1)
+  beta <- rnorm(n = 2, mean = 0, sd = 1)
   x <- seq(from = -1, to = 1, length.out = n)
-  y <- rnorm(n, alpha + x * beta, 1)
+  y <- rnorm(n, beta[1] + x * beta[2], 1)
   list(
     n = n,
     x = x,
     y = y,
-    .join_data = list(alpha = alpha, beta = beta)
+    .join_data = list(beta = beta)
   )
 }
 
@@ -351,7 +360,7 @@ list(
     simulate_data(),
     batches = 5,
     reps = 2,
-    variables = c("alpha", "beta"),
+    variables = "beta",
     summaries = list(
       ~posterior::quantile2(.x, probs = c(0.025, 0.975))
     ),
@@ -367,7 +376,7 @@ list(
 )
 ```
 
-In the graph below, notice how targets `model_model1` and `model_model2` are both connected to `model_data` upstream. Downstream, `model` is equivalent to `dplyr::bind_rows(model_model1, model_model2)`, and it will have special columns `.name` and `.file` to distinguish among all the models.
+In the graph below, notice how targets `model_model` and `model_model2` are both connected to `model_data` upstream. Downstream, `model` is equivalent to `dplyr::bind_rows(model_model, model_model2)`, and it will have special columns `.name` and `.file` to distinguish among all the models.
 
 ```{r}
 tar_visnetwork()

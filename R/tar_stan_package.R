@@ -13,6 +13,7 @@
 #'   (MCMC, variational Bayes, and optimization) and it supports
 #'   both single-fit workflows and multi-rep simulation studies.
 #' @name stantargets-package
+#' @seealso <https://docs.ropensci.org/stantargets/>, [tar_stan_mcmc()]
 #' @importFrom cmdstanr cmdstan_model
 #' @importFrom digest digest
 #' @importFrom fs path_ext_remove path_rel
