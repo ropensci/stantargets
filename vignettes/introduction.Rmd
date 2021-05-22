@@ -90,6 +90,8 @@ generate_data <- function() {
   list(n = n, x = x, y = y, true_beta = true_beta)
 }
 
+# The _targets.R file ends with a list of target objects
+# produced by stantargets::tar_stan_mcmc(), targets::tar_target(), or similar.
 list(
   tar_stan_mcmc(
     example,
@@ -231,7 +233,26 @@ tar_read(custom_summary)
 
 ## Multiple models
 
-`tar_stan_mcmc()` and related functions allow you to supply multiple models to `stan_files`. If you do, each model will run on the same dataset. Below, we add another `y.stan` model to the `stan_files` argument of `tar_stan_mcmc()`.
+`tar_stan_mcmc()` and related functions allow you to supply multiple models to `stan_files`. If you do, each model will run on the same dataset. Consider a new model `y.stan`.
+
+```{r}
+lines <- "data {
+  int <lower = 1> n;
+  vector[n] x;
+  vector[n] y;
+  real true_beta;
+}
+parameters {
+  real beta;
+}
+model {
+  y ~ normal(x * x * beta, 1); # Regress on x^2 instead of x.
+  beta ~ normal(0, 1);
+}"
+writeLines(lines, "y.stan")
+```
+
+To include this `y.stan`, we add it to the `stan_files` argument of `tar_stan_mcmc()`.
 
 ```{r, echo = FALSE}
 library(targets)
