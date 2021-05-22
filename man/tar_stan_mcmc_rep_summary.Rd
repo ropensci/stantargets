@@ -138,7 +138,15 @@ https://mc-stan.org/docs/cmdstan-guide/stanc.html.}
 \item{force_recompile}{(logical) Should the model be recompiled even if was
 not modified since last compiled. The default is \code{FALSE}.}
 
-\item{seed}{(positive integer) A seed for the (P)RNG to pass to CmdStan.}
+\item{seed}{(positive integer(s)) A seed for the (P)RNG to pass to CmdStan.
+In the case of multi-chain sampling the single \code{seed} will automatically be
+augmented by the the run (chain) ID so that each chain uses a different
+seed. The exception is the \verb{transformed data} block, which defaults to
+using same seed for all chains so that the same data is generated for all
+chains if RNG functions are used. The only time \code{seed} should be specified
+as a vector (one element per chain) is if RNG functions are used in
+\verb{transformed data} and the goal is to generate \emph{different} data for each
+chain.}
 
 \item{refresh}{(non-negative integer) The number of iterations between
 printed screen updates. If \code{refresh = 0}, only error messages will be
@@ -374,10 +382,7 @@ the target builds on the host machine / process managing the pipeline.}
 \item{priority}{Numeric of length 1 between 0 and 1. Controls which
 targets get deployed first when multiple competing targets are ready
 simultaneously. Targets with priorities closer to 1 get built earlier
-(and polled earlier in \code{\link[targets:tar_make_future]{tar_make_future()}}).
-Only applies to \code{\link[targets:tar_make_future]{tar_make_future()}} and \code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}}
-(not \code{\link[targets:tar_make]{tar_make()}}). \code{\link[targets:tar_make_future]{tar_make_future()}} with no extra settings is
-a drop-in replacement for \code{\link[targets:tar_make]{tar_make()}} in this case.}
+(and polled earlier in \code{\link[targets:tar_make_future]{tar_make_future()}}).}
 
 \item{resources}{A named list of computing resources. Uses:
 \itemize{

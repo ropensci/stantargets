@@ -1,10 +1,10 @@
 Package: stantargets
 Title: Targets for Stan Workflows
 Description: Bayesian data analysis usually incurs long runtimes
-  and cumbersome custom code. A specialized pipeline toolkit for
-  Bayesians, the 'stantargets' R package leverages
+  and cumbersome custom code. A pipeline toolkit tailored to Bayesian
+  statisticians, the 'stantargets' R package leverages
   'targets' and 'cmdstanr' to ease these burdens.
-  'stantargets' makes it super easy to set up useful scalable
+  'stantargets' makes it super easy to set up scalable
   Stan pipelines that automatically parallelize the computation
   and skip expensive steps when the results are already up to date.
   Minimal custom code is required, and there is no need to manually

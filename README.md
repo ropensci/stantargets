@@ -14,33 +14,23 @@ Targetopia](https://img.shields.io/badge/R_Targetopia-member-blue?style=flat&lab
 [![codecov](https://codecov.io/gh/ropensci/stantargets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://codecov.io/gh/ropensci/stantargets)
 [![lint](https://github.com/ropensci/stantargets/workflows/lint/badge.svg)](https://github.com/ropensci/stantargets/actions?query=workflow%3Alint)
 
-The `stantargets` R package is an extension to
+Bayesian data analysis usually incurs long runtimes and cumbersome
+custom code, and the process of prototyping and deploying custom
+[Stan](https://mc-stan.org) models can become a daunting software
+engineering challenge. To ease this burden, the `stantargets` R package
+creates [Stan](https://mc-stan.org) pipelines that are concise,
+efficient, scalable, and tailored to the needs of Bayesian
+statisticians. Leveraging
+[`targets`](https://docs.ropensci.org/targets/), `stantargets` pipelines
+automatically parallelize the computation and skip expensive steps when
+the results are already up to date. Minimal custom user-side code is
+required, and there is no need to manually configure branching, so
+`stantargets` is easier to use than
 [`targets`](https://docs.ropensci.org/targets/) and
-[`cmdstanr`](https://github.com/stan-dev/cmdstanr) for Bayesian data
-analysis. `stantargets` makes it super easy to set up useful scalable
-Stan pipelines that automatically parallelize the computation and skip
-expensive steps when the results are already up to date. Minimal custom
-code is required, and there is no need to manually configure branching.
-`stantargets` can access all of
-[`cmdstanr`](https://github.com/stan-dev/cmdstanr)’s major algorithms
-(MCMC, variational Bayes, and optimization) and it supports both
-single-fit workflows and multi-rep simulation studies.
-
-## How it works
-
-`stantargets` supports specialized [target
-factories](https://ropensci.org/blog/2021/02/03/targets/#target-factories)
-that create ensembles of [target
-objects](https://docs.ropensci.org/targets/reference/tar_target.html)
-for [`cmdstanr`](https://github.com/stan-dev/cmdstanr) workflows. These
-[target
-factories](https://ropensci.org/blog/2021/02/03/targets/#target-factories)
-abstract away the details of
-[`targets`](https://docs.ropensci.org/targets/) and
-[`cmdstanr`](https://github.com/stan-dev/cmdstanr) and make both
-packages easier to use. For details, please read the [vignette on
-non-branching MCMC
-pipelines](https://docs.ropensci.org/stantargets/articles/mcmc.html).
+[`CmdStanR`](https://mc-stan.org/cmdstanr/) directly. `stantargets` can
+access all of [`cmdstanr`](https://github.com/stan-dev/cmdstanr)’s major
+algorithms (MCMC, variational Bayes, and optimization) and it supports
+both single-fit workflows and multi-rep simulation studies.
 
 ## Prerequisites
 
@@ -140,6 +130,22 @@ to run the pipeline. Access the results using
 e.g. `tar_read(example_summary_x)`. Visit [this
 vignette](https://docs.ropensci.org/stantargets/articles/mcmc.html) to
 read more about this example.
+
+## How it works behind the scenes
+
+`stantargets` supports specialized [target
+factories](https://ropensci.org/blog/2021/02/03/targets/#target-factories)
+that create ensembles of [target
+objects](https://docs.ropensci.org/targets/reference/tar_target.html)
+for [`cmdstanr`](https://github.com/stan-dev/cmdstanr) workflows. These
+[target
+factories](https://ropensci.org/blog/2021/02/03/targets/#target-factories)
+abstract away the details of
+[`targets`](https://docs.ropensci.org/targets/) and
+[`cmdstanr`](https://github.com/stan-dev/cmdstanr) and make both
+packages easier to use. For details, please read the [vignette on
+non-branching MCMC
+pipelines](https://docs.ropensci.org/stantargets/articles/mcmc.html).
 
 ## Help
 

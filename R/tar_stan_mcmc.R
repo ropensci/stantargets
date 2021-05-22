@@ -467,5 +467,6 @@ tar_stan_mcmc_run <- function(
   fit$draws() # Do not specify variables or inc_warmup.
   try(fit$sampler_diagnostics(), silent = TRUE)
   try(fit$init(), silent = TRUE)
+  try(fit$profiles(), silent = TRUE)
   fit
 }
