@@ -335,5 +335,6 @@ tar_stan_gq_run <- function(
   # Load all the data and return the whole unserialized fit object:
   # https://github.com/stan-dev/cmdstanr/blob/d27994f804c493ff3047a2a98d693fa90b83af98/R/fit.R#L16-L18 # nolint
   fit$draws() # Do not specify variables.
+  try(fit$profiles(), silent = TRUE)
   fit
 }

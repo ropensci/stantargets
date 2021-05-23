@@ -361,5 +361,6 @@ tar_stan_vb_run <- function(
   fit$draws() # Do not specify variables.
   try(fit$variationalr_diagnostics(), silent = TRUE)
   try(fit$init(), silent = TRUE)
+  try(fit$profiles(), silent = TRUE)
   fit
 }
