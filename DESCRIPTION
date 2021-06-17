@@ -65,7 +65,8 @@ Suggests:
   visNetwork (>= 2.0.9)
 Remotes:
   stan-dev/cmdstanr,
-  stan-dev/posterior
+  stan-dev/posterior,
+  ropensci/targets
 SystemRequirements: CmdStan >= 2.25.0
 Encoding: UTF-8
 Language: en-US
