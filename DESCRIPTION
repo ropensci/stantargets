@@ -64,9 +64,10 @@ Suggests:
   testthat (>= 3.0.0),
   visNetwork (>= 2.0.9)
 Remotes:
+  ropensci/targets,
+  ropensci/tarchetypes,
   stan-dev/cmdstanr,
-  stan-dev/posterior,
-  ropensci/targets
+  stan-dev/posterior
 SystemRequirements: CmdStan >= 2.25.0
 Encoding: UTF-8
 Language: en-US
