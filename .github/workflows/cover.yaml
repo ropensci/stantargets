@@ -71,7 +71,7 @@ jobs:
       - name: Install packages
         run: |
           install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE, type = "binary")
+          suppressWarnings(remotes::install_deps(dependencies = TRUE, type = "binary"))
           remotes::install_cran("covr")
         shell: Rscript {0}
 

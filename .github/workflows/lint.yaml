@@ -28,8 +28,8 @@ jobs:
 
       - name: Install packages
         run: |
-          install.packages(c("remotes"))
-          remotes::install_deps(dependencies = TRUE, type = "binary")
+          install.packages("remotes")
+          suppressWarnings(remotes::install_deps(dependencies = TRUE, type = "binary"))
           remotes::install_cran("lintr")
         shell: Rscript {0}
 
