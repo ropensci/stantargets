@@ -64,8 +64,8 @@ Suggests:
   testthat (>= 3.0.0),
   visNetwork (>= 2.0.9)
 Remotes:
-  stan-dev/cmdstanr,
-  stan-dev/posterior
+  github::stan-dev/cmdstanr,
+  github::stan-dev/posterior
 SystemRequirements: CmdStan >= 2.25.0
 Encoding: UTF-8
 Language: en-US
