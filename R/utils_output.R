@@ -70,9 +70,9 @@ tar_stan_output_diagnostics <- function(fit, inc_warmup) {
 tar_stan_output_rep_scalars <- function(x, data, data_copy) {
   for (var in data_copy) {
     msg <- paste(var, "in data_copy must have length 1 in data.")
-    assert_scalar(data[[var]], msg)
+    targets::tar_assert_scalar(data[[var]], msg)
     msg <- paste(var, "in data_copy must not already be in output.")
-    assert_not_in(var, colnames(x), msg)
+    targets::tar_assert_not_in(var, colnames(x), msg)
     x[[var]] <- data[[var]]
   }
   x

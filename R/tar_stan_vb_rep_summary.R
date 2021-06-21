@@ -112,7 +112,7 @@ tar_stan_vb_rep_summary <- function(
   cue = targets::tar_option_get("cue")
 ) {
   tar_stan_vb_rep(
-    name = deparse_language(substitute(name)),
+    name = targets::tar_deparse_language(substitute(name)),
     stan_files = stan_files,
     data = substitute(data),
     output_type = "summary",

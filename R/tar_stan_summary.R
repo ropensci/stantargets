@@ -75,7 +75,7 @@ tar_stan_summary <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
-  name <- deparse_language(substitute(name))
+  name <- targets::tar_deparse_language(substitute(name))
   command <- tar_stan_summary_call(
     sym_fit = substitute(fit),
     sym_data = substitute(data),

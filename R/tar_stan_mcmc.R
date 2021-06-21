@@ -158,10 +158,10 @@ tar_stan_mcmc <- function(
 ) {
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
-  assert_chr(stan_files)
-  assert_unique(stan_files)
+  targets::tar_assert_chr(stan_files)
+  targets::tar_assert_unique(stan_files)
   lapply(stan_files, assert_stan_file)
-  name <- deparse_language(substitute(name))
+  name <- targets::tar_deparse_language(substitute(name))
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")
@@ -175,7 +175,7 @@ tar_stan_mcmc <- function(
   sym_lines <- as.symbol(name_lines)
   sym_data <- as.symbol(name_data)
   sym_mcmc <- as.symbol(name_mcmc)
-  command_data <- tar_tidy_eval(
+  command_data <- targets::tar_tidy_eval(
     substitute(data),
     envir = envir,
     tidy_eval = tidy_eval

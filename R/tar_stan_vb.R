@@ -114,7 +114,7 @@ tar_stan_vb <- function(
   lapply(stan_files, assert_stan_file)
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
-  name <- deparse_language(substitute(name))
+  name <- targets::tar_deparse_language(substitute(name))
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")
@@ -127,7 +127,7 @@ tar_stan_vb <- function(
   sym_lines <- as.symbol(name_lines)
   sym_data <- as.symbol(name_data)
   sym_vb <- as.symbol(name_vb)
-  command_data <- tar_tidy_eval(
+  command_data <- targets::tar_tidy_eval(
     substitute(data),
     envir = envir,
     tidy_eval = tidy_eval

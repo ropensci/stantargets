@@ -111,7 +111,7 @@ tar_stan_mle_rep_summary <- function(
   cue = targets::tar_option_get("cue")
 ) {
   tar_stan_mle_rep(
-    name = deparse_language(substitute(name)),
+    name = targets::tar_deparse_language(substitute(name)),
     stan_files,
     data = substitute(data),
     output_type = "summary",
