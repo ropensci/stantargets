@@ -38,6 +38,13 @@ Bayesian data analysis usually incurs long runtimes and cumbersome custom code, 
 
 Read the `stantargets` [introduction](https://docs.ropensci.org/stantargets/articles/introduction.html) and [simulation](https://docs.ropensci.org/stantargets/articles/simulation.html) vignettes, and use <https://docs.ropensci.org/stantargets/> as a reference while constructing your own workflows. Visit <https://github.com/wlandau/stantargets-example-validation> for an example project based on the [simulation vignette](https://docs.ropensci.org/stantargets/articles/simulation.html). The example has an [RStudio Cloud workspace](https://rstudio.cloud/project/2466069) which allows you to run the project in a web browser.
 
+## Example projects
+
+Description | Link
+---|---
+Validating a minimal Stan model | <https://github.com/wlandau/targets-stan>
+Using Target Markdown and `stantargets` to validate a Bayesian longitudinal model for clinical trial data analysis | <https://github.com/wlandau/rmedicine2021-pipeline>
+
 ## Installation
 
 Install the GitHub development version to access the latest features and patches.

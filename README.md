@@ -61,6 +61,13 @@ The example has an [RStudio Cloud
 workspace](https://rstudio.cloud/project/2466069) which allows you to
 run the project in a web browser.
 
+## Example projects
+
+| Description                                                                                                        | Link                                                |
+| ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| Validating a minimal Stan model                                                                                    | <https://github.com/wlandau/targets-stan>           |
+| Using Target Markdown and `stantargets` to validate a Bayesian longitudinal model for clinical trial data analysis | <https://github.com/wlandau/rmedicine2021-pipeline> |
+
 ## Installation
 
 Install the GitHub development version to access the latest features and
