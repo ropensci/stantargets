@@ -45,7 +45,7 @@ Visit <https://github.com/wlandau/stantargets-example-validation> for an example
 
 ## Simulation-based validation study
 
-The goal of this particular example to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated posterior intervals cover the true parameters from the prior predictive simulations. The quantile method by @cook2006 generalizes this concept, and simulation-based calibration [@talts2020] generalizes further. The interval-based technique featured in this vignette is not as robust as SBC, but it may be more expedient for large models because it does not require visual inspection of multiple histograms.
+This particular example uses the concept of calibration that Bob Carpenter [explains here](https://statmodeling.stat.columbia.edu/2017/04/12/bayesian-posteriors-calibrated/) [@carpenter2017]. The goal is to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated posterior intervals cover the true parameters from the prior predictive simulations. If coverage is no systematically different from nominal, this is evidence that the model was implemented correctly. The quantile method by @cook2006 generalizes this concept, and simulation-based calibration [@talts2020] generalizes further. The interval-based technique featured in this vignette is not as robust as SBC, but it may be more expedient for large models because it does not require visual inspection of multiple histograms.
 
 ```{r}
 lines <- "data {
