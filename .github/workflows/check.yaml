@@ -57,7 +57,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: false
       NOT_CRAN: true
-      CMDSTAN_VERSION: 2.26.1
+      CMDSTAN_VERSION: 2.27.0
 
     steps:
       - uses: actions/checkout@v2
