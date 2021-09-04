@@ -1,7 +1,6 @@
 # stantargets 0.0.3.9001
 
 
-
 # stantargets 0.0.3
 
 * Update docs to changes in `cmdstanr`, `posterior`, and `targets`.
