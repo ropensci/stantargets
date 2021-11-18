@@ -58,7 +58,7 @@ A typical workflow proceeds as follows:
 1. Use the fitted model object to extract posterior draws of parameters and store them in a tidy data frame.
 1. Use the fitted model to compute Hamiltonian Monte Carlo (HMC) diagnostics.
 
-`stantargets` expresses this workflow using the [`tar_stan_mcmc()`](https::docs.ropensci.org/stantargets/reference/tar_stan_mcmc.html) function. To use it in a [`targets`](https://docs.ropensci.org/targets/) pipeline, invoke it from the `_targets.R` script of the project. 
+`stantargets` expresses this workflow using the [`tar_stan_mcmc()`](https://docs.ropensci.org/stantargets/reference/tar_stan_mcmc.html) function. To use it in a [`targets`](https://docs.ropensci.org/targets/) pipeline, invoke it from the `_targets.R` script of the project. 
 
 ```{r, echo = FALSE}
 library(targets)

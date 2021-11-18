@@ -306,7 +306,7 @@ These values will be inserted as columns in the output data frame
 for each rep. To join more than just scalars, include a \code{.join_data}
 element of your Stan data list with names and dimensions corresponding
 to those of the model. For details, read
-\url{https://docs.ropensci.org/stantargets/articles/mcmc_rep.html}.}
+\url{https://docs.ropensci.org/stantargets/articles/simulation.html}.}
 
 \item{inc_warmup}{(logical) Should warmup draws be included? Defaults to
 \code{FALSE}. Ignored except when used with \link[cmdstanr]{CmdStanMCMC} objects.}
