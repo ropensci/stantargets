@@ -51,7 +51,8 @@ tar_stan_mcmc_run(
 \arguments{
 \item{stan_file}{(string) The path to a \code{.stan} file containing a Stan
 program. The helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when
-it is more convenient to specify the Stan program as a string.}
+it is more convenient to specify the Stan program as a string. If
+\code{stan_file} is not specified then \code{exe_file} must be specified.}
 
 \item{data}{(multiple options) The data to use for the variables specified in
 the data block of the Stan program. One of the following:
@@ -62,7 +63,7 @@ written to JSON for CmdStan using \code{\link[cmdstanr:write_stan_json]{write_st
 \code{\link[cmdstanr:write_stan_json]{write_stan_json()}} for details on the conversions performed on \R objects
 before they are passed to Stan.
 \item A path to a data file compatible with CmdStan (JSON or \R dump). See the
-appendices in the CmdStan manual for details on using these formats.
+appendices in the CmdStan guide for details on using these formats.
 \item \code{NULL} or an empty list if the Stan program has no data block.
 }}
 
@@ -102,8 +103,8 @@ same location as the Stan program.}
 \code{FALSE}. Pedantic mode attempts to warn you about potential issues in your
 Stan program beyond syntax errors. For details see the \href{https://mc-stan.org/docs/reference-manual/pedantic-mode.html}{\emph{Pedantic mode} chapter} in
 the Stan Reference Manual. \strong{Note:} to do a pedantic check for a model
-that is already compiled use the
-\code{\link[cmdstanr:model-method-check_syntax]{$check_syntax()}} method instead.}
+without compiling it or for a model that is already compiled the
+\code{\link[cmdstanr:model-method-check_syntax]{$check_syntax()}} method can be used instead.}
 
 \item{include_paths}{(character vector) Paths to directories where Stan
 should look for files specified in \verb{#include} directives in the Stan
@@ -111,7 +112,9 @@ program.}
 
 \item{cpp_options}{(list) Any makefile options to be used when compiling the
 model (\code{STAN_THREADS}, \code{STAN_MPI}, \code{STAN_OPENCL}, etc.). Anything you would
-otherwise write in the \code{make/local} file.}
+otherwise write in the \code{make/local} file. For an example of using threading
+see the Stan case study
+\href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
 
 \item{stanc_options}{(list) Any Stan-to-C++ transpiler options to be used
 when compiling the model. See the \strong{Examples} section below as well as the
@@ -119,7 +122,8 @@ when compiling the model. See the \strong{Examples} section below as well as the
 https://mc-stan.org/docs/cmdstan-guide/stanc.html.}
 
 \item{force_recompile}{(logical) Should the model be recompiled even if was
-not modified since last compiled. The default is \code{FALSE}.}
+not modified since last compiled. The default is \code{FALSE}. Can also be set
+via a global \code{cmdstanr_force_recompile} option.}
 
 \item{seed}{(positive integer(s)) A seed for the (P)RNG to pass to CmdStan.
 In the case of multi-chain sampling the single \code{seed} will automatically be
@@ -136,10 +140,11 @@ printed screen updates. If \code{refresh = 0}, only error messages will be
 printed.}
 
 \item{init}{(multiple options) The initialization method to use for the
-variables declared in the parameters block of the Stan program:
+variables declared in the parameters block of the Stan program. One of
+the following:
 \itemize{
 \item A real number \code{x>0}. This initializes \emph{all} parameters randomly between
-\verb{[-x,x]} (on the \emph{unconstrained} parameter space);
+\verb{[-x,x]} on the \emph{unconstrained} parameter space.;
 \item The number \code{0}. This initializes \emph{all} parameters to \code{0};
 \item A character vector of paths (one per chain) to JSON or Rdump files
 containing initial values for all or some parameters. See
@@ -193,18 +198,19 @@ is to look for the option \code{"mc.cores"}, which can be set for an entire \R
 session by \code{options(mc.cores=value)}. If the \code{"mc.cores"} option has not
 been set then the default is \code{1}.}
 
-\item{chain_ids}{(integer vector) A vector of chain IDs. Must contain
-\code{chains} unique positive integers. If not set, the default chain IDs are
-used (integers starting from \code{1}).}
+\item{chain_ids}{(integer vector) A vector of chain IDs. Must contain as many
+unique positive integers as the number of chains. If not set, the default
+chain IDs are used (integers starting from \code{1}).}
 
 \item{threads_per_chain}{(positive integer) If the model was
 \link[cmdstanr:model-method-compile]{compiled} with threading support, the number of
 threads to use in parallelized sections \emph{within} an MCMC chain (e.g., when
 using the Stan functions \code{reduce_sum()} or \code{map_rect()}). This is in
 contrast with \code{parallel_chains}, which specifies the number of chains to
-run in parallel. The actual number of CPU cores used use is
+run in parallel. The actual number of CPU cores used is
 \code{parallel_chains*threads_per_chain}. For an example of using threading see
-the Stan case study \href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
+the Stan case study
+\href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
 
 \item{iter_warmup}{(positive integer) The number of warmup iterations to run
 per chain. Note: in the CmdStan User's Guide this is referred to as
@@ -215,9 +221,7 @@ to run per chain. Note: in the CmdStan User's Guide this is referred to as
 \code{num_samples}.}
 
 \item{save_warmup}{(logical) Should warmup iterations be saved? The default
-is \code{FALSE}. If \code{save_warmup=TRUE} then you can use
-\link[cmdstanr:fit-method-draws]{$draws(inc_warmup=TRUE)} to include warmup when
-accessing the draws.}
+is \code{FALSE}.}
 
 \item{thin}{(positive integer) The period between saved samples. This should
 typically be left at its default (no thinning) unless memory is a problem.}
@@ -285,17 +289,15 @@ values with 6 significant figures. The upper limit for \code{sig_figs} is 18.
 Increasing this value will result in larger output CSV files and thus an
 increased usage of disk space.}
 
-\item{validate_csv}{(logical) When \code{TRUE} (the default), validate the
-sampling results in the csv files. Disable if you wish to manually read in
-the sampling results and validate them yourself, for example using
-\code{\link[cmdstanr:read_cmdstan_csv]{read_cmdstan_csv()}}.}
+\item{validate_csv}{Deprecated and will be removed in a future release.}
 
 \item{show_messages}{(logical) When \code{TRUE} (the default), prints all
 informational messages, for example rejection of the current proposal.
-Disable if you wish silence these messages, but this is not recommended
-unless you are very sure that the model is correct up to numerical error.
-If the messages are silenced then the \verb{$output()} method of the resulting
-fit object can be used to display all the silenced messages.}
+Disable if you wish to silence these messages, but this is not usually
+recommended unless you are very confident that the model is correct up to
+numerical error. If the messages are silenced then the
+\code{\link[cmdstanr:fit-method-output]{$output()}} method of the resulting fit object can be
+used to display the silenced messages.}
 }
 \value{
 A \code{CmdStanFit} object.

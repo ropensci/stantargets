@@ -29,7 +29,8 @@ tar_stan_gq_run(
 \arguments{
 \item{stan_file}{(string) The path to a \code{.stan} file containing a Stan
 program. The helper function \code{\link[cmdstanr:write_stan_file]{write_stan_file()}} is provided for cases when
-it is more convenient to specify the Stan program as a string.}
+it is more convenient to specify the Stan program as a string. If
+\code{stan_file} is not specified then \code{exe_file} must be specified.}
 
 \item{data}{(multiple options) The data to use for the variables specified in
 the data block of the Stan program. One of the following:
@@ -40,7 +41,7 @@ written to JSON for CmdStan using \code{\link[cmdstanr:write_stan_json]{write_st
 \code{\link[cmdstanr:write_stan_json]{write_stan_json()}} for details on the conversions performed on \R objects
 before they are passed to Stan.
 \item A path to a data file compatible with CmdStan (JSON or \R dump). See the
-appendices in the CmdStan manual for details on using these formats.
+appendices in the CmdStan guide for details on using these formats.
 \item \code{NULL} or an empty list if the Stan program has no data block.
 }}
 
@@ -51,7 +52,14 @@ the following:
 \item A \link[posterior:draws_array]{posterior::draws_array} (for MCMC) or \link[posterior:draws_matrix]{posterior::draws_matrix} (for
 VB) object returned by CmdStanR's \code{\link[cmdstanr:fit-method-draws]{$draws()}} method.
 \item A character vector of paths to CmdStan CSV output files.
-}}
+}
+
+NOTE: if you plan on making many calls to \verb{$generate_quantities()} then the
+most efficient option is to pass the paths of the CmdStan CSV output files
+(this avoids CmdStanR having to rewrite the draws contained in the fitted
+model object to CSV each time). If you no longer have the CSV files you can
+use \code{\link[cmdstanr:draws_to_csv]{draws_to_csv()}} once to write them and then pass the resulting file
+paths to \verb{$generate_quantities()} as many times as needed.}
 
 \item{compile}{(logical) Do compilation? The default is \code{TRUE}. If \code{FALSE}
 compilation can be done later via the \code{\link[cmdstanr:model-method-compile]{$compile()}}
@@ -80,8 +88,8 @@ same location as the Stan program.}
 \code{FALSE}. Pedantic mode attempts to warn you about potential issues in your
 Stan program beyond syntax errors. For details see the \href{https://mc-stan.org/docs/reference-manual/pedantic-mode.html}{\emph{Pedantic mode} chapter} in
 the Stan Reference Manual. \strong{Note:} to do a pedantic check for a model
-that is already compiled use the
-\code{\link[cmdstanr:model-method-check_syntax]{$check_syntax()}} method instead.}
+without compiling it or for a model that is already compiled the
+\code{\link[cmdstanr:model-method-check_syntax]{$check_syntax()}} method can be used instead.}
 
 \item{include_paths}{(character vector) Paths to directories where Stan
 should look for files specified in \verb{#include} directives in the Stan
@@ -89,7 +97,9 @@ program.}
 
 \item{cpp_options}{(list) Any makefile options to be used when compiling the
 model (\code{STAN_THREADS}, \code{STAN_MPI}, \code{STAN_OPENCL}, etc.). Anything you would
-otherwise write in the \code{make/local} file.}
+otherwise write in the \code{make/local} file. For an example of using threading
+see the Stan case study
+\href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
 
 \item{stanc_options}{(list) Any Stan-to-C++ transpiler options to be used
 when compiling the model. See the \strong{Examples} section below as well as the
@@ -97,7 +107,8 @@ when compiling the model. See the \strong{Examples} section below as well as the
 https://mc-stan.org/docs/cmdstan-guide/stanc.html.}
 
 \item{force_recompile}{(logical) Should the model be recompiled even if was
-not modified since last compiled. The default is \code{FALSE}.}
+not modified since last compiled. The default is \code{FALSE}. Can also be set
+via a global \code{cmdstanr_force_recompile} option.}
 
 \item{seed}{(positive integer(s)) A seed for the (P)RNG to pass to CmdStan.
 In the case of multi-chain sampling the single \code{seed} will automatically be
@@ -142,9 +153,10 @@ been set then the default is \code{1}.}
 threads to use in parallelized sections \emph{within} an MCMC chain (e.g., when
 using the Stan functions \code{reduce_sum()} or \code{map_rect()}). This is in
 contrast with \code{parallel_chains}, which specifies the number of chains to
-run in parallel. The actual number of CPU cores used use is
+run in parallel. The actual number of CPU cores used is
 \code{parallel_chains*threads_per_chain}. For an example of using threading see
-the Stan case study \href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
+the Stan case study
+\href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
 }
 \value{
 A \code{CmdStanFit} object.
