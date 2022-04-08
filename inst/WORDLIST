@@ -353,3 +353,6 @@ stdout
 stderr
 HMC
 mcmc
+dir
+rmedicine
+saveRDS

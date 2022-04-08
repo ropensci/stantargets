@@ -46,6 +46,7 @@ tar_stan_vb_rep_summary(
   library = targets::tar_option_get("library"),
   format = "qs",
   format_df = "fst_tbl",
+  repository = targets::tar_option_get("repository"),
   error = targets::tar_option_get("error"),
   memory = targets::tar_option_get("memory"),
   garbage_collection = targets::tar_option_get("garbage_collection"),
@@ -263,7 +264,8 @@ when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use
 the values of global objects.}
 
 \item{packages}{Character vector of packages to load right before
-the target builds. Use \code{tar_option_set()} to set packages
+the target builds or the output data is reloaded for
+downstream targets. Use \code{tar_option_set()} to set packages
 globally for all subsequent targets you define.}
 
 \item{library}{Character vector of library paths to try
@@ -279,6 +281,23 @@ targets such as posterior draws. We recommend efficient data frame formats
 such as \code{"feather"} or \code{"aws_parquet"}. For more on storage formats,
 see the help file of \code{targets::tar_target()}.}
 
+\item{repository}{Character of length 1, remote repository for target
+storage. Choices:
+\itemize{
+\item \code{"local"}: file system of the local machine.
+\item \code{"aws"}: Amazon Web Services (AWS) S3 bucket. Can be configured
+with a non-AWS S3 bucket using the \code{endpoint} argument of
+\code{\link[targets:tar_resources_aws]{tar_resources_aws()}}, but versioning capabilities may be lost
+in doing so.
+See the cloud storage section of
+\url{https://books.ropensci.org/targets/data.html}
+for details for instructions.
+\item \code{"gcp"}: Google Cloud Platform storage bucket.
+See the cloud storage section of
+\url{https://books.ropensci.org/targets/data.html}
+for details for instructions.
+}}
+
 \item{error}{Character of length 1, what to do if the target
 stops and throws an error. Options:
 \itemize{
@@ -288,6 +307,9 @@ stops and throws an error. Options:
 but no new targets launch after that.
 (Visit \url{https://books.ropensci.org/targets/debugging.html}
 to learn how to debug targets using saved workspaces.)
+\item \code{"null"}: The errored target continues and returns \code{NULL}.
+The data hash is deliberately wrong so the target is not
+up to date for the next run of the pipeline.
 }}
 
 \item{memory}{Character of length 1, memory strategy.
