@@ -442,4 +442,4 @@ tar_read(postpred)
 
 ## More information
 
-For more on [`targets`](https://docs.ropensci.org/targets/), please visit the reference website <https://docs.ropensci.org/targets/> or the user manual <https://books.ropensci.org/targets/>. The manual walks though advanced features of `targets` such as [high-performance computing](https://books.ropensci.org/targets/hpc.html) and [cloud storage support](https://books.ropensci.org/targets/cloud.html).
+For more on [`targets`](https://docs.ropensci.org/targets/), please visit the reference website <https://docs.ropensci.org/targets/> or the user manual <https://books.ropensci.org/targets/>. The manual walks though advanced features of `targets` such as [high-performance computing](https://books.ropensci.org/targets/hpc.html) and [cloud storage support](https://books.ropensci.org/targets/data.html#cloud-storage).

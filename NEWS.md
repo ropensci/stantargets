@@ -1,4 +1,4 @@
-# stantargets 0.0.3.9001
+# stantargets 0.0.4
 
 * Support the `repository` argument for `targets` >= 0.11.0.
 
