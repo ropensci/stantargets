@@ -128,7 +128,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.CMDSTAN_PATH }}
-          key: ${{ runner.os }}-cmdstan-${{ env.CMDSTAN_VERSION }}
+          key: ${{ runner.os }}-cmdstan-2-${{ env.CMDSTAN_VERSION }}
 
       - name: Install cmdstan
         run: |
