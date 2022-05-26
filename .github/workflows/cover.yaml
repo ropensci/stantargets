@@ -79,13 +79,24 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.CMDSTAN_PATH }}
-          key: ${{ runner.os }}-cmdstan-${{ env.CMDSTAN_VERSION }}
+          key: ${{ runner.os }}-cmdstan-2-${{ env.CMDSTAN_VERSION }}
 
       - name: Install cmdstan
         run: |
           version <- Sys.getenv("CMDSTAN_VERSION")
           url <- sprintf("https://github.com/stan-dev/cmdstan/releases/download/v%s/cmdstan-%s.tar.gz", version, version)
           cmdstanr::install_cmdstan(cores = 2, release_url = url)
+        shell: Rscript {0}
+
+      - name: Test cmdstan
+        run: |
+          cmdstanr::check_cmdstan_toolchain()
+          print(cmdstanr::cmdstan_path())
+          file <- file.path(cmdstanr::cmdstan_path(), "examples", "bernoulli", "bernoulli.stan")
+          temp <- tempfile(fileext = ".stan")
+          file.copy(file, temp)
+          model <- cmdstanr::cmdstan_model(temp)
+          print(model)
         shell: Rscript {0}
 
       - name: Test coverage

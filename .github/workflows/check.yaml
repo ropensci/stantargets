@@ -137,6 +137,17 @@ jobs:
           cmdstanr::install_cmdstan(cores = 2, release_url = url)
         shell: Rscript {0}
 
+      - name: Test cmdstan
+        run: |
+          cmdstanr::check_cmdstan_toolchain()
+          print(cmdstanr::cmdstan_path())
+          file <- file.path(cmdstanr::cmdstan_path(), "examples", "bernoulli", "bernoulli.stan")
+          temp <- tempfile(fileext = ".stan")
+          file.copy(file, temp)
+          model <- cmdstanr::cmdstan_model(temp)
+          print(model)
+        shell: Rscript {0}
+
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
