@@ -70,7 +70,7 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"original\")", {
   out1 <- targets::tar_read(model_x)
   out2 <- targets::tar_read(model_y)
   out <- targets::tar_read(model)
-  expect_true(".dataset_id" %in% colnames(model))
+  expect_true(".dataset_id" %in% colnames(out))
   expect_false("n" %in% colnames(out))
   expect_false("true_beta" %in% colnames(out))
   expect_equal(dplyr::bind_rows(out1, out2), out)

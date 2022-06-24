@@ -228,7 +228,7 @@ targets::tar_test("tar_stan_mcmc_rep_summary(compile = \"copy\") custom", {
   out1 <- targets::tar_read(model_a)
   out2 <- targets::tar_read(model_b)
   out <- targets::tar_read(model)
-  expect_equal(unique(table(out$.dataset_id)), 24)
+  expect_equal(unique(table(out$.dataset_id)), 2)
   expect_equal(length(unique(out$.dataset_id)), 4)
   expect_true(all(is.finite(out$n)))
   expect_true(all(is.finite(out$true_beta)))
