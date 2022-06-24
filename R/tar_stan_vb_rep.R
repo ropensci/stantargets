@@ -91,7 +91,7 @@ tar_stan_vb_rep <- function(
     tidy_eval = tidy_eval
   )
   command_data <- substitute(
-    purrr::map(seq_len(.targets_reps), ~.targets_command),
+    stantargets::tar_stan_rep_data_batch(.targets_reps, .targets_command),
     env = list(.targets_reps = reps, .targets_command = command_rep)
   )
   args <- list(
@@ -385,6 +385,7 @@ tar_stan_vb_rep_run_rep <- function(
   summary_args
 ) {
   stan_data <- data
+  stan_data$.dataset_id <- NULL
   stan_data$.join_data <- NULL
   fit <- model$variational(
     data = stan_data,

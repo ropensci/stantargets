@@ -61,7 +61,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"original\")", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 5L)
+  expect_equal(length(out), 6L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -71,6 +71,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"original\")", {
   out1 <- targets::tar_read(model_x)
   out2 <- targets::tar_read(model_y)
   out <- targets::tar_read(model)
+  expect_true(".dataset_id" %in% colnames(out))
   expect_false("n" %in% colnames(out))
   expect_false("true_beta" %in% colnames(out))
   expect_equal(dplyr::bind_rows(out1, out2), out)
@@ -182,7 +183,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 5L)
+  expect_equal(length(out), 6L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -192,6 +193,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom", {
   out1 <- targets::tar_read(model_a)
   out2 <- targets::tar_read(model_b)
   out <- targets::tar_read(model)
+  expect_true(".dataset_id" %in% colnames(out))
   expect_true(all(is.finite(out$n)))
   expect_true(all(is.finite(out$true_beta)))
   expect_equal(dplyr::bind_rows(out1, out2), out)

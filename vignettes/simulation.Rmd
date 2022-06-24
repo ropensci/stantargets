@@ -270,7 +270,7 @@ tar_read(coverage)
 
 ## Multiple models
 
-`tar_stan_rep_mcmc_summary()` and similar functions allow you to supply multiple Stan models. If you do, each model will share the the same collection of datasets. Suppose we have a new model, `model2.stan`.
+`tar_stan_rep_mcmc_summary()` and similar functions allow you to supply multiple Stan models. If you do, each model will share the the same collection of datasets, and the `.dataset_id` column of the model target output allows for custom analyses that compare different models against each other. Suppose we have a new model, `model2.stan`.
 
 ```{r}
 lines <- "data {

@@ -58,22 +58,34 @@ targets::tar_test("tar_stan_mcmc_rep_summary(compile = \"original\")", {
   expect_equal(length(targets::tar_read(model_file_y)), 2)
   expect_equal(targets::tar_read(model_file_x)[1], "a.stan")
   expect_equal(targets::tar_read(model_file_y)[1], "b.stan")
+  # data
   out <- targets::tar_read(model_data)
+  dataset_ids <- c(
+    out[[1]][[1]]$.dataset_id,
+    out[[1]][[2]]$.dataset_id,
+    out[[2]][[1]]$.dataset_id,
+    out[[2]][[2]]$.dataset_id
+  )
+  expect_equal(length(unique(dataset_ids)), 4)
+  expect_equal(length(out), 2L)
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 5L)
+  expect_equal(length(out), 6L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
   expect_true(is.numeric(out$x))
   expect_true(is.numeric(out$y))
   expect_true(is.numeric(out$true_beta))
+  # model
   out1 <- targets::tar_read(model_x)
   out2 <- targets::tar_read(model_y)
   out <- targets::tar_read(model)
+  expect_equal(unique(table(out$.dataset_id)), 24)
+  expect_equal(length(unique(out$.dataset_id)), 4)
   expect_false("n" %in% colnames(out))
   expect_false("true_beta" %in% colnames(out))
   expect_equal(dplyr::bind_rows(out1, out2), out)
@@ -206,7 +218,7 @@ targets::tar_test("tar_stan_mcmc_rep_summary(compile = \"copy\") custom", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 5L)
+  expect_equal(length(out), 6L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -216,6 +228,8 @@ targets::tar_test("tar_stan_mcmc_rep_summary(compile = \"copy\") custom", {
   out1 <- targets::tar_read(model_a)
   out2 <- targets::tar_read(model_b)
   out <- targets::tar_read(model)
+  expect_equal(unique(table(out$.dataset_id)), 24)
+  expect_equal(length(unique(out$.dataset_id)), 4)
   expect_true(all(is.finite(out$n)))
   expect_true(all(is.finite(out$true_beta)))
   expect_equal(dplyr::bind_rows(out1, out2), out)

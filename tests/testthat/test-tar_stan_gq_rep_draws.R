@@ -82,7 +82,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 5L)
+  expect_equal(length(out), 6L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -92,6 +92,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
   out1 <- targets::tar_read(model_x)
   out2 <- targets::tar_read(model_y)
   out <- targets::tar_read(model)
+  expect_true(".dataset_id" %in% colnames(out))
   expect_equal(dplyr::bind_rows(out1, out2), out)
   expect_true(tibble::is_tibble(out1))
   expect_true(tibble::is_tibble(out2))
@@ -241,7 +242,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 5L)
+  expect_equal(length(out), 6L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -251,6 +252,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
   out1 <- targets::tar_read(model_a)
   out2 <- targets::tar_read(model_b)
   out <- targets::tar_read(model)
+  expect_true(".dataset_id" %in% colnames(out))
   expect_equal(dplyr::bind_rows(out1, out2), out)
   expect_true(tibble::is_tibble(out))
   expect_false("y_rep[1]" %in% colnames(out))

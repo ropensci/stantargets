@@ -1,6 +1,7 @@
 # stantargets 0.0.4
 
 * Support the `repository` argument for `targets` >= 0.11.0.
+* Append a new `.dataset_id` column to target outputs to aid in model comparisons across the same datasets.
 
 # stantargets 0.0.3
 
