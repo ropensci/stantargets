@@ -1,4 +1,4 @@
-# stantargets 0.0.5
+# stantargets 0.0.5.9000
 
 * Update the signatures of most user-side functions to accommodate changes from `cmdstanr` 0.2.0 to 0.5.0 (https://github.com/ropensci/targets/discussions/884, @stuvet).
 
