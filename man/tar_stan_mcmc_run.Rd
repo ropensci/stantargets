@@ -22,10 +22,13 @@ tar_stan_mcmc_run(
   init,
   save_latent_dynamics,
   output_dir,
+  output_basename,
+  sig_figs,
   chains,
   parallel_chains,
   chain_ids,
   threads_per_chain,
+  opencl_ids,
   iter_warmup,
   iter_sampling,
   save_warmup,
@@ -41,9 +44,8 @@ tar_stan_mcmc_run(
   term_buffer,
   window,
   fixed_param,
-  sig_figs,
-  validate_csv,
   show_messages,
+  diagnostics,
   variables,
   inc_warmup
 )
@@ -170,7 +172,7 @@ written to CSV is controlled by the user's CmdStan installation and not
 CmdStanR (for some algorithms no content may be written). The default
 is \code{FALSE}, which is appropriate for almost every use case. To save the
 temporary files created when \code{save_latent_dynamics=TRUE} see the
-\code{\link[cmdstanr:fit-method-save_output_files]{$save_latent_dynamics_files()}}
+\code{\link[cmdstanr:fit-method-save_latent_dynamics_files]{$save_latent_dynamics_files()}}
 method.}
 
 \item{output_dir}{(string) A path to a directory where CmdStan should write
@@ -188,6 +190,17 @@ files are removed when the fitted model object is
 \item If a path, then the files are created in \code{output_dir} with names
 corresponding to the defaults used by \verb{$save_output_files()}.
 }}
+
+\item{output_basename}{(string) A string to use as a prefix for the names of
+the output CSV files of CmdStan. If \code{NULL} (the default), the basename of
+the output CSV files will be comprised from the model name, timestamp, and
+5 random characters.}
+
+\item{sig_figs}{(positive integer) The number of significant figures used
+when storing the output values. By default, CmdStan represent the output
+values with 6 significant figures. The upper limit for \code{sig_figs} is 18.
+Increasing this value will result in larger output CSV files and thus an
+increased usage of disk space.}
 
 \item{chains}{(positive integer) The number of Markov chains to run. The
 default is 4.}
@@ -211,6 +224,11 @@ run in parallel. The actual number of CPU cores used is
 \code{parallel_chains*threads_per_chain}. For an example of using threading see
 the Stan case study
 \href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
+
+\item{opencl_ids}{(integer vector of length 2) The platform and
+device IDs of the OpenCL device to use for fitting. The model must
+be compiled with \code{cpp_options = list(stan_opencl = TRUE)} for this
+argument to have an effect.}
 
 \item{iter_warmup}{(positive integer) The number of warmup iterations to run
 per chain. Note: in the CmdStan User's Guide this is referred to as
@@ -283,14 +301,6 @@ quantities block. If the parameters block is empty then using
 \code{fixed_param=TRUE} is mandatory. When \code{fixed_param=TRUE} the \code{chains} and
 \code{parallel_chains} arguments will be set to \code{1}.}
 
-\item{sig_figs}{(positive integer) The number of significant figures used
-when storing the output values. By default, CmdStan represent the output
-values with 6 significant figures. The upper limit for \code{sig_figs} is 18.
-Increasing this value will result in larger output CSV files and thus an
-increased usage of disk space.}
-
-\item{validate_csv}{Deprecated and will be removed in a future release.}
-
 \item{show_messages}{(logical) When \code{TRUE} (the default), prints all
 informational messages, for example rejection of the current proposal.
 Disable if you wish to silence these messages, but this is not usually
@@ -298,6 +308,24 @@ recommended unless you are very confident that the model is correct up to
 numerical error. If the messages are silenced then the
 \code{\link[cmdstanr:fit-method-output]{$output()}} method of the resulting fit object can be
 used to display the silenced messages.}
+
+\item{diagnostics}{(character vector) The diagnostics to automatically check
+and warn about after sampling. Setting this to an empty string \code{""} or
+\code{NULL} can be used to prevent CmdStanR from automatically reading in the
+sampler diagnostics from CSV if you wish to manually read in the results
+and validate them yourself, for example using \code{\link[cmdstanr:read_cmdstan_csv]{read_cmdstan_csv()}}. The
+currently available diagnostics are \code{"divergences"}, \code{"treedepth"},
+and \code{"ebfmi"} (the default is to check all of them).
+
+These diagnostics are also available after fitting. The
+\code{\link[cmdstanr:fit-method-sampler_diagnostics]{$sampler_diagnostics()}} method provides
+access the diagnostic values for each iteration and the
+\code{\link[cmdstanr:fit-method-diagnostic_summary]{$diagnostic_summary()}} method provides
+summaries of the diagnostics and can regenerate the warning messages.
+
+Diagnostics like R-hat and effective sample size are \emph{not} currently
+available via the \code{diagnostics} argument but can be checked after fitting
+using the \code{\link[cmdstanr:fit-method-summary]{$summary()}} method.}
 }
 \value{
 A \code{CmdStanFit} object.

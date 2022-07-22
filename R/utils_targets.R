@@ -3,9 +3,9 @@ tar_stan_target_list <- function(
   stan_files,
   sym_stan,
   compile,
-  draws,
-  summary,
-  diagnostics,
+  return_draws,
+  return_summary,
+  return_diagnostics,
   target_file,
   target_lines,
   target_data,
@@ -18,9 +18,9 @@ tar_stan_target_list <- function(
     target_file,
     if_any(identical(compile, "original"), NULL, target_lines),
     target_output,
-    if_any(identical(draws, TRUE), target_draws, NULL),
-    if_any(identical(summary, TRUE), target_summary, NULL),
-    if_any(identical(diagnostics, TRUE), target_diagnostics, NULL)
+    if_any(identical(return_draws, TRUE), target_draws, NULL),
+    if_any(identical(return_summary, TRUE), target_summary, NULL),
+    if_any(identical(return_diagnostics, TRUE), target_diagnostics, NULL)
   )
   out <- list_nonempty(out)
   values <- list(

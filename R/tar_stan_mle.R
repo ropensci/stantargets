@@ -93,8 +93,10 @@ tar_stan_mle <- function(
   variables = NULL,
   summaries = list(),
   summary_args = list(),
-  draws = TRUE,
-  summary = TRUE,
+  return_draws = TRUE,
+  return_summary = TRUE,
+  draws = NULL,
+  summary = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -111,6 +113,10 @@ tar_stan_mle <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
+  tar_stan_deprecate(draws, "return_draws")
+  tar_stan_deprecate(summary, "return_summary")
+  return_draws <- draws %|||% return_draws
+  return_summary <- summary %|||% return_summary
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
   targets::tar_assert_chr(stan_files)
@@ -264,9 +270,9 @@ tar_stan_mle <- function(
     stan_files = stan_files,
     sym_stan = sym_stan,
     compile = compile,
-    draws = draws,
-    summary = summary,
-    diagnostics = FALSE,
+    return_draws = return_draws,
+    return_summary = return_summary,
+    return_diagnostics = FALSE,
     target_file = target_file,
     target_lines = target_lines,
     target_data = target_data,

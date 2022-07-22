@@ -27,8 +27,10 @@ tar_stan_gq(
   variables = NULL,
   summaries = list(),
   summary_args = list(),
-  draws = TRUE,
-  summary = TRUE,
+  return_draws = TRUE,
+  return_summary = TRUE,
+  draws = NULL,
+  summary = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -182,12 +184,16 @@ on the \code{CmdStanFit} object.}
 \code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
 
-\item{draws}{Logical, whether to create a target for posterior draws.
+\item{return_draws}{Logical, whether to create a target for posterior draws.
 Saves \code{posterior::as_draws_df(fit$draws())} to a compressed \code{tibble}.
 Convenient, but duplicates storage.}
 
-\item{summary}{Logical, whether to create a target for
+\item{return_summary}{Logical, whether to create a target for
 \code{fit$summary()}.}
+
+\item{draws}{Deprecated on 2022-07-22. Use \code{return_draws} instead.}
+
+\item{summary}{Deprecated on 2022-07-22. Use \code{return_summary} instead.}
 
 \item{tidy_eval}{Logical, whether to enable tidy evaluation
 when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use the

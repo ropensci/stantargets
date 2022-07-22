@@ -36,8 +36,10 @@ tar_stan_mle(
   variables = NULL,
   summaries = list(),
   summary_args = list(),
-  draws = TRUE,
-  summary = TRUE,
+  return_draws = TRUE,
+  return_summary = TRUE,
+  draws = NULL,
+  summary = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -173,7 +175,7 @@ written to CSV is controlled by the user's CmdStan installation and not
 CmdStanR (for some algorithms no content may be written). The default
 is \code{FALSE}, which is appropriate for almost every use case. To save the
 temporary files created when \code{save_latent_dynamics=TRUE} see the
-\code{\link[cmdstanr:fit-method-save_output_files]{$save_latent_dynamics_files()}}
+\code{\link[cmdstanr:fit-method-save_latent_dynamics_files]{$save_latent_dynamics_files()}}
 method.}
 
 \item{output_dir}{(string) A path to a directory where CmdStan should write
@@ -231,12 +233,16 @@ on the \code{CmdStanFit} object.}
 \code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
 
-\item{draws}{Logical, whether to create a target for posterior draws.
+\item{return_draws}{Logical, whether to create a target for posterior draws.
 Saves \code{posterior::as_draws_df(fit$draws())} to a compressed \code{tibble}.
 Convenient, but duplicates storage.}
 
-\item{summary}{Logical, whether to create a target for
+\item{return_summary}{Logical, whether to create a target for
 \code{fit$summary()}.}
+
+\item{draws}{Deprecated on 2022-07-22. Use \code{return_draws} instead.}
+
+\item{summary}{Deprecated on 2022-07-22. Use \code{return_summary} instead.}
 
 \item{tidy_eval}{Logical, whether to enable tidy evaluation
 when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use the

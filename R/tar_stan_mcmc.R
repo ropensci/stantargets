@@ -50,12 +50,12 @@
 #'   `fs::path_ext_remove(basename(stan_files))` will be used
 #'   as target name suffixes. If `stan_files` is a named vector,
 #'   the suffixed will come from `names(stan_files)`.
-#' @param draws Logical, whether to create a target for posterior draws.
+#' @param return_draws Logical, whether to create a target for posterior draws.
 #'   Saves `posterior::as_draws_df(fit$draws())` to a compressed `tibble`.
 #'   Convenient, but duplicates storage.
-#' @param summary Logical, whether to create a target for
+#' @param return_summary Logical, whether to create a target for
 #'   `fit$summary()`.
-#' @param diagnostics Logical, whether to create a target for
+#' @param return_diagnostics Logical, whether to create a target for
 #'   `posterior::as_draws_df(fit$sampler_diagnostics())`.
 #'   Saves `posterior::as_draws_df(fit$draws())` to a compressed `tibble`.
 #'   Convenient, but duplicates storage.
@@ -69,6 +69,8 @@
 #'   targets such as posterior draws. We recommend efficient data frame formats
 #'   such as `"feather"` or `"aws_parquet"`. For more on storage formats,
 #'   see the help file of `targets::tar_target()`.
+#' @param draws Deprecated on 2022-07-22. Use `return_draws` instead.
+#' @param summary Deprecated on 2022-07-22. Use `return_summary` instead.
 #' @examples
 #' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 #' targets::tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -112,10 +114,13 @@ tar_stan_mcmc <- function(
   init = NULL,
   save_latent_dynamics = FALSE,
   output_dir = NULL,
+  output_basename = NULL,
+  sig_figs = NULL,
   chains = 4,
   parallel_chains = getOption("mc.cores", 1),
   chain_ids = seq_len(chains),
   threads_per_chain = NULL,
+  opencl_ids = NULL,
   iter_warmup = NULL,
   iter_sampling = NULL,
   save_warmup = FALSE,
@@ -131,16 +136,17 @@ tar_stan_mcmc <- function(
   term_buffer = NULL,
   window = NULL,
   fixed_param = FALSE,
-  sig_figs = NULL,
-  validate_csv = TRUE,
   show_messages = TRUE,
+  diagnostics = c("divergences", "treedepth", "ebfmi"),
   variables = NULL,
   inc_warmup = FALSE,
   summaries = list(),
   summary_args = list(),
-  draws = TRUE,
-  diagnostics = TRUE,
-  summary = TRUE,
+  return_draws = TRUE,
+  return_diagnostics = TRUE,
+  return_summary = TRUE,
+  draws = NULL,
+  summary = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -157,6 +163,10 @@ tar_stan_mcmc <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
+  tar_stan_deprecate(draws, "return_draws")
+  tar_stan_deprecate(summary, "return_summary")
+  return_draws <- draws %|||% return_draws
+  return_summary <- summary %|||% return_summary
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
   targets::tar_assert_chr(stan_files)
@@ -223,10 +233,13 @@ tar_stan_mcmc <- function(
     init = init,
     save_latent_dynamics = save_latent_dynamics,
     output_dir = output_dir,
+    output_basename = output_basename,
+    sig_figs = sig_figs,
     chains = chains,
     parallel_chains = parallel_chains,
     chain_ids = chain_ids,
     threads_per_chain = threads_per_chain,
+    opencl_ids = opencl_ids,
     iter_warmup = iter_warmup,
     iter_sampling = iter_sampling,
     save_warmup = save_warmup,
@@ -242,9 +255,8 @@ tar_stan_mcmc <- function(
     term_buffer = term_buffer,
     window = window,
     fixed_param = fixed_param,
-    sig_figs = sig_figs,
-    validate_csv = validate_csv,
     show_messages = show_messages,
+    diagnostics = diagnostics,
     variables = variables,
     inc_warmup = inc_warmup
   )
@@ -347,9 +359,9 @@ tar_stan_mcmc <- function(
     stan_files = stan_files,
     sym_stan = sym_stan,
     compile = compile,
-    draws = draws,
-    summary = summary,
-    diagnostics = diagnostics,
+    return_draws = return_draws,
+    return_summary = return_summary,
+    return_diagnostics = return_diagnostics,
     target_file = target_file,
     target_lines = target_lines,
     target_data = target_data,
@@ -398,10 +410,13 @@ tar_stan_mcmc_run <- function(
   init,
   save_latent_dynamics,
   output_dir,
+  output_basename,
+  sig_figs,
   chains,
   parallel_chains,
   chain_ids,
   threads_per_chain,
+  opencl_ids,
   iter_warmup,
   iter_sampling,
   save_warmup,
@@ -417,9 +432,8 @@ tar_stan_mcmc_run <- function(
   term_buffer,
   window,
   fixed_param,
-  sig_figs,
-  validate_csv,
   show_messages,
+  diagnostics,
   variables,
   inc_warmup
 ) {
@@ -458,10 +472,13 @@ tar_stan_mcmc_run <- function(
     init = init,
     save_latent_dynamics = save_latent_dynamics,
     output_dir = output_dir,
+    output_basename = output_basename,
+    sig_figs = sig_figs,
     chains = chains,
     parallel_chains = parallel_chains,
     chain_ids = chain_ids,
     threads_per_chain = threads_per_chain,
+    opencl_ids = opencl_ids,
     iter_warmup = iter_warmup,
     iter_sampling = iter_sampling,
     save_warmup = save_warmup,
@@ -477,9 +494,8 @@ tar_stan_mcmc_run <- function(
     term_buffer = term_buffer,
     window = window,
     fixed_param = fixed_param,
-    sig_figs = sig_figs,
-    validate_csv = validate_csv,
-    show_messages = show_messages
+    show_messages = show_messages,
+    diagnostics = diagnostics
   )
   # Load all the data and return the whole unserialized fit object:
   # https://github.com/stan-dev/cmdstanr/blob/d27994f804c493ff3047a2a98d693fa90b83af98/R/fit.R#L16-L18 # nolint

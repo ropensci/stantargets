@@ -186,7 +186,7 @@ written to CSV is controlled by the user's CmdStan installation and not
 CmdStanR (for some algorithms no content may be written). The default
 is \code{FALSE}, which is appropriate for almost every use case. To save the
 temporary files created when \code{save_latent_dynamics=TRUE} see the
-\code{\link[cmdstanr:fit-method-save_output_files]{$save_latent_dynamics_files()}}
+\code{\link[cmdstanr:fit-method-save_latent_dynamics_files]{$save_latent_dynamics_files()}}
 method.}
 
 \item{output_dir}{(string) A path to a directory where CmdStan should write

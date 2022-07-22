@@ -356,3 +356,4 @@ mcmc
 dir
 rmedicine
 saveRDS
+OpenCL
