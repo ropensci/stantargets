@@ -24,7 +24,7 @@
 #'    on the `CmdStanFit` object.
 #' @param summary_cores (nonnegative integer) Number of cores, passed to
 #'    `.cores` in `posterior::summarize_draws()` through `$summary()`
-#'    on the `CmdStanFit` object.
+#'    on the `CmdStanFit` object. Set to `NULL` to use `parallel::detectCores`.
 #' @param format Character of length 1, storage format of the data frame
 #'   of posterior summaries. We recommend efficient data frame formats
 #'   such as `"feather"` or `"aws_parquet"`. For more on storage formats,
@@ -60,6 +60,7 @@
 #' targets::tar_make()
 #' })
 #' }
+#' @importFrom parallel detectCores
 tar_stan_summary <- function(
   name,
   fit,
@@ -120,7 +121,7 @@ tar_stan_summary_call <- function(
   args <- list(method)
   args$variables <- variables %|||% quote(identity(NULL))
   args$.args <- summary_args
-  args$.cores <- summary_cores
+  args$.cores <- ifelse(is.null(summary_cores), parallel::detectCores(), summary_cores)
   args <- c(args, summaries)
   expr <- as.call(list(quote(tibble::tibble), as.call(args)))
   expr <- as.call(

@@ -44,9 +44,9 @@ on the \code{CmdStanFit} object.}
 \code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
 
-\item{summary_cores}{Optional number of cores passed to
+\item{summary_cores}{(nonnegative integer) Number of cores, passed to
 \code{.cores} in \code{posterior::summarize_draws()} through \verb{$summary()}
-on the \code{CmdStanFit} object.}
+on the \code{CmdStanFit} object. Set to \code{NULL} to use \code{parallel::detectCores}.}
 
 \item{format}{Character of length 1, storage format of the data frame
 of posterior summaries. We recommend efficient data frame formats
