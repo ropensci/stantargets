@@ -22,6 +22,9 @@
 #' @param summary_args Optional list of summary function arguments passed to
 #'    `.args` in `posterior::summarize_draws()` through `$summary()`
 #'    on the `CmdStanFit` object.
+#' @param summary_cores (nonnegative integer) Number of cores, passed to
+#'    `.cores` in `posterior::summarize_draws()` through `$summary()`
+#'    on the `CmdStanFit` object.
 #' @param format Character of length 1, storage format of the data frame
 #'   of posterior summaries. We recommend efficient data frame formats
 #'   such as `"feather"` or `"aws_parquet"`. For more on storage formats,
@@ -64,6 +67,7 @@ tar_stan_summary <- function(
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
+  summary_cores = 1L,
   format = "fst_tbl",
   repository = targets::tar_option_get("repository"),
   error = targets::tar_option_get("error"),
@@ -82,6 +86,7 @@ tar_stan_summary <- function(
     sym_data = substitute(data),
     summaries = substitute(summaries),
     summary_args = substitute(summary_args),
+    summary_cores = summary_cores,
     variables = variables
   )
   targets::tar_target_raw(
@@ -104,6 +109,7 @@ tar_stan_summary_call <- function(
   sym_data,
   summaries,
   summary_args,
+  summary_cores,
   variables
 ) {
   sym_summary <- as.symbol("summary")
@@ -114,6 +120,7 @@ tar_stan_summary_call <- function(
   args <- list(method)
   args$variables <- variables %|||% quote(identity(NULL))
   args$.args <- summary_args
+  args$.cores <- summary_cores
   args <- c(args, summaries)
   expr <- as.call(list(quote(tibble::tibble), as.call(args)))
   expr <- as.call(

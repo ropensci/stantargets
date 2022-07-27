@@ -11,6 +11,7 @@ tar_stan_summary(
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
+  summary_cores = 1L,
   format = "fst_tbl",
   repository = targets::tar_option_get("repository"),
   error = targets::tar_option_get("error"),
@@ -41,6 +42,10 @@ on the \code{CmdStanFit} object.}
 
 \item{summary_args}{Optional list of summary function arguments passed to
 \code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
+on the \code{CmdStanFit} object.}
+
+\item{summary_cores}{Optional number of cores passed to
+\code{.cores} in \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
 
 \item{format}{Character of length 1, storage format of the data frame

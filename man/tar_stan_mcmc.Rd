@@ -51,6 +51,7 @@ tar_stan_mcmc(
   inc_warmup = FALSE,
   summaries = list(),
   summary_args = list(),
+  summary_cores = 1,
   return_draws = TRUE,
   return_diagnostics = TRUE,
   return_summary = TRUE,
@@ -356,6 +357,10 @@ on the \code{CmdStanFit} object.}
 
 \item{summary_args}{Optional list of summary function arguments passed to
 \code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
+on the \code{CmdStanFit} object.}
+
+\item{summary_cores}{Optional number of cores passed to
+\code{.cores} in \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
 
 \item{return_draws}{Logical, whether to create a target for posterior draws.

@@ -142,6 +142,7 @@ tar_stan_mcmc <- function(
   inc_warmup = FALSE,
   summaries = list(),
   summary_args = list(),
+  summary_cores = 1,
   return_draws = TRUE,
   return_diagnostics = TRUE,
   return_summary = TRUE,
@@ -206,6 +207,7 @@ tar_stan_mcmc <- function(
     sym_data = sym_data,
     summaries = substitute(summaries),
     summary_args = substitute(summary_args),
+    summary_cores = summary_cores,
     variables = variables
   )
   command_diagnostics <- substitute(
