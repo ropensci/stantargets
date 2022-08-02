@@ -147,6 +147,7 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"copy\") custom", {
         variables = "beta",
         summaries = list(mean = function(x, my_arg) my_arg),
         summary_args = list(my_arg = -10000),
+        summary_cores = 1L,
         stdout = R.utils::nullfile(),
         stderr = R.utils::nullfile()
       )
@@ -240,6 +241,7 @@ targets::tar_test("tar_stan_mle_rep_summary(compile = \"copy\") custom", {
         variables = "beta",
         summaries = list(mean = function(x, my_arg) my_arg),
         summary_args = list(my_arg = -10000),
+        summary_cores = 1L,
         stdout = R.utils::nullfile(),
         stderr = R.utils::nullfile()
       )
@@ -272,6 +274,7 @@ targets::tar_test("stan files missing", {
       variables = "beta",
       summaries = list(mean = function(x, my_arg) my_arg),
       summary_args = list(my_arg = -10000),
+      summary_cores = 1L,
       stdout = R.utils::nullfile(),
       stderr = R.utils::nullfile()
     ),

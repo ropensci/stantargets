@@ -9,6 +9,7 @@ tar_stan_output(
   output_type,
   summaries,
   summary_args,
+  summary_cores,
   variables,
   inc_warmup,
   data,
@@ -28,6 +29,10 @@ on the \code{CmdStanFit} object.}
 \item{summary_args}{Optional list of summary function arguments passed to
 \code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
+
+\item{summary_cores}{(nonnegative integer) Number of cores, passed to
+\code{.cores} in \code{posterior::summarize_draws()} through \verb{$summary()}
+on the \code{CmdStanFit} object. Set to \code{NULL} to use \code{parallel::detectCores}.}
 
 \item{variables}{(character vector) The variables to include.}
 

@@ -53,6 +53,7 @@ tar_stan_vb_rep <- function(
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
+  summary_cores = 1,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -130,7 +131,8 @@ tar_stan_vb_rep <- function(
     data_copy = data_copy,
     variables = variables,
     summaries = summaries,
-    summary_args = summary_args
+    summary_args = summary_args,
+    summary_cores = summary_cores
   )
   command <- as.expression(as.call(args))
   pattern_data <- substitute(map(x), env = list(x = sym_batch))
@@ -295,7 +297,8 @@ tar_stan_vb_rep_run <- function(
   data_copy,
   variables,
   summaries,
-  summary_args
+  summary_args,
+  summary_cores
 ) {
   if (!is.null(stdout)) {
     withr::local_output_sink(new = stdout, append = TRUE)
@@ -351,7 +354,8 @@ tar_stan_vb_rep_run <- function(
       data_copy = data_copy,
       variables = variables,
       summaries = summaries,
-      summary_args = summary_args
+      summary_args = summary_args,
+      summary_cores = summary_cores
     )
   )
   out$.file <- stan_path
@@ -382,7 +386,8 @@ tar_stan_vb_rep_run_rep <- function(
   data_copy,
   variables,
   summaries,
-  summary_args
+  summary_args,
+  summary_cores
 ) {
   stan_data <- data
   stan_data$.dataset_id <- NULL
@@ -411,6 +416,7 @@ tar_stan_vb_rep_run_rep <- function(
     output_type = output_type,
     summaries = summaries,
     summary_args = summary_args,
+    summary_cores = summary_cores,
     variables = variables,
     inc_warmup = NULL,
     data = data,

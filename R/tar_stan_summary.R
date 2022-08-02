@@ -121,7 +121,7 @@ tar_stan_summary_call <- function(
   args <- list(method)
   args$variables <- variables %|||% quote(identity(NULL))
   args$.args <- summary_args
-  args$.cores <- ifelse(is.null(summary_cores), parallel::detectCores(), summary_cores)
+  args$.cores <- summary_cores %|||% parallel::detectCores()
   args <- c(args, summaries)
   expr <- as.call(list(quote(tibble::tibble), as.call(args)))
   expr <- as.call(

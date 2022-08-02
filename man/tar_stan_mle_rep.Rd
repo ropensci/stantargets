@@ -41,6 +41,7 @@ tar_stan_mle_rep(
   variables = NULL,
   summaries = list(),
   summary_args = list(),
+  summary_cores = 1,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -260,6 +261,10 @@ on the \code{CmdStanFit} object.}
 \item{summary_args}{Optional list of summary function arguments passed to
 \code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
+
+\item{summary_cores}{(nonnegative integer) Number of cores, passed to
+\code{.cores} in \code{posterior::summarize_draws()} through \verb{$summary()}
+on the \code{CmdStanFit} object. Set to \code{NULL} to use \code{parallel::detectCores}.}
 
 \item{tidy_eval}{Logical, whether to enable tidy evaluation
 when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use the

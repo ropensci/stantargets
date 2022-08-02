@@ -202,6 +202,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
           custom = function(x, my_arg) my_arg
         ),
         summary_args = list(my_arg = 123L),
+        summary_cores = 1L,
         stdout = R.utils::nullfile(),
         stderr = R.utils::nullfile()
       )
@@ -318,6 +319,7 @@ targets::tar_test("tar_stan_gq_rep_summary(compile = \"copy\") custom", {
           custom = function(x, my_arg) my_arg
         ),
         summary_args = list(my_arg = 123L),
+        summary_cores = 1L,
         stdout = R.utils::nullfile(),
         stderr = R.utils::nullfile()
       )
@@ -354,6 +356,7 @@ targets::tar_test("stan files missing", {
         custom = function(x, my_arg) my_arg
       ),
       summary_args = list(my_arg = 123L),
+      summary_cores = 1L,
       stdout = R.utils::nullfile(),
       stderr = R.utils::nullfile()
     ),

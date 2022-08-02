@@ -94,6 +94,7 @@ tar_stan_vb <- function(
   variables = NULL,
   summaries = list(),
   summary_args = list(),
+  summary_cores = 1,
   return_draws = TRUE,
   return_summary = TRUE,
   draws = NULL,
@@ -150,6 +151,7 @@ tar_stan_vb <- function(
     sym_data = sym_data,
     summaries = substitute(summaries),
     summary_args = substitute(summary_args),
+    summary_cores = summary_cores,
     variables = variables
   )
   args_vb <- list(

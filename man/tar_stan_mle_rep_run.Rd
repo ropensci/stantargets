@@ -38,7 +38,8 @@ tar_stan_mle_rep_run(
   data_copy,
   variables,
   summaries,
-  summary_args
+  summary_args,
+  summary_cores
 )
 }
 \arguments{

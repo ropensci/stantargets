@@ -39,7 +39,8 @@ tar_stan_vb_rep_run(
   data_copy,
   variables,
   summaries,
-  summary_args
+  summary_args,
+  summary_cores
 )
 }
 \arguments{
@@ -240,6 +241,10 @@ on the \code{CmdStanFit} object.}
 \item{summary_args}{Optional list of summary function arguments passed to
 \code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
+
+\item{summary_cores}{(nonnegative integer) Number of cores, passed to
+\code{.cores} in \code{posterior::summarize_draws()} through \verb{$summary()}
+on the \code{CmdStanFit} object. Set to \code{NULL} to use \code{parallel::detectCores}.}
 }
 \value{
 A data frame of posterior summaries.

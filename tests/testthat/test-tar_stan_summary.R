@@ -55,7 +55,8 @@ targets::tar_test("tar_stan_summary() with custom summaries", {
           ~quantile(.x, probs = c(0.25, 0.75)),
           custom = function(x, my_arg) my_arg
         ),
-        summary_args = list(my_arg = 123L)
+        summary_args = list(my_arg = 123L),
+        summary_cores = 1L
       )
     )
   })
@@ -72,4 +73,32 @@ targets::tar_test("tar_stan_summary() with custom summaries", {
   data <- tar_read(model_data)
   beta <- data$.join_data$beta
   expect_equal(out$.join_data, beta)
+})
+
+targets::tar_test("tar_stan_summary() with autodetection of summary_cores", {
+  skip_on_cran()
+  skip_if_missing_cmdstan()
+  restore_compiled_models()
+  tar_script({
+    tar_option_set(memory = "transient", garbage_collection = TRUE)
+    list(
+      tar_stan_mcmc(
+        model,
+        stan_files = "a.stan",
+        data = tar_stan_example_data(),
+        init = 1,
+        return_summary = FALSE,
+        return_draws = FALSE,
+        return_diagnostics = FALSE,
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
+      ),
+      tar_stan_summary(summary, fit = model_mcmc_a, summary_cores = NULL)
+    )
+  })
+  suppressWarnings(targets::tar_make(callr_function = NULL))
+  out <- tar_read(summary)
+  expect_true(tibble::is_tibble(out))
+  expect_true(nrow(out) > 1L)
+  expect_true("lp__" %in% out$variable)
 })

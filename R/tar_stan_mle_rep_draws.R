@@ -146,6 +146,7 @@ tar_stan_mle_rep_draws <- function(
     variables = variables,
     summaries = NULL,
     summary_args = NULL,
+    summary_cores = 1,
     tidy_eval = tidy_eval,
     packages = packages,
     library = library,

@@ -13,6 +13,7 @@ tar_stan_output <- function(
   output_type,
   summaries,
   summary_args,
+  summary_cores,
   variables,
   inc_warmup,
   data,
@@ -25,6 +26,7 @@ tar_stan_output <- function(
       data = data,
       summaries = summaries,
       summary_args = summary_args,
+      summary_cores = summary_cores,
       variables = variables
     ),
     draws = tar_stan_output_draws(fit, variables, inc_warmup),
@@ -42,6 +44,7 @@ tar_stan_output_summary <- function(
   data,
   summaries,
   summary_args,
+  summary_cores,
   variables
 ) {
   command <- tar_stan_summary_call(
@@ -49,6 +52,7 @@ tar_stan_output_summary <- function(
     sym_data = as.symbol("data"),
     summaries = summaries,
     summary_args = summary_args,
+    summary_cores = summary_cores,
     variables = variables
   )
   eval(command)
