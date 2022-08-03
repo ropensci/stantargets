@@ -130,6 +130,7 @@ tar_stan_compile_raw <- function(
   targets::tar_target_raw(
     name = name,
     command = command,
+    repository = "local",
     format = "file",
     error = error,
     memory = memory,
