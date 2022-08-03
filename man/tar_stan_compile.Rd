@@ -2,7 +2,7 @@
 % Please edit documentation in R/tar_stan_compile.R
 \name{tar_stan_compile}
 \alias{tar_stan_compile}
-\title{Stan model compilation}
+\title{Local Stan model compilation}
 \usage{
 tar_stan_compile(
   name,
@@ -206,7 +206,7 @@ See the "Target objects" section for background.
 }
 \description{
 \code{tar_stan_compile()} creates a target
-to compile a Stan model and return the
+to compile a Stan model on the local file system and return the
 original Stan model file. Does not compile the model
 if the compilation is already up to date.
 }
