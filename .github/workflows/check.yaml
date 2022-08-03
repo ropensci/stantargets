@@ -120,7 +120,7 @@ jobs:
         run: |
           version <- Sys.getenv("CMDSTAN_VERSION")
           url <- sprintf("https://github.com/stan-dev/cmdstan/releases/download/v%s/cmdstan-%s.tar.gz", version, version)
-	  cmdstanr::check_cmdstan_toolchain(fix = TRUE)
+          cmdstanr::check_cmdstan_toolchain(fix = TRUE)
           cmdstanr::install_cmdstan(cores = 2, release_url = url)
         shell: Rscript {0}
 
