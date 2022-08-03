@@ -46,7 +46,7 @@ jobs:
       matrix:
         config:
           - {os: macOS-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release'}
+          - {os: windows-latest, r: 'release', rtools: '42'}
           - {os: ubuntu-20.04,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-20.04,   r: 'release'}
           - {os: ubuntu-20.04,   r: 'oldrel-1'}
@@ -93,20 +93,6 @@ jobs:
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-1-
 
-      - name: Set path for RTools 4.0
-        if: runner.os == 'Windows'
-        run: echo "C:/rtools40/usr/bin;C:/rtools40/mingw64/bin" | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
-      
-      - name: Install mingw32-make and check toolchain path
-        if: runner.os == 'Windows'
-        run: |
-          pacman -Syu mingw-w64-x86_64-make --noconfirm
-          g++ --version
-          Get-Command g++ | Select-Object -ExpandProperty Definition
-          mingw32-make --version
-          Get-Command mingw32-make | Select-Object -ExpandProperty Definition
-        shell: powershell
-
       - name: Install Linux system dependencies
         if: runner.os == 'Linux'
         env:
@@ -134,6 +120,7 @@ jobs:
         run: |
           version <- Sys.getenv("CMDSTAN_VERSION")
           url <- sprintf("https://github.com/stan-dev/cmdstan/releases/download/v%s/cmdstan-%s.tar.gz", version, version)
+	  cmdstanr::check_cmdstan_toolchain(fix = TRUE)
           cmdstanr::install_cmdstan(cores = 2, release_url = url)
         shell: Rscript {0}
 
