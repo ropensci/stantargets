@@ -99,6 +99,7 @@ jobs:
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
+          sudo apt-get update
           sudo apt-get install -y libglpk-dev libcurl4-openssl-dev texlive-latex-base
           sudo apt-get install -y openmpi-bin openmpi-common libopenmpi-dev || true
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
