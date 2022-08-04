@@ -1,4 +1,4 @@
-# Some of this workflow was borrowed from https://github.com/stan-dev/cmdstanr/blob/master/.github/workflows
+# This workflow file is from https://github.com/stan-dev/cmdstanr/blob/master/.github/workflows
 # under the BSD 3-Clause License: https://github.com/stan-dev/cmdstanr/blob/master/LICENSE.md.
 # 
 # BSD 3-Clause License
@@ -37,6 +37,7 @@ name: check
 
 jobs:
   check:
+    if: "! contains(github.event.head_commit.message, '[ci skip]')"
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -45,109 +46,95 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'release'}
+          - {os: macOS-latest, r: 'devel', rtools: ''}
+          - {os: macOS-latest, r: 'release', rtools: ''}
+          - {os: windows-latest, r: 'devel', rtools: '42'}
           - {os: windows-latest, r: 'release', rtools: '42'}
-          - {os: ubuntu-20.04,   r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-20.04,   r: 'release'}
-          - {os: ubuntu-20.04,   r: 'oldrel-1'}
-          - {os: ubuntu-20.04,   r: 'oldrel-2'}
-          - {os: ubuntu-20.04,   r: 'oldrel-3'}
-
+          - {os: windows-latest, r: 'oldrel', rtools: '40'}
+          - {os: ubuntu-20.04, r: 'devel', rtools: ''}
+          - {os: ubuntu-20.04, r: 'release', rtools: ''}
+          - {os: ubuntu-20.04, r: 'oldrel', rtools: ''}
     env:
-      RSPM: ${{ matrix.config.rspm }}
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: false
       NOT_CRAN: true
-      CMDSTAN_VERSION: 2.30.1
 
     steps:
-      - uses: actions/checkout@v2
+      - name: cmdstan env vars
+        run: |
+          echo "CMDSTAN_PATH=${HOME}/.cmdstan" >> $GITHUB_ENV
+        shell: bash
+
+      - uses: n1hility/cancel-previous-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        if: "!startsWith(github.ref, 'refs/tags/') && github.ref != 'refs/heads/master'"
+
+      - uses: actions/checkout@v3
+
+      - name: Install system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev || true
+          sudo apt-get install -y openmpi-bin openmpi-common libopenmpi-dev || true
 
       - uses: r-lib/actions/setup-r@v2.2.3
         with:
           r-version: ${{ matrix.config.r }}
+          rtools-version: ${{ matrix.config.rtools }}
       - uses: r-lib/actions/setup-pandoc@v1
- 
-      - name: Platform-independent cmdstan path
-        run: |
-          path <- normalizePath(file.path("~", ".cmdstanr"), mustWork = FALSE)
-          print(path)
-          writeLines(path, ".github/cmdstan_path")
-        shell: Rscript {0}
-
-      - name: cmdstan env vars
-        run: echo "CMDSTAN_PATH=$(cat .github/cmdstan_path)" >> $GITHUB_ENV
-        shell: bash
-
-      - uses: r-lib/actions/setup-pandoc@master
 
       - name: Query dependencies
         run: |
           install.packages('remotes')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
       - name: Cache R packages
-        uses: actions/cache@v2
+        if: runner.os != 'Windows'
+        uses: actions/cache@v3
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-1-
-
-      - name: Install Linux system dependencies
-        if: runner.os == 'Linux'
-        env:
-          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libglpk-dev libcurl4-openssl-dev texlive-latex-base
-          sudo apt-get install -y openmpi-bin openmpi-common libopenmpi-dev || true
-          Rscript -e "remotes::install_github('r-hub/sysreqs')"
-          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
-          sudo -s eval "$sysreqs"
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
       - name: Install dependencies
         run: |
-          remotes::install_cran("knitr")
-          suppressWarnings(remotes::install_deps(dependencies = TRUE))
+          remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          remotes::install_local(path = ".")
+          install.packages("curl")
         shell: Rscript {0}
-
-      - name: Cache cmdstan
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.CMDSTAN_PATH }}
-          key: ${{ runner.os }}-cmdstan-2-${{ env.CMDSTAN_VERSION }}
 
       - name: Install cmdstan
         run: |
-          version <- Sys.getenv("CMDSTAN_VERSION")
-          url <- sprintf("https://github.com/stan-dev/cmdstan/releases/download/v%s/cmdstan-%s.tar.gz", version, version)
           cmdstanr::check_cmdstan_toolchain(fix = TRUE)
-          cmdstanr::install_cmdstan(cores = 2, release_url = url)
+          cmdstanr::install_cmdstan(cores = 2)
         shell: Rscript {0}
 
-      - name: Test cmdstan
+      - name: Session info
         run: |
-          cmdstanr::check_cmdstan_toolchain()
-          print(cmdstanr::cmdstan_path())
-          file <- file.path(cmdstanr::cmdstan_path(), "examples", "bernoulli", "bernoulli.stan")
-          temp <- tempfile(fileext = ".stan")
-          file.copy(file, temp)
-          model <- cmdstanr::cmdstan_model(temp)
-          print(model)
+          options(width = 100)
+          pkgs <- installed.packages()[, "Package"]
+          sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
       - name: Check
         env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-          _R_CHECK_FORCE_SUGGESTS_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
+          _R_CHECK_CRAN_INCOMING_: false
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
+
+      - name: Show testthat output
+        if: always()
+        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
 
       - name: Upload check results
         if: failure()
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check

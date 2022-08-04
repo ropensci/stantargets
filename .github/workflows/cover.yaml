@@ -37,24 +37,34 @@ name: cover
 
 jobs:
   cover:
-    runs-on: macOS-latest
+    name: "Linux"
+    if: "! contains(github.event.head_commit.message, '[ci skip]')"
+    runs-on: ubuntu-20.04
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: false
-      CMDSTAN_VERSION: 2.29.2
-      
+      NOT_CRAN: true
+
     steps:
       - name: cmdstan env vars
         run: |
-          echo "CMDSTAN_PATH=${HOME}/.cmdstanr" >> $GITHUB_ENV
+          echo "CMDSTAN_PATH=${HOME}/.cmdstan" >> $GITHUB_ENV
         shell: bash
 
-      - uses: actions/checkout@v2
+      - uses: n1hility/cancel-previous-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: Test-coverage.yml
+        if: "!startsWith(github.ref, 'refs/tags/') && github.ref != 'refs/heads/master'"
+      - uses: actions/checkout@v3
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v1
 
-      - uses: r-lib/actions/setup-pandoc@master
-
+      - name: Install Ubuntu dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev
+          sudo apt-get install -y openmpi-bin openmpi-common openmpi-doc libopenmpi-dev
       - name: Query dependencies
         run: |
           install.packages('remotes')
@@ -62,43 +72,27 @@ jobs:
         shell: Rscript {0}
 
       - name: Cache R packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: macOS-r-4.0-1-
+          key: ubuntu-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ubuntu-r-4.0-1-
 
-      - name: Install packages
+      - name: Install dependencies
         run: |
-          install.packages("remotes")
-          suppressWarnings(remotes::install_deps(dependencies = TRUE, type = "binary"))
+          install.packages(c("remotes", "curl"), dependencies = TRUE)
+          remotes::install_local(path = ".")
+          remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("covr")
+          remotes::install_cran("gridExtra")
         shell: Rscript {0}
-
-      - name: Cache cmdstan
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.CMDSTAN_PATH }}
-          key: ${{ runner.os }}-cmdstan-2-${{ env.CMDSTAN_VERSION }}
 
       - name: Install cmdstan
         run: |
-          version <- Sys.getenv("CMDSTAN_VERSION")
-          url <- sprintf("https://github.com/stan-dev/cmdstan/releases/download/v%s/cmdstan-%s.tar.gz", version, version)
-          cmdstanr::install_cmdstan(cores = 2, release_url = url)
-        shell: Rscript {0}
-
-      - name: Test cmdstan
-        run: |
-          cmdstanr::check_cmdstan_toolchain()
-          print(cmdstanr::cmdstan_path())
-          file <- file.path(cmdstanr::cmdstan_path(), "examples", "bernoulli", "bernoulli.stan")
-          temp <- tempfile(fileext = ".stan")
-          file.copy(file, temp)
-          model <- cmdstanr::cmdstan_model(temp)
-          print(model)
+          cmdstanr::check_cmdstan_toolchain(fix = TRUE)
+          cmdstanr::install_cmdstan(cores = 2)
         shell: Rscript {0}
 
       - name: Test coverage
-        run: covr::codecov(quiet = FALSE)
+        run: covr::codecov(type = "tests")
         shell: Rscript {0}
