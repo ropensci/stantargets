@@ -26,8 +26,6 @@ tar_stan_gq(
   threads_per_chain = NULL,
   variables = NULL,
   variables_fit = NULL,
-  inc_warmup = FALSE,
-  inc_warmup_fit = FALSE,
   summaries = list(),
   summary_args = list(),
   return_draws = TRUE,
@@ -185,13 +183,6 @@ The \code{variables} argument, by contrast, is for the \code{"draws"} target onl
 The \code{"draws"} target can only access the variables in the \code{CmdStanFit}
 target. Control the variables in each with the \code{variables}
 and \code{variables_fit} arguments.}
-
-\item{inc_warmup}{(logical) Should warmup draws be included? Defaults to
-\code{FALSE}. Ignored except when used with \link[cmdstanr]{CmdStanMCMC} objects.}
-
-\item{inc_warmup_fit}{Logical of length 1, whether to include
-warmup draws in the big MCMC object (the target with \code{"mcmc"} in the name).
-\code{inc_warmup} must not be \code{TRUE} if \code{inc_warmup_fit} is \code{FALSE}.}
 
 \item{summaries}{Optional list of summary functions passed to \code{...} in
 \code{posterior::summarize_draws()} through \verb{$summary()}

@@ -16,19 +16,6 @@ targets::tar_test("tar_stan_gq() *_fit args compat", {
     ),
     class = "tar_condition_validate"
   )
-  expect_error(
-    tar_stan_gq(
-      model,
-      stan_files = "x.stan",
-      data = tar_stan_example_data(),
-      compile = "original",
-      quiet = TRUE,
-      stdout = R.utils::nullfile(),
-      inc_warmup = TRUE,
-      inc_warmup_fit = FALSE
-    ),
-    class = "tar_condition_validate"
-  )
 })
 
 # targets::tar_test() runs the test code inside a temporary directory

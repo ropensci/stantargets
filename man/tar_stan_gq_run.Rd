@@ -23,8 +23,7 @@ tar_stan_gq_run(
   sig_figs,
   parallel_chains,
   threads_per_chain,
-  variables,
-  inc_warmup
+  variables
 )
 }
 \arguments{

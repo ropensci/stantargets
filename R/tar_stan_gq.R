@@ -96,8 +96,6 @@ tar_stan_gq <- function(
   threads_per_chain = NULL,
   variables = NULL,
   variables_fit = NULL,
-  inc_warmup = FALSE,
-  inc_warmup_fit = FALSE,
   summaries = list(),
   summary_args = list(),
   return_draws = TRUE,
@@ -121,7 +119,6 @@ tar_stan_gq <- function(
   cue = targets::tar_option_get("cue")
 ) {
   assert_variables_fit(variables, variables_fit)
-  assert_inc_warmup_fit(inc_warmup, inc_warmup_fit)
   tar_stan_deprecate(draws, "return_draws")
   tar_stan_deprecate(summary, "return_summary")
   return_draws <- draws %|||% return_draws
@@ -151,9 +148,9 @@ tar_stan_gq <- function(
   )
   command_draws <- substitute(
     tibble::as_tibble(posterior::as_draws_df(
-      fit$draws(variables = variables, inc_warmup = inc_warmup)
+      fit$draws(variables = variables)
     )),
-    env = list(fit = sym_gq, variables = variables, inc_warmup = inc_warmup)
+    env = list(fit = sym_gq, variables = variables)
   )
   command_summary <- tar_stan_summary_call(
     sym_fit = sym_gq,
@@ -182,8 +179,7 @@ tar_stan_gq <- function(
     sig_figs = sig_figs,
     parallel_chains = parallel_chains,
     threads_per_chain = threads_per_chain,
-    variables = variables_fit,
-    inc_warmup = inc_warmup_fit
+    variables = variables_fit
   )
   command_gq <- as.expression(as.call(args_gq))
   target_file <- targets::tar_target_raw(
@@ -311,8 +307,7 @@ tar_stan_gq_run <- function(
   sig_figs,
   parallel_chains,
   threads_per_chain,
-  variables,
-  inc_warmup
+  variables
 ) {
   if (!is.null(stdout)) {
     withr::local_output_sink(new = stdout, append = TRUE)
@@ -353,7 +348,7 @@ tar_stan_gq_run <- function(
   )
   # Load all the data and return the whole unserialized fit object:
   # https://github.com/stan-dev/cmdstanr/blob/d27994f804c493ff3047a2a98d693fa90b83af98/R/fit.R#L16-L18 # nolint
-  fit$draws(variables = variables, inc_warmup = inc_warmup)
+  fit$draws(variables = variables)
   try(fit$profiles(), silent = TRUE)
   fit
 }
