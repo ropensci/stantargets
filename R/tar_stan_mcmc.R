@@ -174,21 +174,10 @@ tar_stan_mcmc <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
-  if (length(setdiff(variables, variables_fit))) {
-    msg <- paste(
-      "in tar_stan_mcmc(), the draws target must only have",
-      "variables available in the MCMC target. Control these",
-      "variables with arguments variables and variables_fit."
-    )
-    targets::tar_throw_validate(msg)
-  }
+  assert_variables_fit(variables, variables_fit)
+  assert_inc_warmup_fit(inc_warmup, inc_warmup_fit)
   targets::tar_assert_scalar(inc_warmup)
   targets::tar_assert_scalar(inc_warmup_fit)
-  if (isTRUE(inc_warmup) && isFALSE(inc_warmup_fit)) {
-    targets::tar_throw_validate(
-      "inc_warmup cannot be TRUE if inc_warmup_fit is FALSE."
-    )
-  }
   tar_stan_deprecate(draws, "return_draws")
   tar_stan_deprecate(summary, "return_summary")
   return_draws <- draws %|||% return_draws

@@ -1,4 +1,4 @@
-targets::tar_test("tar_stan_mcmc() _fit args compat", {
+targets::tar_test("tar_stan_mcmc() *_fit args compat", {
   skip_on_cran()
   skip_if_missing_cmdstan()
   skip_if_not_installed("dplyr")
