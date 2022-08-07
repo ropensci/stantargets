@@ -1,6 +1,7 @@
 # stantargets 0.0.5.9000
 
 * Update the signatures of most user-side functions to accommodate changes from `cmdstanr` 0.2.0 to 0.5.0 (https://github.com/ropensci/targets/discussions/884, @stuvet).
+* Add new arguments `variables_fit` and `inc_warmup_fit` to be passed to the `CmdStanFit` target in `tar_stan_mcmc()` instead of `variables` and `inc_warmup` (#56, @yizhang-yiz).
 
 # stantargets 0.0.4
 
