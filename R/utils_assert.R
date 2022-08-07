@@ -17,7 +17,7 @@ tar_stan_deprecate <- function(x, alternative) {
 }
 
 assert_variables_fit <- function(variables, variables_fit) {
-  if (length(setdiff(variables, variables_fit))) {
+  if (!is.null(variables_fit) && length(setdiff(variables, variables_fit))) {
     msg <- paste(
       "the draws target must only have",
       "variables available in the CmdStanFit target. Control these",
