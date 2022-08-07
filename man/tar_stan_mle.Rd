@@ -34,6 +34,7 @@ tar_stan_mle(
   history_size = NULL,
   sig_figs = NULL,
   variables = NULL,
+  variables_fit = NULL,
   summaries = list(),
   summary_args = list(),
   return_draws = TRUE,
@@ -224,6 +225,13 @@ Increasing this value will result in larger output CSV files and thus an
 increased usage of disk space.}
 
 \item{variables}{(character vector) The variables to include.}
+
+\item{variables_fit}{Character vector of variables to include in the
+big \code{CmdStanFit} object returned by the model fit target.
+The \code{variables} argument, by contrast, is for the \code{"draws"} target only.
+The \code{"draws"} target can only access the variables in the \code{CmdStanFit}
+target. Control the variables in each with the \code{variables}
+and \code{variables_fit} arguments.}
 
 \item{summaries}{Optional list of summary functions passed to \code{...} in
 \code{posterior::summarize_draws()} through \verb{$summary()}

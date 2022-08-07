@@ -92,6 +92,7 @@ tar_stan_vb <- function(
   output_samples = NULL,
   sig_figs = NULL,
   variables = NULL,
+  variables_fit = NULL,
   summaries = list(),
   summary_args = list(),
   return_draws = TRUE,
@@ -114,6 +115,7 @@ tar_stan_vb <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
+  assert_variables_fit(variables, variables_fit)
   tar_stan_deprecate(draws, "return_draws")
   tar_stan_deprecate(summary, "return_summary")
   return_draws <- draws %|||% return_draws
@@ -182,7 +184,7 @@ tar_stan_vb <- function(
     eval_elbo = eval_elbo,
     output_samples = output_samples,
     sig_figs = sig_figs,
-    variables = variables
+    variables = variables_fit
   )
   command_vb <- as.expression(as.call(args_vb))
   target_file <- targets::tar_target_raw(
@@ -370,7 +372,7 @@ tar_stan_vb_run <- function(
   )
   # Load all the data and return the whole unserialized fit object:
   # https://github.com/stan-dev/cmdstanr/blob/d27994f804c493ff3047a2a98d693fa90b83af98/R/fit.R#L16-L18 # nolint
-  fit$draws() # Do not specify variables.
+  fit$draws(variables = variables)
   try(fit$variationalr_diagnostics(), silent = TRUE)
   try(fit$init(), silent = TRUE)
   try(fit$profiles(), silent = TRUE)
