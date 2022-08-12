@@ -75,6 +75,7 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           rtools-version: ${{ matrix.config.rtools }}
+
       - uses: r-lib/actions/setup-pandoc@v2.2.4
 
       - uses: r-lib/actions/setup-r-dependencies@v2
