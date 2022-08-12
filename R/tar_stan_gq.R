@@ -95,6 +95,7 @@ tar_stan_gq <- function(
   parallel_chains = getOption("mc.cores", 1),
   threads_per_chain = NULL,
   variables = NULL,
+  variables_fit = NULL,
   summaries = list(),
   summary_args = list(),
   return_draws = TRUE,
@@ -117,6 +118,7 @@ tar_stan_gq <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
+  assert_variables_fit(variables, variables_fit)
   tar_stan_deprecate(draws, "return_draws")
   tar_stan_deprecate(summary, "return_summary")
   return_draws <- draws %|||% return_draws
@@ -177,7 +179,7 @@ tar_stan_gq <- function(
     sig_figs = sig_figs,
     parallel_chains = parallel_chains,
     threads_per_chain = threads_per_chain,
-    variables = variables
+    variables = variables_fit
   )
   command_gq <- as.expression(as.call(args_gq))
   target_file <- targets::tar_target_raw(
@@ -346,7 +348,7 @@ tar_stan_gq_run <- function(
   )
   # Load all the data and return the whole unserialized fit object:
   # https://github.com/stan-dev/cmdstanr/blob/d27994f804c493ff3047a2a98d693fa90b83af98/R/fit.R#L16-L18 # nolint
-  fit$draws() # Do not specify variables.
+  fit$draws(variables = variables)
   try(fit$profiles(), silent = TRUE)
   fit
 }

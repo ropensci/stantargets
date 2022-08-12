@@ -71,6 +71,15 @@
 #'   see the help file of `targets::tar_target()`.
 #' @param draws Deprecated on 2022-07-22. Use `return_draws` instead.
 #' @param summary Deprecated on 2022-07-22. Use `return_summary` instead.
+#' @param variables_fit Character vector of variables to include in the
+#'   big `CmdStanFit` object returned by the model fit target.
+#'   The `variables` argument, by contrast, is for the `"draws"` target only.
+#'   The `"draws"` target can only access the variables in the `CmdStanFit`
+#'   target. Control the variables in each with the `variables`
+#'   and `variables_fit` arguments.
+#' @param inc_warmup_fit Logical of length 1, whether to include
+#'   warmup draws in the big MCMC object (the target with `"mcmc"` in the name).
+#'   `inc_warmup` must not be `TRUE` if `inc_warmup_fit` is `FALSE`.
 #' @examples
 #' if (Sys.getenv("TAR_LONG_EXAMPLES") == "true") {
 #' targets::tar_dir({ # tar_dir() runs code from a temporary directory.
@@ -139,7 +148,9 @@ tar_stan_mcmc <- function(
   show_messages = TRUE,
   diagnostics = c("divergences", "treedepth", "ebfmi"),
   variables = NULL,
+  variables_fit = NULL,
   inc_warmup = FALSE,
+  inc_warmup_fit = FALSE,
   summaries = list(),
   summary_args = list(),
   return_draws = TRUE,
@@ -163,6 +174,10 @@ tar_stan_mcmc <- function(
   retrieval = targets::tar_option_get("retrieval"),
   cue = targets::tar_option_get("cue")
 ) {
+  assert_variables_fit(variables, variables_fit)
+  assert_inc_warmup_fit(inc_warmup, inc_warmup_fit)
+  targets::tar_assert_scalar(inc_warmup)
+  targets::tar_assert_scalar(inc_warmup_fit)
   tar_stan_deprecate(draws, "return_draws")
   tar_stan_deprecate(summary, "return_summary")
   return_draws <- draws %|||% return_draws
@@ -257,8 +272,8 @@ tar_stan_mcmc <- function(
     fixed_param = fixed_param,
     show_messages = show_messages,
     diagnostics = diagnostics,
-    variables = variables,
-    inc_warmup = inc_warmup
+    variables = variables_fit,
+    inc_warmup = inc_warmup_fit
   )
   command_mcmc <- as.expression(as.call(args_mcmc))
   target_file <- targets::tar_target_raw(
@@ -499,8 +514,8 @@ tar_stan_mcmc_run <- function(
   )
   # Load all the data and return the whole unserialized fit object:
   # https://github.com/stan-dev/cmdstanr/blob/d27994f804c493ff3047a2a98d693fa90b83af98/R/fit.R#L16-L18 # nolint
-  fit$draws() # Do not specify variables or inc_warmup.
-  try(fit$sampler_diagnostics(), silent = TRUE)
+  fit$draws(variables = variables, inc_warmup = inc_warmup)
+  try(fit$sampler_diagnostics(inc_warmup = inc_warmup), silent = TRUE)
   try(fit$init(), silent = TRUE)
   try(fit$profiles(), silent = TRUE)
   fit

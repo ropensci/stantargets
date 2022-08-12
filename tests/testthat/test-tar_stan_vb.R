@@ -1,3 +1,23 @@
+targets::tar_test("tar_stan_vb() *_fit args compat", {
+  skip_on_cran()
+  skip_if_missing_cmdstan()
+  skip_if_not_installed("dplyr")
+  file.create("x.stan")
+  expect_error(
+    tar_stan_vb(
+      model,
+      stan_files = "x.stan",
+      data = tar_stan_example_data(),
+      compile = "original",
+      quiet = TRUE,
+      stdout = R.utils::nullfile(),
+      variables = c("a", "b"),
+      variables_fit = "a"
+    ),
+    class = "tar_condition_validate"
+  )
+})
+
 # targets::tar_test() runs the test code inside a temporary directory
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_vb(compile = \"original\")", {

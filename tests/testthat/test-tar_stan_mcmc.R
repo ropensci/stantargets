@@ -1,3 +1,46 @@
+targets::tar_test("tar_stan_mcmc() *_fit args compat", {
+  skip_on_cran()
+  skip_if_missing_cmdstan()
+  skip_if_not_installed("dplyr")
+  file.create("x.stan")
+  expect_error(
+    tar_stan_mcmc(
+      model,
+      stan_files = "x.stan",
+      data = tar_stan_example_data(),
+      compile = "original",
+      quiet = TRUE,
+      refresh = 0,
+      init = 1,
+      iter_sampling = 100,
+      iter_warmup = 50,
+      chains = 4,
+      stdout = R.utils::nullfile(),
+      variables = c("a", "b"),
+      variables_fit = "a"
+    ),
+    class = "tar_condition_validate"
+  )
+  expect_error(
+    tar_stan_mcmc(
+      model,
+      stan_files = "x.stan",
+      data = tar_stan_example_data(),
+      compile = "original",
+      quiet = TRUE,
+      refresh = 0,
+      init = 1,
+      iter_sampling = 100,
+      iter_warmup = 50,
+      chains = 4,
+      stdout = R.utils::nullfile(),
+      inc_warmup = TRUE,
+      inc_warmup_fit = FALSE
+    ),
+    class = "tar_condition_validate"
+  )
+})
+
 # targets::tar_test() runs the test code inside a temporary directory
 # to avoid accidentally writing to the user's file space.
 targets::tar_test("tar_stan_mcmc(compile = \"original\")", {

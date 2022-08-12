@@ -34,6 +34,7 @@ tar_stan_mle(
   history_size = NULL,
   sig_figs = NULL,
   variables = NULL,
+  variables_fit = NULL,
   summaries = list(),
   summary_args = list(),
   return_draws = TRUE,
@@ -225,6 +226,13 @@ increased usage of disk space.}
 
 \item{variables}{(character vector) The variables to include.}
 
+\item{variables_fit}{Character vector of variables to include in the
+big \code{CmdStanFit} object returned by the model fit target.
+The \code{variables} argument, by contrast, is for the \code{"draws"} target only.
+The \code{"draws"} target can only access the variables in the \code{CmdStanFit}
+target. Control the variables in each with the \code{variables}
+and \code{variables_fit} arguments.}
+
 \item{summaries}{Optional list of summary functions passed to \code{...} in
 \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
@@ -314,12 +322,14 @@ If \code{"transient"}, the target gets unloaded
 after every new target completes.
 Either way, the target gets automatically loaded into memory
 whenever another target needs the value.
-For cloud-based dynamic files such as \code{format = "aws_file"},
-this memory strategy applies to
-temporary local copies of the file in \verb{_targets/scratch/"}:
-\code{"persistent"} means they remain until the end of the pipeline,
-and \code{"transient"} means they get deleted from the file system
-as soon as possible. The former conserves bandwidth,
+For cloud-based dynamic files
+(e.g. \code{format = "file"} with \code{repository = "aws"}),
+this memory strategy applies to the
+temporary local copy of the file:
+\code{"persistent"} means it remains until the end of the pipeline
+and is then deleted,
+and \code{"transient"} means it gets deleted as soon as possible.
+The former conserves bandwidth,
 and the latter conserves local storage.}
 
 \item{garbage_collection}{Logical, whether to run \code{base::gc()}
@@ -359,7 +369,7 @@ each downstream target still attempts to load the data file
 If you select \code{storage = "none"}, then
 the return value of the target's command is ignored,
 and the data is not saved automatically.
-As with dynamic files (\code{format = "file"} or \code{"aws_file"}) it is the
+As with dynamic files (\code{format = "file"}) it is the
 responsibility of the user to write to
 \code{\link[targets:tar_path]{tar_path()}} from inside the target.
 An example target
@@ -369,11 +379,11 @@ tar_target(x,
 storage = "none")`.
 
 The distinguishing feature of \code{storage = "none"}
-(as opposed to \code{format = "file"} or \code{"aws_file"})
+(as opposed to \code{format = "file"})
 is that in the general case,
 downstream targets will automatically try to load the data
 from the data store as a dependency. As a corollary, \code{storage = "none"}
-is completely unnecessary if \code{format} is \code{"file"} or \code{"aws_file"}.
+is completely unnecessary if \code{format} is \code{"file"}.
 }}
 
 \item{retrieval}{Character of length 1, only relevant to
