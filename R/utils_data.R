@@ -7,7 +7,7 @@
 #' @param batch Positive integer of length 1, index of the current batch.
 #' @param command R code to run to generate one dataset.
 #' @examples
-#' tar_stan_rep_data_batch(2, tar_stan_example_data())
+#' tar_stan_rep_data_batch(2, 1, tar_stan_example_data())
 tar_stan_rep_data_batch <- function(reps, batch, command) {
   envir <- parent.frame()
   command <- substitute(command)

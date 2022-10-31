@@ -20,6 +20,6 @@ A list of Stan datasets containing data and dataset IDs.
 Not a user-side function. Do not invoke directly.
 }
 \examples{
-tar_stan_rep_data_batch(2, tar_stan_example_data())
+tar_stan_rep_data_batch(2, 1, tar_stan_example_data())
 }
 \keyword{internal}
