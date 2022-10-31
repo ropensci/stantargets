@@ -21,6 +21,7 @@ targets::tar_test("list_nonempty()", {
 
 targets::tar_test("produce_seed_rep()", {
   skip_on_cran()
+  skip_if(!("seed" %in% names(formals(targets::tar_option_set))))
   on.exit(targets::tar_option_reset())
   targets::tar_option_set(seed = 0L)
   out <- produce_seed_rep("x", 1L, 2L, 3L)
