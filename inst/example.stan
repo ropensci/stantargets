@@ -11,5 +11,5 @@ model {
   beta ~ normal(0, 1);
 }
 generated quantities {
-  real y_rep[n] = normal_rng(x * beta, 1);
+  array[n] real y_rep = normal_rng(x * beta, 1);
 }
