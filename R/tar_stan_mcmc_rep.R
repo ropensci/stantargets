@@ -2,6 +2,14 @@
 #' @keywords internal
 #' @description Internal function for replicated MCMC.
 #'   Users should not invoke directly.
+#' @section Seeds:
+#'   Rep-specific random number generator seeds for the data and models
+#'   are automatically set based on the `seed` argument, batch, rep,
+#'   parent target name, and `tar_option_get("seed")`. This ensures
+#'   the rep-specific seeds do not change when you change the batching
+#'   configuration (e.g. 40 batches of 10 reps each vs 20 batches of 20
+#'   reps each). Each data seed is in the `.seed` list element of the output,
+#'   and each Stan seed is in the .seed column of each Stan model output.
 #' @return A list of target objects.
 #'   Target objects represent skippable steps of the analysis pipeline
 #'   as described at <https://books.ropensci.org/targets/>.
@@ -124,8 +132,16 @@ tar_stan_mcmc_rep <- function(
     tidy_eval = tidy_eval
   )
   command_data <- substitute(
-    stantargets::tar_stan_rep_data_batch(.targets_reps, .targets_command),
-    env = list(.targets_reps = reps, .targets_command = command_rep)
+    stantargets::tar_stan_rep_data_batch(
+      .targets_reps,
+      .targets_batch,
+      .targets_command
+    ),
+    env = list(
+      .targets_reps = reps,
+      .targets_batch = sym_batch,
+      .targets_command = command_rep
+    )
   )
   args <- list(
     call_ns("stantargets", "tar_stan_mcmc_rep_run"),
@@ -392,18 +408,15 @@ tar_stan_mcmc_rep_run <- function(
     stanc_options = stanc_options,
     force_recompile = force_recompile
   )
-  if (is.null(seed)) {
-    seed <- abs(targets::tar_seed()) + 1L
-  }
-  seeds <- seed + seq_along(data)
   out <- purrr::map2_dfr(
-    .x = data,
-    .y = seeds,
+    .x = seq_along(data),
+    .y = data,
     ~tar_stan_mcmc_rep_run_rep(
-      data = .x,
+      rep = .x,
+      data = .y,
       model = model,
       output_type = output_type,
-      seed = .y,
+      seed = seed,
       refresh = refresh,
       init = init,
       save_latent_dynamics = save_latent_dynamics,
@@ -445,6 +458,7 @@ tar_stan_mcmc_rep_run <- function(
 }
 
 tar_stan_mcmc_rep_run_rep <- function(
+  rep,
   data,
   model,
   output_type,
@@ -483,12 +497,16 @@ tar_stan_mcmc_rep_run_rep <- function(
   summaries,
   summary_args
 ) {
+  stan_seed <- data$.seed + 1L
+  stan_seed <- if_any(is.null(seed), stan_seed, stan_seed + seed)
+  withr::local_seed(stan_seed[1])
   stan_data <- data
   stan_data$.dataset_id <- NULL
   stan_data$.join_data <- NULL
+  stan_data$.seed <- NULL
   fit <- model$sample(
     data = stan_data,
-    seed = seed,
+    seed = stan_seed,
     refresh = refresh,
     init = init,
     save_latent_dynamics = save_latent_dynamics,
@@ -526,6 +544,7 @@ tar_stan_mcmc_rep_run_rep <- function(
     variables = variables,
     inc_warmup = inc_warmup,
     data = data,
-    data_copy = data_copy
+    data_copy = data_copy,
+    seed = stan_seed
   )
 }

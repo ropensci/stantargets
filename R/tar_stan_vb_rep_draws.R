@@ -3,6 +3,7 @@
 #' @description `tar_stan_vb_rep_draws()` creates targets to run
 #'   variational Bayes multiple times per model and
 #'   save only the draws from each run.
+#' @inheritSection tar_stan_mcmc_rep Seeds
 #' @details Draws could take up a lot of storage. If storage becomes
 #'    excessive, please consider thinning the draws or using
 #'   `tar_stan_vb_rep_summaries()` instead.

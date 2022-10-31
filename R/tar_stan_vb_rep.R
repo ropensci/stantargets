@@ -1,6 +1,7 @@
 #' @title Multiple iterations per model of variational Bayes with tidy output
 #' @keywords internal
 #' @description Internal function. Users should not invoke directly.
+#' @inheritSection tar_stan_mcmc_rep Seeds
 #' @return A list of target objects.
 #'   Target objects represent skippable steps of the analysis pipeline
 #'   as described at <https://books.ropensci.org/targets/>.
@@ -91,8 +92,16 @@ tar_stan_vb_rep <- function(
     tidy_eval = tidy_eval
   )
   command_data <- substitute(
-    stantargets::tar_stan_rep_data_batch(.targets_reps, .targets_command),
-    env = list(.targets_reps = reps, .targets_command = command_rep)
+    stantargets::tar_stan_rep_data_batch(
+      .targets_reps,
+      .targets_batch,
+      .targets_command
+    ),
+    env = list(
+      .targets_reps = reps,
+      .targets_batch = sym_batch,
+      .targets_command = command_rep
+    )
   )
   args <- list(
     call_ns("stantargets", "tar_stan_vb_rep_run"),
@@ -321,16 +330,13 @@ tar_stan_vb_rep_run <- function(
     stanc_options = stanc_options,
     force_recompile = force_recompile
   )
-  if (is.null(seed)) {
-    seed <- abs(targets::tar_seed()) + 1L
-  }
-  seeds <- seed + seq_along(data)
   out <- purrr::map2_dfr(
-    .x = data,
-    .y = seeds,
+    .x = seq_along(data),
+    .y = data,
     ~tar_stan_vb_rep_run_rep(
-      data = .x,
-      seed = .y,
+      rep = .x,
+      data = .y,
+      seed = seed,
       output_type = output_type,
       model = model,
       refresh = refresh,
@@ -360,6 +366,7 @@ tar_stan_vb_rep_run <- function(
 }
 
 tar_stan_vb_rep_run_rep <- function(
+  rep,
   data,
   seed,
   output_type,
@@ -384,12 +391,16 @@ tar_stan_vb_rep_run_rep <- function(
   summaries,
   summary_args
 ) {
+  stan_seed <- data$.seed + 1L
+  stan_seed <- if_any(is.null(seed), stan_seed, stan_seed + seed)
+  withr::local_seed(stan_seed[1])
   stan_data <- data
   stan_data$.dataset_id <- NULL
   stan_data$.join_data <- NULL
+  stan_data$.seed <- NULL
   fit <- model$variational(
     data = stan_data,
-    seed = seed,
+    seed = stan_seed,
     refresh = refresh,
     init = init,
     save_latent_dynamics = save_latent_dynamics,
@@ -414,6 +425,7 @@ tar_stan_vb_rep_run_rep <- function(
     variables = variables,
     inc_warmup = NULL,
     data = data,
-    data_copy = data_copy
+    data_copy = data_copy,
+    seed = stan_seed
   )
 }

@@ -3,6 +3,7 @@
 #' @description `tar_stan_gq_rep_summaries()` creates targets
 #'   to run generated quantities multiple times and
 #'   save only the summaries from each run.
+#' @inheritSection tar_stan_mcmc_rep Seeds
 #' @details Most of the arguments are passed to the `$compile()`
 #'   and `$generate_quantities()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]

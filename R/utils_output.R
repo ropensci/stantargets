@@ -8,6 +8,7 @@
 #' @param fit A Stan fit object.
 #' @param data List, Stan dataset.
 #' @param inc_warmup Logical, whether to include the warmup draws.
+#' @param seed Integer vector, random number generator seed used to run Stan.
 tar_stan_output <- function(
   fit,
   output_type,
@@ -16,7 +17,8 @@ tar_stan_output <- function(
   variables,
   inc_warmup,
   data,
-  data_copy
+  data_copy,
+  seed
 ) {
   out <- switch(
     output_type,
@@ -34,6 +36,7 @@ tar_stan_output <- function(
   out <- tar_stan_output_rep_scalars(out, data, data_copy)
   out$.rep <- digest::digest(stats::runif(1), algo = "xxhash32")
   out$.dataset_id <- data$.dataset_id
+  out$.seed <- if_any(length(seed) == 1L, seed, list(seed))
   out
 }
 

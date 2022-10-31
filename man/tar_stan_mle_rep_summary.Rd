@@ -442,6 +442,17 @@ and \verb{$optimize()} methods of the \code{CmdStanModel} class. If you
 previously compiled the model in an upstream \code{\link[=tar_stan_compile]{tar_stan_compile()}}
 target, then the model should not recompile.
 }
+\section{Seeds}{
+
+Rep-specific random number generator seeds for the data and models
+are automatically set based on the \code{seed} argument, batch, rep,
+parent target name, and \code{tar_option_get("seed")}. This ensures
+the rep-specific seeds do not change when you change the batching
+configuration (e.g. 40 batches of 10 reps each vs 20 batches of 20
+reps each). Each data seed is in the \code{.seed} list element of the output,
+and each Stan seed is in the .seed column of each Stan model output.
+}
+
 \section{Target objects}{
 
 Most \code{stantargets} functions are target factories,

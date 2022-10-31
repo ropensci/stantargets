@@ -4,10 +4,12 @@
 \alias{tar_stan_rep_data_batch}
 \title{Generate a batch of data}
 \usage{
-tar_stan_rep_data_batch(reps, command)
+tar_stan_rep_data_batch(reps, batch, command)
 }
 \arguments{
 \item{reps}{Positive integer of length 1, number of reps to run.}
+
+\item{batch}{Positive integer of length 1, index of the current batch.}
 
 \item{command}{R code to run to generate one dataset.}
 }

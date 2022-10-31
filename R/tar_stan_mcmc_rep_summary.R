@@ -7,6 +7,7 @@
 #'   previously compiled the model in an upstream [tar_stan_compile()]
 #'   target, then the model should not recompile.
 #' @family MCMC
+#' @inheritSection tar_stan_mcmc_rep Seeds
 #' @return `tar_stan_mcmc_rep_summary()` returns a list of target objects.
 #'   See the "Target objects" section for
 #'   background.

@@ -61,7 +61,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"original\")", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 6L)
+  expect_equal(length(out), 7L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -183,7 +183,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 6L)
+  expect_equal(length(out), 7L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -202,7 +202,7 @@ targets::tar_test("tar_stan_mle_rep_draws(compile = \"copy\") custom", {
   expect_true("beta" %in% colnames(out))
   expect_equal(nrow(out), 8L)
   expect_equal(length(unique(table(out$.rep))), 1L)
-  expect_equal(length(table(out$.rep)), 8L)
+  expect_equal(length(table(out$.rep)), 4L)
   # Everything should be up to date.
   expect_equal(targets::tar_outdated(callr_function = NULL), character(0))
   # Change the model.

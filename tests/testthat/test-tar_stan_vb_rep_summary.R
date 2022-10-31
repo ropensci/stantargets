@@ -58,7 +58,7 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"original\")", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 6L)
+  expect_equal(length(out), 7L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -193,7 +193,7 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"copy\") custom", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 6L)
+  expect_equal(length(out), 7L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -291,4 +291,69 @@ targets::tar_test("stan files missing", {
     ),
     class = "tar_condition_validate"
   )
+})
+
+targets::tar_test("tar_stan_vb_rep_summary() seed resilience", {
+  skip_on_cran()
+  skip_if_missing_cmdstan()
+  skip_if_not_installed("dplyr")
+  restore_compiled_models()
+  targets::tar_script({
+    tar_option_set(memory = "transient", garbage_collection = TRUE)
+    list(
+      tar_stan_vb_rep_summary(
+        model,
+        stan_files = c(x = "a.stan", y = "b.stan"),
+        data = tar_stan_example_data(),
+        compile = "original",
+        quiet = TRUE,
+        refresh = 0,
+        batches = 2,
+        reps = 2,
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
+      )
+    )
+  })
+  suppressWarnings(targets::tar_make(callr_function = NULL))
+  data1 <- tar_read(model_data)
+  expect_equal(length(data1), 2L)
+  model1 <- tar_read(model_x)
+  targets::tar_script({
+    tar_option_set(memory = "transient", garbage_collection = TRUE)
+    list(
+      tar_stan_vb_rep_summary(
+        model,
+        stan_files = c(x = "a.stan", y = "b.stan"),
+        data = tar_stan_example_data(),
+        compile = "original",
+        quiet = TRUE,
+        refresh = 0,
+        batches = 1,
+        reps = 4,
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
+      )
+    )
+  })
+  suppressWarnings(targets::tar_make(callr_function = NULL))
+  data2 <- tar_read(model_data)
+  expect_equal(length(data2), 1L)
+  model2 <- tar_read(model_x)
+  data_list1 <- list(
+    data1[[1]][[1]],
+    data1[[1]][[2]],
+    data1[[2]][[1]],
+    data1[[2]][[2]]
+  )
+  for (index in seq_len(4)) {
+    data_list1[[index]]$.dataset_id <- NULL
+    data2[[1]][[index]]$.dataset_id <- NULL
+  }
+  expect_equal(data_list1, data2[[1]])
+  for (field in c(".dataset_id", ".rep")) {
+    model1[[field]] <- NULL
+    model2[[field]] <- NULL
+  }
+  expect_equal(model1, model2)
 })

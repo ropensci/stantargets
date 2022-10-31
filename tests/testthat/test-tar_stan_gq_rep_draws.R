@@ -82,7 +82,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 6L)
+  expect_equal(length(out), 7L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -242,7 +242,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 6L)
+  expect_equal(length(out), 7L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -261,7 +261,7 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
   expect_true(all(is.finite(out$true_beta)))
   expect_equal(nrow(out), 32000L)
   expect_equal(length(unique(table(out$.rep))), 1L)
-  expect_equal(length(table(out$.rep)), 8L)
+  expect_equal(length(table(out$.rep)), 4L)
   expect_equal(unique(out1$.file), "a.stan")
   expect_equal(unique(out2$.file), "b.stan")
   expect_equal(unique(out1$.name), "a")

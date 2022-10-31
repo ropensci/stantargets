@@ -64,7 +64,7 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"original\")", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 6L)
+  expect_equal(length(out), 7L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)
@@ -198,7 +198,7 @@ targets::tar_test("tar_stan_mcmc_rep_diagnostics(compile = \"copy\")", {
   expect_equal(length(out), 2L)
   out <- out[[2]]
   expect_true(is.list(out))
-  expect_equal(length(out), 6L)
+  expect_equal(length(out), 7L)
   expect_equal(out$n, 10L)
   expect_equal(length(out$x), 10L)
   expect_equal(length(out$y), 10L)

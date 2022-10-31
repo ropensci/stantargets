@@ -3,6 +3,7 @@
 #' @description `tar_stan_mle_rep_summaries()` creates targets
 #'   to run maximum likelihood multiple times per model and
 #'   save the MLEs in a long-form summary-like data frame.
+#' @inheritSection tar_stan_mcmc_rep Seeds
 #' @details Most of the arguments are passed to the `$compile()`
 #'   and `$optimize()` methods of the `CmdStanModel` class. If you
 #'   previously compiled the model in an upstream [tar_stan_compile()]
