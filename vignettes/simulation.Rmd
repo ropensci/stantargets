@@ -49,7 +49,7 @@ This vignette focuses on (1).
 
 Visit <https://github.com/wlandau/stantargets-example-validation> for an example project based on this vignette. The example has an [RStudio Cloud workspace](https://rstudio.cloud/project/2466069) which allows you to run the project in a web browser.
 
-## Simulation-based validation study
+## Interval-based model validation pipeline
 
 This particular example uses the concept of calibration that Bob Carpenter [explains here](https://statmodeling.stat.columbia.edu/2017/04/12/bayesian-posteriors-calibrated/) [@carpenter2017]. The goal is to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated posterior intervals cover the true parameters from the prior predictive simulations. If coverage is no systematically different from nominal, this is evidence that the model was implemented correctly. The quantile method by @cook2006 generalizes this concept, and simulation-based calibration [@talts2020] generalizes further. The interval-based technique featured in this vignette is not as robust as SBC, but it may be more expedient for large models because it does not require visual inspection of multiple histograms. See a later section in this vignette for an example of simulation-based calibration on this same model.
 
