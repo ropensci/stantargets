@@ -54,6 +54,7 @@ tar_stan_vb_rep <- function(
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
+  transform = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -75,6 +76,7 @@ tar_stan_vb_rep <- function(
   targets::tar_assert_chr(stan_files)
   targets::tar_assert_unique(stan_files)
   lapply(stan_files, assert_stan_file)
+  assert_transform(transform)
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")
@@ -139,7 +141,8 @@ tar_stan_vb_rep <- function(
     data_copy = data_copy,
     variables = variables,
     summaries = summaries,
-    summary_args = summary_args
+    summary_args = summary_args,
+    transform = transform
   )
   command <- as.expression(as.call(args))
   pattern_data <- substitute(map(x), env = list(x = sym_batch))
@@ -304,7 +307,8 @@ tar_stan_vb_rep_run <- function(
   data_copy,
   variables,
   summaries,
-  summary_args
+  summary_args,
+  transform
 ) {
   if (!is.null(stdout)) {
     withr::local_output_sink(new = stdout, append = TRUE)
@@ -357,7 +361,8 @@ tar_stan_vb_rep_run <- function(
       data_copy = data_copy,
       variables = variables,
       summaries = summaries,
-      summary_args = summary_args
+      summary_args = summary_args,
+      transform = transform
     )
   )
   out$.file <- stan_path
@@ -389,7 +394,8 @@ tar_stan_vb_rep_run_rep <- function(
   data_copy,
   variables,
   summaries,
-  summary_args
+  summary_args,
+  transform
 ) {
   stan_seed <- data$.seed + 1L
   stan_seed <- if_any(is.null(seed), stan_seed, stan_seed + seed)
@@ -426,6 +432,7 @@ tar_stan_vb_rep_run_rep <- function(
     inc_warmup = NULL,
     data = data,
     data_copy = data_copy,
-    seed = stan_seed
+    seed = stan_seed,
+    transform = transform
   )
 }

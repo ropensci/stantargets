@@ -58,17 +58,22 @@ Imports:
   withr (>= 2.1.2)
 Suggests:
   dplyr (>= 1.0.2),
+  ggplot2 (>= 3.0.0),
   knitr (>= 1.30),
+  purrr (>= 0.3.0),
   R.utils (>= 2.10.1),
   rmarkdown (>= 2.3),
+  SBC (>= 0.2.0),
   testthat (>= 3.0.0),
+  tidyr (>= 1.0.0),
   visNetwork (>= 2.0.9)
 Remotes:
+  hyunjimoon/SBC,
   stan-dev/cmdstanr,
 SystemRequirements: CmdStan >= 2.25.0
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Config/testthat/edition: 3

@@ -128,6 +128,55 @@ targets::tar_test("tar_stan_mcmc_rep_draws(compile = \"original\")", {
   expect_equal(sort(out), sort(exp))
 })
 
+targets::tar_test("tar_stan_mcmc_rep_draws() with a transform", {
+  skip_on_cran()
+  skip_if_missing_cmdstan()
+  skip_if_not_installed("dplyr")
+  restore_compiled_models()
+  targets::tar_script({
+    tar_option_set(memory = "transient", garbage_collection = TRUE)
+    this_transform <- function(data, draws) {
+      out <- utils::head(draws, n = 1)
+      out$truth <- data$.join_data$beta
+      out
+    }
+    list(
+      tar_stan_mcmc_rep_draws(
+        model,
+        stan_files = c(x = "a.stan", y = "b.stan"),
+        data = tar_stan_example_data(),
+        compile = "original",
+        quiet = TRUE,
+        refresh = 0,
+        init = 1,
+        iter_sampling = 100,
+        iter_warmup = 50,
+        thin = 10,
+        chains = 4,
+        batches = 2,
+        reps = 2,
+        combine = TRUE,
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile(),
+        transform = this_transform
+      )
+    )
+  })
+  network <- targets::tar_network(callr_function = NULL)
+  edges <- network$edges
+  edges <- edges[edges$from == "this_transform", ]
+  expect_equal(sort(edges$to), sort(c("model_x", "model_y")))
+  tar_make(callr_function = NULL)
+  out <- targets::tar_read(model)
+  expect_equal(nrow(out), 8)
+  expect_true(all(c("beta", "truth") %in% colnames(out)))
+  data <- tar_read(model_data)
+  truth <- unname(unlist(lapply(data, function(x) {
+    unlist(lapply(x, function(y) y$.join_data$beta))
+  })))
+  expect_equal(out$truth, rep(truth, times = 2))
+})
+
 targets::tar_test("tar_stan_mcmc_rep_draws(compile = \"copy\") custom", {
   skip_on_cran()
   skip_if_missing_cmdstan()

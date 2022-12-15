@@ -6,7 +6,7 @@
 #' @inheritSection tar_stan_mcmc_rep Seeds
 #' @details Draws could take up a lot of storage. If storage becomes
 #'    excessive, please consider thinning the draws or using
-#'   `tar_stan_mcmc_rep_summaries()` instead.
+#'   `tar_stan_mcmc_rep_summary()` instead.
 #'
 #'   Most of the arguments are passed to the `$compile()`
 #'   and `$sample()` methods of the `CmdStanModel` class. If you
@@ -112,6 +112,7 @@ tar_stan_mcmc_rep_draws <- function(
   inc_warmup = FALSE,
   variables = NULL,
   data_copy = character(0),
+  transform = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -178,6 +179,7 @@ tar_stan_mcmc_rep_draws <- function(
     data_copy = data_copy,
     inc_warmup = inc_warmup,
     variables = variables,
+    transform = substitute(transform),
     tidy_eval = tidy_eval,
     packages = packages,
     library = library,

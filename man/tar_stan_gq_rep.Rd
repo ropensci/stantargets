@@ -33,6 +33,7 @@ tar_stan_gq_rep(
   variables = NULL,
   summaries = NULL,
   summary_args = NULL,
+  transform = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -223,6 +224,13 @@ on the \code{CmdStanFit} object.}
 \item{summary_args}{Optional list of summary function arguments passed to
 \code{.args} in \code{posterior::summarize_draws()} through \verb{$summary()}
 on the \code{CmdStanFit} object.}
+
+\item{transform}{Symbol or \code{NULL}, name of a function that accepts
+arguments \code{data} and \code{draws} and returns a data frame. Here,
+\code{data} is the JAGS data list supplied to the model, and \code{draws}
+is a data frame with one column per model parameter and one row
+per posterior sample. See the simulation-based calibration (SBC)
+section of the simulation vignette for an example.}
 
 \item{tidy_eval}{Logical, whether to enable tidy evaluation
 when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use the

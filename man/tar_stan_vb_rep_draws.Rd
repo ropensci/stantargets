@@ -39,6 +39,7 @@ tar_stan_vb_rep_draws(
   sig_figs = NULL,
   data_copy = character(0),
   variables = NULL,
+  transform = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -251,6 +252,13 @@ to those of the model. For details, read
 \item \code{variables = c("theta[1]", "theta[3]")} selects only the 1st and 3rd elements.
 }
 }}
+
+\item{transform}{Symbol or \code{NULL}, name of a function that accepts
+arguments \code{data} and \code{draws} and returns a data frame. Here,
+\code{data} is the JAGS data list supplied to the model, and \code{draws}
+is a data frame with one column per model parameter and one row
+per posterior sample. See the simulation-based calibration (SBC)
+section of the simulation vignette for an example.}
 
 \item{tidy_eval}{Logical, whether to enable tidy evaluation
 when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use the

@@ -16,14 +16,20 @@ vignette: >
 knitr::opts_knit$set(root.dir = fs::dir_create(tempfile()))
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 6
 )
 if (identical(Sys.getenv("NOT_CRAN", unset = "false"), "false")) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 library(cmdstanr)
 library(dplyr)
+library(ggplot2)
+library(posterior)
+library(purrr)
 library(targets)
+library(tidyr)
 library(stantargets)
 if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
   cmdstanr::install_cmdstan()
@@ -45,7 +51,7 @@ Visit <https://github.com/wlandau/stantargets-example-validation> for an example
 
 ## Simulation-based validation study
 
-This particular example uses the concept of calibration that Bob Carpenter [explains here](https://statmodeling.stat.columbia.edu/2017/04/12/bayesian-posteriors-calibrated/) [@carpenter2017]. The goal is to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated posterior intervals cover the true parameters from the prior predictive simulations. If coverage is no systematically different from nominal, this is evidence that the model was implemented correctly. The quantile method by @cook2006 generalizes this concept, and simulation-based calibration [@talts2020] generalizes further. The interval-based technique featured in this vignette is not as robust as SBC, but it may be more expedient for large models because it does not require visual inspection of multiple histograms.
+This particular example uses the concept of calibration that Bob Carpenter [explains here](https://statmodeling.stat.columbia.edu/2017/04/12/bayesian-posteriors-calibrated/) [@carpenter2017]. The goal is to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated posterior intervals cover the true parameters from the prior predictive simulations. If coverage is no systematically different from nominal, this is evidence that the model was implemented correctly. The quantile method by @cook2006 generalizes this concept, and simulation-based calibration [@talts2020] generalizes further. The interval-based technique featured in this vignette is not as robust as SBC, but it may be more expedient for large models because it does not require visual inspection of multiple histograms. See a later section in this vignette for an example of simulation-based calibration on this same model.
 
 ```{r}
 lines <- "data {
@@ -99,6 +105,7 @@ tar_script({
     )
   )
 })
+tar_load_globals()
 ```
 
 ```{r, eval = FALSE}
@@ -380,6 +387,167 @@ In the graph below, notice how targets `model_model` and `model_model2` are both
 
 ```{r}
 tar_visnetwork()
+```
+
+## Simulation-based calibration
+
+This section explores a more rigorous validation study which adopts the proper simulation-based calibration (SBC) method from [@talts2020]. To use this method, we need a function that generates rank statistics from a simulated dataset and a data frame of posterior draws. If the model is implemented correctly, these rank statistics will be uniformly distributed for each model parameter. Our function will use the [`calculate_ranks_draws_matrix()`](https://hyunjimoon.github.io/SBC/reference/calculate_ranks_draws_matrix.html) function from the [`SBC`](https://hyunjimoon.github.io/SBC/) R package [@sbc].
+
+```{r, eval = TRUE}
+get_ranks <- function(data, draws) {
+  draws <- select(draws, starts_with(names(data$.join_data)))
+  truth <- map_dbl(names(draws), ~eval(parse(text = .x), envir = data$.join_data))
+  out <- SBC::calculate_ranks_draws_matrix(truth, as_draws_matrix(draws))
+  as_tibble(as.list(out))
+}
+```
+
+To demonstrate this function, we simulate a dataset,
+
+```{r, eval = TRUE}
+data <- simulate_data()
+
+str(data)
+```
+
+we make up a hypothetical set of posterior draws,
+
+```{r, eval = TRUE}
+draws <- tibble(`beta[1]` = rnorm(100), `beta[2]` = rnorm(100))
+
+draws
+```
+
+and we call `get_ranks()` to get the SBC rank statistics for each model parameter.
+
+```{r, eval = TRUE}
+library(dplyr)
+library(posterior)
+library(purrr)
+get_ranks(data = data, draws = draws)
+```
+
+To put this into practice in a pipeline, we supply the symbol `get_ranks` to the `transform` argument of `tar_stan_mcmc_rep_draws()`. That way, instead of a full set of draws, each replication will return only the output of `get_ranks()` on those draws (plus a few helper columns). If supplied, the `transform` argument of `tar_stan_mcmc_rep_draws()` must be the name of a function in the pipeline. This function must accept arguments `data` and `draws`, and it must return a data frame.
+
+```{r, echo = FALSE}
+library(targets)
+tar_script({
+  library(stantargets)
+  options(crayon.enabled = FALSE)
+  tar_option_set(
+    packages = c("dplyr", "posterior", "purrr", "tibble"),
+    memory = "transient",
+    garbage_collection = TRUE
+  )
+  simulate_data <- function(n = 10L) {
+    beta <- rnorm(n = 2, mean = 0, sd = 1)
+    x <- seq(from = -1, to = 1, length.out = n)
+    y <- rnorm(n, beta[1] + x * beta[2], 1)
+    list(
+      n = n,
+      x = x,
+      y = y,
+      .join_data = list(beta = beta)
+    )
+  }
+  get_ranks <- function(data, draws) {
+    draws <- select(draws, starts_with(names(data$.join_data)))
+    truth <- map_dbl(names(draws), ~eval(parse(text = .x), envir = data$.join_data))
+    out <- SBC::calculate_ranks_draws_matrix(truth, as_draws_matrix(draws))
+    as_tibble(as.list(out))
+  }
+  list(
+    tar_stan_mcmc_rep_draws(
+      model,
+      "model.stan",
+      simulate_data(),
+      batches = 5,
+      reps = 2,
+      variables = "beta",
+      stdout = R.utils::nullfile(),
+      stderr = R.utils::nullfile(),
+      transform = get_ranks
+    )
+  )
+})
+```
+
+```{r, eval = FALSE}
+# _targets.R
+library(targets)
+library(stantargets)
+
+tar_option_set(packages = c("dplyr", "posterior", "purrr", "tibble"))
+
+simulate_data <- function(n = 10L) {
+  beta <- rnorm(n = 2, mean = 0, sd = 1)
+  x <- seq(from = -1, to = 1, length.out = n)
+  y <- rnorm(n, beta[1] + x * beta[2], 1)
+  list(
+    n = n,
+    x = x,
+    y = y,
+    .join_data = list(beta = beta)
+  )
+}
+
+get_ranks <- function(data, draws) {
+  draws <- select(draws, starts_with(names(data$.join_data)))
+  truth <- map_dbl(names(draws), ~eval(parse(text = .x), envir = data$.join_data))
+  out <- SBC::calculate_ranks_draws_matrix(truth, as_draws_matrix(draws))
+  as_tibble(as.list(out))
+}
+
+list(
+  tar_stan_mcmc_rep_draws(
+    model,
+    c("model.stan"),
+    simulate_data(),
+    batches = 5,
+    reps = 2,
+    variables = "beta",
+    stdout = R.utils::nullfile(),
+    stderr = R.utils::nullfile(),
+    transform = get_ranks # Supply the transform to get SBC ranks.
+  )
+)
+```
+
+Our new function `get_ranks()` is a dependency of one of our downstream targets, so any changes to `get_ranks()` will force the results to refresh in the next run of the pipeline.
+
+```{r, eval = TRUE}
+tar_visnetwork()
+```
+
+Let's run the pipeline to compute a set of rank statistics for each simulated dataset.
+
+```{r, eval = TRUE, output = FALSE, warning = FALSE}
+tar_make()
+```
+
+We have a data frame of rank statistics with one row per simulation rep and one column per model parameter.
+
+```{r, eval = TRUE}
+tar_load(model_model)
+
+model_model
+```
+
+If the model is implemented correctly, then each the rank statistics each model parameter should be uniformly distributed. In practice, you may need thousands of simulation reps to make a judgement.
+
+```{r, eval = TRUE}
+library(ggplot2)
+library(tidyr)
+model_model %>%
+  pivot_longer(
+    starts_with("beta"),
+    names_to = "parameter",
+    values_to = "ranks"
+  ) %>%
+  ggplot(.) +
+    geom_histogram(aes(x = ranks), bins = 10) +
+    facet_wrap(~parameter) +
+    theme_gray(16)
 ```
 
 ## References

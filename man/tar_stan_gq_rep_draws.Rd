@@ -29,6 +29,7 @@ tar_stan_gq_rep_draws(
   threads_per_chain = NULL,
   variables = NULL,
   data_copy = character(0),
+  transform = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -208,6 +209,13 @@ for each rep. To join more than just scalars, include a \code{.join_data}
 element of your Stan data list with names and dimensions corresponding
 to those of the model. For details, read
 \url{https://docs.ropensci.org/stantargets/articles/simulation.html}.}
+
+\item{transform}{Symbol or \code{NULL}, name of a function that accepts
+arguments \code{data} and \code{draws} and returns a data frame. Here,
+\code{data} is the JAGS data list supplied to the model, and \code{draws}
+is a data frame with one column per model parameter and one row
+per posterior sample. See the simulation-based calibration (SBC)
+section of the simulation vignette for an example.}
 
 \item{tidy_eval}{Logical, whether to enable tidy evaluation
 when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use the

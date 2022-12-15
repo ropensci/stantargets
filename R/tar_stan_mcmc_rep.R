@@ -93,6 +93,7 @@ tar_stan_mcmc_rep <- function(
   inc_warmup = FALSE,
   summaries = NULL,
   summary_args = NULL,
+  transform = NULL,
   tidy_eval = targets::tar_option_get("tidy_eval"),
   packages = targets::tar_option_get("packages"),
   library = targets::tar_option_get("library"),
@@ -115,6 +116,7 @@ tar_stan_mcmc_rep <- function(
   targets::tar_assert_unique(stan_files, "stan_files must be unique")
   targets::tar_assert_chr(data_copy, "data_copy must be a character vector")
   lapply(stan_files, assert_stan_file)
+  assert_transform(transform)
   name_stan <- produce_stan_names(stan_files)
   name_file <- paste0(name, "_file")
   name_lines <- paste0(name, "_lines")
@@ -193,7 +195,8 @@ tar_stan_mcmc_rep <- function(
     data_copy = data_copy,
     variables = variables,
     summaries = summaries,
-    summary_args = summary_args
+    summary_args = summary_args,
+    transform = transform
   )
   command <- as.expression(as.call(args))
   pattern_data <- substitute(map(x), env = list(x = sym_batch))
@@ -333,6 +336,12 @@ tar_stan_mcmc_rep <- function(
 #'   element of your Stan data list with names and dimensions corresponding
 #'   to those of the model. For details, read
 #'   <https://docs.ropensci.org/stantargets/articles/simulation.html>.
+#' @param transform Symbol or `NULL`, name of a function that accepts
+#'   arguments `data` and `draws` and returns a data frame. Here,
+#'   `data` is the JAGS data list supplied to the model, and `draws`
+#'   is a data frame with one column per model parameter and one row
+#'   per posterior sample. See the simulation-based calibration (SBC)
+#'   section of the simulation vignette for an example.
 tar_stan_mcmc_rep_run <- function(
   stan_file,
   stan_name,
@@ -382,7 +391,8 @@ tar_stan_mcmc_rep_run <- function(
   inc_warmup,
   variables,
   summaries,
-  summary_args
+  summary_args,
+  transform
 ) {
   if (!is.null(stdout)) {
     withr::local_output_sink(new = stdout, append = TRUE)
@@ -449,7 +459,8 @@ tar_stan_mcmc_rep_run <- function(
       inc_warmup = inc_warmup,
       variables = variables,
       summaries = summaries,
-      summary_args = summary_args
+      summary_args = summary_args,
+      transform = transform
     )
   )
   out$.file <- stan_path
@@ -495,7 +506,8 @@ tar_stan_mcmc_rep_run_rep <- function(
   inc_warmup,
   data_copy,
   summaries,
-  summary_args
+  summary_args,
+  transform
 ) {
   stan_seed <- data$.seed + 1L
   stan_seed <- if_any(is.null(seed), stan_seed, stan_seed + seed)
@@ -541,6 +553,7 @@ tar_stan_mcmc_rep_run_rep <- function(
     output_type = output_type,
     summaries = summaries,
     summary_args = summary_args,
+    transform = transform,
     variables = variables,
     inc_warmup = inc_warmup,
     data = data,

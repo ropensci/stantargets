@@ -156,6 +156,67 @@ targets::tar_test("tar_stan_gq_rep_draws(compile = \"original\")", {
   expect_equal(sort(out), sort(exp))
 })
 
+targets::tar_test("tar_stan_gq_rep_draws() with transform", {
+  skip_on_cran()
+  skip_if_missing_cmdstan()
+  skip_if_not_installed("dplyr")
+  restore_compiled_models()
+  targets::tar_script({
+    tar_option_set(memory = "transient", garbage_collection = TRUE)
+    this_transform <- function(data, draws) {
+      out <- data.frame(y = draws[["y_rep[1]"]][1])
+      out$true_beta <- data$.join_data$beta
+      out
+    }
+    list(
+      tar_stan_mcmc(
+        fit,
+        stan_files = "a.stan",
+        data = tar_stan_example_data(),
+        compile = "original",
+        quiet = TRUE,
+        refresh = 0,
+        init = 1,
+        iter_sampling = 1000,
+        iter_warmup = 500,
+        chains = 4,
+        return_draws = FALSE,
+        return_summary = FALSE,
+        return_diagnostics = FALSE,
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile()
+      ),
+      tar_stan_gq_rep_draws(
+        model,
+        stan_files = c(x = "a.stan", y = "b.stan"),
+        data = tar_stan_example_data(),
+        fitted_params = fit_mcmc_a,
+        compile = "original",
+        quiet = TRUE,
+        batches = 2,
+        reps = 2,
+        combine = TRUE,
+        stdout = R.utils::nullfile(),
+        stderr = R.utils::nullfile(),
+        transform = this_transform
+      )
+    )
+  })
+  network <- targets::tar_network(callr_function = NULL)
+  edges <- network$edges
+  edges <- edges[edges$from == "this_transform", ]
+  expect_equal(sort(edges$to), sort(c("model_x", "model_y")))
+  tar_make(callr_function = NULL)
+  out <- targets::tar_read(model)
+  expect_equal(nrow(out), 8)
+  expect_true(all(c("y", "true_beta") %in% colnames(out)))
+  data <- tar_read(model_data)
+  true_beta <- unname(unlist(lapply(data, function(x) {
+    unlist(lapply(x, function(y) y$.join_data$beta))
+  })))
+  expect_equal(out$true_beta, rep(true_beta, times = 2))
+})
+
 targets::tar_test("tar_stan_gq_rep_draws(compile = \"copy\") custom vars", {
   skip_on_cran()
   skip_if_missing_cmdstan()

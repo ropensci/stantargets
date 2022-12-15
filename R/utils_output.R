@@ -14,6 +14,7 @@ tar_stan_output <- function(
   output_type,
   summaries,
   summary_args,
+  transform,
   variables,
   inc_warmup,
   data,
@@ -29,7 +30,13 @@ tar_stan_output <- function(
       summary_args = summary_args,
       variables = variables
     ),
-    draws = tar_stan_output_draws(fit, variables, inc_warmup),
+    draws = tar_stan_output_draws(
+      fit = fit,
+      data = data,
+      variables = variables,
+      inc_warmup = inc_warmup,
+      transform = transform
+    ),
     diagnostics = tar_stan_output_diagnostics(fit, inc_warmup)
   )
   out <- tibble::as_tibble(out)
@@ -57,13 +64,27 @@ tar_stan_output_summary <- function(
   eval(command)
 }
 
-tar_stan_output_draws <- function(fit, variables, inc_warmup) {
+tar_stan_output_draws <- function(
+  fit,
+  data,
+  variables,
+  inc_warmup,
+  transform
+) {
   out <- if_any(
     is.null(inc_warmup),
     fit$draws(variables = variables),
     fit$draws(variables = variables, inc_warmup = inc_warmup)
   )
-  tibble::as_tibble(posterior::as_draws_df(out))
+  out <- tibble::as_tibble(posterior::as_draws_df(out))
+  if (!is.null(transform)) {
+    out <- do.call(
+      what = transform,
+      args = list(data = data, draws = out),
+      envir = targets::tar_option_get("envir")
+    )
+  }
+  out
 }
 
 tar_stan_output_diagnostics <- function(fit, inc_warmup) {
