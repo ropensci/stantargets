@@ -17,7 +17,7 @@ knitr::opts_knit$set(root.dir = fs::dir_create(tempfile()))
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 6,
+  fig.width = 7,
   fig.height = 6
 )
 if (identical(Sys.getenv("NOT_CRAN", unset = "false"), "false")) {
@@ -556,7 +556,7 @@ model_model %>%
   ggplot(.) +
     geom_histogram(aes(x = ranks), bins = 10) +
     facet_wrap(~parameter) +
-    theme_gray(16)
+    theme_gray(12)
 ```
 
 ## References
