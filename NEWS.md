@@ -1,6 +1,6 @@
 # stantargets 0.0.6.9000
 
-
+* Add a new `transform` argument to the `tar_stan_*_rep_draws()` functions (except `mle`) to support simulation-based calibration (SBC) (#31, @mike-lawrence, @martinmodrak, @dmi3kno).
 
 # stantargets 0.0.6
 
