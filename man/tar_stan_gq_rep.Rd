@@ -229,7 +229,9 @@ on the \code{CmdStanFit} object.}
 arguments \code{data} and \code{draws} and returns a data frame. Here,
 \code{data} is the JAGS data list supplied to the model, and \code{draws}
 is a data frame with one column per model parameter and one row
-per posterior sample. See the simulation-based calibration (SBC)
+per posterior sample. Any arguments other than \code{data} and \code{draws}
+must have valid default values because \code{stantargets} will not
+populate them. See the simulation-based calibration (SBC)
 section of the simulation vignette for an example.}
 
 \item{tidy_eval}{Logical, whether to enable tidy evaluation

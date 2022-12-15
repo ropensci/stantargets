@@ -340,7 +340,9 @@ tar_stan_mcmc_rep <- function(
 #'   arguments `data` and `draws` and returns a data frame. Here,
 #'   `data` is the JAGS data list supplied to the model, and `draws`
 #'   is a data frame with one column per model parameter and one row
-#'   per posterior sample. See the simulation-based calibration (SBC)
+#'   per posterior sample. Any arguments other than `data` and `draws`
+#'   must have valid default values because `stantargets` will not
+#'   populate them. See the simulation-based calibration (SBC)
 #'   section of the simulation vignette for an example.
 tar_stan_mcmc_rep_run <- function(
   stan_file,
