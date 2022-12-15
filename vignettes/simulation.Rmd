@@ -533,7 +533,7 @@ tar_load(model_model)
 model_model
 ```
 
-If the model is implemented correctly, then each the rank statistics each model parameter should be uniformly distributed. In practice, you may need thousands of simulation reps to make a judgement.
+If the model is implemented correctly, then each the rank statistics each model parameter should be uniformly distributed. In practice, you may need thousands of simulation reps to make a judgment.
 
 ```{r, eval = TRUE}
 library(ggplot2)
