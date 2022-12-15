@@ -396,7 +396,10 @@ This section explores a more rigorous validation study which adopts the proper s
 ```{r, eval = TRUE}
 get_ranks <- function(data, draws) {
   draws <- select(draws, starts_with(names(data$.join_data)))
-  truth <- map_dbl(names(draws), ~eval(parse(text = .x), envir = data$.join_data))
+  truth <- map_dbl(
+    names(draws),
+    ~eval(parse(text = .x), envir = data$.join_data)
+  )
   out <- SBC::calculate_ranks_draws_matrix(truth, as_draws_matrix(draws))
   as_tibble(as.list(out))
 }
@@ -452,7 +455,10 @@ tar_script({
   }
   get_ranks <- function(data, draws) {
     draws <- select(draws, starts_with(names(data$.join_data)))
-    truth <- map_dbl(names(draws), ~eval(parse(text = .x), envir = data$.join_data))
+    truth <- map_dbl(
+      names(draws),
+      ~eval(parse(text = .x), envir = data$.join_data)
+    )
     out <- SBC::calculate_ranks_draws_matrix(truth, as_draws_matrix(draws))
     as_tibble(as.list(out))
   }
@@ -493,7 +499,10 @@ simulate_data <- function(n = 10L) {
 
 get_ranks <- function(data, draws) {
   draws <- select(draws, starts_with(names(data$.join_data)))
-  truth <- map_dbl(names(draws), ~eval(parse(text = .x), envir = data$.join_data))
+  truth <- map_dbl(
+    names(draws),
+    ~eval(parse(text = .x), envir = data$.join_data)
+  )
   out <- SBC::calculate_ranks_draws_matrix(truth, as_draws_matrix(draws))
   as_tibble(as.list(out))
 }
