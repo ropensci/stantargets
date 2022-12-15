@@ -60,7 +60,6 @@ Suggests:
   dplyr (>= 1.0.2),
   ggplot2 (>= 3.0.0),
   knitr (>= 1.30),
-  purrr (>= 0.3.0),
   R.utils (>= 2.10.1),
   rmarkdown (>= 2.3),
   SBC (>= 0.2.0),
