@@ -415,6 +415,7 @@ tar_stan_mle_rep_run_rep <- function(
     output_type = output_type,
     summaries = summaries,
     summary_args = summary_args,
+    transform = NULL,
     variables = variables,
     inc_warmup = NULL,
     data = data,
