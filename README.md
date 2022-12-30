@@ -64,7 +64,7 @@ run the project in a web browser.
 ## Example projects
 
 | Description                                                                                                        | Link                                                |
-| ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
+|--------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
 | Validating a minimal Stan model                                                                                    | <https://github.com/wlandau/targets-stan>           |
 | Using Target Markdown and `stantargets` to validate a Bayesian longitudinal model for clinical trial data analysis | <https://github.com/wlandau/rmedicine2021-pipeline> |
 
@@ -155,6 +155,10 @@ packages easier to use. For details, please read the [introductory
 vignette](https://docs.ropensci.org/stantargets/articles/introduction.html).
 
 ## Help
+
+Please first read the [help
+guide](https://books.ropensci.org/targets/help.html) to learn how best
+to ask for help.
 
 If you have trouble using `stantargets`, you can ask for help in the
 [GitHub discussions
