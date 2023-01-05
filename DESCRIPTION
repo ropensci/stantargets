@@ -14,7 +14,7 @@ Description: Bayesian data analysis usually incurs long runtimes
   both single-fit workflows and multi-rep simulation studies.
   For the statistical methodology, please refer to 'Stan' documentation
   (Stan Development Team 2020) <https://mc-stan.org/>.
-Version: 0.1.0
+Version: 0.1.0.9000
 License: MIT + file LICENSE
 URL: https://docs.ropensci.org/stantargets/, https://github.com/ropensci/stantargets
 BugReports: https://github.com/ropensci/stantargets/issues
