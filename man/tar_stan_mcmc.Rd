@@ -312,12 +312,9 @@ quantities block. If the parameters block is empty then using
 \code{parallel_chains} arguments will be set to \code{1}.}
 
 \item{show_messages}{(logical) When \code{TRUE} (the default), prints all
-informational messages, for example rejection of the current proposal.
-Disable if you wish to silence these messages, but this is not usually
-recommended unless you are very confident that the model is correct up to
-numerical error. If the messages are silenced then the
-\code{\link[cmdstanr:fit-method-output]{$output()}} method of the resulting fit object can be
-used to display the silenced messages.}
+output during the sampling process, such as iteration numbers and elapsed times.
+If the output is silenced then the \code{\link[cmdstanr:fit-method-output]{$output()}} method of
+the resulting fit object can be used to display the silenced messages.}
 
 \item{diagnostics}{(character vector) The diagnostics to automatically check
 and warn about after sampling. Setting this to an empty string \code{""} or
