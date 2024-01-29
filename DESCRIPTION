@@ -73,6 +73,6 @@ SystemRequirements: CmdStan >= 2.25.0
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 VignetteBuilder: knitr
 Config/testthat/edition: 3

@@ -28,7 +28,7 @@ assert_variables_fit <- function(variables, variables_fit) {
 }
 
 assert_inc_warmup_fit <- function(inc_warmup, inc_warmup_fit) {
- if (isTRUE(inc_warmup) && isFALSE(inc_warmup_fit)) {
+  if (isTRUE(inc_warmup) && isFALSE(inc_warmup_fit)) {
     targets::tar_throw_validate(
       "inc_warmup cannot be TRUE if inc_warmup_fit is FALSE."
     )

@@ -1,5 +1,4 @@
 #' targets: Targets Archetypes for Stan
-#' @docType package
 #' @description Bayesian data analysis usually incurs long runtimes
 #'   and cumbersome custom code. A pipeline toolkit tailored to
 #'   Bayesian statisticians, the `stantargets` R package leverages
@@ -28,8 +27,8 @@
 #'   tar_assert_nzchar tar_assert_path
 #'   tar_assert_scalar tar_assert_unique
 #'   tar_cue tar_deparse_safe tar_dir tar_load tar_option_get
-#'   tar_read tar_script tar_target tar_target_raw tar_test tar_tidy_eval
-#'   tar_throw_validate
+#'   tar_read tar_script tar_seed_get tar_target tar_target_raw tar_test
+#'   tar_tidy_eval tar_throw_validate
 #' @importFrom tarchetypes tar_combine_raw tar_map
 #' @importFrom withr local_message_sink local_output_sink
 NULL

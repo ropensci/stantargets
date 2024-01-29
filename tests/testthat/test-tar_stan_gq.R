@@ -65,20 +65,20 @@ targets::tar_test("tar_stan_gq(compile = \"original\")", {
   exp <- tibble::tribble(
     ~from, ~to,
     "gq_data", "gq_gq_a",
-     "gq_data", "gq_gq_b",
-     "gq_file_a", "gq_gq_a",
-     "gq_file_b", "gq_gq_b",
-     "gq_gq_a", "gq_draws_a",
-     "gq_data", "gq_summary_a",
-     "gq_data", "gq_summary_b",
-     "gq_gq_a", "gq_summary_a",
-     "gq_gq_b", "gq_draws_b",
-     "gq_gq_b", "gq_summary_b",
-     "model_data", "gq_data",
-     "model_data", "model_mcmc_a",
-     "model_file_a", "model_mcmc_a",
-     "model_mcmc_a", "gq_gq_a",
-     "model_mcmc_a", "gq_gq_b"
+    "gq_data", "gq_gq_b",
+    "gq_file_a", "gq_gq_a",
+    "gq_file_b", "gq_gq_b",
+    "gq_gq_a", "gq_draws_a",
+    "gq_data", "gq_summary_a",
+    "gq_data", "gq_summary_b",
+    "gq_gq_a", "gq_summary_a",
+    "gq_gq_b", "gq_draws_b",
+    "gq_gq_b", "gq_summary_b",
+    "model_data", "gq_data",
+    "model_data", "model_mcmc_a",
+    "model_file_a", "model_mcmc_a",
+    "model_mcmc_a", "gq_gq_a",
+    "model_mcmc_a", "gq_gq_b"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL

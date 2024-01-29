@@ -119,7 +119,7 @@ same location as the Stan program.}
 
 \item{pedantic}{(logical) Should pedantic mode be turned on? The default is
 \code{FALSE}. Pedantic mode attempts to warn you about potential issues in your
-Stan program beyond syntax errors. For details see the \href{https://mc-stan.org/docs/reference-manual/pedantic-mode.html}{\emph{Pedantic mode} chapter} in
+Stan program beyond syntax errors. For details see the \href{https://mc-stan.org/docs/stan-users-guide/pedantic-mode.html}{\emph{Pedantic mode} chapter} in
 the Stan Reference Manual. \strong{Note:} to do a pedantic check for a model
 without compiling it or for a model that is already compiled the
 \code{\link[cmdstanr:model-method-check_syntax]{$check_syntax()}} method can be used instead.}
@@ -225,7 +225,7 @@ when interpreting \code{command} and \code{pattern}. If \code{TRUE}, you can use
 the values of global objects.}
 
 \item{packages}{Character vector of packages to load right before
-the target builds or the output data is reloaded for
+the target runs or the output data is reloaded for
 downstream targets. Use \code{tar_option_set()} to set packages
 globally for all subsequent targets you define.}
 
@@ -302,14 +302,17 @@ and the latter conserves local storage.}
 \item{garbage_collection}{Logical, whether to run \code{base::gc()}
 just before the target runs.}
 
-\item{deployment}{Character of length 1, only relevant to
-\code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[targets:tar_make_future]{tar_make_future()}}. If \code{"worker"},
-the target builds on a parallel worker. If \code{"main"},
-the target builds on the host machine / process managing the pipeline.}
+\item{deployment}{Character of length 1. If \code{deployment} is
+\code{"main"}, then the target will run on the central controlling R process.
+Otherwise, if \code{deployment} is \code{"worker"} and you set up the pipeline
+with distributed/parallel computing, then
+the target runs on a parallel worker. For more on distributed/parallel
+computing in \code{targets}, please visit
+\url{https://books.ropensci.org/targets/crew.html}.}
 
 \item{priority}{Numeric of length 1 between 0 and 1. Controls which
 targets get deployed first when multiple competing targets are ready
-simultaneously. Targets with priorities closer to 1 get built earlier
+simultaneously. Targets with priorities closer to 1 get dispatched earlier
 (and polled earlier in \code{\link[targets:tar_make_future]{tar_make_future()}}).}
 
 \item{resources}{Object returned by \code{tar_resources()}
@@ -353,7 +356,7 @@ is completely unnecessary if \code{format} is \code{"file"}.
 Must be one of the following values:
 \itemize{
 \item \code{"main"}: the target's dependencies are loaded on the host machine
-and sent to the worker before the target builds.
+and sent to the worker before the target runs.
 \item \code{"worker"}: the worker loads the targets dependencies.
 \item \code{"none"}: the dependencies are not loaded at all.
 This choice is almost never recommended. It is only for

@@ -550,7 +550,7 @@ tar_stan_mcmc_rep_run_rep <- function(
     show_messages = show_messages,
     diagnostics = diagnostics
   )
-  tar_stan_output(
+  out <- tar_stan_output(
     fit = fit,
     output_type = output_type,
     summaries = summaries,
@@ -562,4 +562,6 @@ tar_stan_mcmc_rep_run_rep <- function(
     data_copy = data_copy,
     seed = stan_seed
   )
+  remove_temp_files(fit)
+  out
 }

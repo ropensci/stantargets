@@ -94,7 +94,7 @@ same location as the Stan program.}
 
 \item{pedantic}{(logical) Should pedantic mode be turned on? The default is
 \code{FALSE}. Pedantic mode attempts to warn you about potential issues in your
-Stan program beyond syntax errors. For details see the \href{https://mc-stan.org/docs/reference-manual/pedantic-mode.html}{\emph{Pedantic mode} chapter} in
+Stan program beyond syntax errors. For details see the \href{https://mc-stan.org/docs/stan-users-guide/pedantic-mode.html}{\emph{Pedantic mode} chapter} in
 the Stan Reference Manual. \strong{Note:} to do a pedantic check for a model
 without compiling it or for a model that is already compiled the
 \code{\link[cmdstanr:model-method-check_syntax]{$check_syntax()}} method can be used instead.}
@@ -144,10 +144,10 @@ containing initial values for all or some parameters. See
 \code{\link[cmdstanr:write_stan_json]{write_stan_json()}} to write \R objects to JSON files compatible with
 CmdStan.
 \item A list of lists containing initial values for all or some parameters. For
-MCMC the list should contain a sublist for each chain. For optimization and
-variational inference there should be just one sublist. The sublists should
-have named elements corresponding to the parameters for which you are
-specifying initial values. See \strong{Examples}.
+MCMC the list should contain a sublist for each chain. For other model
+fitting methods there should be just one sublist. The sublists should have
+named elements corresponding to the parameters for which you are specifying
+initial values. See \strong{Examples}.
 \item A function that returns a single list with names corresponding to the
 parameters for which you are specifying initial values. The function can
 take no arguments or a single argument \code{chain_id}. For MCMC, if the function
@@ -206,8 +206,8 @@ of the objective.}
 
 \item{eval_elbo}{(positive integer) Evaluate ELBO every Nth iteration.}
 
-\item{output_samples}{(positive integer) Number of approximate posterior
-samples to draw and save.}
+\item{output_samples}{(positive integer) Use \code{draws} argument instead.
+\code{output_samples} will be deprecated in the future.}
 
 \item{sig_figs}{(positive integer) The number of significant figures used
 when storing the output values. By default, CmdStan represent the output

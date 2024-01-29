@@ -554,9 +554,9 @@ model_model %>%
     values_to = "ranks"
   ) %>%
   ggplot(.) +
-    geom_histogram(aes(x = ranks), bins = 10) +
-    facet_wrap(~parameter) +
-    theme_gray(12)
+  geom_histogram(aes(x = ranks), bins = 10) +
+  facet_wrap(~parameter) +
+  theme_gray(12)
 ```
 
 ## References

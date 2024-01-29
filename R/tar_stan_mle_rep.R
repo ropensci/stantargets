@@ -410,7 +410,7 @@ tar_stan_mle_rep_run_rep <- function(
     tol_param = tol_param,
     history_size = history_size
   )
-  tar_stan_output(
+  out <- tar_stan_output(
     fit = fit,
     output_type = output_type,
     summaries = summaries,
@@ -422,4 +422,6 @@ tar_stan_mle_rep_run_rep <- function(
     data_copy = data_copy,
     seed = stan_seed
   )
+  remove_temp_files(fit)
+  out
 }

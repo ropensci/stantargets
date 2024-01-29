@@ -1,6 +1,6 @@
 # stantargets 0.1.0.9000
 
-
+* Remove temporary files generated CmdStan.
 
 # stantargets 0.1.0
 

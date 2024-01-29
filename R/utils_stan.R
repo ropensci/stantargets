@@ -21,3 +21,9 @@ command_lines <- function(sym_file) {
     env = list(file = sym_file)
   )
 }
+
+remove_temp_files <- function(fit) {
+  try(unlink(fit$data_file(), recursive = TRUE), silent = TRUE)
+  try(unlink(fit$output_files(), recursive = TRUE), silent = TRUE)
+  try(unlink(fit$profile_files(), recursive = TRUE), silent = TRUE)
+}

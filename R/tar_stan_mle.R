@@ -346,7 +346,7 @@ tar_stan_mle_run <- function(
     force_recompile = force_recompile
   )
   if (is.null(seed)) {
-    seed <- abs(targets::tar_seed()) + 1L
+    seed <- abs(targets::tar_seed_get()) + 1L
   }
   stan_data <- data
   stan_data$.join_data <- NULL
@@ -373,5 +373,6 @@ tar_stan_mle_run <- function(
   fit$draws(variables = variables)
   try(fit$init(), silent = TRUE)
   try(fit$profiles(), silent = TRUE)
+  remove_temp_files(fit)
   fit
 }

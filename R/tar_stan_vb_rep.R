@@ -423,7 +423,7 @@ tar_stan_vb_rep_run_rep <- function(
     output_samples = output_samples,
     sig_figs = sig_figs
   )
-  tar_stan_output(
+  out <- tar_stan_output(
     fit = fit,
     output_type = output_type,
     summaries = summaries,
@@ -435,4 +435,6 @@ tar_stan_vb_rep_run_rep <- function(
     seed = stan_seed,
     transform = transform
   )
+  remove_temp_files(fit)
+  out
 }

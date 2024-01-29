@@ -476,7 +476,7 @@ tar_stan_mcmc_run <- function(
     force_recompile = force_recompile
   )
   if (is.null(seed)) {
-    seed <- abs(targets::tar_seed()) + 1L
+    seed <- abs(targets::tar_seed_get()) + 1L
   }
   stan_data <- data
   stan_data$.join_data <- NULL
@@ -518,5 +518,6 @@ tar_stan_mcmc_run <- function(
   try(fit$sampler_diagnostics(inc_warmup = inc_warmup), silent = TRUE)
   try(fit$init(), silent = TRUE)
   try(fit$profiles(), silent = TRUE)
+  remove_temp_files(fit)
   fit
 }

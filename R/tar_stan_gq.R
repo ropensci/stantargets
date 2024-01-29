@@ -333,7 +333,7 @@ tar_stan_gq_run <- function(
     force_recompile = force_recompile
   )
   if (is.null(seed)) {
-    seed <- abs(targets::tar_seed()) + 1L
+    seed <- abs(targets::tar_seed_get()) + 1L
   }
   stan_data <- data
   stan_data$.join_data <- NULL
@@ -350,5 +350,6 @@ tar_stan_gq_run <- function(
   # https://github.com/stan-dev/cmdstanr/blob/d27994f804c493ff3047a2a98d693fa90b83af98/R/fit.R#L16-L18 # nolint
   fit$draws(variables = variables)
   try(fit$profiles(), silent = TRUE)
+  remove_temp_files(fit)
   fit
 }

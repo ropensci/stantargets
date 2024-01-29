@@ -364,7 +364,7 @@ tar_stan_gq_rep_run_rep <- function(
     parallel_chains = parallel_chains,
     threads_per_chain = threads_per_chain
   )
-  tar_stan_output(
+  out <- tar_stan_output(
     fit = fit,
     output_type = output_type,
     summaries = summaries,
@@ -376,4 +376,6 @@ tar_stan_gq_rep_run_rep <- function(
     seed = stan_seed,
     transform = transform
   )
+  remove_temp_files(fit)
+  out
 }
