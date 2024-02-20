@@ -114,7 +114,8 @@ tar_stan_vb_rep_draws <- function(
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
-  cue = targets::tar_option_get("cue")
+  cue = targets::tar_option_get("cue"),
+  description = targets::tar_option_get("description")
 ) {
   tar_stan_vb_rep(
     name = targets::tar_deparse_language(substitute(name)),
@@ -169,6 +170,7 @@ tar_stan_vb_rep_draws <- function(
     resources = resources,
     storage = storage,
     retrieval = retrieval,
-    cue = cue
+    cue = cue,
+    description = description
   )
 }

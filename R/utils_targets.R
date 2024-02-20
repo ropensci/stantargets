@@ -29,7 +29,8 @@ tar_stan_target_list <- function(
   )
   out <- tarchetypes::tar_map(
     values = values,
-    names = ._stantargets_name_50e43091,
+    names = tidyselect::any_of("._stantargets_name_50e43091"),
+    descriptions = tidyselect::any_of("._stantargets_file_50e43091"),
     unlist = TRUE,
     out
   )
@@ -58,7 +59,8 @@ tar_stan_target_list_rep <- function(
   garbage_collection,
   priority,
   resources,
-  cue
+  cue,
+  description
 ) {
   out <- list(
     if_any(identical(compile, "original"), target_compile, target_file),
@@ -73,7 +75,8 @@ tar_stan_target_list_rep <- function(
   )
   out <- tarchetypes::tar_map(
     values = values,
-    names = ._stantargets_name_50e43091,
+    names = tidyselect::any_of("._stantargets_name_50e43091"),
+    descriptions = tidyselect::any_of("._stantargets_file_50e43091"),
     unlist = TRUE,
     out
   )
@@ -95,7 +98,8 @@ tar_stan_target_list_rep <- function(
       resources = resources,
       storage = "main",
       retrieval = "main",
-      cue = cue
+      cue = cue,
+      description = description
     )
   }
   out

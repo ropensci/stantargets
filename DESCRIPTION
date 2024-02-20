@@ -14,7 +14,7 @@ Description: Bayesian data analysis usually incurs long runtimes
   both single-fit workflows and multi-rep simulation studies.
   For the statistical methodology, please refer to 'Stan' documentation
   (Stan Development Team 2020) <https://mc-stan.org/>.
-Version: 0.1.0.9000
+Version: 0.1.0.9001
 License: MIT + file LICENSE
 URL: https://docs.ropensci.org/stantargets/, https://github.com/ropensci/stantargets
 BugReports: https://github.com/ropensci/stantargets/issues
@@ -52,9 +52,10 @@ Imports:
   qs (>= 0.23.2),
   rlang (>= 0.4.10),
   stats,
-  targets (>= 0.12.0),
-  tarchetypes (>= 0.6.0),
+  targets (>= 1.5.1.9001),
+  tarchetypes (>= 0.7.12.9001),
   tibble (>= 3.0.1),
+  tidyselect,
   withr (>= 2.1.2)
 Suggests:
   dplyr (>= 1.0.2),
@@ -73,6 +74,6 @@ SystemRequirements: CmdStan >= 2.25.0
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Config/testthat/edition: 3

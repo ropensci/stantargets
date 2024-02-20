@@ -68,7 +68,8 @@ tar_stan_mcmc_rep_draws(
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
-  cue = targets::tar_option_get("cue")
+  cue = targets::tar_option_get("cue"),
+  description = targets::tar_option_get("description")
 )
 }
 \arguments{
@@ -521,6 +522,15 @@ explicitly from another language.
 
 \item{cue}{An optional object from \code{tar_cue()} to customize the
 rules that decide whether the target is up to date.}
+
+\item{description}{Character of length 1, a custom free-form human-readable
+text description of the target. Descriptions appear as target labels
+in functions like \code{\link[targets:tar_manifest]{tar_manifest()}} and \code{\link[targets:tar_visnetwork]{tar_visnetwork()}},
+and they let you select subsets of targets for the \code{names} argument of
+functions like \code{\link[targets:tar_make]{tar_make()}}. For example,
+\code{tar_manifest(names = tar_described_as(starts_with("survival model")))}
+lists all the targets whose descriptions start with the character
+string \code{"survival model"}.}
 }
 \value{
 \code{tar_stan_mcmc_rep_draws()} returns a
@@ -622,8 +632,8 @@ targets::tar_make()
 }
 \seealso{
 Other MCMC: 
+\code{\link{tar_stan_mcmc}()},
 \code{\link{tar_stan_mcmc_rep_diagnostics}()},
-\code{\link{tar_stan_mcmc_rep_summary}()},
-\code{\link{tar_stan_mcmc}()}
+\code{\link{tar_stan_mcmc_rep_summary}()}
 }
 \concept{MCMC}

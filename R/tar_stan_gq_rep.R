@@ -60,7 +60,8 @@ tar_stan_gq_rep <- function(
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
-  cue = targets::tar_option_get("cue")
+  cue = targets::tar_option_get("cue"),
+  description = targets::tar_option_get("description")
 ) {
   envir <- tar_option_get("envir")
   compile <- match.arg(compile)
@@ -139,7 +140,8 @@ tar_stan_gq_rep <- function(
     garbage_collection = garbage_collection,
     deployment = "main",
     priority = priority,
-    cue = cue
+    cue = cue,
+    description = description
   )
   target_compile <- tar_stan_compile_raw(
     name = name_file,
@@ -161,7 +163,8 @@ tar_stan_gq_rep <- function(
     resources = resources,
     storage = storage,
     retrieval = retrieval,
-    cue = cue
+    cue = cue,
+    description = description
   )
   target_lines <- targets::tar_target_raw(
     name = name_lines,
@@ -172,7 +175,8 @@ tar_stan_gq_rep <- function(
     garbage_collection = garbage_collection,
     deployment = "main",
     priority = priority,
-    cue = cue
+    cue = cue,
+    description = description
   )
   target_batch <- targets::tar_target_raw(
     name = name_batch,
@@ -183,7 +187,8 @@ tar_stan_gq_rep <- function(
     garbage_collection = garbage_collection,
     deployment = "main",
     priority = priority,
-    cue = cue
+    cue = cue,
+    description = description
   )
   target_data <- targets::tar_target_raw(
     name = name_data,
@@ -199,7 +204,8 @@ tar_stan_gq_rep <- function(
     garbage_collection = garbage_collection,
     deployment = deployment,
     priority = priority,
-    cue = cue
+    cue = cue,
+    description = description
   )
   target_output <- targets::tar_target_raw(
     name = name,
@@ -216,7 +222,8 @@ tar_stan_gq_rep <- function(
     resources = resources,
     storage = storage,
     retrieval = retrieval,
-    cue = cue
+    cue = cue,
+    description = description
   )
   tar_stan_target_list_rep(
     name = name,
@@ -239,7 +246,8 @@ tar_stan_gq_rep <- function(
     garbage_collection = garbage_collection,
     priority = priority,
     resources = resources,
-    cue = cue
+    cue = cue,
+    description = description
   )
 }
 

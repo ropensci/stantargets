@@ -78,6 +78,11 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2.2.4
 
+      - name: Repos
+        run: |
+          cat("\noptions(repos=c(ropensci='https://ropensci.r-universe.dev',CRAN ='https://cloud.r-project.org'))\n", file = "~/.Rprofile", append = TRUE)
+        shell: Rscript {0}
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck

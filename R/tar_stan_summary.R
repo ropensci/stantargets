@@ -74,7 +74,8 @@ tar_stan_summary <- function(
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
-  cue = targets::tar_option_get("cue")
+  cue = targets::tar_option_get("cue"),
+  description = targets::tar_option_get("description")
 ) {
   name <- targets::tar_deparse_language(substitute(name))
   command <- tar_stan_summary_call(
@@ -95,7 +96,8 @@ tar_stan_summary <- function(
     garbage_collection = garbage_collection,
     deployment = deployment,
     priority = priority,
-    cue = cue
+    cue = cue,
+    description = description
   )
 }
 

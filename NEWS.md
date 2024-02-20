@@ -1,6 +1,8 @@
-# stantargets 0.1.0.9000
+# stantargets 0.1.0.9001 (development)
 
 * Remove temporary files generated CmdStan.
+* Add the new `description` arguments of `tar_target()` (`targets >= 1.5.1.9001).
+* Append model file information to the target descriptions using `tar_map()` (`tarchetypes` >= 0.7.12.9001).
 
 # stantargets 0.1.0
 

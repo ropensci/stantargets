@@ -65,7 +65,8 @@ tar_stan_compile <- function(
   resources = targets::tar_option_get("resources"),
   storage = targets::tar_option_get("storage"),
   retrieval = targets::tar_option_get("retrieval"),
-  cue = targets::tar_option_get("cue")
+  cue = targets::tar_option_get("cue"),
+  description = targets::tar_option_get("description")
 ) {
   name <- targets::tar_deparse_language(substitute(name))
   assert_stan_file(stan_file)
@@ -89,7 +90,8 @@ tar_stan_compile <- function(
     resources = resources,
     storage = storage,
     retrieval = retrieval,
-    cue = cue
+    cue = cue,
+    description = description
   )
 }
 
@@ -113,7 +115,8 @@ tar_stan_compile_raw <- function(
   resources,
   storage,
   retrieval,
-  cue
+  cue,
+  description
 ) {
   command <- tar_stan_compile_command(
     stan_file = stan_file,
@@ -140,7 +143,8 @@ tar_stan_compile_raw <- function(
     resources = resources,
     storage = storage,
     retrieval = retrieval,
-    cue = cue
+    cue = cue,
+    description = description
   )
 }
 

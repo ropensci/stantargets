@@ -30,6 +30,7 @@
 #'   tar_read tar_script tar_seed_get tar_target tar_target_raw tar_test
 #'   tar_tidy_eval tar_throw_validate
 #' @importFrom tarchetypes tar_combine_raw tar_map
+#' @importFrom tidyselect any_of
 #' @importFrom withr local_message_sink local_output_sink
 NULL
 
