@@ -408,6 +408,18 @@ get_ranks <- function(data, draws) {
 To demonstrate this function, we simulate a dataset,
 
 ```{r, eval = TRUE}
+simulate_data <- function(n = 10L) {
+  beta <- rnorm(n = 2, mean = 0, sd = 1)
+  x <- seq(from = -1, to = 1, length.out = n)
+  y <- rnorm(n, beta[1] + x * beta[2], 1)
+  list(
+    n = n,
+    x = x,
+    y = y,
+    .join_data = list(beta = beta)
+  )
+}
+
 data <- simulate_data()
 
 str(data)
