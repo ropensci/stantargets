@@ -53,7 +53,7 @@ Visit <https://github.com/wlandau/stantargets-example-validation> for an example
 
 This particular example uses the concept of calibration that Bob Carpenter [explains here](https://statmodeling.stat.columbia.edu/2017/04/12/bayesian-posteriors-calibrated/) [@carpenter2017]. The goal is to simulate multiple datasets from the model below, analyze each dataset, and assess how often the estimated posterior intervals cover the true parameters from the prior predictive simulations. If coverage is no systematically different from nominal, this is evidence that the model was implemented correctly. The quantile method by @cook2006 generalizes this concept, and simulation-based calibration [@talts2020] generalizes further. The interval-based technique featured in this vignette is not as robust as SBC, but it may be more expedient for large models because it does not require visual inspection of multiple histograms. See a later section in this vignette for an example of simulation-based calibration on this same model.
 
-```{r}
+```{r, eval = TRUE}
 lines <- "data {
   int <lower = 1> n;
   vector[n] x;
@@ -71,7 +71,7 @@ writeLines(lines, "model.stan")
 
 Next, we define a pipeline to simulate multiple datasets and fit each dataset with the model. In our data-generating function, we put the true parameter values of each simulation in a special `.join_data` list. `stantargets` will automatically join the elements of `.join_data` to the correspondingly named variables in the summary output. This will make it super easy to check how often our posterior intervals capture the truth. As for scale, generate 10 datasets (5 batches with 2 replications each) and run the model on each of the 10 datasets.^[Internally, each batch is a [dynamic branch target](https://books.ropensci.org/targets/dynamic.html), and the number of replications determines the amount of work done within a branch. In the general case, [batching](https://books.ropensci.org/targets/dynamic.html#batching) is a way to find the right compromise between target-specific overhead and the horizontal scale of the pipeline.] By default, each of the 10 model runs computes 4 MCMC chains with 2000 MCMC iterations each (including burn-in) and you can adjust with the `chains`, `iter_sampling`, and `iter_warmup` arguments of `tar_stan_mcmc_rep_summary()`.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval = TRUE}
 library(targets)
 tar_script({
   library(stantargets)
@@ -147,26 +147,26 @@ list(
 
 We now have a pipeline that runs the model 10 times: 5 batches (branch targets) with 2 replications per batch.
 
-```{r}
+```{r, eval = TRUE}
 tar_visnetwork()
 ```
 
 Run the computation with `tar_make()`
 
-```{r, output = FALSE, warning = FALSE}
+```{r, output = FALSE, warning = FALSE, eval = TRUE}
 tar_make()
 ```
 
 The result is an aggregated data frame of summary statistics, where the `.rep` column distinguishes among individual replicates. We have the posterior intervals for `beta` in columns `q2.5` and `q97.5`. And thanks to `.join_data` in `simulate_data()`, there is a special `.join_data` column in the output to indicate the true value of each parameter from the simulation.
 
-```{r}
+```{r, eval = TRUE}
 tar_load(model)
 model
 ```
 
 Now, let's assess how often the estimated 95% posterior intervals capture the true values of `beta`. If the model is implemented correctly, the coverage value below should be close to 95%. (Ordinarily, we would [increase the number of batches and reps per batch](https://books.ropensci.org/targets/dynamic.html#batching) and [run batches in parallel computing](https://books.ropensci.org/targets/hpc.html).)
 
-```{r}
+```{r, eval = TRUE}
 library(dplyr)
 model %>%
   group_by(variable) %>%
@@ -174,7 +174,7 @@ model %>%
 ```
 For maximum reproducibility, we should express the coverage assessment as a custom function and a target in the pipeline.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval = TRUE}
 library(targets)
 tar_script({
   library(stantargets)
@@ -261,17 +261,17 @@ list(
 
 The new `coverage` target should the only outdated target, and it should be connected to the upstream `model` target.
 
-```{r}
+```{r, eval = TRUE}
 tar_visnetwork()
 ```
 
 When we run the pipeline, only the coverage assessment should run. That way, we skip all the expensive computation of simulating datasets and running MCMC multiple times.
 
-```{r, output = FALSE, warning = FALSE}
+```{r, output = FALSE, warning = FALSE, eval = TRUE}
 tar_make()
 ```
 
-```{r}
+```{r, eval = TRUE}
 tar_read(coverage)
 ```
 
@@ -279,7 +279,7 @@ tar_read(coverage)
 
 `tar_stan_rep_mcmc_summary()` and similar functions allow you to supply multiple Stan models. If you do, each model will share the the same collection of datasets, and the `.dataset_id` column of the model target output allows for custom analyses that compare different models against each other. Suppose we have a new model, `model2.stan`.
 
-```{r}
+```{r, eval = TRUE}
 lines <- "data {
   int <lower = 1> n;
   vector[n] x;
@@ -298,7 +298,7 @@ writeLines(lines, "model2.stan")
 To set up the simulation workflow to run on both models, we add `model2.stan` to the `stan_files` argument of `tar_stan_rep_mcmc_summary()`. And in the coverage summary below, we group by `.name` to compute a coverage statistic for each model.
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval = TRUE}
 library(targets)
 tar_script({
   library(stantargets)
@@ -385,7 +385,7 @@ list(
 
 In the graph below, notice how targets `model_model` and `model_model2` are both connected to `model_data` upstream. Downstream, `model` is equivalent to `dplyr::bind_rows(model_model, model_model2)`, and it will have special columns `.name` and `.file` to distinguish among all the models.
 
-```{r}
+```{r, eval = TRUE}
 tar_visnetwork()
 ```
 
@@ -444,7 +444,7 @@ get_ranks(data = data, draws = draws)
 
 To put this into practice in a pipeline, we supply the symbol `get_ranks` to the `transform` argument of `tar_stan_mcmc_rep_draws()`. That way, instead of a full set of draws, each replication will return only the output of `get_ranks()` on those draws (plus a few helper columns). If supplied, the `transform` argument of `tar_stan_mcmc_rep_draws()` must be the name of a function in the pipeline. This function must accept arguments `data` and `draws`, and it must return a data frame.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval = TRUE}
 library(targets)
 tar_script({
   library(stantargets)

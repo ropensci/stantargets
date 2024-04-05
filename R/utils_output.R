@@ -41,7 +41,7 @@ tar_stan_output <- function(
   )
   out <- tibble::as_tibble(out)
   out <- tar_stan_output_rep_scalars(out, data, data_copy)
-  out$.rep <- digest::digest(stats::runif(1), algo = "xxhash32")
+  out$.rep <- secretbase::siphash13(stats::runif(1))
   out$.dataset_id <- data$.dataset_id
   out$.seed <- if_any(length(seed) == 1L, seed, list(seed))
   out

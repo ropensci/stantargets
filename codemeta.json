@@ -1,46 +1,41 @@
 {
-  "@context": [
-    "https://doi.org/10.5063/schema/codemeta-2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "stantargets",
-  "description": "Bayesian data analysis usually incurs long runtimes\n  and cumbersome custom code. A specialized pipeline toolkit for\n  Bayesians, the 'stantargets' R package leverages\n  'targets' and 'cmdstanr' to ease these burdens.\n  'stantargets' makes it super easy to set up useful scalable\n  Stan pipelines that automatically parallelize the computation\n  and skip expensive steps when the results are already up to date.\n  Minimal custom code is required, and there is no need to manually\n  configure branching, so usage is much easier than 'targets' alone.\n  'stantargets' can access all of 'cmdstanr''s major algorithms\n  (MCMC, variational Bayes, and optimization) and it supports\n  both single-fit workflows and multi-rep simulation studies.\n  For the statistical methodology, please refer to 'Stan' documentation\n  (Stan Development Team 2020) <https://mc-stan.org/>.",
+  "description": "Bayesian data analysis usually incurs long runtimes and cumbersome custom code. A pipeline toolkit tailored to Bayesian statisticians, the 'stantargets' R package leverages 'targets' and 'cmdstanr' to ease these burdens. 'stantargets' makes it super easy to set up scalable Stan pipelines that automatically parallelize the computation and skip expensive steps when the results are already up to date. Minimal custom code is required, and there is no need to manually configure branching, so usage is much easier than 'targets' alone. 'stantargets' can access all of 'cmdstanr''s major algorithms (MCMC, variational Bayes, and optimization) and it supports both single-fit workflows and multi-rep simulation studies. For the statistical methodology, please refer to 'Stan' documentation (Stan Development Team 2020) <https://mc-stan.org/>.",
   "name": "stantargets: Targets for Stan Workflows",
+  "relatedLink": "https://docs.ropensci.org/stantargets/",
   "codeRepository": "https://github.com/ropensci/stantargets",
-  "relatedLink": ["https://wlandau.github.io/stantargets/", "https://docs.ropensci.org/stantargets/"],
   "issueTracker": "https://github.com/ropensci/stantargets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9002",
+  "version": "0.1.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
   "author": [
     {
       "@type": "Person",
       "givenName": ["William", "Michael"],
       "familyName": "Landau",
-      "email": "will.landau@gmail.com",
+      "email": "will.landau.oss@gmail.com",
       "@id": "https://orcid.org/0000-0003-1878-3253"
     }
   ],
-  "contributor": {},
   "copyrightHolder": [
     {
       "@type": "Organization",
       "name": "Eli Lilly and Company"
     }
   ],
-  "funder": {},
   "maintainer": [
     {
       "@type": "Person",
       "givenName": ["William", "Michael"],
       "familyName": "Landau",
-      "email": "will.landau@gmail.com",
+      "email": "will.landau.oss@gmail.com",
       "@id": "https://orcid.org/0000-0003-1878-3253"
     }
   ],
@@ -57,6 +52,19 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "ggplot2",
+      "name": "ggplot2",
+      "version": ">= 3.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
     },
     {
       "@type": "SoftwareApplication",
@@ -99,6 +107,13 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "SBC",
+      "name": "SBC",
+      "version": ">= 0.2.0",
+      "sameAs": "https://github.com/hyunjimoon/SBC"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "version": ">= 3.0.0",
@@ -109,6 +124,19 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "tidyr",
+      "name": "tidyr",
+      "version": ">= 1.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tidyr"
     },
     {
       "@type": "SoftwareApplication",
@@ -124,34 +152,21 @@
       "sameAs": "https://CRAN.R-project.org/package=visNetwork"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 3.5.0"
     },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "cmdstanr",
       "name": "cmdstanr",
-      "version": ">= 0.2.0",
+      "version": ">= 0.5.0",
       "sameAs": "https://github.com/stan-dev/cmdstanr"
     },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "digest",
-      "name": "digest",
-      "version": ">= 0.6.25",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=digest"
-    },
-    {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "fs",
       "name": "fs",
@@ -164,7 +179,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=fs"
     },
-    {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "fst",
       "name": "fst",
@@ -177,14 +192,20 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=fst"
     },
-    {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "posterior",
       "name": "posterior",
-      "version": ">= 0.1.2",
-      "sameAs": "https://github.com/stan-dev/posterior"
+      "version": ">= 1.0.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=posterior"
     },
-    {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "purrr",
       "name": "purrr",
@@ -197,7 +218,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=purrr"
     },
-    {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "qs",
       "name": "qs",
@@ -210,7 +231,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=qs"
     },
-    {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -223,16 +244,29 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    {
+    "9": {
+      "@type": "SoftwareApplication",
+      "identifier": "secretbase",
+      "name": "secretbase",
+      "version": ">= 0.4.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=secretbase"
+    },
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "targets",
       "name": "targets",
-      "version": ">= 0.0.1",
+      "version": ">= 1.5.1.9001",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -241,11 +275,11 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=targets"
     },
-    {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "tarchetypes",
       "name": "tarchetypes",
-      "version": ">= 0.0.1",
+      "version": ">= 0.7.12.9001",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -254,7 +288,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tarchetypes"
     },
-    {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "tibble",
       "name": "tibble",
@@ -267,7 +301,19 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
     },
-    {
+    "14": {
+      "@type": "SoftwareApplication",
+      "identifier": "tidyselect",
+      "name": "tidyselect",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tidyselect"
+    },
+    "15": {
       "@type": "SoftwareApplication",
       "identifier": "withr",
       "name": "withr",
@@ -279,29 +325,44 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=withr"
+    },
+    "SystemRequirements": "CmdStan >= 2.25.0"
+  },
+  "fileSize": "982.447KB",
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2021",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": ["William", "Michael"],
+          "familyName": "Landau"
+        }
+      ],
+      "name": "The stantargets {R} package: a workflow framework for efficient reproducible {S}tan-powered {B}ayesian data analysis pipelines",
+      "url": "https://doi.org/10.21105/joss.03193",
+      "pagination": "3193",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "60",
+        "datePublished": "2021",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "6",
+          "name": "Journal of Open Source Software"
+        }
+      }
     }
   ],
-  "readme": "https://github.com/ropensci/stantargets/blob/main/README.md",
-  "fileSize": "964.37KB",
-  "contIntegration": "https://codecov.io/gh/ropensci/stantargets",
-  "developmentStatus": "https://www.repostatus.org/#active",
-  "keywords": [
-    "r",
-    "rstats",
-    "reproducibility",
-    "high-performance-computing",
-    "stan",
-    "bayesian",
-    "statistics",
-    "targets",
-    "make",
-    "rstats-package",
-    "r-targetopia"
-  ],
   "releaseNotes": "https://github.com/ropensci/stantargets/blob/master/NEWS.md",
+  "readme": "https://github.com/ropensci/stantargets/blob/main/README.md",
+  "contIntegration": ["https://github.com/ropensci/stantargets/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ropensci/stantargets", "https://github.com/ropensci/stantargets/actions?query=workflow%3Alint"],
+  "developmentStatus": "https://www.repostatus.org/#active",
   "review": {
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/430",
     "provider": "https://ropensci.org"
-  }
+  },
+  "keywords": ["r", "rstats", "reproducibility", "high-performance-computing", "stan", "bayesian", "statistics", "targets", "make", "rstats-package", "r-targetopia"]
 }

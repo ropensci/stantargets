@@ -14,21 +14,21 @@
 #' @name stantargets-package
 #' @seealso <https://docs.ropensci.org/stantargets/>, [tar_stan_mcmc()]
 #' @importFrom cmdstanr cmdstan_model
-#' @importFrom digest digest
 #' @importFrom fs path_ext_remove path_rel
 #' @importFrom fst read_fst
 #' @importFrom qs qread
 #' @importFrom posterior as_draws_df
 #' @importFrom purrr map map_dbl map2_dfr
 #' @importFrom rlang check_installed expr quo_squash
+#' @importFrom secretbase siphash13
 #' @importFrom stats rnorm runif
 #' @importFrom targets tar_assert_chr tar_assert_nonempty
 #'   tar_assert_not_dir tar_assert_not_in
 #'   tar_assert_nzchar tar_assert_path
 #'   tar_assert_scalar tar_assert_unique
 #'   tar_cue tar_deparse_safe tar_dir tar_load tar_option_get
-#'   tar_read tar_script tar_seed_get tar_target tar_target_raw tar_test
-#'   tar_tidy_eval tar_throw_validate
+#'   tar_read tar_script tar_seed_create tar_seed_get tar_target
+#'   tar_target_raw tar_test tar_tidy_eval tar_throw_validate
 #' @importFrom tarchetypes tar_combine_raw tar_map
 #' @importFrom tidyselect any_of
 #' @importFrom withr local_message_sink local_output_sink

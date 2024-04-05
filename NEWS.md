@@ -1,4 +1,10 @@
-# stantargets 0.1.0.9001 (development)
+# stantargets 0.1.1
+
+## Invalidating changes
+
+* To align with https://github.com/ropensci/targets/issues/1244 and https://github.com/ropensci/targets/pull/1262, switch the hashing functions from `digest::digest()` to `secretbase::siphash13()`.
+
+## Other changes
 
 * Remove temporary files generated CmdStan.
 * Add the new `description` arguments of `tar_target()` (`targets >= 1.5.1.9001).
