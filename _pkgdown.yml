@@ -9,7 +9,7 @@ navbar:
       text: cmdstanr
       href: https://mc-stan.org/cmdstanr/index.html
   structure:
-    left:  [intro, reference, targets, cmdstanr, news]
+    left:  [intro, reference, articles, targets, cmdstanr, news]
     right: [search, github, lightswitch]
 reference:
 - title: Help
