@@ -1,6 +1,6 @@
-# stantargets 0.1.1.9000 (development)
+# stantargets 0.1.2
 
-
+* Add R-multiverse topic.
 
 # stantargets 0.1.1
 
