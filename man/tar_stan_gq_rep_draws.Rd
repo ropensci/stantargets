@@ -59,8 +59,8 @@ files created before running the pipeline.}
 the data block of the Stan program. One of the following:
 \itemize{
 \item A named list of \R objects with the names corresponding to variables
-declared in the data block of the Stan program. Internally this list is then
-written to JSON for CmdStan using \code{\link[cmdstanr:write_stan_json]{write_stan_json()}}. See
+declared in the data block of the Stan program. Internally this list is
+then written to JSON for CmdStan using \code{\link[cmdstanr:write_stan_json]{write_stan_json()}}. See
 \code{\link[cmdstanr:write_stan_json]{write_stan_json()}} for details on the conversions performed on \R objects
 before they are passed to Stan.
 \item A path to a data file compatible with CmdStan (JSON or \R dump). See the
@@ -120,7 +120,7 @@ same location as the Stan program.}
 
 \item{pedantic}{(logical) Should pedantic mode be turned on? The default is
 \code{FALSE}. Pedantic mode attempts to warn you about potential issues in your
-Stan program beyond syntax errors. For details see the \href{https://mc-stan.org/docs/stan-users-guide/pedantic-mode.html}{\emph{Pedantic mode} chapter} in
+Stan program beyond syntax errors. For details see the \href{https://mc-stan.org/docs/stan-users-guide/pedantic-mode.html}{\emph{Pedantic mode} section} in
 the Stan Reference Manual. \strong{Note:} to do a pedantic check for a model
 without compiling it or for a model that is already compiled the
 \code{\link[cmdstanr:model-method-check_syntax]{$check_syntax()}} method can be used instead.}
@@ -147,25 +147,25 @@ via a global \code{cmdstanr_force_recompile} option.}
 \item{seed}{(positive integer(s)) A seed for the (P)RNG to pass to CmdStan.
 In the case of multi-chain sampling the single \code{seed} will automatically be
 augmented by the the run (chain) ID so that each chain uses a different
-seed. The exception is the transformed data block, which defaults to
-using same seed for all chains so that the same data is generated for all
-chains if RNG functions are used. The only time \code{seed} should be specified
-as a vector (one element per chain) is if RNG functions are used in
-transformed data and the goal is to generate \emph{different} data for each
-chain.}
+seed. The exception is the transformed data block, which defaults to using
+same seed for all chains so that the same data is generated for all chains
+if RNG functions are used. The only time \code{seed} should be specified as a
+vector (one element per chain) is if RNG functions are used in transformed
+data and the goal is to generate \emph{different} data for each chain.}
 
 \item{output_dir}{(string) A path to a directory where CmdStan should write
-its output CSV files. For interactive use this can typically be left at
-\code{NULL} (temporary directory) since CmdStanR makes the CmdStan output
-(posterior draws and diagnostics) available in \R via methods of the fitted
-model objects. The behavior of \code{output_dir} is as follows:
+its output CSV files. For MCMC there will be one file per chain; for other
+methods there will be a single file. For interactive use this can typically
+be left at \code{NULL} (temporary directory) since CmdStanR makes the CmdStan
+output (posterior draws and diagnostics) available in \R via methods of the
+fitted model objects. This can be set for an entire \R session using
+\code{options(cmdstanr_output_dir)}. The behavior of \code{output_dir} is as follows:
 \itemize{
 \item If \code{NULL} (the default), then the CSV files are written to a temporary
 directory and only saved permanently if the user calls one of the \verb{$save_*}
 methods of the fitted model object (e.g.,
 \code{\link[cmdstanr:fit-method-save_output_files]{$save_output_files()}}). These temporary
-files are removed when the fitted model object is
-\link[base:gc]{garbage collected} (manually or automatically).
+files are removed when the fitted model object is \link[base:gc]{garbage collected} (manually or automatically).
 \item If a path, then the files are created in \code{output_dir} with names
 corresponding to the defaults used by \verb{$save_output_files()}.
 }}
@@ -189,8 +189,7 @@ using the Stan functions \code{reduce_sum()} or \code{map_rect()}). This is in
 contrast with \code{parallel_chains}, which specifies the number of chains to
 run in parallel. The actual number of CPU cores used is
 \code{parallel_chains*threads_per_chain}. For an example of using threading see
-the Stan case study
-\href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
+the Stan case study \href{https://mc-stan.org/users/documentation/case-studies/reduce_sum_tutorial.html}{Reduce Sum: A Minimal Example}.}
 
 \item{variables}{(character vector) Optionally, the names of the variables
 (parameters, transformed parameters, and generated quantities) to read in.
@@ -258,6 +257,8 @@ for details for instructions.
 See the cloud storage section of
 \url{https://books.ropensci.org/targets/data.html}
 for details for instructions.
+\item A character string from \code{\link[targets:tar_repository_cas]{tar_repository_cas()}} for content-addressable
+storage.
 }
 
 Note: if \code{repository} is not \code{"local"} and \code{format} is \code{"file"}
@@ -271,28 +272,49 @@ stops and throws an error. Options:
 \itemize{
 \item \code{"stop"}: the whole pipeline stops and throws an error.
 \item \code{"continue"}: the whole pipeline keeps going.
-\item \code{"abridge"}: any currently running targets keep running,
-but no new targets launch after that.
-(Visit \url{https://books.ropensci.org/targets/debugging.html}
-to learn how to debug targets using saved workspaces.)
 \item \code{"null"}: The errored target continues and returns \code{NULL}.
 The data hash is deliberately wrong so the target is not
-up to date for the next run of the pipeline.
+up to date for the next run of the pipeline. In addition,
+as of \code{targets} version 1.8.0.9011, a value of \code{NULL} is given
+to upstream dependencies with \code{error = "null"} if loading fails.
+\item \code{"abridge"}: any currently running targets keep running,
+but no new targets launch after that.
+\item \code{"trim"}: all currently running targets stay running. A queued
+target is allowed to start if:
+\enumerate{
+\item It is not downstream of the error, and
+\item It is not a sibling branch from the same \code{\link[targets:tar_target]{tar_target()}} call
+(if the error happened in a dynamic branch).
+}
+
+The idea is to avoid starting any new work that the immediate error
+impacts. \code{error = "trim"} is just like \code{error = "abridge"},
+but it allows potentially healthy regions of the dependency graph
+to begin running.
+(Visit \url{https://books.ropensci.org/targets/debugging.html}
+to learn how to debug targets using saved workspaces.)
 }}
 
-\item{memory}{Character of length 1, memory strategy.
-If \code{"persistent"}, the target stays in memory
+\item{memory}{Character of length 1, memory strategy. Possible values:
+\itemize{
+\item \code{"auto"}: new in \code{targets} version 1.8.0.9011, \code{memory = "auto"}
+is equivalent to \code{memory = "transient"} for dynamic branching
+(a non-null \code{pattern} argument) and \code{memory = "persistent"}
+for targets that do not use dynamic branching.
+\item \code{"persistent"}: the target stays in memory
 until the end of the pipeline (unless \code{storage} is \code{"worker"},
 in which case \code{targets} unloads the value from memory
 right after storing it in order to avoid sending
 copious data over a network).
-If \code{"transient"}, the target gets unloaded
+\item \code{"transient"}: the target gets unloaded
 after every new target completes.
 Either way, the target gets automatically loaded into memory
 whenever another target needs the value.
+}
+
 For cloud-based dynamic files
 (e.g. \code{format = "file"} with \code{repository = "aws"}),
-this memory strategy applies to the
+the \code{memory} option applies to the
 temporary local copy of the file:
 \code{"persistent"} means it remains until the end of the pipeline
 and is then deleted,
@@ -300,8 +322,17 @@ and \code{"transient"} means it gets deleted as soon as possible.
 The former conserves bandwidth,
 and the latter conserves local storage.}
 
-\item{garbage_collection}{Logical, whether to run \code{base::gc()}
-just before the target runs.}
+\item{garbage_collection}{Logical: \code{TRUE} to run \code{base::gc()}
+just before the target runs,
+\code{FALSE} to omit garbage collection.
+In the case of high-performance computing,
+\code{gc()} runs both locally and on the parallel worker.
+All this garbage collection is skipped if the actual target
+is skipped in the pipeline.
+Non-logical values of \code{garbage_collection} are converted to \code{TRUE} or
+\code{FALSE} using \code{isTRUE()}. In other words, non-logical values are
+converted \code{FALSE}. For example, \code{garbage_collection = 2}
+is equivalent to \code{garbage_collection = FALSE}.}
 
 \item{deployment}{Character of length 1. If \code{deployment} is
 \code{"main"}, then the target will run on the central controlling R process.
@@ -322,47 +353,33 @@ functionality, alternative data storage formats,
 and other optional capabilities of \code{targets}.
 See \code{tar_resources()} for details.}
 
-\item{storage}{Character of length 1, only relevant to
-\code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[targets:tar_make_future]{tar_make_future()}}.
+\item{storage}{Character string to control when the output of the target
+is saved to storage. Only relevant when using \code{targets}
+with parallel workers (\url{https://books.ropensci.org/targets/crew.html}).
 Must be one of the following values:
 \itemize{
 \item \code{"main"}: the target's return value is sent back to the
 host machine and saved/uploaded locally.
 \item \code{"worker"}: the worker saves/uploads the value.
-\item \code{"none"}: almost never recommended. It is only for
-niche situations, e.g. the data needs to be loaded
-explicitly from another language. If you do use it,
-then the return value of the target is totally ignored
-when the target ends, but
-each downstream target still attempts to load the data file
-(except when \code{retrieval = "none"}).
-
-If you select \code{storage = "none"}, then
-the return value of the target's command is ignored,
-and the data is not saved automatically.
-As with dynamic files (\code{format = "file"}) it is the
-responsibility of the user to write to
-the data store from inside the target.
-
-The distinguishing feature of \code{storage = "none"}
-(as opposed to \code{format = "file"})
-is that in the general case,
-downstream targets will automatically try to load the data
-from the data store as a dependency. As a corollary, \code{storage = "none"}
-is completely unnecessary if \code{format} is \code{"file"}.
+\item \code{"none"}: \code{targets} makes no attempt to save the result
+of the target to storage in the location where \code{targets}
+expects it to be. Saving to storage is the responsibility
+of the user. Use with caution.
 }}
 
-\item{retrieval}{Character of length 1, only relevant to
-\code{\link[targets:tar_make_clustermq]{tar_make_clustermq()}} and \code{\link[targets:tar_make_future]{tar_make_future()}}.
+\item{retrieval}{Character string to control when the current target
+loads its dependencies into memory before running.
+(Here, a "dependency" is another target upstream that the current one
+depends on.) Only relevant when using \code{targets}
+with parallel workers (\url{https://books.ropensci.org/targets/crew.html}).
 Must be one of the following values:
 \itemize{
 \item \code{"main"}: the target's dependencies are loaded on the host machine
 and sent to the worker before the target runs.
-\item \code{"worker"}: the worker loads the targets dependencies.
-\item \code{"none"}: the dependencies are not loaded at all.
-This choice is almost never recommended. It is only for
-niche situations, e.g. the data needs to be loaded
-explicitly from another language.
+\item \code{"worker"}: the worker loads the target's dependencies.
+\item \code{"none"}: \code{targets} makes no attempt to load its
+dependencies. With \code{retrieval = "none"}, loading dependencies
+is the responsibility of the user. Use with caution.
 }}
 
 \item{cue}{An optional object from \code{tar_cue()} to customize the

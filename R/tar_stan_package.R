@@ -16,7 +16,7 @@
 #' @importFrom cmdstanr cmdstan_model
 #' @importFrom fs path_ext_remove path_rel
 #' @importFrom fst read_fst
-#' @importFrom qs qread
+#' @importFrom qs2 qs_read
 #' @importFrom posterior as_draws_df
 #' @importFrom purrr map map_dbl map2_dfr
 #' @importFrom rlang check_installed expr quo_squash
