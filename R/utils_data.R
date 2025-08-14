@@ -13,7 +13,7 @@ tar_stan_rep_data_batch <- function(reps, batch, command) {
   command <- substitute(command)
   purrr::map(
     seq_len(reps),
-    ~tar_stan_rep_data_rep(.x, reps, batch, command, envir)
+    ~ tar_stan_rep_data_rep(.x, reps, batch, command, envir)
   )
 }
 

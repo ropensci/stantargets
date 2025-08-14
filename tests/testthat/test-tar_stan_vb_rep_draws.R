@@ -34,14 +34,22 @@ targets::tar_test("tar_stan_vb_rep_draws(compile = \"original\")", {
   out <- dplyr::arrange(out, from, to)
   rownames(out) <- NULL
   exp <- tibble::tribble(
-    ~from, ~to,
-    "model_data", "model_x",
-    "model_file_x", "model_x",
-    "model_batch", "model_data",
-    "model_data", "model_y",
-    "model_file_y", "model_y",
-    "model_x", "model",
-    "model_y", "model"
+    ~from,
+    ~to,
+    "model_data",
+    "model_x",
+    "model_file_x",
+    "model_x",
+    "model_batch",
+    "model_data",
+    "model_data",
+    "model_y",
+    "model_file_y",
+    "model_y",
+    "model_x",
+    "model",
+    "model_y",
+    "model"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL
@@ -203,16 +211,26 @@ targets::tar_test("tar_stan_vb_rep_draws(compile = \"copy\") custom", {
   out <- dplyr::arrange(out, from, to)
   rownames(out) <- NULL
   exp <- tibble::tribble(
-    ~from, ~to,
-    "model_a", "model",
-    "model_b", "model",
-    "model_batch", "model_data",
-    "model_data", "model_a",
-    "model_data", "model_b",
-    "model_file_a", "model_lines_a",
-    "model_file_b", "model_lines_b",
-    "model_lines_a", "model_a",
-    "model_lines_b", "model_b"
+    ~from,
+    ~to,
+    "model_a",
+    "model",
+    "model_b",
+    "model",
+    "model_batch",
+    "model_data",
+    "model_data",
+    "model_a",
+    "model_data",
+    "model_b",
+    "model_file_a",
+    "model_lines_a",
+    "model_file_b",
+    "model_lines_b",
+    "model_lines_a",
+    "model_a",
+    "model_lines_b",
+    "model_b"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL

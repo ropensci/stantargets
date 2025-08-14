@@ -52,7 +52,7 @@ targets::tar_test("tar_stan_summary() with custom summaries", {
         data = model_data,
         variables = "beta",
         summaries = list(
-          ~quantile(.x, probs = c(0.25, 0.75)),
+          ~ quantile(.x, probs = c(0.25, 0.75)),
           custom = function(x, my_arg) my_arg
         ),
         summary_args = list(my_arg = 123L)

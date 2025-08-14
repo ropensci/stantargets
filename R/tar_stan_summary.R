@@ -138,7 +138,7 @@ tar_stan_summary_call <- function(
 tar_stan_summary_join_data <- function(summaries, data) {
   summaries$.join_data <- purrr::map_dbl(
     summaries$variable,
-    ~tar_stan_summary_join_data_scalar(.x, data$.join_data)
+    ~ tar_stan_summary_join_data_scalar(.x, data$.join_data)
   )
   summaries
 }

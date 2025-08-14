@@ -25,17 +25,28 @@ targets::tar_test("tar_stan_mle(compile = \"original\")", {
   out <- dplyr::arrange(out, from, to)
   rownames(out) <- NULL
   exp <- tibble::tribble(
-    ~from, ~to,
-    "model_data", "model_summary_x",
-    "model_data", "model_summary_y",
-    "model_data", "model_mle_x",
-    "model_file_x", "model_mle_x",
-    "model_data", "model_mle_y",
-    "model_file_y", "model_mle_y",
-    "model_mle_x", "model_summary_x",
-    "model_mle_y", "model_summary_y",
-    "model_mle_x", "model_draws_x",
-    "model_mle_y", "model_draws_y"
+    ~from,
+    ~to,
+    "model_data",
+    "model_summary_x",
+    "model_data",
+    "model_summary_y",
+    "model_data",
+    "model_mle_x",
+    "model_file_x",
+    "model_mle_x",
+    "model_data",
+    "model_mle_y",
+    "model_file_y",
+    "model_mle_y",
+    "model_mle_x",
+    "model_summary_x",
+    "model_mle_y",
+    "model_summary_y",
+    "model_mle_x",
+    "model_draws_x",
+    "model_mle_y",
+    "model_draws_y"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL
@@ -132,7 +143,7 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
         compile = "copy",
         refresh = 0,
         variables = "beta",
-        summaries = list(~c(mean = -10000)),
+        summaries = list(~ c(mean = -10000)),
         stdout = R.utils::nullfile(),
         stderr = R.utils::nullfile()
       )
@@ -146,19 +157,32 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
   out <- dplyr::arrange(out, from, to)
   rownames(out) <- NULL
   exp <- tibble::tribble(
-    ~from, ~to,
-    "model_data", "model_summary_a",
-    "model_data", "model_summary_b",
-    "model_data", "model_mle_a",
-    "model_data", "model_mle_b",
-    "model_file_a", "model_lines_a",
-    "model_file_b", "model_lines_b",
-    "model_lines_a", "model_mle_a",
-    "model_lines_b", "model_mle_b",
-    "model_mle_a", "model_draws_a",
-    "model_mle_a", "model_summary_a",
-    "model_mle_b", "model_draws_b",
-    "model_mle_b", "model_summary_b"
+    ~from,
+    ~to,
+    "model_data",
+    "model_summary_a",
+    "model_data",
+    "model_summary_b",
+    "model_data",
+    "model_mle_a",
+    "model_data",
+    "model_mle_b",
+    "model_file_a",
+    "model_lines_a",
+    "model_file_b",
+    "model_lines_b",
+    "model_lines_a",
+    "model_mle_a",
+    "model_lines_b",
+    "model_mle_b",
+    "model_mle_a",
+    "model_draws_a",
+    "model_mle_a",
+    "model_summary_a",
+    "model_mle_b",
+    "model_draws_b",
+    "model_mle_b",
+    "model_summary_b"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL
@@ -228,7 +252,7 @@ targets::tar_test("tar_stan_mle(compile = \"copy\") with custom summaries", {
         compile = "copy",
         refresh = 0,
         variables = "beta",
-        summaries = list(~c(mean = -10000)),
+        summaries = list(~ c(mean = -10000)),
         stdout = R.utils::nullfile(),
         stderr = R.utils::nullfile()
       )
@@ -258,7 +282,7 @@ targets::tar_test("stan files missing", {
       compile = "copy",
       refresh = 0,
       variables = "beta",
-      summaries = list(~c(mean = -10000)),
+      summaries = list(~ c(mean = -10000)),
       stdout = R.utils::nullfile(),
       stderr = R.utils::nullfile()
     ),

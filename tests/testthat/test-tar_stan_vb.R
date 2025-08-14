@@ -48,17 +48,28 @@ targets::tar_test("tar_stan_vb(compile = \"original\")", {
   out <- dplyr::arrange(out, from, to)
   rownames(out) <- NULL
   exp <- tibble::tribble(
-    ~from, ~to,
-    "model_data", "model_summary_x",
-    "model_data", "model_summary_y",
-    "model_data", "model_vb_x",
-    "model_file_x", "model_vb_x",
-    "model_data", "model_vb_y",
-    "model_file_y", "model_vb_y",
-    "model_vb_x", "model_summary_x",
-    "model_vb_y", "model_summary_y",
-    "model_vb_x", "model_draws_x",
-    "model_vb_y", "model_draws_y"
+    ~from,
+    ~to,
+    "model_data",
+    "model_summary_x",
+    "model_data",
+    "model_summary_y",
+    "model_data",
+    "model_vb_x",
+    "model_file_x",
+    "model_vb_x",
+    "model_data",
+    "model_vb_y",
+    "model_file_y",
+    "model_vb_y",
+    "model_vb_x",
+    "model_summary_x",
+    "model_vb_y",
+    "model_summary_y",
+    "model_vb_x",
+    "model_draws_x",
+    "model_vb_y",
+    "model_draws_y"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL
@@ -161,7 +172,7 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
         refresh = 0,
         iter = 1000,
         variables = "beta",
-        summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
+        summaries = list(~ quantile(.x, probs = c(0.25, 0.75))),
         stdout = R.utils::nullfile(),
         stderr = R.utils::nullfile()
       )
@@ -175,19 +186,32 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
   out <- dplyr::arrange(out, from, to)
   rownames(out) <- NULL
   exp <- tibble::tribble(
-    ~from, ~to,
-    "model_data", "model_summary_a",
-    "model_data", "model_summary_b",
-    "model_data", "model_vb_a",
-    "model_data", "model_vb_b",
-    "model_file_a", "model_lines_a",
-    "model_file_b", "model_lines_b",
-    "model_lines_a", "model_vb_a",
-    "model_lines_b", "model_vb_b",
-    "model_vb_a", "model_draws_a",
-    "model_vb_a", "model_summary_a",
-    "model_vb_b", "model_draws_b",
-    "model_vb_b", "model_summary_b"
+    ~from,
+    ~to,
+    "model_data",
+    "model_summary_a",
+    "model_data",
+    "model_summary_b",
+    "model_data",
+    "model_vb_a",
+    "model_data",
+    "model_vb_b",
+    "model_file_a",
+    "model_lines_a",
+    "model_file_b",
+    "model_lines_b",
+    "model_lines_a",
+    "model_vb_a",
+    "model_lines_b",
+    "model_vb_b",
+    "model_vb_a",
+    "model_draws_a",
+    "model_vb_a",
+    "model_summary_a",
+    "model_vb_b",
+    "model_draws_b",
+    "model_vb_b",
+    "model_summary_b"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL
@@ -257,7 +281,7 @@ targets::tar_test("tar_stan_vb(compile = \"copy\") with custom summaries", {
         refresh = 0,
         iter = 1000,
         variables = "beta",
-        summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
+        summaries = list(~ quantile(.x, probs = c(0.25, 0.75))),
         stdout = R.utils::nullfile(),
         stderr = R.utils::nullfile()
       )
@@ -289,7 +313,7 @@ targets::tar_test("stan files missing", {
       refresh = 0,
       iter = 1000,
       variables = "beta",
-      summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
+      summaries = list(~ quantile(.x, probs = c(0.25, 0.75))),
       stdout = R.utils::nullfile(),
       stderr = R.utils::nullfile()
     ),

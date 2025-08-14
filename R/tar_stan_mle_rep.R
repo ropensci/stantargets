@@ -337,7 +337,7 @@ tar_stan_mle_rep_run <- function(
   out <- purrr::map2_dfr(
     .x = seq_along(data),
     .y = data,
-    ~tar_stan_mle_rep_run_rep(
+    ~ tar_stan_mle_rep_run_rep(
       rep = .x,
       data = .y,
       seed = seed,

@@ -32,14 +32,22 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"original\")", {
   out <- dplyr::arrange(out, from, to)
   rownames(out) <- NULL
   exp <- tibble::tribble(
-    ~from, ~to,
-    "model_data", "model_x",
-    "model_file_x", "model_x",
-    "model_batch", "model_data",
-    "model_data", "model_y",
-    "model_file_y", "model_y",
-    "model_x", "model",
-    "model_y", "model"
+    ~from,
+    ~to,
+    "model_data",
+    "model_x",
+    "model_file_x",
+    "model_x",
+    "model_batch",
+    "model_data",
+    "model_data",
+    "model_y",
+    "model_file_y",
+    "model_y",
+    "model_x",
+    "model",
+    "model_y",
+    "model"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL
@@ -144,7 +152,7 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"copy\") custom", {
         data_copy = c("n", "true_beta"),
         variables = "beta",
         summaries = list(
-          ~quantile(.x, probs = c(0.25, 0.75)),
+          ~ quantile(.x, probs = c(0.25, 0.75)),
           custom = function(x, my_arg) my_arg
         ),
         summary_args = list(my_arg = 123L),
@@ -165,16 +173,26 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"copy\") custom", {
   out <- dplyr::arrange(out, from, to)
   rownames(out) <- NULL
   exp <- tibble::tribble(
-    ~from, ~to,
-    "model_a", "model",
-    "model_b", "model",
-    "model_batch", "model_data",
-    "model_data", "model_a",
-    "model_data", "model_b",
-    "model_file_a", "model_lines_a",
-    "model_file_b", "model_lines_b",
-    "model_lines_a", "model_a",
-    "model_lines_b", "model_b"
+    ~from,
+    ~to,
+    "model_a",
+    "model",
+    "model_b",
+    "model",
+    "model_batch",
+    "model_data",
+    "model_data",
+    "model_a",
+    "model_data",
+    "model_b",
+    "model_file_a",
+    "model_lines_a",
+    "model_file_b",
+    "model_lines_b",
+    "model_lines_a",
+    "model_a",
+    "model_lines_b",
+    "model_b"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL
@@ -246,7 +264,7 @@ targets::tar_test("tar_stan_vb_rep_summary(compile = \"copy\") custom", {
         data_copy = c("n", "true_beta"),
         variables = "beta",
         summaries = list(
-          ~quantile(.x, probs = c(0.25, 0.75)),
+          ~ quantile(.x, probs = c(0.25, 0.75)),
           custom = function(x, my_arg) my_arg
         ),
         summary_args = list(my_arg = 123L),
@@ -282,7 +300,7 @@ targets::tar_test("stan files missing", {
       data_copy = c("n", "true_beta"),
       variables = "beta",
       summaries = list(
-        ~quantile(.x, probs = c(0.25, 0.75)),
+        ~ quantile(.x, probs = c(0.25, 0.75)),
         custom = function(x, my_arg) my_arg
       ),
       summary_args = list(my_arg = 123L),

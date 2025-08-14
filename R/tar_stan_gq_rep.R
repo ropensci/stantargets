@@ -316,7 +316,7 @@ tar_stan_gq_rep_run <- function(
   out <- purrr::map2_dfr(
     .x = seq_along(data),
     .y = data,
-    ~tar_stan_gq_rep_run_rep(
+    ~ tar_stan_gq_rep_run_rep(
       rep = .x,
       data = .y,
       output_type = output_type,

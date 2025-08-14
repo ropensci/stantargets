@@ -74,19 +74,32 @@ targets::tar_test("tar_stan_mcmc(compile = \"original\")", {
   out <- dplyr::arrange(out, from, to)
   rownames(out) <- NULL
   exp <- tibble::tribble(
-    ~from, ~to,
-    "model_data", "model_mcmc_x",
-    "model_data", "model_mcmc_y",
-    "model_data", "model_summary_x",
-    "model_data", "model_summary_y",
-    "model_file_x", "model_mcmc_x",
-    "model_file_y", "model_mcmc_y",
-    "model_mcmc_x", "model_diagnostics_x",
-    "model_mcmc_x", "model_draws_x",
-    "model_mcmc_x", "model_summary_x",
-    "model_mcmc_y", "model_diagnostics_y",
-    "model_mcmc_y", "model_draws_y",
-    "model_mcmc_y", "model_summary_y"
+    ~from,
+    ~to,
+    "model_data",
+    "model_mcmc_x",
+    "model_data",
+    "model_mcmc_y",
+    "model_data",
+    "model_summary_x",
+    "model_data",
+    "model_summary_y",
+    "model_file_x",
+    "model_mcmc_x",
+    "model_file_y",
+    "model_mcmc_y",
+    "model_mcmc_x",
+    "model_diagnostics_x",
+    "model_mcmc_x",
+    "model_draws_x",
+    "model_mcmc_x",
+    "model_summary_x",
+    "model_mcmc_y",
+    "model_diagnostics_y",
+    "model_mcmc_y",
+    "model_draws_y",
+    "model_mcmc_y",
+    "model_summary_y"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL
@@ -203,7 +216,7 @@ targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
         chains = 4,
         init = 1,
         variables = "beta",
-        summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
+        summaries = list(~ quantile(.x, probs = c(0.25, 0.75))),
         stdout = R.utils::nullfile()
       )
     )
@@ -216,21 +229,36 @@ targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
   out <- dplyr::arrange(out, from, to)
   rownames(out) <- NULL
   exp <- tibble::tribble(
-    ~from, ~to,
-    "model_data", "model_summary_a",
-    "model_data", "model_summary_b",
-    "model_data", "model_mcmc_a",
-    "model_data", "model_mcmc_b",
-    "model_file_a", "model_lines_a",
-    "model_file_b", "model_lines_b",
-    "model_lines_a", "model_mcmc_a",
-    "model_lines_b", "model_mcmc_b",
-    "model_mcmc_a", "model_diagnostics_a",
-    "model_mcmc_a", "model_draws_a",
-    "model_mcmc_a", "model_summary_a",
-    "model_mcmc_b", "model_diagnostics_b",
-    "model_mcmc_b", "model_draws_b",
-    "model_mcmc_b", "model_summary_b"
+    ~from,
+    ~to,
+    "model_data",
+    "model_summary_a",
+    "model_data",
+    "model_summary_b",
+    "model_data",
+    "model_mcmc_a",
+    "model_data",
+    "model_mcmc_b",
+    "model_file_a",
+    "model_lines_a",
+    "model_file_b",
+    "model_lines_b",
+    "model_lines_a",
+    "model_mcmc_a",
+    "model_lines_b",
+    "model_mcmc_b",
+    "model_mcmc_a",
+    "model_diagnostics_a",
+    "model_mcmc_a",
+    "model_draws_a",
+    "model_mcmc_a",
+    "model_summary_a",
+    "model_mcmc_b",
+    "model_diagnostics_b",
+    "model_mcmc_b",
+    "model_draws_b",
+    "model_mcmc_b",
+    "model_summary_b"
   )
   exp <- dplyr::arrange(exp, from, to)
   rownames(exp) <- NULL
@@ -318,7 +346,7 @@ targets::tar_test("tar_stan_mcmc(compile = \"copy\") with custom summaries", {
         iter_warmup = 50,
         chains = 4,
         variables = "beta",
-        summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
+        summaries = list(~ quantile(.x, probs = c(0.25, 0.75))),
         stdout = R.utils::nullfile()
       )
     )
@@ -354,7 +382,7 @@ targets::tar_test("stan files missing", {
       iter_warmup = 50,
       chains = 4,
       variables = "beta",
-      summaries = list(~quantile(.x, probs = c(0.25, 0.75))),
+      summaries = list(~ quantile(.x, probs = c(0.25, 0.75))),
       stdout = R.utils::nullfile()
     ),
     class = "tar_condition_validate"
