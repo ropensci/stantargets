@@ -258,7 +258,7 @@ parameters {
   real beta;
 }
 model {
-  y ~ normal(x * x * beta, 1); // Regress on x^2 instead of x.
+  y ~ normal(x .^ 2 * beta, 1); // Regress on x ^ 2 instead of x.
   beta ~ normal(0, 1);
 }"
 writeLines(lines, "y.stan")
