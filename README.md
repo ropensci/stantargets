@@ -63,9 +63,9 @@ run the project in a web browser.
 
 ## Example projects
 
-| Description                                                                                                        | Link                                                |
-|--------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| Validating a minimal Stan model                                                                                    | <https://github.com/wlandau/targets-stan>           |
+| Description | Link |
+|----|----|
+| Validating a minimal Stan model | <https://github.com/wlandau/targets-stan> |
 | Using Target Markdown and `stantargets` to validate a Bayesian longitudinal model for clinical trial data analysis | <https://github.com/wlandau/rmedicine2021-pipeline> |
 
 ## Installation
@@ -113,7 +113,7 @@ store functions in separate files as in the
 library(targets)
 library(stantargets)
 
-generate_data <- function() {
+generate_data <- function(n = 10) {
   true_beta <- stats::rnorm(n = 1, mean = 0, sd = 1)
   x <- seq(from = -1, to = 1, length.out = n)
   y <- stats::rnorm(n, x * true_beta, 1)
@@ -188,7 +188,6 @@ contributing to this project, you agree to abide by its terms.
 
 ``` r
 citation("stantargets")
-#> 
 #> To cite stantargets in publications use:
 #> 
 #>   Landau, W. M., (2021). The stantargets R package: a workflow
