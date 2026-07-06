@@ -1,6 +1,7 @@
-# stantargets 0.1.2.9000 (development)
+# stantargets 0.1.3
 
-
+* Switch from `qs` to `qs2`.
+* Align with `cmdstanr` 0.9.0 argument signatures (especially variational Bayes).
 
 # stantargets 0.1.2
 
