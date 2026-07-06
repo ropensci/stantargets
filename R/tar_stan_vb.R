@@ -374,13 +374,12 @@ tar_stan_vb_run <- function(
     adapt_iter = adapt_iter,
     tol_rel_obj = tol_rel_obj,
     eval_elbo = eval_elbo,
-    output_samples = output_samples,
+    draws = output_samples,
     sig_figs = sig_figs
   )
   # Load all the data and return the whole unserialized fit object:
   # https://github.com/stan-dev/cmdstanr/blob/d27994f804c493ff3047a2a98d693fa90b83af98/R/fit.R#L16-L18 # nolint
   fit$draws(variables = variables)
-  try(fit$variationalr_diagnostics(), silent = TRUE)
   try(fit$init(), silent = TRUE)
   try(fit$profiles(), silent = TRUE)
   remove_temp_files(fit)

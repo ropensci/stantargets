@@ -428,7 +428,7 @@ tar_stan_vb_rep_run_rep <- function(
     adapt_iter = adapt_iter,
     tol_rel_obj = tol_rel_obj,
     eval_elbo = eval_elbo,
-    output_samples = output_samples,
+    draws = output_samples,
     sig_figs = sig_figs
   )
   out <- tar_stan_output(
