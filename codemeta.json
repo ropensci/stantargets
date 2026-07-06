@@ -4,17 +4,17 @@
   "identifier": "stantargets",
   "description": "Bayesian data analysis usually incurs long runtimes and cumbersome custom code. A pipeline toolkit tailored to Bayesian statisticians, the 'stantargets' R package leverages 'targets' and 'cmdstanr' to ease these burdens. 'stantargets' makes it super easy to set up scalable Stan pipelines that automatically parallelize the computation and skip expensive steps when the results are already up to date. Minimal custom code is required, and there is no need to manually configure branching, so usage is much easier than 'targets' alone. 'stantargets' can access all of 'cmdstanr''s major algorithms (MCMC, variational Bayes, and optimization) and it supports both single-fit workflows and multi-rep simulation studies. For the statistical methodology, please refer to 'Stan' documentation (Stan Development Team 2020) <https://mc-stan.org/>.",
   "name": "stantargets: Targets for Stan Workflows",
-  "relatedLink": "https://docs.ropensci.org/stantargets/",
+  "relatedLink": ["https://docs.ropensci.org/stantargets/", "https://r-multiverse.org/topics/bayesian.html"],
   "codeRepository": "https://github.com/ropensci/stantargets",
   "issueTracker": "https://github.com/ropensci/stantargets/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.1",
+  "version": "0.1.2.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
+  "runtimePlatform": "R version 4.5.2 (2025-10-31)",
   "author": [
     {
       "@type": "Person",
@@ -220,16 +220,15 @@
     },
     "7": {
       "@type": "SoftwareApplication",
-      "identifier": "qs",
-      "name": "qs",
-      "version": ">= 0.23.2",
+      "identifier": "qs2",
+      "name": "qs2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=qs"
+      "sameAs": "https://CRAN.R-project.org/package=qs2"
     },
     "8": {
       "@type": "SoftwareApplication",
@@ -266,7 +265,7 @@
       "@type": "SoftwareApplication",
       "identifier": "targets",
       "name": "targets",
-      "version": ">= 1.5.1.9001",
+      "version": ">= 1.9.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -279,7 +278,7 @@
       "@type": "SoftwareApplication",
       "identifier": "tarchetypes",
       "name": "tarchetypes",
-      "version": ">= 0.7.12.9001",
+      "version": ">= 0.8.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -328,7 +327,7 @@
     },
     "SystemRequirements": "CmdStan >= 2.25.0"
   },
-  "fileSize": "982.447KB",
+  "fileSize": "1043.555KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -355,7 +354,7 @@
       }
     }
   ],
-  "releaseNotes": "https://github.com/ropensci/stantargets/blob/master/NEWS.md",
+  "releaseNotes": "https://github.com/ropensci/stantargets/blob/main/NEWS.md",
   "readme": "https://github.com/ropensci/stantargets/blob/main/README.md",
   "contIntegration": ["https://github.com/ropensci/stantargets/actions?query=workflow%3Acheck", "https://app.codecov.io/gh/ropensci/stantargets", "https://github.com/ropensci/stantargets/actions?query=workflow%3Alint"],
   "developmentStatus": "https://www.repostatus.org/#active",
