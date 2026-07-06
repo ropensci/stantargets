@@ -23,8 +23,6 @@ knitr::opts_chunk$set(
 [![active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![check](https://github.com/ropensci/stantargets/workflows/check/badge.svg)](https://github.com/ropensci/stantargets/actions?query=workflow%3Acheck)
 [![codecov](https://codecov.io/gh/ropensci/stantargets/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://app.codecov.io/gh/ropensci/stantargets)
-[![lint](https://github.com/ropensci/stantargets/workflows/lint/badge.svg)](https://github.com/ropensci/stantargets/actions?query=workflow%3Alint)
-
 
 Bayesian data analysis usually incurs long runtimes and cumbersome custom code, and the process of prototyping and deploying custom [Stan](https://mc-stan.org) models can become a daunting software engineering challenge. To ease this burden, the `stantargets` R package creates [Stan](https://mc-stan.org) pipelines that are concise, efficient, scalable, and tailored to the needs of Bayesian statisticians. Leveraging [`targets`](https://docs.ropensci.org/targets/), `stantargets` pipelines automatically parallelize the computation and skip expensive steps when the results are already up to date. Minimal custom user-side code is required, and there is no need to manually configure branching, so `stantargets` is easier to use than [`targets`](https://docs.ropensci.org/targets/) and [`CmdStanR`](https://mc-stan.org/cmdstanr/) directly. `stantargets` can access all of [`cmdstanr`](https://github.com/stan-dev/cmdstanr)'s major algorithms (MCMC, variational Bayes, and optimization) and it supports both single-fit workflows and multi-rep simulation studies.
 
